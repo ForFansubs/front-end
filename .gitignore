@@ -1,9 +1,16 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
+.env
 /node_modules
 /.pnp
 .pnp.js
+/src/static/logo.png
+/src/static/fullLogo.png
+/public/*.png
+/public/*.html
+/public/*.json
+/public/*.ico
 
 # testing
 /coverage
@@ -19,5 +26,6 @@
 .env.production.local
 
 npm-debug.log*
+debug.log*
 yarn-debug.log*
 yarn-error.log*
