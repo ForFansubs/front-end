@@ -6,7 +6,7 @@ import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import { useTheme } from '@material-ui/styles';
 
-var Remarkable = require('remarkable');
+import { Remarkable } from 'remarkable';
 var md = new Remarkable('full', {
     html: true,
     linkify: true,

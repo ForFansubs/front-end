@@ -1,4 +1,14 @@
-# puzzlesubs.com ReactJS Front-end Repo
+# puzzlesubs.com ReactJS Front-end Repo 
+<p align="center">
+<a href="https://github.com/ayberktandogan/PuzzleSubs-Front-v2/blob/master/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/ayberktandogan/PuzzleSubs-Front-v2?style=for-the-badge"> <img alt="GitHub release" src="https://img.shields.io/github/release-pre/ayberktandogan/PuzzleSubs-Front-v2?style=for-the-badge"> </a> <img alt="GitHub release" src="https://img.shields.io/github/release/ayberktandogan/PuzzleSubs-Front-v2?style=for-the-badge"> </a>
+<br/>
+<img alt="GitHub package.json dependency version (prod)" src="https://img.shields.io/github/package-json/dependency-version/ayberktandogan/PuzzleSubs-Front-v2/react?style=for-the-badge">
+<img alt="GitHub package.json dependency version (prod)" src="https://img.shields.io/github/package-json/dependency-version/ayberktandogan/PuzzleSubs-Front-v2/@material-ui/core?style=for-the-badge"> 
+<img alt="GitHub package.json dependency version (prod)" src="https://img.shields.io/github/package-json/dependency-version/ayberktandogan/PuzzleSubs-Front-v2/styled-components?style=for-the-badge">
+<br/>
+<img src="https://repository-images.githubusercontent.com/202852145/04f7c780-c0e2-11e9-9c4a-383df0c9b7a1" alt="cover-image" width="1000px"/>
+</p>
+
 
 İlk versiyon çok kötü yazıldığı (yazdığım) için tekrar sıfırdan yazıldı. [React](https://github.com/facebook/react) ve [ReactN](https://github.com/CharlesStover/reactn) paketleri başta olmak üzere [Material-UI](https://github.com/mui-org/material-ui) ve [styled-components](https://github.com/styled-components/styled-components) kullanarak hazırlandı. (İlk projedeki hataları olabildiğince tekrarlamamaya ve özellik eklenebilir bir kod çıkarmaya çalıştım, umarım oldu.)
 
@@ -60,7 +70,7 @@ ReactDOM.render(<App />, document.getElementById('app-mount'))
 ```
 
 #### 3. /src/static/fullLogo.png (--- x 150)
-<img src="https://i.ibb.co/m6fchsV/fullLogo.png" alt="fullLogo" width="200px"/>
+<img src="https://i.ibb.co/2kHhkjf/fullLogo.png" alt="fullLogo" width="200px"/>
 
 #### 4. /src/static/logo.png (500 x 500)
 <img src="https://i.ibb.co/gy1DrT9/logo.png" alt="logo" width="100px" height="100px"/>
