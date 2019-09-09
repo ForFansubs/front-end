@@ -4,7 +4,7 @@ import axios from '../../config/axios/axios'
 import { Helmet } from 'react-helmet'
 import ReactGA from 'react-ga';
 
-import Collection from 'lodash/collection'
+import find from 'lodash-es/find'
 import Loading from '../../components/progress/index'
 
 import { getEpisodePageInfo, getEpisodeInfo } from '../../config/api-routes'
@@ -33,11 +33,11 @@ import {
     Page
 } from '../../components/episode/components';
 
-import { useTheme } from '@material-ui/styles'
+import useTheme from '@material-ui/styles/useTheme'
 import InfoIcon from '@material-ui/icons/Info'
 import WarningIcon from '@material-ui/icons/Warning';
-import { Typography } from '@material-ui/core';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Typography from '@material-ui/core/Typography';
+import CircularProgress from '../../components/progress/index';
 import EpisodeLinkOverride from '../../config/episode-link-overrides';
 
 export default function EpisodePage(props) {
@@ -83,8 +83,11 @@ export default function EpisodePage(props) {
                 if (special_type === "bolum") special_type = ""
 
                 let { slug, title, data } = EpisodeListParser(episode_number, special_type)
-                const { credits } = Collection.find(pageInfo.data, { special_type, episode_number })
-                handleEpisodeClick(slug, title, data, credits)
+                const episode = find(pageInfo.data, { special_type, episode_number })
+                if (episode) {
+                    const { credits } = episode
+                    handleEpisodeClick(slug, title, data, credits)
+                }
             }
 
             setLoading(false)
@@ -124,7 +127,7 @@ export default function EpisodePage(props) {
         }
     }, [activeLink, setIframeLoading])
 
-    function handleEpisodeClick(slug, title, data, credits) {
+    function handleEpisodeClick(slug, title, episode_data, credits) {
         setEpisodeLoading(true)
         setActiveEpisode({
             episode_number: null,
@@ -135,12 +138,17 @@ export default function EpisodePage(props) {
         setActiveLink("")
         setWatchLinks([])
 
-        let [special_type, episode_number] = data.split('-')
+        let [special_type, episode_number] = episode_data.split('-')
 
         if (special_type === "bolum") special_type = ""
 
+        const data = {
+            slug: props.match.params.slug,
+            episode_data
+        }
+
         const fetchData = async () => {
-            const episodeInfo = await axios.get(getEpisodeInfo(props.match.params.slug, data))
+            const episodeInfo = await axios.post(getEpisodeInfo, data)
 
             if (episodeInfo.data.length === 0 || episodeInfo.status !== 200) {
                 return setEpisodeLoading(false)
@@ -203,8 +211,8 @@ export default function EpisodePage(props) {
             ))
         }
 
-        const title = `${animeData.name} ${activeEpisode.title} Türkçe İzle - PuzzleSubs Anime`
-        const desc = `${animeData.name} ${activeEpisode.title} Türkçe İzle ve İndir - PuzzleSubs Anime İzle`
+        const title = `${animeData.name} ${activeEpisode.title} Türkçe İzle - ${process.env.REACT_APP_APPNAME} Anime`
+        const desc = `${animeData.name} ${activeEpisode.title} Türkçe İzle ve İndir - ${process.env.REACT_APP_APPNAME} Anime İzle`
 
         return (
             <>
@@ -236,8 +244,8 @@ export default function EpisodePage(props) {
                                     <>
                                         {iframeLoading
                                             ?
-                                            <ContentIframePlaceholder bgcolor="background.level2">
-                                                <CircularProgress color="secondary" />
+                                            <ContentIframePlaceholder bgcolor="common.black">
+                                                <CircularProgress />
                                             </ContentIframePlaceholder>
                                             :
                                             ""

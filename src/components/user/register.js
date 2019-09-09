@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
 import ReactGA from 'react-ga';
 
-import { Modal, Box, Button, Typography, TextField } from '@material-ui/core';
-import { useTheme } from '@material-ui/styles'
+import Modal from '@material-ui/core/Modal'
+import Box from '@material-ui/core/Box'
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
+import TextField from '@material-ui/core/TextField'
+import useTheme from '@material-ui/styles/useTheme'
 import { useGlobal } from 'reactn'
 import styled from 'styled-components'
 

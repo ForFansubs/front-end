@@ -1,9 +1,10 @@
 import React from 'react'
-
-import { useTheme } from '@material-ui/styles'
+import { useGlobal } from 'reactn'
+import useTheme from '@material-ui/styles/useTheme'
 import styled from 'styled-components'
 
 import Box from '@material-ui/core/Box'
+import Typography from '@material-ui/core/Typography'
 
 const FooterCopyrightText = styled.h4`
         a {
@@ -17,9 +18,9 @@ const FooterDiv = styled.footer`
     width: 100%;
     height: 20px;
     right: 0px;
-    bottom: 0;
+    bottom: 10px;
     left: 0px;
-    padding: 0 20px 0 100px;
+    padding: 0 40px;
 
     @media(max-width:${props => props.theme.breakpoints.values.sm}px) {
         padding: 0 20px 0 20px;
@@ -30,15 +31,40 @@ const FooterDiv = styled.footer`
     }
 `
 
+const FooterLogo = styled(Typography)``
+
 export default function Footer() {
     const theme = useTheme()
+    const version = useGlobal('settings')[0].version
 
     return (
         <>
             <FooterDiv theme={theme}>
                 <FooterCopyrightText>
-                    <Box display="flex">
-                        <a href="http://aybertocarlos.com" rel="noopener noreferrer" target="_blank">aybertocarlos &copy; {(new Date()).getFullYear()}</a> &nbsp;- Designed with <a href="https://reactjs.org/" rel="noopener noreferrer" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React logo" style={{ height: "20px", filter: "brightness(0) invert(1)" }} /></a> <a href="https://material-ui.com/" rel="noopener noreferrer" target="_blank"><img src="https://images.opencollective.com/proxy/images?src=https%3A%2F%2Fopencollective-production.s3-us-west-1.amazonaws.com%2F26cf1e10-8c6a-11e8-9fbe-bf2bef5835c0.png" alt="Material-UI logo" style={{ height: "20px", filter: "brightness(0) invert(1)" }} /></a>
+                    <Box display="flex" alignItems="center">
+                        <a href="http://aybertocarlos.com" rel="noopener noreferrer" target="_blank">
+                            <Typography variant="h6">aybertocarlos &copy; {(new Date()).getFullYear()}</Typography>
+                        </a>
+                        &nbsp;-&nbsp;
+                        PS v{version}
+                        &nbsp;-&nbsp;
+                        <a href="https://github.com/ayberktandogan/PuzzleSubs-Front-v2" rel="noopener noreferrer" target="_blank">
+                            <FooterLogo variant="body2">github</FooterLogo>
+
+                        </a>
+                        {process.env.REACT_APP_FACEBOOK_LINK ?
+                            <a href={process.env.REACT_APP_FACEBOOK_LINK} rel="noopener noreferrer" target="_blank">
+                                <FooterLogo variant="body2">.facebook</FooterLogo>
+                            </a>
+                            : ""
+                        }
+                        {process.env.REACT_APP_DISCORD_LINK ?
+                            <a href={process.env.REACT_APP_DISCORD_LINK} rel="noopener noreferrer" target="_blank">
+                                <FooterLogo variant="body2">.discord</FooterLogo>
+                            </a>
+                            :
+                            ""
+                        }
                     </Box>
                 </FooterCopyrightText>
             </FooterDiv>

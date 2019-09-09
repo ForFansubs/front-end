@@ -3,10 +3,6 @@ import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
-import WarningIcon from '@material-ui/icons/Warning';
-
-import Moment from 'react-moment'
-import { mangaDateFormat } from '../../../config/moment'
 
 import {
     ContentLeft,
@@ -19,7 +15,6 @@ import {
     ContentSynopsis,
     ContentEpisodesContainer,
     ContentEpisodes,
-    ContentEpisodesError,
     ContentLinks,
     ContentLinksButton,
     ContentCommentsContainer,
@@ -27,9 +22,10 @@ import {
     MetadataHeader,
     Content
 } from '../../../components/ceviriler/components'
+import WarningBox from '../../../components/warningerrorbox/warning';
 
 export default function MangaIndexMobile(props) {
-    const { manga, theme } = props
+    const { manga, theme, releasedate } = props
 
     return (
         <Content theme={theme}>
@@ -83,7 +79,7 @@ export default function MangaIndexMobile(props) {
                     <ContentMetadata {...defaultBoxProps}>
                         <Typography variant="body2">
                             {manga.release_date ?
-                                <Moment format={mangaDateFormat} locale="tr">{manga.release_date}</Moment>
+                                releasedate
                                 :
                                 <Typography variant="body2">Çıkış tarihi bulunamadı.</Typography>
                             }
@@ -91,7 +87,7 @@ export default function MangaIndexMobile(props) {
                     </ContentMetadata>
                     <MetadataHeader variant="body2">Türler</MetadataHeader>
                     <ContentMetadata {...defaultBoxProps} mb={2}>
-                        <ContentGenres bgcolor={theme.palette.background.level1}>
+                        <ContentGenres bgcolor={theme.palette.primary.main}>
                             {manga.genres.length !== 0 ?
                                 manga.genres.map(data =>
                                     <li key={data + "genre"}>
@@ -116,16 +112,15 @@ export default function MangaIndexMobile(props) {
                             <ContentEpisodesContainer item xs={12} md={8}>
                                 <ContentRightAltTitle variant="h4" aftercolor={theme.palette.text.primary}>Bölümler</ContentRightAltTitle>
                                 <ContentEpisodes spacing={theme.spacing(1)}>
-                                    <ContentEpisodesError {...defaultBoxProps}>
-                                        <WarningIcon /><Typography variant="subtitle2">
-                                            {manga.download_link ?
-                                                manga.mos_link ?
-                                                    "İndirmeyi yandaki/aşağıdaki butondan yapabilirsiniz. Okumak için mangayı oku butonuna bastığınızda MOŞ'a yönlendirileceksiniz."
-                                                    :
-                                                    "İndirmeyi yandaki/aşağıdaki butondan yapabilirsiniz. Okuma linki bulamadık."
+                                    <WarningBox>
+                                        {manga.download_link ?
+                                            manga.mos_link ?
+                                                "İndirmeyi yandaki/aşağıdaki butondan yapabilirsiniz. Okumak için mangayı oku butonuna bastığınızda başka bir siteye yönlendirileceksiniz."
                                                 :
-                                                "Görünüşe göre bu seri için indirme linki eklememişiz. Bize Facebook sayfamızdan ya da Discord sunucumuzdan ulaşabilirsiniz."} {manga.mos_link ? "" : "Okuma özelliği bu sitede bulunmamaktadır."}
-                                        </Typography></ContentEpisodesError>
+                                                "İndirmeyi yandaki/aşağıdaki butondan yapabilirsiniz. Okuma linki bulamadık."
+                                            :
+                                            "Görünüşe göre bu seri için indirme linki eklememişiz. Bize Facebook sayfamızdan ya da Discord sunucumuzdan ulaşabilirsiniz."} {manga.mos_link ? "" : "Okuma özelliği bu sitede bulunmamaktadır."}
+                                    </WarningBox>
                                 </ContentEpisodes>
                             </ContentEpisodesContainer>
                             <ContentLinks item xs>
@@ -155,14 +150,21 @@ export default function MangaIndexMobile(props) {
                             </ContentLinks>
                         </Grid>
                     </Box>
-                    <ContentRightAltTitle variant="h4" aftercolor={theme.palette.text.primary}>Yorumlar</ContentRightAltTitle>
-                    <Box {...defaultBoxProps} mb={2} p={2}>
-                        <ContentCommentsContainer
-                            config={{
-                                identifier: 'manga/' + manga.id,
-                                title: manga.name + " - PuzzleSubs Manga",
-                            }} />
-                    </Box>
+                    {process.env.REACT_APP_DISQUS_SHORTNAME
+                        ?
+                        <>
+                            <ContentRightAltTitle variant="h4" aftercolor={theme.palette.text.primary}>Yorumlar</ContentRightAltTitle>
+                            <Box p={2}>
+                                <ContentCommentsContainer
+                                    config={{
+                                        identifier: 'manga/' + manga.id,
+                                        title: `${manga.name} - ${process.env.REACT_APP_APPNAME} Manga`,
+                                    }} />
+                            </Box>
+                        </>
+                        :
+                        ""
+                    }
                 </ContentRight>
             </Grid>
         </Content>

@@ -6,7 +6,7 @@ module.exports = (animename, episodenumber, specialtype) => {
         }
     }
     else return {
-        title: `${episodenumber}. Bölüm / ${animename}`,
+        title: `${animename} ${episodenumber}. Bölüm`,
         slug: `bolum${episodenumber}`
     }
 }

@@ -3,10 +3,6 @@ import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
-import WarningIcon from '@material-ui/icons/Warning';
-
-import Moment from 'react-moment'
-import { mangaDateFormat } from '../../../config/moment'
 
 import {
     ContentLeft,
@@ -19,35 +15,19 @@ import {
     ContentSynopsis,
     ContentEpisodesContainer,
     ContentEpisodes,
-    ContentEpisodesError,
     ContentLinks,
     ContentLinksButton,
     ContentCommentsContainer,
     defaultBoxProps,
     MetadataHeader
 } from '../../../components/ceviriler/components'
+import WarningBox from '../../../components/warningerrorbox/warning';
 
 export default function MangaIndexDesktop(props) {
-    const { manga, theme } = props
+    const { manga, theme, releasedate } = props
 
     return (
         <Grid container spacing={2}>
-            {/* <ContentHeader item xs={12}>
-                <Box boxShadow={2}>
-                    <ContentHeaderImage
-                        strength={-300}
-                    >
-                        <Background>
-                            <img
-                                alt={manga.name + " headerimage"}
-                                src={contentHeader("manga", manga.slug)}
-                                onError={() => {
-                                    document.getElementsByClassName('react-parallax')[0].style.height = "0px"
-                                }}></img>
-                        </Background>
-                    </ContentHeaderImage>
-                </Box>
-            </ContentHeader> */}
             <ContentLeft item>
                 <ContentImage
                     component="img" alt={manga.name + " coverart"}
@@ -86,7 +66,7 @@ export default function MangaIndexDesktop(props) {
                 <ContentMetadata {...defaultBoxProps}>
                     <Typography variant="body2">
                         {manga.release_date ?
-                            <Moment format={mangaDateFormat} locale="tr">{manga.release_date}</Moment>
+                            releasedate
                             :
                             <Typography variant="body2">Çıkış tarihi bulunamadı.</Typography>
                         }
@@ -94,7 +74,7 @@ export default function MangaIndexDesktop(props) {
                 </ContentMetadata>
                 <MetadataHeader variant="body2">Türler</MetadataHeader>
                 <ContentMetadata {...defaultBoxProps}>
-                    <ContentGenres bgcolor={theme.palette.background.level1}>
+                    <ContentGenres bgcolor={theme.palette.primary.main}>
                         {manga.genres.length !== 0 ?
                             manga.genres.map(data =>
                                 <li key={data + "genre"}>
@@ -124,16 +104,15 @@ export default function MangaIndexDesktop(props) {
                         <ContentEpisodesContainer item xs={12} md={8}>
                             <ContentRightAltTitle variant="h4" aftercolor={theme.palette.text.primary}>Bölümler</ContentRightAltTitle>
                             <ContentEpisodes spacing={theme.spacing(1)}>
-                                <ContentEpisodesError {...defaultBoxProps}>
-                                    <WarningIcon /><Typography variant="subtitle2">
-                                        {manga.download_link ?
-                                            manga.mos_link ?
-                                                "İndirmeyi yandaki butondan yapabilirsiniz. Okumak için mangayı oku butonuna bastığınızda MOŞ'a yönlendirileceksiniz."
-                                                :
-                                                "İndirmeyi yandaki butondan yapabilirsiniz. Okuma linki bulamadık."
+                                <WarningBox>
+                                    {manga.download_link ?
+                                        manga.mos_link ?
+                                            "İndirmeyi yandaki butondan yapabilirsiniz. Okumak için mangayı oku butonuna bastığınızda başka bir siteye yönlendirileceksiniz."
                                             :
-                                            "Görünüşe göre bu seri için indirme linki eklememişiz. Bize Facebook sayfamızdan ya da Discord sunucumuzdan ulaşabilirsiniz."} {manga.mos_link ? "" : "Okuma özelliği bu sitede bulunmamaktadır."}
-                                    </Typography></ContentEpisodesError>
+                                            "İndirmeyi yandaki butondan yapabilirsiniz. Okuma linki bulamadık."
+                                        :
+                                        "Görünüşe göre bu seri için indirme linki eklememişiz. Bize Facebook sayfamızdan ya da Discord sunucumuzdan ulaşabilirsiniz."} {manga.mos_link ? "" : "Okuma özelliği bu sitede bulunmamaktadır."}
+                                </WarningBox>
                             </ContentEpisodes>
                         </ContentEpisodesContainer>
                         <ContentLinks item xs >
@@ -163,14 +142,21 @@ export default function MangaIndexDesktop(props) {
                         </ContentLinks>
                     </Grid>
                 </Box>
-                <ContentRightAltTitle variant="h4" aftercolor={theme.palette.text.primary}>Yorumlar</ContentRightAltTitle>
-                <Box {...defaultBoxProps} mb={2} p={2}>
-                    <ContentCommentsContainer
-                        config={{
-                            identifier: 'manga/' + manga.id,
-                            title: manga.name + " - PuzzleSubs Manga",
-                        }} />
-                </Box>
+                {process.env.REACT_APP_DISQUS_SHORTNAME
+                    ?
+                    <>
+                        <ContentRightAltTitle variant="h4" aftercolor={theme.palette.text.primary}>Yorumlar</ContentRightAltTitle>
+                        <Box p={2}>
+                            <ContentCommentsContainer
+                                config={{
+                                    identifier: 'manga/' + manga.id,
+                                    title: `${manga.name} - ${process.env.REACT_APP_APPNAME} Manga`,
+                                }} />
+                        </Box>
+                    </>
+                    :
+                    ""
+                }
             </ContentRight>
         </Grid>
     )

@@ -1,23 +1,25 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { animePage, mangaPage } from '../../config/front-routes'
-import Typography from '@material-ui/core/Typography'
 
 import Dotdotdot from 'react-dotdotdot'
 
+import Box from '@material-ui/core/Box';
 import styled, { css, keyframes } from 'styled-components'
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography'
+import blue from '@material-ui/core/colors/blue'
 
-import Moment from 'react-moment'
-import { calendarStrings } from '../../config/moment'
-import { Box } from '@material-ui/core';
+import Format from '../date-fns/format'
 
 const ContentInfo = styled.div`
-        padding: 0 15px;
-        width: 70%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+    ${props => props.version === "bd" ? `border-right: 4px solid ${blue["A200"]}` : ""}
+    position: relative;
+    padding: 0 15px;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 `
 
 const ContentAltInfo = styled.div`
@@ -44,9 +46,12 @@ const ContentDiv = styled(Box)`
             }
     `
 
-const ContentCoverArt = styled.div`
+const ContentCoverArt = styled.div.attrs(props => ({
+    style: {
+        backgroundImage: `url(${props.image})`,
+    }
+}))`
         width: 30%;
-        background: url(${props => props.image});
         background-size: cover;
         background-position: center;
     `
@@ -150,7 +155,7 @@ export const LoadingDivAniManga = (key) =>
 export default function LatestAniManga(props) {
     const theme = props.theme
 
-    const { slug, cover_art, name, synopsis, created_time, created_by } = props
+    const { slug, cover_art, name, synopsis, created_time, created_by, version } = props
     const genres = props.genres.split(',').map((d, i) => i < 5 ? (
         <li key={props.name + d}>
             <Typography variant="h6">
@@ -174,7 +179,7 @@ export default function LatestAniManga(props) {
                                 })}
                                 hoverbg={theme.palette.background.paper}>
                                 <ContentCoverArt image={cover_art} />
-                                <ContentInfo>
+                                <ContentInfo version={version}>
                                     <ContentTitle
                                         variant="h6"
                                     >
@@ -182,7 +187,7 @@ export default function LatestAniManga(props) {
                                             {name}
                                         </Dotdotdot>
                                     </ContentTitle>
-                                    <ContentGenres bgcolor={theme.palette.background.level1}>{genres}</ContentGenres>
+                                    <ContentGenres bgcolor={theme.palette.primary.main}>{genres}</ContentGenres>
                                     <ContentAltInfo
                                         transition={theme.transitions.create('max-height', {
                                             easing: theme.transitions.easing.ease,
@@ -193,10 +198,21 @@ export default function LatestAniManga(props) {
                                                 {synopsis}
                                             </ContentSynopsis>
                                         </Dotdotdot>
-                                        <ContentReleaseTime variant="subtitle2">
-                                            <Moment calendar={calendarStrings} locale="tr">{created_time}</Moment> - {created_by}
+                                        <ContentReleaseTime variant="h6">
+                                            {Format(new Date(created_time)).toUpperCase()} - {created_by}
                                         </ContentReleaseTime>
                                     </ContentAltInfo>
+                                    {props.version === "bd"
+                                        ?
+                                        <Typography
+                                            style={{
+                                                position: "absolute",
+                                                bottom: "20px",
+                                                right: "-15px",
+                                                transform: "rotate(-90deg)"
+                                            }}
+                                            variant="h6">Blu-ray</Typography>
+                                        : ""}
                                 </ContentInfo>
                             </ContentDiv>
                         </Link>
@@ -225,7 +241,7 @@ export default function LatestAniManga(props) {
                                             {name}
                                         </Dotdotdot>
                                     </ContentTitle>
-                                    <ContentGenres bgcolor={theme.palette.background.level1}>{genres}</ContentGenres>
+                                    <ContentGenres bgcolor={theme.palette.primary.main}>{genres}</ContentGenres>
                                     <ContentAltInfo
                                         transition={theme.transitions.create('max-height', {
                                             easing: theme.transitions.easing.ease,
@@ -237,8 +253,8 @@ export default function LatestAniManga(props) {
                                                 {synopsis}
                                             </ContentSynopsis>
                                         </Dotdotdot>
-                                        <ContentReleaseTime variant="subtitle2">
-                                            <Moment calendar={calendarStrings} locale="tr">{created_time}</Moment> - {created_by}
+                                        <ContentReleaseTime variant="h6">
+                                            {Format(new Date(created_time)).toUpperCase()} - {created_by}
                                         </ContentReleaseTime>
                                     </ContentAltInfo>
                                 </ContentInfo>

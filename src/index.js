@@ -1,21 +1,24 @@
-import React, { setGlobal, addReducer, getGlobal } from 'reactn'
+import React, { setGlobal, addReducer, useGlobal } from 'reactn'
 import ReactDOM from 'react-dom'
 import addReactNDevTools from 'reactn-devtools'
 import { indexURL, isAdmin } from './config/api-routes'
 import axios from './config/axios/axios'
-import Lang from 'lodash/lang'
+import isEmpty from 'lodash-es/isEmpty'
 
 import './index.scss'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import 'moment/locale/tr';
+
+import { ThemeProvider } from '@material-ui/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import getTheme from './config/theming/index'
+
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 import ToastNotification from './components/toastify/toast';
 
 //Initiate program & define version
 addReactNDevTools()
-const version = "2.0.0"
 
 //Try reading localStorage before using it
 try {
@@ -46,18 +49,18 @@ setGlobal({
         token: "",
         success: false
     },
+    settings,
     showModal: "",
     isAdmin: false,
-    theme: settings.theme ? settings.theme : "dark",
-    changelog: version !== settings.version ? true : false,
+    theme: settings.theme ? settings.theme : "light",
     mobile: false
 })
 
 addReducer('getOnline', (global, dispatch) => {
     axios.get(indexURL)
         .then(res => {
-            dispatch.setOnline(true)
-            if (!Lang.isEmpty(user)) {
+            dispatch.setOnline(res.data)
+            if (!isEmpty(user)) {
                 dispatch.checkAdmin(user.token)
             }
         })
@@ -70,9 +73,16 @@ addReducer('checkMobile', (global, dispatch, navigator) => {
     return ({ mobile: check })
 })
 
-addReducer('setOnline', (global, dispatch, status) => ({
-    online: status
-}))
+addReducer('setOnline', (global, dispatch, data) => {
+    if (!data) return ({ online: false })
+    else return ({
+        online: true,
+        settings: {
+            ...global.settings,
+            version: data.version
+        }
+    })
+})
 
 addReducer('loginHandler', (global, dispatch, userData) => {
     const data = {
@@ -131,17 +141,35 @@ addReducer('setAdmin', (global, dispatch, status) => {
     return ({ isAdmin: status })
 })
 
+addReducer('setTheme', (global, dispatch, type) => {
+    const settings = JSON.parse(localStorage.getItem('app-settings'))
+    settings.theme = type
+    localStorage.setItem('app-settings', JSON.stringify(settings))
+    return ({ theme: type })
+})
+
 //If there's any changes for existing localstorage, update it here
 if (!settings.theme) {
-    settings.theme = "dark"
-}
-
-if (getGlobal().changelog) {
-    settings.version = version
+    settings.theme = "light"
 }
 
 localStorage.setItem("app-settings", JSON.stringify(settings))
 
-ReactDOM.render(<App />, document.getElementById('app-mount'))
+function Mount() {
+    const [theme] = useGlobal('theme')
+    const themeObject = getTheme(theme)
+
+    window.theme = themeObject
+
+    return (
+        <ThemeProvider theme={themeObject}>
+            <CssBaseline>
+                <App />
+            </CssBaseline>
+        </ThemeProvider>
+    )
+}
+
+ReactDOM.render(<Mount />, document.getElementById('app-mount'))
 
 serviceWorker.register()

@@ -8,8 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 
-import Moment from 'react-moment'
-import { calendarStrings } from '../../config/moment'
+import Format from '../date-fns/format'
 import episodeTitleParser from '../../config/episode-title-parser'
 
 const EpisodeDiv = styled(Box)`
@@ -21,9 +20,12 @@ const EpisodeDiv = styled(Box)`
     }
 `
 
-const EpisodeCoverArt = styled.div`
+const EpisodeCoverArt = styled.div.attrs(props => ({
+    style: {
+        backgroundImage: `url(${props.image})`,
+    }
+}))`
     width: 25%;
-    background: url(${props => props.image});
     background-size: cover;
     background-position: center;
 `
@@ -37,10 +39,10 @@ const EpisodeInfo = styled.div`
 `
 
 const EpisodeTitle = styled(Typography)`
-    line-height: .8rem!important;
+    line-height: 1rem!important;
     font-size: .8rem!important;
 `
-
+// eslint-disable-next-line
 const EpisodeCredits = styled(Typography)`
     font-size: .8rem!important;
 `
@@ -120,6 +122,7 @@ export default function LatestEpisode(props) {
                 <Link to={episodePage(props.anime_slug, episodeInfo.slug)}>
                     <EpisodeDiv
                         bgcolor="background.level2"
+                        boxShadow={2}
                         transition={theme.transitions.create('background', {
                             easing: theme.transitions.easing.easeInOut,
                             duration: theme.transitions.duration.short,
@@ -127,15 +130,15 @@ export default function LatestEpisode(props) {
                         hoverbg={theme.palette.background.paper}>
                         <EpisodeCoverArt image={props.cover_art} />
                         <EpisodeInfo>
-                            <Dotdotdot clamp={1}>
+                            <Dotdotdot clamp={2} useNativeClamp>
                                 <EpisodeTitle variant="h6">{episodeInfo.title}</EpisodeTitle>
                             </Dotdotdot>
-                            <Dotdotdot clamp={1}>
+                            {/* <Dotdotdot clamp={1}>
                                 <EpisodeCredits variant="subtitle1">{props.credits}</EpisodeCredits>
-                            </Dotdotdot>
+                            </Dotdotdot> */}
                             <Dotdotdot clamp={1}>
                                 <EpisodeReleaseTime variant="subtitle2">
-                                    <Moment calendar={calendarStrings} locale="tr">{props.created_time}</Moment> - {props.created_by}
+                                    {Format(new Date(props.created_time)).toUpperCase()} · {props.created_by}
                                 </EpisodeReleaseTime>
                             </Dotdotdot>
                         </EpisodeInfo>

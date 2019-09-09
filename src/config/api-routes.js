@@ -3,6 +3,7 @@ const indexURL = "/"
 const isAdmin = "/user/adminpage"
 const getIndexEpisodes = "/latest-works"
 const getIndexFeaturedAnime = "/featured-anime"
+const getIndexBatchEpisodes = "/latest-batch-episodes"
 const getAnimeIndex = (slug) => `/anime/${slug}`
 const getMangaIndex = (slug) => `/manga/${slug}`
 const getEpisodeDownloadLinks = (animeslug) => `/episode/download-links/${animeslug}`
@@ -10,7 +11,7 @@ const getSearchIndex = (type, page) => `${type}/arama-liste/${page}`
 const getGenresList = "/genre-list"
 const getFullSearchList = (type) => `/${type}/liste`
 const getEpisodePageInfo = (slug) => `/episode/${slug}/watch`
-const getEpisodeInfo = (slug, episode_data) => `/episode/${slug}/watch/${episode_data}`
+const getEpisodeInfo = "/episode/izleme-linkleri"
 
 const contentHeader = (type, slug) => `/api/images/${type}/${slug}-header.jpeg`
 
@@ -19,6 +20,7 @@ export {
     isAdmin,
     getIndexEpisodes,
     getIndexFeaturedAnime,
+    getIndexBatchEpisodes,
     getAnimeIndex,
     getMangaIndex,
     getEpisodeDownloadLinks,

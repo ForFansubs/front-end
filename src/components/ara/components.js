@@ -16,7 +16,9 @@ const PageContainer = styled(Box)``
 
 const PagePlacer = styled(Grid)``
 
-const PageTypeButton = styled(Button)``
+const PageTypeButton = styled(Button)`
+    margin-bottom: 5px!important;
+`
 
 const PageGenreList = styled(Grid)``
 
@@ -165,30 +167,7 @@ function AnimeContainerPlaceholder(props) {
 
     return (
         <ContentPlacer item xs={12} md={6} lg={4} xl={3}>
-            <ContentContainer {...defaultBoxProps} mb={0}>
-                <ContentPremieredContainer p={1} bgcolor="background.level1" textAlign="center">
-                    <ContentPremieredText variant="h6">{"-"}</ContentPremieredText>
-                </ContentPremieredContainer>
-                <ContentInPlacer>
-                    <ContentCover bgimage={""} />
-                    <ContentTextInfo>
-                        <ContentTitle variant="h5">{}</ContentTitle>
-                        <ContentSynopsis
-                            variant="subtitle2">
-                            -
-                                            </ContentSynopsis>
-                    </ContentTextInfo>
-                </ContentInPlacer>
-                <ContentGenresContainer p={1} bgcolor="background.level1" textAlign="center">
-                    <ContentGenres bgcolor={props.genresbg}>
-                        <li>
-                            <Typography variant="h6">
-                                -
-                            </Typography>
-                        </li>
-                        )
-                    </ContentGenres>
-                </ContentGenresContainer>
+            <ContentContainer {...defaultBoxProps} mb={0} height="383px">
             </ContentContainer>
         </ContentPlacer>
     )
@@ -235,27 +214,8 @@ function MangaContainer(props) {
 function MangaContainerPlaceholder(props) {
     return (
         <ContentPlacer item xs={12} md={6} lg={4} xl={3}>
-            <ContentContainer {...defaultBoxProps} mb={0}>
-                <ContentInPlacer>
-                    <ContentCover bgimage={""} />
-                    <ContentTextInfo>
-                        <ContentTitle variant="h5">{}</ContentTitle>
-                        <ContentSynopsis
-                            variant="subtitle2">
-                            -
-                        </ContentSynopsis>
-                    </ContentTextInfo>
-                </ContentInPlacer>
-                <ContentGenresContainer p={1} bgcolor="background.level1" textAlign="center">
-                    <ContentGenres bgcolor={props.genresbg}>
-                        <li>
-                            <Typography variant="h6">
-                                -
-                            </Typography>
-                        </li>
-                        )
-                    </ContentGenres>
-                </ContentGenresContainer>
+            <ContentContainer {...defaultBoxProps} mb={0} height="383px">
+
             </ContentContainer>
         </ContentPlacer>
     )

@@ -1,5 +1,7 @@
 import React from 'react'
-import { Box, CircularProgress } from '@material-ui/core'
+
+import Box from '@material-ui/core/Box'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 
 export default function Loading(props) {
@@ -7,7 +9,7 @@ export default function Loading(props) {
 
     return (
         <Box style={{ width: "100%" }} textAlign="center">
-            <CircularProgress disableShrink={disableShrink ? true : false} color="secondary" />
+            <CircularProgress disableShrink={disableShrink ? true : false} />
         </Box>
     )
 }

@@ -1,10 +1,10 @@
 # ForFansubs ReactApp - Front-end Repo
 <p align="center">
-<a href="https://github.com/ayberktandogan/PuzzleSubs-Front-v2/blob/master/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/ayberktandogan/PuzzleSubs-Front-v2?style=for-the-badge"> <img alt="GitHub release" src="https://img.shields.io/github/release-pre/ayberktandogan/PuzzleSubs-Front-v2?style=for-the-badge"> </a> <img alt="GitHub release" src="https://img.shields.io/github/release/ayberktandogan/PuzzleSubs-Front-v2?style=for-the-badge"> </a>
+<a href="https://github.com/ayberktandogan/ForFansubs-ReactApp---Front-end/blob/master/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/ayberktandogan/ForFansubs-ReactApp---Front-end?style=for-the-badge"> <img alt="GitHub release" src="https://img.shields.io/github/release-pre/ayberktandogan/ForFansubs-ReactApp---Front-end?style=for-the-badge"> </a> <img alt="GitHub release" src="https://img.shields.io/github/release/ayberktandogan/ForFansubs-ReactApp---Front-end?style=for-the-badge"> </a>
 <br/>
-<img alt="GitHub package.json dependency version (prod)" src="https://img.shields.io/github/package-json/dependency-version/ayberktandogan/PuzzleSubs-Front-v2/react?style=for-the-badge">
-<img alt="GitHub package.json dependency version (prod)" src="https://img.shields.io/github/package-json/dependency-version/ayberktandogan/PuzzleSubs-Front-v2/@material-ui/core?style=for-the-badge"> 
-<img alt="GitHub package.json dependency version (prod)" src="https://img.shields.io/github/package-json/dependency-version/ayberktandogan/PuzzleSubs-Front-v2/styled-components?style=for-the-badge">
+<img alt="GitHub package.json dependency version (prod)" src="https://img.shields.io/github/package-json/dependency-version/ayberktandogan/ForFansubs-ReactApp---Front-end/react?style=for-the-badge">
+<img alt="GitHub package.json dependency version (prod)" src="https://img.shields.io/github/package-json/dependency-version/ayberktandogan/ForFansubs-ReactApp---Front-end/@material-ui/core?style=for-the-badge"> 
+<img alt="GitHub package.json dependency version (prod)" src="https://img.shields.io/github/package-json/dependency-version/ayberktandogan/ForFansubs-ReactApp---Front-end/styled-components?style=for-the-badge">
 <br/>
 <img src="https://repository-images.githubusercontent.com/202852145/e4e20a00-c1ae-11e9-9378-f678ddafa890" alt="cover-image" width="1000px"/>
 </p>
@@ -35,12 +35,16 @@ yazarak çalıştırabilirsiniz. Ancak startlamadan ya da buildlemeden önce aş
 
 #### 1. ./.env
 ```env
-REACT_APP_SITENAME="" // Sitenin isim alanı.
-REACT_APP_DISQUS_SHORTNAME="" // Kullanacağınız disqus kısa ismi.
+REACT_APP_APPNAME="" // Sitenin ismi. (Example)
+REACT_APP_SITENAME="" // Sitenin isim alanı. (www.example.com gibi)
+
+REACT_APP_DISQUS_SHORTNAME="" // Disqus kısa ismini sağlarsanız anime, manga ve bölüm sayfalarında yorum kısmı gösterir.
 REACT_APP_DEV_API_URL="" // Dev ortamında istekleri yapmak için kullanacağı alan adı. (http://localhost:5000 gibi)
 REACT_APP_GA_USER_ID="" // Google Analytics kullanıcı id'niz.
 REACT_APP_FACEBOOK_LINK="" // Link sağlarsanız footer'da tıklanabilir bir Facebook logosu gösterir.
 REACT_APP_DISCORD_LINK="" // Link sağlarsanız footer'da tıklanabilir bir Discord logosu gösterir.
+
+REACT_APP_SSS_PAGE_TEXT="" // Markdown text sağlarsanız SSS sayfası oluşturur, menüde gösterir.
 ``` 
 
 #### 2. /public/index.html 
@@ -49,11 +53,7 @@ REACT_APP_DISCORD_LINK="" // Link sağlarsanız footer'da tıklanabilir bir Disc
 <html lang="tr">
   <head>
     <meta charset="utf-8" />
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#3B3E42">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>Site name</title>
   </head>
   <body>

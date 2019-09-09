@@ -9,9 +9,13 @@ import shadows from '../../config/theming/shadows'
 import borders from '../../config/theming/borders'
 
 import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 
-const FeaturedImage = styled(Box)`
-        background-image: ${props => `url(${contentHeader("anime", props.slug)})`};
+const FeaturedImage = styled(Box).attrs(props => props.slug ? ({
+    style: {
+        backgroundImage: `url(${contentHeader("anime", props.slug)})`,
+    }
+}) : "")`
         width: 100%;
         max-width: 100%;
         height: 200px;
@@ -24,18 +28,23 @@ const FeaturedImage = styled(Box)`
         }
     `
 
-const FeaturedTitle = styled.h2``
+const FeaturedTitle = styled(Typography)`
+    font-size: 1.2rem!important;
+    color: white;
+`
 
-const FeaturedPremiered = styled.h3``
+const FeaturedPremiered = styled(Typography)`
+    color: white;
+`
 
 const FeaturedDivInner = styled.div`
         position: absolute;
         left:0;
         right: 0;
         text-align:center;
-        bottom: 5px;
+        bottom: 10px;
         transition: ${props => props.transition};
-        h2${FeaturedTitle} {
+        ${FeaturedTitle} {
             text-shadow: ${shadows.text_shadows[0]};
         }
         .slick-center & {
@@ -44,7 +53,7 @@ const FeaturedDivInner = styled.div`
             z-index: 4;
             transform-origin: center top;
         }
-        h3${FeaturedPremiered} {
+        ${FeaturedPremiered} {
             font-size: 1rem;
             opacity: 0;
             transition: ${props => props.transition};
@@ -132,7 +141,7 @@ const FeaturedDiv = styled.div`
         ${FeaturedDivInner} {
             .slick-center & {
                 transform: scale(1);
-                bottom: 0px;
+                bottom: 10px;
                 z-index: 4;
             }
         }
@@ -153,11 +162,11 @@ export const FeaturedLoading = (key, active) => {
     return (
         <FeaturedLoadingDiv key={key} className={active ? "slick-center" : ""}>
             <Box
-                boxShadow={0}
                 position="relative"
                 display="flex"
                 justifyContent="center"
                 flexDirection="row"
+                boxShadow={2}
                 my={2}
                 mx={0}
                 p={0}>
@@ -185,18 +194,16 @@ export default function Featured(props) {
             <Link to={animePage(props.slug)}>
                 <FeaturedDiv theme={theme}>
                     <Box
-                        boxShadow={0}
                         position="relative"
                         display="flex"
                         justifyContent="center"
                         flexDirection="row"
-                        color={theme.palette.text.primary}
-                        bgcolor={theme.palette.background.level2}
                         my={2}
                         mx={0}
-                        p={0}
+                        p={1}
                         key={props.id}>
-                        <FeaturedImage boxShadow={2}
+                        <FeaturedImage
+                            boxShadow={2}
                             slug={props.slug}
                             transition={theme.transitions.create('all', {
                                 easing: theme.transitions.easing.easing,
@@ -209,6 +216,8 @@ export default function Featured(props) {
                             })}>
                             {props.premiered ?
                                 <FeaturedPremiered
+                                    textcolor={theme.palette.common.white}
+                                    variant="h3"
                                     transition={theme.transitions.create('opacity', {
                                         easing: theme.transitions.easing.easeInOut,
                                         duration: theme.transitions.duration.short,
@@ -216,13 +225,13 @@ export default function Featured(props) {
                                 >{props.premiered}</FeaturedPremiered>
                                 :
                                 null}
-                            <FeaturedTitle>{props.title}</FeaturedTitle>
+                            <FeaturedTitle variant="h2">{props.title}</FeaturedTitle>
                             <FeaturedInfoDiv
                                 transition={theme.transitions.create('all', {
                                     easing: theme.transitions.easing.easeInOut,
                                     duration: theme.transitions.duration.short,
                                 })}>
-                                <GenresUl bgcolor={theme.palette.background.level1}>
+                                <GenresUl bgcolor={theme.palette.primary.main}>
                                     {props.genres.split(',').map(genre => <li key={genre + props.slug}>{genre}</li>)}
                                 </GenresUl>
                             </FeaturedInfoDiv>

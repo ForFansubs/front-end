@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useGlobal } from 'reactn'
-import { useTheme } from '@material-ui/styles'
-import { Helmet } from 'react-helmet'
+import useTheme from '@material-ui/styles/useTheme'
 import ReactGA from 'react-ga';
+import Helmet from 'react-helmet'
 
 import axios from '../../config/axios/axios'
-import { indexPage } from '../../config/front-routes'
-import { getIndexEpisodes, getIndexFeaturedAnime } from '../../config/api-routes'
+import { getIndexEpisodes, getIndexFeaturedAnime, getIndexBatchEpisodes } from '../../config/api-routes'
 
-import { Grid, Typography } from '@material-ui/core'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
 
 import styled from 'styled-components'
 import LatestAniManga, { LoadingDivAniManga } from '../../components/index/latestanimanga'
@@ -16,12 +16,14 @@ import LatestEpisode, { LoadingDivEpisode } from '../../components/index/lateste
 import Featured, { FeaturedLoading } from '../../components/index/featured'
 import Slick from '../../components/index/slick'
 import Error from '../../components/index/error'
+import LatestBatchLinks from '../../components/index/latestbatchlinks';
 
 const ContainerDiv = styled.div`
     margin: 0 0 40px 0;
 `
 
 const IndexHeader = styled(Typography)`
+    ${props => props.aligncenter ? "text-align: center" : ""}
     margin-bottom: 10px;
 `
 
@@ -33,13 +35,17 @@ export default function IndexPage() {
     let latestEpisodesWindow = []
     let featuredAnimeContent = []
     let featuredAnimeWindow = []
+    let batchEpisodesWindow = []
 
     const [latestAnimes, setLatestAnimes] = useState([])
     const [latestMangas, setLatestMangas] = useState([])
     const [latestEpisodes, setLatestEpisodes] = useState([])
     const [featuredAnimes, setFeaturedAnimes] = useState([])
+    const [batchEpisodes, setBatchEpisodes] = useState([])
+
     const [latestLoading, setLatestLoading] = useState(true)
     const [featuredLoading, setFeaturedLoading] = useState(true)
+    const [batchLoading, setBatchLoading] = useState(true)
     const [mobile] = useGlobal('mobile')
 
     //Handle data fetch
@@ -63,6 +69,14 @@ export default function IndexPage() {
             .then(res => {
                 setFeaturedAnimes(res.data)
                 setFeaturedLoading(false)
+            })
+            .catch(_ => {
+                console.log("Öne çıkarılmış animeleri yüklerken bir sorunla karşılaştık.")
+            })
+        axios.get(getIndexBatchEpisodes)
+            .then(res => {
+                setBatchEpisodes(res.data)
+                setBatchLoading(false)
             })
             .catch(_ => {
                 console.log("Öne çıkarılmış animeleri yüklerken bir sorunla karşılaştık.")
@@ -134,22 +148,26 @@ export default function IndexPage() {
             featuredAnimeWindow = <Error type="featured" />
     }
 
+    //Handle latest batch episodes
+    if (!batchLoading) {
+        if (batchEpisodes.length) {
+            batchEpisodesWindow = batchEpisodes.map(episode => <LatestBatchLinks
+                {...episode}
+                key={episode.id + " batch"}
+                theme={theme}
+            />)
+        }
+        else
+            batchEpisodesWindow = <Error type="featured" />
+    }
+
+    const title = `${process.env.REACT_APP_APPNAME} Türkçe Anime ve Manga Çeviri Grubu`
+
     return (
         <>
             <Helmet>
-                <title>PuzzleSubs Türkçe Anime ve Manga Çeviri Grubu</title>
-                <meta name="title" content="PuzzleSubs Türkçe Anime ve Manga Çeviri Grubu" />
-                <meta name="description" content="PuzzleSubs Türkçe Anime ve Manga Çeviri grubu, 2014'ten beri Shingeki no Kyojin, Naruto, One Piece ve daha fazlasını çevirip sizlere sunmuştur..." />
-                <meta property="og:type" content="website" />
-                <meta property="og:url" content={process.env.REACT_APP_SITENAME + indexPage} />
-                <meta property="og:title" content="PuzzleSubs Türkçe Anime ve Manga Çeviri Grubu" />
-                <meta property="og:description" content="PuzzleSubs Türkçe Anime ve Manga Çeviri grubu, 2014'ten beri Shingeki no Kyojin, Naruto, One Piece ve daha fazlasını çevirip sizlere sunmuştur..." />
-                <meta property="og:image" content={process.env.REACT_APP_SITENAME + "/512.png"} />
-                <meta property="twitter:card" content="summary_large_image" />
-                <meta property="twitter:url" content={process.env.REACT_APP_SITENAME + indexPage} />
-                <meta property="twitter:title" content="PuzzleSubs Türkçe Anime ve Manga Çeviri Grubu" />
-                <meta property="twitter:description" content="PuzzleSubs Türkçe Anime ve Manga Çeviri grubu, 2014'ten beri Shingeki no Kyojin, Naruto, One Piece ve daha fazlasını çevirip sizlere sunmuştur..." />
-                <meta property="twitter:image" content={process.env.REACT_APP_SITENAME + "/512.png"} />
+                <title>{title}</title>
+                <meta name="title" content={title} />
             </Helmet>
             <ContainerDiv>
                 <IndexHeader variant="h4">Öne Çıkarılmış Animeler</IndexHeader>
@@ -159,6 +177,14 @@ export default function IndexPage() {
                     ""
                 }
             </ContainerDiv>
+            {batchEpisodesWindow.length ?
+                <ContainerDiv>
+                    <IndexHeader variant="h5" aligncenter="true" gutterBottom>Toplu Linkler</IndexHeader>
+                    <Grid container spacing={2} direction="row" justify="center" alignItems="center">
+                        {batchEpisodesWindow}
+                    </Grid>
+                </ContainerDiv>
+                : ""}
             <ContainerDiv>
                 <IndexHeader variant="h4" gutterBottom>Son Bölümler</IndexHeader>
                 <Grid container spacing={2} direction="row" justify="center" alignItems="center">

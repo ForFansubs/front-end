@@ -4,10 +4,7 @@ import { Link } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
-import WarningIcon from '@material-ui/icons/Warning';
 
-import Moment from 'react-moment'
-import { animeDateFormat } from '../../../config/moment'
 import { bluray } from '../../../config/theming/images'
 
 import {
@@ -23,7 +20,6 @@ import {
     ContentSynopsis,
     ContentEpisodesContainer,
     ContentEpisodes,
-    ContentEpisodesError,
     ContentLinks,
     ContentLinksButton,
     ContentCommentsContainer,
@@ -33,9 +29,10 @@ import {
 } from '../../../components/ceviriler/components'
 
 import { getAnimeWatchIndex } from '../../../config/front-routes'
+import WarningBox from '../../../components/warningerrorbox/warning';
 
 export default function AnimeIndexMobile(props) {
-    const { anime, theme, downloadLinks } = props
+    const { anime, theme, downloadLinks, releasedate } = props
 
     return (
         <Content theme={theme}>
@@ -113,7 +110,7 @@ export default function AnimeIndexMobile(props) {
                     <ContentMetadata {...defaultBoxProps}>
                         <Typography variant="body2">
                             {anime.release_date ?
-                                <Moment format={animeDateFormat} locale="tr">{anime.release_date}</Moment>
+                                releasedate
                                 :
                                 <Typography variant="body2">Çıkış tarihi bulunamadı.</Typography>
                             }
@@ -121,7 +118,7 @@ export default function AnimeIndexMobile(props) {
                     </ContentMetadata>
                     <MetadataHeader variant="body2">Türler</MetadataHeader>
                     <ContentMetadata {...defaultBoxProps} mb={2}>
-                        <ContentGenres bgcolor={theme.palette.background.level1}>
+                        <ContentGenres bgcolor={theme.palette.primary.main}>
                             {anime.genres.length !== 0 ?
                                 anime.genres.map(data =>
                                     <li key={data + "genre"}>
@@ -144,11 +141,11 @@ export default function AnimeIndexMobile(props) {
                     <Box mb={2}>
                         <Grid container spacing={2}>
                             <ContentEpisodesContainer item xs={12} md={8}>
-                                <ContentRightAltTitle variant="h4" aftercolor={theme.palette.text.primary}>Bölümler</ContentRightAltTitle>
+                                <ContentRightAltTitle variant="h4" aftercolor={theme.palette.text.primary}>İndirme Linkleri</ContentRightAltTitle>
                                 <ContentEpisodes spacing={theme.spacing(1)}>
                                     {downloadLinks.length !== 0 ?
                                         downloadLinks :
-                                        <ContentEpisodesError {...defaultBoxProps}><WarningIcon /><Typography variant="subtitle2">Bölüm bulunamadı.</Typography></ContentEpisodesError>}
+                                        <WarningBox>İndirme linki bulunamadı.</WarningBox>}
                                 </ContentEpisodes>
                             </ContentEpisodesContainer>
                             <ContentLinks item xs >
@@ -171,14 +168,20 @@ export default function AnimeIndexMobile(props) {
                             </ContentLinks>
                         </Grid>
                     </Box>
-                    <ContentRightAltTitle variant="h4" aftercolor={theme.palette.text.primary}>Yorumlar</ContentRightAltTitle>
-                    <Box {...defaultBoxProps} mb={2} p={2}>
-                        <ContentCommentsContainer
-                            config={{
-                                identifier: 'anime/' + anime.id,
-                                title: anime.name + " - PuzzleSubs Anime",
-                            }} />
-                    </Box>
+                    {process.env.REACT_APP_DISQUS_SHORTNAME
+                        ?
+                        <>
+                            <ContentRightAltTitle variant="h4" aftercolor={theme.palette.text.primary}>Yorumlar</ContentRightAltTitle>
+                            <Box p={2}>
+                                <ContentCommentsContainer
+                                    config={{
+                                        identifier: 'anime/' + anime.id,
+                                        title: `${anime.name} - ${process.env.REACT_APP_APPNAME} Anime`,
+                                    }} />
+                            </Box>
+                        </>
+                        :
+                        ""}
                 </ContentRight>
             </Grid>
         </Content>

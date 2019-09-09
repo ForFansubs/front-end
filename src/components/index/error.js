@@ -1,8 +1,8 @@
 import React from 'react'
 
 import Grid from '@material-ui/core/Grid';
-import { useTheme } from '@material-ui/styles'
 import Box from '@material-ui/core/Box';
+import useTheme from '@material-ui/styles/useTheme'
 
 export default function Error(props) {
     const theme = useTheme()

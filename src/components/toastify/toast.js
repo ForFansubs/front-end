@@ -3,7 +3,8 @@ import React from 'react'
 import { toast } from 'react-toastify';
 import './toast.css';
 
-import { Box, Typography } from '@material-ui/core'
+import Box from '@material-ui/core/Box'
+import Typography from '@material-ui/core/Typography'
 
 function Message(props) {
     const { message, overridemessage } = props
@@ -14,7 +15,7 @@ function Message(props) {
             bgcolor="background.level2"
             boxShadow={2}
         >
-            <Typography variant="h5">{overridemessage ? overridemessage : message}</Typography>
+            <Typography variant="h5" color="textPrimary">{overridemessage ? overridemessage : message}</Typography>
         </Box>
     )
 }

@@ -3,17 +3,15 @@ import { Link, NavLink } from 'react-router-dom'
 import { useGlobal, useDispatch } from 'reactn'
 
 import clsx from 'clsx'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import Drawer from '@material-ui/core/Drawer'
+import useTheme from '@material-ui/styles/useTheme'
+import makeStyles from '@material-ui/styles/makeStyles'
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import List from '@material-ui/core/List'
-import CssBaseline from '@material-ui/core/CssBaseline'
 import Divider from '@material-ui/core/Divider'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -28,9 +26,7 @@ import BookIcon from '@material-ui/icons/Book'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 
 import { indexPage, searchPage, faqPage, mosLink, adminPage } from '../../config/front-routes'
-import { fullLogo } from '../../config/theming/images'
-
-const drawerWidth = 240;
+import { fullLogo, fullLogoDark } from '../../config/theming/images'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -38,56 +34,23 @@ const useStyles = makeStyles(theme => ({
     },
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
-        backgroundColor: theme.palette.background.level2,
         transition: theme.transitions.create(['width', 'margin'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
     },
     appBarShift: {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
+        width: `100%`,
         transition: theme.transitions.create(['width', 'margin'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
         }),
     },
     menuButton: {
-        color: theme.palette.text.primary,
         [theme.breakpoints.down('sm')]: {
             marginRight: 10,
         },
         marginRight: 36,
-    },
-    hide: {
-        display: 'none',
-    },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-        whiteSpace: 'nowrap',
-    },
-    drawerOpen: {
-        width: drawerWidth,
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-        backgroundColor: theme.palette.background.level1,
-        color: theme.palette.text.primary
-    },
-    drawerClose: {
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        overflowX: 'hidden',
-        width: 0,
-        [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(9) + 1,
-        },
-        backgroundColor: theme.palette.background.level1,
-        color: theme.palette.text.primary
     },
     toolbar: {
         display: 'flex',
@@ -108,12 +71,18 @@ const useStyles = makeStyles(theme => ({
         height: "40px"
     },
     active: {
-        backgroundColor: theme.palette.background.paper
+        backgroundColor: theme.palette.background.level2
     },
     ListItemText: {
         fontSize: ".8rem!important"
+    },
+    list: {
+        width: 250,
+    },
+    fullList: {
+        width: 'auto',
     }
-}));
+}))
 
 export default function MiniDrawer() {
     const classes = useStyles();
@@ -121,26 +90,32 @@ export default function MiniDrawer() {
     // eslint-disable-next-line
     const [showModal, setShowModal] = useGlobal('showModal')
     const [userInfo] = useGlobal('user')
+    const [usertheme] = useGlobal('theme')
     const [isAdmin] = useGlobal('isAdmin')
     const logoutHandler = useDispatch("logoutHandler")
+    const setUserTheme = useDispatch('setTheme')
     const [anchorEl, setAnchorEl] = useState(null)
     const profileMenu = Boolean(anchorEl);
+    const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent)
 
     const [open, setOpen] = React.useState(false);
     const [menuItems] = React.useState([
         {
             text: "Ana sayfa",
             link: indexPage,
+            show: true,
             icon: <HomeIcon />
         },
         {
             text: "Anime ara",
             link: searchPage,
+            show: true,
             icon: <SearchIcon />
         },
         {
             text: "Sıkça Sorulan Sorular",
             link: faqPage,
+            show: process.env.REACT_APP_SSS_PAGE_TEXT ? true : false,
             icon: <InfoIcon />
         }
     ])
@@ -178,9 +153,52 @@ export default function MiniDrawer() {
         setOpen(false);
     }
 
+    const toggleDrawer = (open) => event => {
+        if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+
+        setOpen(open);
+    };
+
+    function SidePanel() {
+        return (
+            <div
+                className={classes.list}
+                role="presentation"
+                onClick={toggleDrawer(false)}
+                onKeyDown={toggleDrawer(false)}
+            >
+                <List>
+                    {menuItems.map((item, index) => item.show ?
+                        (
+                            <NavLink exact to={item.link} onClick={handleDrawerClose} activeClassName={classes.active} key={item.text}>
+                                <ListItem button style={{ backgroundColor: "inherit" }}>
+                                    <ListItemIcon style={{ color: theme.palette.text.primary }}>{item.icon}</ListItemIcon>
+                                    <ListItemText className={classes.ListItemText}><Typography variant="body2">{item.text}</Typography></ListItemText>
+                                </ListItem>
+                            </NavLink>
+                        )
+                        :
+                        "")}
+                </List>
+                <Divider />
+                <List>
+                    {menuItems2.map((item, index) => (
+                        <a href={item.link} target="_blank" rel="noopener noreferrer" key={item.text}>
+                            <ListItem button>
+                                <ListItemIcon style={{ color: theme.palette.text.primary }}>{item.icon}</ListItemIcon>
+                                <ListItemText className={classes.ListItemText}><Typography variant="body2">{item.text}</Typography></ListItemText>
+                            </ListItem>
+                        </a>
+                    ))}
+                </List>
+            </div>
+        )
+    }
+
     return (
         <div className={classes.root}>
-            <CssBaseline />
             <AppBar
                 color="primary"
                 position="fixed"
@@ -194,14 +212,12 @@ export default function MiniDrawer() {
                         aria-label="Open drawer"
                         onClick={handleDrawerOpen}
                         edge="start"
-                        className={clsx(classes.menuButton, {
-                            [classes.hide]: open,
-                        })}
+                        className={classes.menuButton}
                     >
                         <MenuIcon />
                     </IconButton>
                     <Link to={indexPage} className={classes.logoContainer}>
-                        <img className={classes.logo} src={fullLogo} alt="Site Logo" />
+                        <img className={classes.logo} src={usertheme === "dark" ? fullLogo : fullLogoDark} alt="Site Logo" />
                     </Link>
                     <div>
                         {userInfo.success ?
@@ -240,67 +256,47 @@ export default function MiniDrawer() {
                             open={profileMenu}
                             onClose={handleClose}
                         >
-                            {userInfo.success
-                                ?
-                                <div>
-                                    {isAdmin ?
-                                        <a href={adminPage} target="_blank" rel="noopener noreferrer">
-                                            <MenuItem>Admin paneli</MenuItem>
-                                        </a> : ""}
-                                    <MenuItem onClick={handleLogoutButton}>Çıkış yap</MenuItem>
-                                </div>
-                                :
-                                <div>
-                                    <MenuItem onClick={() => handleLoginRegisterButtons("login")}>Giriş yap</MenuItem>
-                                    <MenuItem onClick={() => handleLoginRegisterButtons("register")}>Kayıt ol</MenuItem>
-                                </div>
-                            }
+                            <div>
+                                {userInfo.success
+                                    ?
+                                    isAdmin ?
+                                        <>
+                                            <a href={adminPage} target="_blank" rel="noopener noreferrer">
+                                                <MenuItem>Admin paneli</MenuItem>
+                                            </a>
+                                            <MenuItem onClick={handleLogoutButton}>Çıkış yap</MenuItem>
+                                        </>
+                                        :
+                                        <MenuItem onClick={handleLogoutButton}>Çıkış yap</MenuItem>
+                                    :
+                                    <>
+                                        <MenuItem onClick={() => handleLoginRegisterButtons("login")}>Giriş yap</MenuItem>
+                                        <MenuItem onClick={() => handleLoginRegisterButtons("register")}>Kayıt ol</MenuItem>
+                                    </>
+                                }
+                                <Divider />
+                                {
+                                    usertheme === "dark"
+                                        ?
+                                        <MenuItem onClick={() => setUserTheme("light")}><span role="img" aria-labelledby="güneş">🌞</span> Gündüz Modu</MenuItem>
+                                        :
+                                        <MenuItem onClick={() => setUserTheme("dark")}><span role="img" aria-labelledby="ay">🌙</span> Gece Modu</MenuItem>
+                                }
+                            </div>
                         </Menu>
                     </div>
                 </Toolbar>
             </AppBar>
-            <Drawer
-                variant="permanent"
-                className={clsx(classes.drawer, {
-                    [classes.drawerOpen]: open,
-                    [classes.drawerClose]: !open,
-                })}
-                classes={{
-                    paper: clsx({
-                        [classes.drawerOpen]: open,
-                        [classes.drawerClose]: !open,
-                    }),
-                }}
+            <SwipeableDrawer
                 open={open}
+                onClose={toggleDrawer(false)}
+                onOpen={toggleDrawer(true)}
+                hysteresis={0.01}
+                disableBackdropTransition={!iOS}
+                disableDiscovery={iOS}
             >
-                <div className={classes.toolbar}>
-                    <IconButton onClick={handleDrawerClose} style={{ color: theme.palette.text.primary }}>
-                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                    </IconButton>
-                </div>
-                <Divider />
-                <List>
-                    {menuItems.map((item, index) => (
-                        <NavLink exact to={item.link} onClick={() => setTimeout(handleDrawerClose, 300)} activeClassName={classes.active} key={item.text}>
-                            <ListItem button style={{ backgroundColor: "inherit" }}>
-                                <ListItemIcon style={{ color: theme.palette.text.primary }}>{item.icon}</ListItemIcon>
-                                <ListItemText className={classes.ListItemText}><Typography variant="body2">{item.text}</Typography></ListItemText>
-                            </ListItem>
-                        </NavLink>
-                    ))}
-                </List>
-                <Divider />
-                <List>
-                    {menuItems2.map((item, index) => (
-                        <a href={item.link} target="_blank" rel="noopener noreferrer" key={item.text}>
-                            <ListItem button>
-                                <ListItemIcon style={{ color: theme.palette.text.primary }}>{item.icon}</ListItemIcon>
-                                <ListItemText className={classes.ListItemText}><Typography variant="body2">{item.text}</Typography></ListItemText>
-                            </ListItem>
-                        </a>
-                    ))}
-                </List>
-            </Drawer>
+                <SidePanel />
+            </SwipeableDrawer>
         </div >
     );
 }

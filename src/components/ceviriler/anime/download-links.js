@@ -5,13 +5,13 @@ import Button from '@material-ui/core/Button';
 import Popper from '@material-ui/core/Popper';
 import Box from '@material-ui/core/Box'
 import Fade from '@material-ui/core/Fade';
-import WarningIcon from '@material-ui/icons/Warning';
 import styled, { css, keyframes } from 'styled-components'
 
-import { ContentEpisodesLinksButton, ContentEpisodesError, defaultBoxProps } from '../components'
+import { ContentEpisodesLinksButton, defaultBoxProps } from '../components'
 
 import { getEpisodeDownloadLinks } from '../../../config/api-routes'
 import { Typography } from '@material-ui/core';
+import WarningBox from '../../warningerrorbox/warning';
 
 const loading_animation = keyframes`
     0%{
@@ -104,7 +104,7 @@ export default function DownloadLink(props) {
             )
 
         else if (!loading && data.length === 0)
-            return <ContentEpisodesError bgcolor="secondary.main" p={1} mb={0}><WarningIcon /><Typography variant="subtitle2">Link bulunamadı.</Typography></ContentEpisodesError>
+            return <WarningBox bgcolor="background.level1">Link bulunamadı.</WarningBox>
 
         else return (
             <div>

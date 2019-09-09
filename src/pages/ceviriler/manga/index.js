@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react'
+import { Redirect } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import ReactGA from 'react-ga';
 
 import Loading from '../../../components/progress/index'
 
 import { useGlobal } from 'reactn'
-import { useTheme } from '@material-ui/styles'
+import useTheme from '@material-ui/styles/useTheme'
 
 import axios from '../../../config/axios/axios'
 
+import { format } from 'date-fns'
 import MangaIndexDesktop from './desktop'
 import { mangaPage } from '../../../config/front-routes'
 import { getMangaIndex } from '../../../config/api-routes'
@@ -21,31 +23,42 @@ export default function MangaPage(props) {
 
     const [manga, setManga] = useState({})
     const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(false)
     const [mobile] = useGlobal('mobile')
 
     useEffect(() => {
         const fetchData = async () => {
             const res = await axios(
                 getMangaIndex(props.match.params.slug),
-            )
+            ).catch(res => res)
 
-            res.data.translators = res.data.translators.split(',')
-            res.data.editors = res.data.editors.split(',')
-            res.data.genres = res.data.genres.split(',')
-            res.data.authors = res.data.authors.split(',')
+            if (res.status === 200) {
+                res.data.translators = res.data.translators.split(',')
+                res.data.editors = res.data.editors.split(',')
+                res.data.genres = res.data.genres.split(',')
+                res.data.authors = res.data.authors.split(',')
 
-            setManga(res.data)
-            setLoading(false)
-
-            document.title = `${res.data.name} Türkçe Oku - PuzzleSubs manga Çeviri`
+                setManga(res.data)
+                setLoading(false)
+            }
+            else {
+                setError(true)
+                setLoading(false)
+            }
         }
 
         fetchData()
         ReactGA.pageview(window.location.pathname)
     }, [props.match.params.slug]);
 
+    if (loading && error) {
+        return (
+            <Redirect to="/404" />
+        )
+    }
+
     if (!loading) {
-        const title = `PuzzleSubs ${manga.name} Türkçe ${manga.mos_link ? "Oku" : ""} ${manga.download_link ? "İndir" : ""}`
+        const title = `${process.env.REACT_APP_APPNAME} ${manga.name} Türkçe ${manga.mos_link ? "Oku" : ""} ${manga.download_link ? "İndir" : ""}`
 
         if (!mobile) {
             return (
@@ -65,7 +78,7 @@ export default function MangaPage(props) {
                         <meta property="twitter:description" content={`${manga.name} Türkçe İzle & İndir - ${manga.synopsis.substring(0, 80)}`} />
                         <meta property="twitter:image" content={manga.cover_art} />
                     </Helmet>
-                    <MangaIndexDesktop manga={manga} theme={theme} />
+                    <MangaIndexDesktop manga={manga} theme={theme} releasedate={format(new Date(manga.release_date), "dd.MM.yyyy")} />
                 </>
             )
         }
@@ -88,7 +101,7 @@ export default function MangaPage(props) {
                         <meta property="twitter:description" content={`${manga.name} Türkçe İzle & İndir - ${manga.synopsis.substring(0, 80)}`} />
                         <meta property="twitter:image" content={manga.cover_art} />
                     </Helmet>
-                    <MangaIndexMobile manga={manga} theme={theme} />
+                    <MangaIndexMobile manga={manga} theme={theme} releasedate={format(new Date(manga.release_date), "dd.MM.yyyy")} />
                 </>
             )
         }

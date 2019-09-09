@@ -2,7 +2,6 @@
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
 
 h1,h2,h3,h4,h5,h6,li {
-  font-family: 'Rubik', sans-serif;
   margin-block-start: 0;
     margin-block-end: 0;
     margin-inline-start: 0px;
@@ -71,5 +70,9 @@ input:-webkit-autofill:active {
 }
 
 *:focus {
+  outline: none;
+ }
+
+ *:focus {
   outline: none;
  }

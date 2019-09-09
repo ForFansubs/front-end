@@ -3,9 +3,7 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
-import DisqusBox from '../../config/disqus'
-
-import yellow from '@material-ui/core/colors/yellow'
+import DisqusBox from '../../components/disqus/disqus'
 
 import { Parallax } from 'react-parallax'
 
@@ -39,7 +37,8 @@ const ContentHeaderImage = styled(Parallax)`
     
     img {
         background-size: cover;
-        top: -20%;
+        margin-top: -10%;
+        width: 100vw;
     }
 `
 
@@ -113,7 +112,9 @@ const ContentRightAltTitle = styled(Typography)`
     }
 `
 
-const ContentSynopsis = styled(Typography)``
+const ContentSynopsis = styled(Typography)`
+    white-space: pre-wrap;
+`
 
 const ContentEpisodesContainer = styled(Grid)``
 
@@ -131,15 +132,6 @@ const ContentEpisodesLinksButton = styled(Box)`
         background: ${props => props.hoverbg};
     }
 }
-`
-
-const ContentEpisodesError = styled(Box)`
-    border-left: ${yellow.A200} 4px solid;
-    display: flex;
-    align-items: center;
-    svg {
-        margin-right: 5px
-    }
 `
 
 const ContentLinks = styled(Grid)`
@@ -181,7 +173,7 @@ const Content = styled.div`
 
 function episodeParser(episodenumber, specialtype) {
     if (specialtype === "toplu")
-        return `TOPLU LİNK`
+        return `TOPLU LİNK ${episodenumber === "0" ? "" : episodenumber}`
 
     if (specialtype && specialtype !== "toplu") {
         return `${specialtype.toUpperCase()} ${episodenumber}`
@@ -210,7 +202,6 @@ export {
     ContentEpisodesContainer,
     ContentEpisodes,
     ContentEpisodesLinksButton,
-    ContentEpisodesError,
     ContentLinks,
     ContentLinksButton,
     ContentCommentsContainer,

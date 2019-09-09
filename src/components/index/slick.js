@@ -5,10 +5,6 @@ import shadows from '../../config/theming/shadows'
 import styled from 'styled-components'
 
 const SliderDiv = styled.div`
-        .slick-active > div {
-            background: #444444!important
-        }
-
         .slick-arrow {
             z-index:2
         }
@@ -34,21 +30,6 @@ export default function Slick(props) {
                 centerMode: true,
                 autoplay: true,
                 lazyload: true,
-                dots: true,
-
-                customPaging: i => (
-                    <div
-                        style={{
-                            width: "10px",
-                            height: "10px",
-                            background: "#ccc",
-                            borderRadius: "50%",
-                            zIndex: "2",
-                            margin: "10px 0 0"
-                        }}
-                    >
-                    </div>
-                ),
                 autoplaySpeed: 4000,
                 infinite: true,
                 centerPadding: "0",

@@ -12,8 +12,9 @@ import { getGenresList, getFullSearchList } from '../../config/api-routes'
 
 import { useTheme } from '@material-ui/styles';
 
-import collection from 'lodash/collection'
-import array from 'lodash/array'
+import filter from 'lodash-es/filter'
+import find from 'lodash-es/find'
+import slice from 'lodash-es/slice'
 
 import {
     PageContainer,
@@ -34,19 +35,19 @@ import {
 import InfoIcon from '@material-ui/icons/Info'
 import WarningIcon from '@material-ui/icons/Warning';
 import { Typography } from '@material-ui/core';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '../../components/progress/index';
 
 const searchTextAPI = (data, text) => {
     if (text.length < 3) {
         return {
-            data: array.slice(data, 0, 24),
+            data: slice(data, 0, 24),
             hasData: true
         }
     }
 
     const regex = new RegExp(text, "i")
     return {
-        data: collection.filter(data, obj => regex.test(obj.name)),
+        data: filter(data, obj => regex.test(obj.name)),
         hasData: false
     }
 }
@@ -89,7 +90,7 @@ export default function SearchPage(props) {
         const fetchData = async () => {
             const searchList = await axios.get(getFullSearchList(type))
             const genres = await axios.get(getGenresList)
-            const initialData = array.slice(searchList.data, 0, 24)
+            const initialData = slice(searchList.data, 0, 24)
 
             if (searchList.data.length === 0 || searchList.status !== 200) {
                 return setHasData(false)
@@ -109,7 +110,7 @@ export default function SearchPage(props) {
     function handleGetMore() {
         const page = offset + 1
 
-        const newData = [...data, ...array.slice(fullList, 24 * offset, 24 * page)]
+        const newData = [...data, ...slice(fullList, 24 * offset, 24 * page)]
 
         setData(newData)
         setOffset(page)
@@ -128,7 +129,7 @@ export default function SearchPage(props) {
 
         const fetchData = async () => {
             const searchList = await axios.get(getFullSearchList(newType))
-            const initialData = array.slice(searchList.data, 0, 24)
+            const initialData = slice(searchList.data, 0, 24)
 
             if (searchList.data.length === 0 || searchList.status !== 200) {
                 setFullList(searchList.data)
@@ -164,7 +165,7 @@ export default function SearchPage(props) {
 
         let newData
         const genres = searchProps.genres
-        if (collection.find(genres, (v) => v === value) !== undefined) {
+        if (find(genres, (v) => v === value) !== undefined) {
             newData = genres.filter(v => v !== value)
             setSearchProps({ ...searchProps, text: "", genres: newData })
 
@@ -178,7 +179,7 @@ export default function SearchPage(props) {
             }
 
             else {
-                setData(array.slice(fullList, 0, 24))
+                setData(slice(fullList, 0, 24))
                 setOffset(1)
                 setHasData(true)
                 setIsSearching(false)
@@ -201,12 +202,12 @@ export default function SearchPage(props) {
         if (data.length !== 0 && type === "anime") {
             mappedData = data.map(d =>
                 <LazyLoad
-                    height={225}
+                    height={383}
                     key={d.slug + "anime"}
                     placeholder={
-                        <AnimeContainerPlaceholder genresbg={theme.palette.background.level2} />
+                        <AnimeContainerPlaceholder genresbg={theme.palette.secondary.main} />
                     }>
-                    <AnimeContainer genresbg={theme.palette.background.level2} scrollbg={theme.palette.background.level1} data={{ ...d }} />
+                    <AnimeContainer genresbg={theme.palette.primary.main} scrollbg={theme.palette.background.level1} data={{ ...d }} />
                 </LazyLoad>
             )
         }
@@ -214,12 +215,12 @@ export default function SearchPage(props) {
         else if (data.length !== 0 && type === "manga") {
             mappedData = data.map(d =>
                 <LazyLoad
-                    height={225}
+                    height={383}
                     key={d.slug + d.name + "manga"}
                     placeholder={
-                        <MangaContainerPlaceholder genresbg={theme.palette.background.level2} />
+                        <MangaContainerPlaceholder genresbg={theme.palette.secondary.main} />
                     }>
-                    <MangaContainer genresbg={theme.palette.background.level2} scrollbg={theme.palette.background.level1} data={{ ...d }} />
+                    <MangaContainer genresbg={theme.palette.primary.main} scrollbg={theme.palette.background.level1} data={{ ...d }} />
                 </LazyLoad>
             )
         }
@@ -235,7 +236,7 @@ export default function SearchPage(props) {
                         size="small"
                         variant="outlined"
                         onClick={() => handleGenreClick(g)}
-                        color={collection.find(searchProps.genres, (value) => g === value) ? "secondary" : "default"}
+                        color={find(searchProps.genres, (value) => g === value) ? "secondary" : "default"}
                         disabled={isSearching}>
                         {g}
                     </PageGenreButton>
@@ -281,6 +282,7 @@ export default function SearchPage(props) {
                 <PagePlacer item xs={12} md={2}>
                     <PageContainer justifyContent="space">
                         <PageTypeButton
+                            fullWidth
                             variant="outlined"
                             color={type === "anime" ? "secondary" : "default"}
                             onClick={() => handleTypeChange("anime")}
@@ -288,6 +290,7 @@ export default function SearchPage(props) {
                             Anime
                         </PageTypeButton>
                         <PageTypeButton
+                            fullWidth
                             variant="outlined"
                             color={type === "manga" ? "secondary" : "default"}
                             onClick={() => handleTypeChange("manga")}

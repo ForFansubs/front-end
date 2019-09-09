@@ -1,52 +1,64 @@
 import React, { useState, useEffect } from 'react'
+import { Redirect } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import ReactGA from 'react-ga';
 
 import Loading from '../../../components/progress/index'
 
 import { useGlobal } from 'reactn'
-import { useTheme } from '@material-ui/styles'
+import useTheme from '@material-ui/styles/useTheme'
 
 import axios from '../../../config/axios/axios'
 
 import AnimeIndexDesktop from './desktop'
 
+import { format } from 'date-fns'
 import { episodeParser } from '../../../components/ceviriler/components'
 import DownloadLink from '../../../components/ceviriler/anime/download-links'
 import { animePage } from '../../../config/front-routes'
 import { getAnimeIndex } from '../../../config/api-routes'
 import AnimeIndexMobile from './mobile';
 
-
-
 export default function AnimePage(props) {
     const theme = useTheme()
 
     const [anime, setAnime] = useState({})
     const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(false)
     const [mobile] = useGlobal('mobile')
 
     useEffect(() => {
         const fetchData = async () => {
             const res = await axios(
-                getAnimeIndex(props.match.params.slug),
-            )
+                getAnimeIndex(props.match.params.slug)
+            ).catch(res => res)
+            if (res.status === 200) {
+                res.data.translators = res.data.translators.split(',')
+                res.data.encoders = res.data.encoders.split(',')
+                res.data.genres = res.data.genres.split(',')
+                res.data.studios = res.data.studios.split(',')
 
-            res.data.translators = res.data.translators.split(',')
-            res.data.encoders = res.data.encoders.split(',')
-            res.data.genres = res.data.genres.split(',')
-            res.data.studios = res.data.studios.split(',')
-
-            setAnime(res.data)
-            setLoading(false)
+                setAnime(res.data)
+                setLoading(false)
+            }
+            else {
+                setError(true)
+                setLoading(false)
+            }
         }
 
         fetchData()
         ReactGA.pageview(window.location.pathname)
     }, [props.match.params.slug])
 
+    if (loading && error) {
+        return (
+            <Redirect to="/404" />
+        )
+    }
+
     if (!loading) {
-        const downloadLinks = anime.episodes.map(data =>
+        let downloadLinks = anime.episodes.map(data =>
             data.seen_download_page ?
                 <DownloadLink
                     key={data.id}
@@ -61,8 +73,10 @@ export default function AnimePage(props) {
                 : null
         )
 
-        const title = `PuzzleSubs ${anime.name} Türkçe ${anime.episodes.length !== 0 ? "İzle ve İndir" : ""}`
+        // Delete null objects from downloadLinks
+        downloadLinks = downloadLinks.filter(d => d)
 
+        const title = `${process.env.REACT_APP_APPNAME} ${anime.name} Türkçe ${anime.episodes.length !== 0 ? "İzle ve İndir" : ""}`
         if (!mobile) {
             return (
                 <>
@@ -81,7 +95,7 @@ export default function AnimePage(props) {
                         <meta property="twitter:description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis.substring(0, 80)}`} />
                         <meta property="twitter:image" content={anime.cover_art} />
                     </Helmet>
-                    <AnimeIndexDesktop anime={anime} theme={theme} downloadLinks={downloadLinks} />
+                    <AnimeIndexDesktop anime={anime} theme={theme} releasedate={format(new Date(anime.release_date), "dd.MM.yyyy")} downloadLinks={downloadLinks} />
                 </>
             )
         }
@@ -103,7 +117,7 @@ export default function AnimePage(props) {
                         <meta property="twitter:description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis.substring(0, 80)}`} />
                         <meta property="twitter:image" content={anime.cover_art} />
                     </Helmet>
-                    <AnimeIndexMobile anime={anime} theme={theme} downloadLinks={downloadLinks} />
+                    <AnimeIndexMobile anime={anime} theme={theme} releasedate={format(new Date(anime.release_date), "dd.MM.yyyy")} downloadLinks={downloadLinks} />
                 </>
             )
         }
