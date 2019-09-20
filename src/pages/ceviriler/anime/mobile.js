@@ -45,7 +45,7 @@ export default function AnimeIndexMobile(props) {
                         {anime.version === "bd"
                             ?
                             <ContentTitleBadge>
-                                <img src={bluray} alt="bd-logo" style={{ height: "2rem" }} />
+                                <img title="bd-logo" loading="lazy" src={bluray} alt="bd-logo" style={{ height: "2rem" }} />
                             </ContentTitleBadge>
                             :
                             null}
@@ -72,8 +72,10 @@ export default function AnimeIndexMobile(props) {
                         justifyContent="center"
                     >
                         <ContentImage
+                            loading="lazy"
+                            title={anime.name + " Cover Art"}
                             component="img"
-                            alt={anime.name + " coverart"}
+                            alt={anime.name + " Cover Art"}
                             boxShadow={2}
                             spacingvalue={theme.spacing(2)}
                             src={anime.cover_art}

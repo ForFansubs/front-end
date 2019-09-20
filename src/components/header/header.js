@@ -70,9 +70,6 @@ const useStyles = makeStyles(theme => ({
     logo: {
         height: "40px"
     },
-    active: {
-        backgroundColor: theme.palette.background.level2
-    },
     ListItemText: {
         fontSize: ".8rem!important"
     },
@@ -172,7 +169,7 @@ export default function MiniDrawer() {
                 <List>
                     {menuItems.map((item, index) => item.show ?
                         (
-                            <NavLink exact to={item.link} onClick={handleDrawerClose} activeClassName={classes.active} key={item.text}>
+                            <NavLink exact to={item.link} onClick={handleDrawerClose} activeStyle={{ backgroundColor: theme.palette.background.level2 }} key={item.text}>
                                 <ListItem button style={{ backgroundColor: "inherit" }}>
                                     <ListItemIcon style={{ color: theme.palette.text.primary }}>{item.icon}</ListItemIcon>
                                     <ListItemText className={classes.ListItemText}><Typography variant="body2">{item.text}</Typography></ListItemText>
@@ -217,7 +214,7 @@ export default function MiniDrawer() {
                         <MenuIcon />
                     </IconButton>
                     <Link to={indexPage} className={classes.logoContainer}>
-                        <img className={classes.logo} src={usertheme === "dark" ? fullLogo : fullLogoDark} alt="Site Logo" />
+                        <img title="Site logo" loading="lazy" className={classes.logo} src={usertheme === "dark" ? fullLogo : fullLogoDark} alt="Site Logo" />
                     </Link>
                     <div>
                         {userInfo.success ?
@@ -228,7 +225,10 @@ export default function MiniDrawer() {
                                 onClick={handleMenu}
                                 color="default"
                             >
-                                <img src={userInfo.avatar} style={{ height: "25px" }} alt={`${userInfo.username} avatar`} aria-labelledby={`${userInfo.username} avatar`} />
+                                {userInfo.avatar ?
+                                    <img title={`${userInfo.username} avatar`} loading="lazy" src={userInfo.avatar} style={{ height: "25px" }} alt={`${userInfo.username} avatar`} aria-labelledby={`${userInfo.username} avatar`} />
+                                    :
+                                    <AccountCircle title={`${userInfo.username} avatar`} alt={`${userInfo.username} avatar`} aria-labelledby={`${userInfo.username} avatar`} />}
                             </IconButton>
                             :
                             <IconButton
@@ -271,16 +271,16 @@ export default function MiniDrawer() {
                                     :
                                     <>
                                         <MenuItem onClick={() => handleLoginRegisterButtons("login")}>Giriş yap</MenuItem>
-                                        <MenuItem onClick={() => handleLoginRegisterButtons("register")}>Kayıt ol</MenuItem>
+                                        {/*<MenuItem onClick={() => handleLoginRegisterButtons("register")}>Kayıt ol</MenuItem>*/}
                                     </>
                                 }
                                 <Divider />
                                 {
                                     usertheme === "dark"
                                         ?
-                                        <MenuItem onClick={() => setUserTheme("light")}><span role="img" aria-labelledby="güneş">🌞</span> Gündüz Modu</MenuItem>
+                                        <MenuItem onClick={() => setUserTheme("light")}><span role="img" title="güneş" aria-labelledby="güneş">🌞</span> Gündüz Modu</MenuItem>
                                         :
-                                        <MenuItem onClick={() => setUserTheme("dark")}><span role="img" aria-labelledby="ay">🌙</span> Gece Modu</MenuItem>
+                                        <MenuItem onClick={() => setUserTheme("dark")}><span role="img" title="ay" aria-labelledby="ay">🌙</span> Gece Modu</MenuItem>
                                 }
                             </div>
                         </Menu>

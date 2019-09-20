@@ -19,18 +19,39 @@ import {
     ContentLinksButton,
     ContentCommentsContainer,
     defaultBoxProps,
-    MetadataHeader
+    MetadataHeader, ContentHeaderImage, ContentHeader
 } from '../../../components/ceviriler/components'
 import WarningBox from '../../../components/warningerrorbox/warning';
+import {Background} from "react-parallax";
+import {contentHeader} from "../../../config/api-routes";
 
 export default function MangaIndexDesktop(props) {
     const { manga, theme, releasedate } = props
 
     return (
         <Grid container spacing={2}>
+            <ContentHeader item xs={12}>
+                <Box boxShadow={2}>
+                    <ContentHeaderImage
+                        strength={-300}
+                    >
+                        <Background>
+                            <img
+    title={manga.name + " headerimage"}
+    loading="lazy"
+    alt={manga.name + " headerimage"}
+    src={contentHeader("manga", manga.slug)}
+    onError={() => {
+        document.getElementsByClassName('react-parallax')[0].style.height = "0px"
+    }}/>
+                        </Background>
+                    </ContentHeaderImage>
+                </Box>
+            </ContentHeader>
             <ContentLeft item>
                 <ContentImage
-                    component="img" alt={manga.name + " coverart"}
+                    title={manga.name + " Cover Art"}
+                    component="img" alt={manga.name + " Cover Art"}
                     boxShadow={2}
                     spacingvalue={theme.spacing(2)}
                     src={manga.cover_art}

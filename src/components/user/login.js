@@ -13,6 +13,7 @@ import styled from 'styled-components'
 import ToastNotification from '../toastify/toast'
 
 import axios from '../../config/axios/axios'
+import { loginRoute } from '../../config/api-routes';
 
 const ModalContainer = styled(Box)`
     position: absolute;
@@ -72,7 +73,7 @@ export default function LoginModal() {
             password: userInfo.password
         }
 
-        axios.post('/user/login', userData)
+        axios.post(loginRoute, userData)
             .then(res => {
                 setUser(res.data)
                 setShowModal("")
@@ -82,7 +83,7 @@ export default function LoginModal() {
             .catch(err => {
                 const errors = err.response ? err.response.data : ""
                 const payload = {
-                    container: "register-error",
+                    container: "login-error",
                     type: "error",
                     message: ""
                 }
@@ -137,7 +138,7 @@ export default function LoginModal() {
                             fullWidth />
                         <ButtonContainer mt={2}>
                             <FormButton variant="outlined" type="submit">Giriş yap</FormButton>
-                            <FormButton variant="outlined" onClick={() => setShowModal("register")}>Hesabın yok mu?</FormButton>
+                            {/*<FormButton variant="outlined" onClick={() => setShowModal("register")}>Hesabın yok mu?</FormButton>*/}
                         </ButtonContainer>
                     </FormContainer>
                 </ModalContainer>

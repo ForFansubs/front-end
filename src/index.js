@@ -52,7 +52,7 @@ setGlobal({
     settings,
     showModal: "",
     isAdmin: false,
-    theme: settings.theme ? settings.theme : "light",
+    theme: settings.theme ? settings.theme : window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
     mobile: false
 })
 
@@ -150,7 +150,7 @@ addReducer('setTheme', (global, dispatch, type) => {
 
 //If there's any changes for existing localstorage, update it here
 if (!settings.theme) {
-    settings.theme = "light"
+    settings.theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
 }
 
 localStorage.setItem("app-settings", JSON.stringify(settings))

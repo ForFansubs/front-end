@@ -42,7 +42,8 @@ export default function MangaIndexMobile(props) {
                         justifyContent="center"
                     >
                         <ContentImage
-                            component="img" alt={manga.name + " coverart"}
+                            title={manga.name + " Cover Art"}
+                            component="img" alt={manga.name + " Cover Art"}
                             boxShadow={2}
                             spacingvalue={theme.spacing(2)}
                             src={manga.cover_art}

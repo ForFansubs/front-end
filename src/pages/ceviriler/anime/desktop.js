@@ -46,6 +46,8 @@ export default function AnimeIndexDesktop(props) {
                     >
                         <Background>
                             <img
+                                title={anime.name + " headerimage"}
+                                loading="lazy"
                                 alt={anime.name + " headerimage"}
                                 src={contentHeader("anime", anime.slug)}
                                 onError={() => {
@@ -58,7 +60,9 @@ export default function AnimeIndexDesktop(props) {
             <ContentLeft item>
                 <ContentImage
                     component="img"
-                    alt={anime.name + " coverart"}
+                    title={anime.name + " Cover Art"}
+                    loading="lazy"
+                    alt={anime.name + " Cover Art"}
                     boxShadow={2}
                     spacingvalue={theme.spacing(2)}
                     src={anime.cover_art}
@@ -123,7 +127,7 @@ export default function AnimeIndexDesktop(props) {
                     {anime.version === "bd"
                         ?
                         <ContentTitleBadge>
-                            <img src={bluray} alt="bd-logo" style={{ height: "2rem" }} />
+                            <img title="bd-logo" loading="lazy" src={bluray} alt="bd-logo" style={{ height: "2rem" }} />
                         </ContentTitleBadge>
                         :
                         null}

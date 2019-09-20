@@ -133,7 +133,7 @@ function AnimeContainer(props) {
                         <ContentPremieredText variant="h6">{d.premiered ? d.premiered : "Bilgi bulunamadı"}</ContentPremieredText>
                     </ContentPremieredContainer>
                     <ContentInPlacer>
-                        <ContentCover bgimage={d.cover_art} />
+                        <ContentCover bgimage={d.cover_art} title={d.name + " Cover Art"} />
                         <ContentTextInfo>
                             <Dotdotdot clamp={2}>
                                 <ContentTitle variant="h5">{d.name}</ContentTitle>
@@ -167,8 +167,8 @@ function AnimeContainerPlaceholder(props) {
 
     return (
         <ContentPlacer item xs={12} md={6} lg={4} xl={3}>
-            <ContentContainer {...defaultBoxProps} mb={0} height="383px">
-            </ContentContainer>
+            <div height="225px">
+            </div>
         </ContentPlacer>
     )
 }
@@ -181,7 +181,7 @@ function MangaContainer(props) {
             <Link to={mangaPage(d.slug)}>
                 <ContentContainer {...defaultBoxProps} mb={0}>
                     <ContentInPlacer>
-                        <ContentCover bgimage={d.cover_art} />
+                        <ContentCover bgimage={d.cover_art} title={d.name + " Cover Art"} />
                         <ContentTextInfo>
                             <Dotdotdot clamp={2}>
                                 <ContentTitle variant="h5">{d.name}</ContentTitle>
@@ -214,7 +214,7 @@ function MangaContainer(props) {
 function MangaContainerPlaceholder(props) {
     return (
         <ContentPlacer item xs={12} md={6} lg={4} xl={3}>
-            <ContentContainer {...defaultBoxProps} mb={0} height="383px">
+            <ContentContainer {...defaultBoxProps} mb={0} height="187px">
 
             </ContentContainer>
         </ContentPlacer>

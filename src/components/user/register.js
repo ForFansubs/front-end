@@ -13,6 +13,7 @@ import styled from 'styled-components'
 import ToastNotification from '../toastify/toast'
 
 import axios from '../../config/axios/axios'
+import { registerRoute } from '../../config/api-routes';
 
 const ModalContainer = styled(Box)`
     position: absolute;
@@ -75,7 +76,7 @@ export default function RegisterModal() {
             email: userInfo.email
         }
 
-        axios.post('/user/register', userData)
+        axios.post(registerRoute, userData)
             .then(res => {
                 const payload = {
                     container: "register-success",

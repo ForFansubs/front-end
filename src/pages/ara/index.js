@@ -114,6 +114,11 @@ export default function SearchPage(props) {
 
         setData(newData)
         setOffset(page)
+
+        if (fullList.length / 24 < page) {
+            console.log("Data bitti")
+            return setHasData(false)
+        }
     }
 
     function handleTypeChange(newType) {
@@ -202,7 +207,7 @@ export default function SearchPage(props) {
         if (data.length !== 0 && type === "anime") {
             mappedData = data.map(d =>
                 <LazyLoad
-                    height={383}
+                    height={225}
                     key={d.slug + "anime"}
                     placeholder={
                         <AnimeContainerPlaceholder genresbg={theme.palette.secondary.main} />
@@ -215,7 +220,7 @@ export default function SearchPage(props) {
         else if (data.length !== 0 && type === "manga") {
             mappedData = data.map(d =>
                 <LazyLoad
-                    height={383}
+                    height={187}
                     key={d.slug + d.name + "manga"}
                     placeholder={
                         <MangaContainerPlaceholder genresbg={theme.palette.secondary.main} />
@@ -358,6 +363,7 @@ export default function SearchPage(props) {
                             next={handleGetMore}
                             hasMore={hasData}
                             scrollThreshold={1}
+                            endMessage={<Typography variant="h6" style={{ padding: "8px", textAlign: "center" }}>Liste sonu.</Typography>}
                             loader={<ContentContainer
                                 mt={1}
                                 p={1}

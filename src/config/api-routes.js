@@ -1,19 +1,22 @@
 //API uzantısına gerek yok, default axios importunda zaten ekleniyor
 const indexURL = "/"
-const isAdmin = "/user/adminpage"
+const isAdmin = "/kullanici/adminpage"
 const getIndexEpisodes = "/latest-works"
 const getIndexFeaturedAnime = "/featured-anime"
 const getIndexBatchEpisodes = "/latest-batch-episodes"
 const getAnimeIndex = (slug) => `/anime/${slug}`
 const getMangaIndex = (slug) => `/manga/${slug}`
-const getEpisodeDownloadLinks = (animeslug) => `/episode/download-links/${animeslug}`
+const getEpisodeDownloadLinks = (animeslug) => `/bolum/download-links/${animeslug}`
 const getSearchIndex = (type, page) => `${type}/arama-liste/${page}`
 const getGenresList = "/genre-list"
 const getFullSearchList = (type) => `/${type}/liste`
-const getEpisodePageInfo = (slug) => `/episode/${slug}/watch`
-const getEpisodeInfo = "/episode/izleme-linkleri"
+const getEpisodePageInfo = (slug) => `/bolum/${slug}/watch`
+const getEpisodeInfo = "/bolum/izleme-linkleri"
 
-const contentHeader = (type, slug) => `/api/images/${type}/${slug}-header.jpeg`
+const loginRoute = "/kullanici/giris"
+const registerRoute = "/kullanici/kayit"
+
+const contentHeader = (type, slug) => `/api/resimler/${type}/${slug}-header.jpeg`
 
 export {
     indexURL,
@@ -29,5 +32,7 @@ export {
     getFullSearchList,
     getEpisodePageInfo,
     getEpisodeInfo,
+    loginRoute,
+    registerRoute,
     contentHeader
 }
