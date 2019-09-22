@@ -25,7 +25,7 @@ import InfoIcon from '@material-ui/icons/Info'
 import BookIcon from '@material-ui/icons/Book'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 
-import { indexPage, searchPage, faqPage, mosLink, adminPage } from '../../config/front-routes'
+import { indexPage, searchPage, faqPage, recPage, mosLink, adminPage } from '../../config/front-routes'
 import { fullLogo, fullLogoDark } from '../../config/theming/images'
 
 const useStyles = makeStyles(theme => ({
@@ -114,6 +114,12 @@ export default function MiniDrawer() {
             link: faqPage,
             show: process.env.REACT_APP_SSS_PAGE_TEXT ? true : false,
             icon: <InfoIcon />
+        },
+        {
+            text: "Ekip Alımları",
+            link: recPage,
+            show: true,
+            icon: <h2>EA</h2>
         }
     ])
     const [menuItems2] = React.useState([

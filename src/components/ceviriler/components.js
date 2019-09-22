@@ -37,7 +37,6 @@ const ContentHeaderImage = styled(Parallax)`
     
     img {
         background-size: cover;
-        margin-top: -10%;
         width: 100vw;
     }
 `

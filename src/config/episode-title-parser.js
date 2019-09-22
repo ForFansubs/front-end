@@ -1,12 +1,12 @@
 module.exports = (animename, episodenumber, specialtype) => {
     if (specialtype && specialtype !== "toplu") {
         return {
-            title: `${animename} ${specialtype.toUpperCase()} ${episodenumber}`,
+            title: `${specialtype.toUpperCase()} ${episodenumber} - ${animename}`,
             slug: `${specialtype}${episodenumber}`
         }
     }
     else return {
-        title: `${animename} ${episodenumber}. Bölüm`,
+        title: `${episodenumber}. Bölüm - ${animename}`,
         slug: `bolum${episodenumber}`
     }
 }

@@ -155,7 +155,7 @@ export default function MangaIndexMobile(props) {
                         ?
                         <>
                             <ContentRightAltTitle variant="h4" aftercolor={theme.palette.text.primary}>Yorumlar</ContentRightAltTitle>
-                            <Box p={2}>
+                            <Box>
                                 <ContentCommentsContainer
                                     config={{
                                         identifier: 'manga/' + manga.id,

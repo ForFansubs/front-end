@@ -60,7 +60,6 @@
     -ms-flex-pack: justify;
         justify-content: space-between;
     max-height: 800px;
-    overflow: hidden;
     font-family: sans-serif;
     cursor: pointer;
     direction: ltr; }

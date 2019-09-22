@@ -186,7 +186,7 @@ export default function AnimeIndexDesktop(props) {
                     ?
                     <>
                         <ContentRightAltTitle variant="h4" aftercolor={theme.palette.text.primary}>Yorumlar</ContentRightAltTitle>
-                        <Box p={2}>
+                        <Box>
                             <ContentCommentsContainer
                                 config={{
                                     identifier: 'anime/' + anime.id,

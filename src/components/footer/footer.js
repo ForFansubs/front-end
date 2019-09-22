@@ -31,6 +31,13 @@ const FooterDiv = styled.footer`
     }
 `
 
+const FooterInnerDiv = styled(Box)`
+    display: flex;
+    @media(max-width:${props => props.theme.breakpoints.values.sm}px) {
+        display: block;
+    }
+`
+
 const FooterLogo = styled(Typography)``
 
 export default function Footer() {
@@ -41,13 +48,15 @@ export default function Footer() {
         <>
             <FooterDiv theme={theme}>
                 <FooterCopyrightText>
-                    <Box display="flex" alignItems="center">
+                    <FooterInnerDiv theme={theme}>
+                        <Typography variant="h6">
                         <a href="http://aybertocarlos.com" rel="noopener noreferrer" target="_blank">
-                            <Typography variant="h6">aybertocarlos &copy; {(new Date()).getFullYear()}</Typography>
+                            aybertocarlos &copy; {(new Date()).getFullYear()}
                         </a>
-                        &nbsp;-&nbsp;
-                        PS v{version}
-                        &nbsp;-&nbsp;
+                            &nbsp;-&nbsp;
+                            PS v{version}
+                            &nbsp;-&nbsp;
+                        </Typography>
                         <a href="https://github.com/ayberktandogan/PuzzleSubs-Front-v2" rel="noopener noreferrer" target="_blank">
                             <FooterLogo variant="body2">github</FooterLogo>
 
@@ -65,7 +74,7 @@ export default function Footer() {
                             :
                             ""
                         }
-                    </Box>
+                    </FooterInnerDiv>
                 </FooterCopyrightText>
             </FooterDiv>
         </>

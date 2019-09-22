@@ -15,7 +15,7 @@ import getTheme from './config/theming/index'
 
 import App from './App'
 import * as serviceWorker from './serviceWorker'
-import ToastNotification from './components/toastify/toast';
+import ToastNotification, {payload} from './components/toastify/toast';
 
 //Initiate program & define version
 addReactNDevTools()
@@ -39,6 +39,11 @@ try {
 //Get existing localstorage for later use
 const settings = localStorage.getItem("app-settings") ? JSON.parse(localStorage.getItem("app-settings")) : {}
 const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
+
+//Push message on app update
+const onUpdateHandler = () => {
+    ToastNotification(payload("notification-success", "success", "Uygulamanın yeni bir sürümü var. Lütfen bu bildirime basın.", false, "reload"))
+}
 
 //Set global variables & reducers via reactn package
 setGlobal({
@@ -95,12 +100,7 @@ addReducer('loginHandler', (global, dispatch, userData) => {
 
     dispatch.checkAdmin(userData.token)
 
-    const payload = {
-        container: "login-success",
-        type: "success",
-        message: ""
-    }
-    ToastNotification(payload)
+    ToastNotification(payload("login-success", "success", ""))
 
     localStorage.setItem("user", JSON.stringify(data));
     return ({ user: { ...userData } })
@@ -109,12 +109,7 @@ addReducer('loginHandler', (global, dispatch, userData) => {
 addReducer('logoutHandler', (global, dispatch) => {
     localStorage.removeItem("user");
 
-    const payload = {
-        container: "logout-success",
-        type: "success",
-        message: ""
-    }
-    ToastNotification(payload)
+    ToastNotification(payload("logout-success", "success", ""))
 
     return ({
         user: {
@@ -172,4 +167,8 @@ function Mount() {
 
 ReactDOM.render(<Mount />, document.getElementById('app-mount'))
 
-serviceWorker.register()
+window.onUpdate = onUpdateHandler
+
+serviceWorker.register({
+    onUpdate: onUpdateHandler
+})
