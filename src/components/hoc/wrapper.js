@@ -25,7 +25,7 @@ export default function (props) {
         <>
             <Header />
             <Login />
-            {/*<Register />*/}
+            <Register />
             <PaddingDiv>
                 {props.children}
                 <Footer />

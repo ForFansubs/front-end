@@ -50,16 +50,15 @@ export default function Footer() {
                 <FooterCopyrightText>
                     <FooterInnerDiv theme={theme}>
                         <Typography variant="h6">
-                        <a href="http://aybertocarlos.com" rel="noopener noreferrer" target="_blank">
+                        <a href="https://aybertocarlos.github.io/" rel="noopener noreferrer" target="_blank">
                             aybertocarlos &copy; {(new Date()).getFullYear()}
                         </a>
                             &nbsp;-&nbsp;
                             PS v{version}
                             &nbsp;-&nbsp;
                         </Typography>
-                        <a href="https://github.com/ayberktandogan/PuzzleSubs-Front-v2" rel="noopener noreferrer" target="_blank">
+                        <a href="https://github.com/ayberktandogan/ForFansubs-Wiki/wiki" rel="noopener noreferrer" target="_blank">
                             <FooterLogo variant="body2">github</FooterLogo>
-
                         </a>
                         {process.env.REACT_APP_FACEBOOK_LINK ?
                             <a href={process.env.REACT_APP_FACEBOOK_LINK} rel="noopener noreferrer" target="_blank">

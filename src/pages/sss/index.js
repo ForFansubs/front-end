@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import useTheme from '@material-ui/styles/useTheme';
 
 export default function SSSPage() {
-    document.title = `SSS - ${process.env.REACT_APP_APPNAME}`
+    document.title = `SSS - ${process.env.REACT_APP_SITENAME}`
     ReactGA.pageview(window.location.pathname)
     const theme = useTheme()
 

@@ -24,6 +24,10 @@ function isAdminRoute() {
   return window.location.pathname.startsWith('/admin')
 }
 
+function isRegisterRoute() {
+  return window.location.pathname.startsWith('/kayit-tamamla')
+}
+
 export function register(config) {
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
@@ -36,7 +40,7 @@ export function register(config) {
     }
 
     window.addEventListener('load', () => {
-      if (isAdminRoute()) {
+      if (isAdminRoute() || isRegisterRoute()) {
         console.info('unregistering service worker for admin route')
         unregister()
         console.info('reloading')

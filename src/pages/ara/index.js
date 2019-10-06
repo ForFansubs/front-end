@@ -273,15 +273,15 @@ export default function SearchPage(props) {
                 <meta name="title" content={title} />
                 <meta name="description" content={desc} />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content={process.env.REACT_APP_SITENAME + "/ara"} />
+                <meta property="og:url" content={process.env.REACT_APP_SITEURL + "/ara"} />
                 <meta property="og:title" content={title} />
                 <meta property="og:description" content={desc} />
-                <meta property="og:image" content={process.env.REACT_APP_SITENAME + "/512.png"} />
+                <meta property="og:image" content={process.env.REACT_APP_SITEURL + "/512.png"} />
                 <meta property="twitter:card" content="summary_large_image" />
-                <meta property="twitter:url" content={process.env.REACT_APP_SITENAME + "/ara"} />
+                <meta property="twitter:url" content={process.env.REACT_APP_SITEURL + "/ara"} />
                 <meta property="twitter:title" content={title} />
                 <meta property="twitter:description" content={desc} />
-                <meta property="twitter:image" content={process.env.REACT_APP_SITENAME + "/512.png"} />
+                <meta property="twitter:image" content={process.env.REACT_APP_SITEURL + "/512.png"} />
             </Helmet>
             <PagePlacer container spacing={2}>
                 <PagePlacer item xs={12} md={2}>

@@ -16,7 +16,7 @@ const CardImage = styled(Box)`
 `
 
 export default function EkipAlimlariPage() {
-    document.title = `Ekip Alımları - ${process.env.REACT_APP_APPNAME}`
+    document.title = `Ekip Alımları - ${process.env.REACT_APP_SITENAME}`
     ReactGA.pageview(window.location.pathname)
 
     const boxes = [

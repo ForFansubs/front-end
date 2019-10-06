@@ -76,7 +76,7 @@ export default function AnimePage(props) {
         // Delete null objects from downloadLinks
         downloadLinks = downloadLinks.filter(d => d)
 
-        const title = `${process.env.REACT_APP_APPNAME} ${anime.name} Türkçe ${anime.episodes.length !== 0 ? "İzle ve İndir" : ""}`
+        const title = `${process.env.REACT_APP_SITENAME} ${anime.name} Türkçe ${anime.episodes.length !== 0 ? "İzle ve İndir" : ""}`
         if (!mobile) {
             return (
                 <>
@@ -85,12 +85,12 @@ export default function AnimePage(props) {
                         <meta name="title" content={title} />
                         <meta name="description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis.substring(0, 80)}`} />
                         <meta property="og:type" content="website" />
-                        <meta property="og:url" content={process.env.REACT_APP_SITENAME + animePage(anime.slug)} />
+                        <meta property="og:url" content={process.env.REACT_APP_SITEURL + animePage(anime.slug)} />
                         <meta property="og:title" content={title} />
                         <meta property="og:description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis.substring(0, 80)}`} />
                         <meta property="og:image" content={anime.cover_art} />
                         <meta property="twitter:card" content="summary_large_image" />
-                        <meta property="twitter:url" content={process.env.REACT_APP_SITENAME + animePage(anime.slug)} />
+                        <meta property="twitter:url" content={process.env.REACT_APP_SITEURL + animePage(anime.slug)} />
                         <meta property="twitter:title" content={title} />
                         <meta property="twitter:description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis.substring(0, 80)}`} />
                         <meta property="twitter:image" content={anime.cover_art} />
@@ -107,12 +107,12 @@ export default function AnimePage(props) {
                         <meta name="title" content={title} />
                         <meta name="description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis.substring(0, 80)}`} />
                         <meta property="og:type" content="website" />
-                        <meta property="og:url" content={process.env.REACT_APP_SITENAME + animePage(anime.slug)} />
+                        <meta property="og:url" content={process.env.REACT_APP_SITEURL + animePage(anime.slug)} />
                         <meta property="og:title" content={title} />
                         <meta property="og:description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis.substring(0, 80)}`} />
                         <meta property="og:image" content={anime.cover_art} />
                         <meta property="twitter:card" content="summary_large_image" />
-                        <meta property="twitter:url" content={process.env.REACT_APP_SITENAME + animePage(anime.slug)} />
+                        <meta property="twitter:url" content={process.env.REACT_APP_SITEURL + animePage(anime.slug)} />
                         <meta property="twitter:title" content={title} />
                         <meta property="twitter:description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis.substring(0, 80)}`} />
                         <meta property="twitter:image" content={anime.cover_art} />

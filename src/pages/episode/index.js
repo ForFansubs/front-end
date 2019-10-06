@@ -211,8 +211,8 @@ export default function EpisodePage(props) {
             ))
         }
 
-        const title = `${animeData.name} ${activeEpisode.title} Türkçe İzle - ${process.env.REACT_APP_APPNAME} Anime`
-        const desc = `${animeData.name} ${activeEpisode.title} Türkçe İzle ve İndir - ${process.env.REACT_APP_APPNAME} Anime İzle`
+        const title = `${animeData.name} ${activeEpisode.title} Türkçe İzle - ${process.env.REACT_APP_SITENAME} Anime`
+        const desc = `${animeData.name} ${activeEpisode.title} Türkçe İzle ve İndir - ${process.env.REACT_APP_SITENAME} Anime İzle`
 
         return (
             <>
@@ -221,12 +221,12 @@ export default function EpisodePage(props) {
                     <meta name="title" content={title} />
                     <meta name="description" content={desc} />
                     <meta property="og:type" content="website" />
-                    <meta property="og:url" content={process.env.REACT_APP_SITENAME + episodePage(props.match.params.slug, activeEpisode.slug)} />
+                    <meta property="og:url" content={process.env.REACT_APP_SITEURL + episodePage(props.match.params.slug, activeEpisode.slug)} />
                     <meta property="og:title" content={title} />
                     <meta property="og:description" content={desc} />
                     <meta property="og:image" content={animeData.cover_art} />
                     <meta property="twitter:card" content="summary_large_image" />
-                    <meta property="twitter:url" content={process.env.REACT_APP_SITENAME + episodePage(props.match.params.slug, activeEpisode.slug)} />
+                    <meta property="twitter:url" content={process.env.REACT_APP_SITEURL + episodePage(props.match.params.slug, activeEpisode.slug)} />
                     <meta property="twitter:title" content={title} />
                     <meta property="twitter:description" content={desc} />
                     <meta property="twitter:image" content={animeData.cover_art} />

@@ -190,7 +190,7 @@ export default function AnimeIndexDesktop(props) {
                             <ContentCommentsContainer
                                 config={{
                                     identifier: 'anime/' + anime.id,
-                                    title: `${anime.name} - ${process.env.REACT_APP_APPNAME} Anime`,
+                                    title: `${anime.name} - ${process.env.REACT_APP_SITENAME} Anime`,
                                 }} />
                         </Box>
                     </>

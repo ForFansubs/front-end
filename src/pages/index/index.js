@@ -161,7 +161,7 @@ export default function IndexPage() {
             batchEpisodesWindow = <Error type="featured" />
     }
 
-    const title = `${process.env.REACT_APP_APPNAME} Türkçe Anime ve Manga Çeviri Grubu`
+    const title = `${process.env.REACT_APP_SITENAME} Türkçe Anime ve Manga Çeviri Grubu`
 
     return (
         <>

@@ -138,7 +138,7 @@ export default function LoginModal() {
                             fullWidth />
                         <ButtonContainer mt={2}>
                             <FormButton variant="outlined" type="submit">Giriş yap</FormButton>
-                            {/*<FormButton variant="outlined" onClick={() => setShowModal("register")}>Hesabın yok mu?</FormButton>*/}
+                            <FormButton variant="outlined" onClick={() => setShowModal("register")}>Hesabın yok mu?</FormButton>
                         </ButtonContainer>
                     </FormContainer>
                 </ModalContainer>

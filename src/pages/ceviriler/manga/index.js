@@ -58,7 +58,7 @@ export default function MangaPage(props) {
     }
 
     if (!loading) {
-        const title = `${process.env.REACT_APP_APPNAME} ${manga.name} Türkçe ${manga.mos_link ? "Oku" : ""} ${manga.download_link ? "İndir" : ""}`
+        const title = `${process.env.REACT_APP_SITENAME} ${manga.name} Türkçe ${manga.mos_link ? "Oku" : ""} ${manga.download_link ? "İndir" : ""}`
 
         if (!mobile) {
             return (
@@ -68,12 +68,12 @@ export default function MangaPage(props) {
                         <meta name="title" content={title} />
                         <meta name="description" content={`${manga.name} Türkçe İzle & İndir - ${manga.synopsis.substring(0, 80)}`} />
                         <meta property="og:type" content="website" />
-                        <meta property="og:url" content={process.env.REACT_APP_SITENAME + mangaPage(manga.slug)} />
+                        <meta property="og:url" content={process.env.REACT_APP_SITEURL + mangaPage(manga.slug)} />
                         <meta property="og:title" content={title} />
                         <meta property="og:description" content={`${manga.name} Türkçe İzle & İndir - ${manga.synopsis.substring(0, 80)}`} />
                         <meta property="og:image" content={manga.cover_art} />
                         <meta property="twitter:card" content="summary_large_image" />
-                        <meta property="twitter:url" content={process.env.REACT_APP_SITENAME + mangaPage(manga.slug)} />
+                        <meta property="twitter:url" content={process.env.REACT_APP_SITEURL + mangaPage(manga.slug)} />
                         <meta property="twitter:title" content={title} />
                         <meta property="twitter:description" content={`${manga.name} Türkçe İzle & İndir - ${manga.synopsis.substring(0, 80)}`} />
                         <meta property="twitter:image" content={manga.cover_art} />
@@ -91,12 +91,12 @@ export default function MangaPage(props) {
                         <meta name="title" content={title} />
                         <meta name="description" content={`${manga.name} Türkçe İzle & İndir - ${manga.synopsis.substring(0, 80)}`} />
                         <meta property="og:type" content="website" />
-                        <meta property="og:url" content={process.env.REACT_APP_SITENAME + mangaPage(manga.slug)} />
+                        <meta property="og:url" content={process.env.REACT_APP_SITEURL + mangaPage(manga.slug)} />
                         <meta property="og:title" content={title} />
                         <meta property="og:description" content={`${manga.name} Türkçe İzle & İndir - ${manga.synopsis.substring(0, 80)}`} />
                         <meta property="og:image" content={manga.cover_art} />
                         <meta property="twitter:card" content="summary_large_image" />
-                        <meta property="twitter:url" content={process.env.REACT_APP_SITENAME + mangaPage(manga.slug)} />
+                        <meta property="twitter:url" content={process.env.REACT_APP_SITEURL + mangaPage(manga.slug)} />
                         <meta property="twitter:title" content={title} />
                         <meta property="twitter:description" content={`${manga.name} Türkçe İzle & İndir - ${manga.synopsis.substring(0, 80)}`} />
                         <meta property="twitter:image" content={manga.cover_art} />

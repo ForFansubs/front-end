@@ -277,7 +277,7 @@ export default function MiniDrawer() {
                                     :
                                     <>
                                         <MenuItem onClick={() => handleLoginRegisterButtons("login")}>Giriş yap</MenuItem>
-                                        {/*<MenuItem onClick={() => handleLoginRegisterButtons("register")}>Kayıt ol</MenuItem>*/}
+                                        <MenuItem onClick={() => handleLoginRegisterButtons("register")}>Kayıt ol</MenuItem>
                                     </>
                                 }
                                 <Divider />

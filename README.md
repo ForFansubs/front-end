@@ -35,8 +35,8 @@ yazarak çalıştırabilirsiniz. Ancak startlamadan ya da buildlemeden önce aş
 
 #### 1. ./.env
 ```env
-REACT_APP_APPNAME="" // Sitenin ismi. (Example)
-REACT_APP_SITENAME="" // Sitenin isim alanı. (www.example.com gibi)
+REACT_APP_SITENAME="" // Sitenin ismi. (Example)
+REACT_APP_SITEURL="" // Sitenin isim alanı. (www.example.com gibi)
 
 REACT_APP_DISQUS_SHORTNAME="" // Disqus kısa ismini sağlarsanız anime, manga ve bölüm sayfalarında yorum kısmı gösterir.
 REACT_APP_DEV_API_URL="" // Dev ortamında istekleri yapmak için kullanacağı alan adı. (http://localhost:5000 gibi)

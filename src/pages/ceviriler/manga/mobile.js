@@ -159,7 +159,7 @@ export default function MangaIndexMobile(props) {
                                 <ContentCommentsContainer
                                     config={{
                                         identifier: 'manga/' + manga.id,
-                                        title: `${manga.name} - ${process.env.REACT_APP_APPNAME} Manga`,
+                                        title: `${manga.name} - ${process.env.REACT_APP_SITENAME} Manga`,
                                     }} />
                             </Box>
                         </>

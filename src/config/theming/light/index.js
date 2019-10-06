@@ -86,7 +86,7 @@ const transitions = {
     }
 }
 
-const themeName = 'PuzzleSubs Light Theme';
+const themeName = 'ForFansubs Light Theme';
 
 const data = { palette, typography, overrides, transitions, props, themeName }
 
