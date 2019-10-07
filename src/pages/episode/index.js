@@ -48,6 +48,7 @@ export default function EpisodePage(props) {
         name: "",
         cover_art: "",
         id: null,
+        slug: ""
     })
     const [episodeData, setEpisodeData] = useState([])
     const [watchLinks, setWatchLinks] = useState([])
@@ -73,7 +74,12 @@ export default function EpisodePage(props) {
                 return setLoading(false)
             }
 
-            setAnimeData({ name: pageInfo.data[0].anime_name, cover_art: pageInfo.data[0].cover_art, id: pageInfo.data[0].anime_id })
+            setAnimeData({
+                name: pageInfo.data[0].anime_name,
+                cover_art: pageInfo.data[0].cover_art,
+                id: pageInfo.data[0].anime_id,
+                slug: pageInfo.data[0].anime_slug}
+                )
             setEpisodeData(pageInfo.data)
 
             if (episodeInfo) {
@@ -321,7 +327,7 @@ export default function EpisodePage(props) {
                             <PageContainer {...defaultBoxProps} p={2}>
                                 <ContentCommentsContainer
                                     withButton
-                                    config={{ identifier: `anime/${activeEpisode.anime_id}/${activeEpisode.slug}` }} />
+                                    config={{ identifier: `anime/${animeData.slug}/${activeEpisode.slug}` }} />
                             </PageContainer>
                         </PagePlacer>
                         : ""}
