@@ -44,7 +44,7 @@ export default function DisqusBox(props) {
                     <Typography variant="body1">Küfür etmek yasaktır.</Typography>
                     <Typography variant="body1">Spoiler vermek yasaktır.</Typography>
                 </Box>
-                <Disqus.DiscussionEmbed shortname="puzzlesubs-com" config={config} />
+                <Disqus.DiscussionEmbed shortname={process.env.REACT_APP_DISQUS_SHORTNAME} config={config} />
             </>
         )
     }

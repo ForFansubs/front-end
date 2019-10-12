@@ -263,8 +263,8 @@ export default function SearchPage(props) {
         )
     }
 
-    const title = `PuzzleSubs Anime & Manga Ara Türkçe İzle`
-    const desc = `PuzzleSubs Anime ve Manga arama motoru. Türlere göre anime ve manga arayabilir, konularına göz atabilirsiniz.`
+    const title = `${process.env.REACT_APP_SITENAME} Anime & Manga Ara Türkçe İzle`
+    const desc = `${process.env.REACT_APP_SITENAME} Anime ve Manga arama motoru. Türlere göre anime ve manga arayabilir, konularına göz atabilirsiniz.`
 
     return (
         <>
