@@ -107,6 +107,10 @@ export default function SearchPage(props) {
         ReactGA.pageview(window.location.pathname)
     }, [type])
 
+    function resetOffset() {
+        setOffset(1)
+    }
+
     function handleGetMore() {
         const page = offset + 1
 
@@ -125,6 +129,7 @@ export default function SearchPage(props) {
         if (type === newType) return
         setIsSearching(true)
         setLoadingData(true)
+        resetOffset()
         setType(newType)
         setSearchProps({
             text: "",
@@ -156,6 +161,7 @@ export default function SearchPage(props) {
 
     const handleChange = name => async event => {
         setLoadingData(true)
+        resetOffset()
         setSearchProps({ ...searchProps, genres: [], [name]: event.target.value })
         setHasData(false)
         const result = await searchTextAPIDebounced(fullList, event.target.value)
@@ -167,6 +173,7 @@ export default function SearchPage(props) {
     const handleGenreClick = async (value) => {
         setIsSearching(true)
         setLoadingData(true)
+        resetOffset()
 
         let newData
         const genres = searchProps.genres
