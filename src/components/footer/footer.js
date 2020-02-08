@@ -54,7 +54,7 @@ export default function Footer() {
                             aybertocarlos &copy; {(new Date()).getFullYear()}
                         </a>
                             &nbsp;-&nbsp;
-                            PS v{version}
+                            FFs v{version}
                             &nbsp;-&nbsp;
                         </Typography>
                         <a href="https://github.com/ayberktandogan/ForFansubs-Wiki/wiki" rel="noopener noreferrer" target="_blank">
