@@ -95,4 +95,4 @@ const theme = {
 
 merge(theme, custom)
 
-export default { theme }
+export default theme
