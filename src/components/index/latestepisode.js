@@ -138,7 +138,7 @@ export default function LatestEpisode(props) {
                             </Dotdotdot> */}
                             <Dotdotdot clamp={1}>
                                 <EpisodeReleaseTime variant="subtitle2">
-                                    {Format(new Date(props.created_time)).toUpperCase()} · {props.created_by}
+                                    {Format(new Date(props.created_time)).toUpperCase()} · {props.created_by ? props.created_by : "Silinmiş Kullanıcı"}
                                 </EpisodeReleaseTime>
                             </Dotdotdot>
                         </EpisodeInfo>

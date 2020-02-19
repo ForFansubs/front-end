@@ -93,9 +93,12 @@ export default function SearchPage(props) {
             const initialData = slice(searchList.data, 0, 24)
 
             if (searchList.data.length === 0 || searchList.status !== 200) {
-                return setHasData(false)
+                setLoadingData(false)
+                setGenreData(genres.data.list)
+                return setLoadingGenre(false)
             }
 
+            if(searchList.data.length < 24) setHasData(false)
             setFullList(searchList.data)
             setData([...initialData])
             setLoadingData(false)
@@ -120,7 +123,6 @@ export default function SearchPage(props) {
         setOffset(page)
 
         if (fullList.length / 24 < page) {
-            console.log("Data bitti")
             return setHasData(false)
         }
     }
@@ -142,6 +144,7 @@ export default function SearchPage(props) {
             const initialData = slice(searchList.data, 0, 24)
 
             if (searchList.data.length === 0 || searchList.status !== 200) {
+
                 setFullList(searchList.data)
                 setData([...initialData])
                 setIsSearching(false)

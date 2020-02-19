@@ -199,7 +199,7 @@ export default function LatestAniManga(props) {
                                             </ContentSynopsis>
                                         </Dotdotdot>
                                         <ContentReleaseTime variant="h6">
-                                            {Format(new Date(created_time)).toUpperCase()} - {created_by}
+                                            {Format(new Date(created_time)).toUpperCase()} - {created_by ? created_by : "Silinmiş Kullanıcı"}
                                         </ContentReleaseTime>
                                     </ContentAltInfo>
                                     {props.version === "bd"
@@ -254,7 +254,7 @@ export default function LatestAniManga(props) {
                                             </ContentSynopsis>
                                         </Dotdotdot>
                                         <ContentReleaseTime variant="h6">
-                                            {Format(new Date(created_time)).toUpperCase()} - {created_by}
+                                            {Format(new Date(created_time)).toUpperCase()} - {created_by ? created_by : "Silinmiş Kullanıcı"}
                                         </ContentReleaseTime>
                                     </ContentAltInfo>
                                 </ContentInfo>

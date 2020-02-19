@@ -22,8 +22,8 @@ import {
     MetadataHeader, ContentHeaderImage, ContentHeader
 } from '../../../components/ceviriler/components'
 import WarningBox from '../../../components/warningerrorbox/warning';
-import {Background} from "react-parallax";
-import {contentHeader} from "../../../config/api-routes";
+import { Background } from "react-parallax";
+import { contentHeader } from "../../../config/api-routes";
 
 export default function MangaIndexDesktop(props) {
     const { manga, theme, releasedate } = props
@@ -37,13 +37,13 @@ export default function MangaIndexDesktop(props) {
                     >
                         <Background>
                             <img
-    title={manga.name + " headerimage"}
-    loading="lazy"
-    alt={manga.name + " headerimage"}
-    src={contentHeader("manga", manga.slug)}
-    onError={() => {
-        document.getElementsByClassName('react-parallax')[0].style.height = "0px"
-    }}/>
+                                title={manga.name + " headerimage"}
+                                loading="lazy"
+                                alt={manga.name + " headerimage"}
+                                src={contentHeader("manga", manga.slug)}
+                                onError={() => {
+                                    document.getElementsByClassName('react-parallax')[0].style.height = "0px"
+                                }} />
                         </Background>
                     </ContentHeaderImage>
                 </Box>
@@ -56,6 +56,28 @@ export default function MangaIndexDesktop(props) {
                     spacingvalue={theme.spacing(2)}
                     src={manga.cover_art}
                     mb={0} />
+                {manga.download_link ?
+                    <a href={manga.download_link} target="_blank" rel="noopener noreferrer">
+                        <Box mb={1}>
+                            <ContentLinksButton variant="contained" fullWidth>
+                                <Typography variant="h6">İndir</Typography>
+                            </ContentLinksButton>
+                        </Box>
+                    </a>
+                    :
+                    ""
+                }
+                {manga.mos_link ?
+                    <a href={manga.mos_link} target="_blank" rel="noopener noreferrer">
+                        <Box>
+                            <ContentLinksButton variant="contained" fullWidth>
+                                <Typography variant="h6">Oku</Typography>
+                            </ContentLinksButton>
+                        </Box>
+                    </a>
+                    :
+                    ""
+                }
                 <MetadataHeader variant="body2">Çevirmen</MetadataHeader>
                 <ContentMetadata {...defaultBoxProps}>
                     {manga.translators.length !== 0 ?
@@ -107,6 +129,17 @@ export default function MangaIndexDesktop(props) {
                             <Typography variant="body2">Tür bulunamadı.</Typography>}
                     </ContentGenres>
                 </ContentMetadata>
+                {manga.mal_link !== "-" ?
+                    <a href={manga.mal_link} target="_blank" rel="noopener noreferrer">
+                        <Box mb={1}>
+                            <ContentLinksButton variant="contained" fullWidth>
+                                <Typography variant="h6">MyAnimeList Konusu</Typography>
+                            </ContentLinksButton>
+                        </Box>
+                    </a>
+                    :
+                    ""
+                }
             </ContentLeft>
             <ContentRight item xs={12} md>
                 <Grid container direction="row" justify="flex-start" alignItems="flex-start">
@@ -122,7 +155,7 @@ export default function MangaIndexDesktop(props) {
                 </Box>
                 <Box mb={2}>
                     <Grid container spacing={2}>
-                        <ContentEpisodesContainer item xs={12} md={8}>
+                        <ContentEpisodesContainer item xs={12}>
                             <ContentRightAltTitle variant="h4" aftercolor={theme.palette.text.primary}>Bölümler</ContentRightAltTitle>
                             <ContentEpisodes spacing={theme.spacing(1)}>
                                 <WarningBox>
@@ -136,31 +169,6 @@ export default function MangaIndexDesktop(props) {
                                 </WarningBox>
                             </ContentEpisodes>
                         </ContentEpisodesContainer>
-                        <ContentLinks item xs >
-                            <a href={manga.mal_link} target="_blank" rel="noopener noreferrer">
-                                <ContentLinksButton variant="contained">
-                                    <Typography variant="h6">MyAnimeList Konusu</Typography>
-                                </ContentLinksButton>
-                            </a>
-                            {manga.download_link ?
-                                <a href={manga.download_link} target="_blank" rel="noopener noreferrer">
-                                    <ContentLinksButton variant="contained">
-                                        <Typography variant="h6">Mangayı İndir</Typography>
-                                    </ContentLinksButton>
-                                </a>
-                                :
-                                ""
-                            }
-                            {manga.mos_link ?
-                                <a href={manga.mos_link} target="_blank" rel="noopener noreferrer">
-                                    <ContentLinksButton variant="contained">
-                                        <Typography variant="h6">Mangayı oku</Typography>
-                                    </ContentLinksButton>
-                                </a>
-                                :
-                                ""
-                            }
-                        </ContentLinks>
                     </Grid>
                 </Box>
                 {process.env.REACT_APP_DISQUS_SHORTNAME

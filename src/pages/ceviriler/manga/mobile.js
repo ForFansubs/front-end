@@ -49,6 +49,28 @@ export default function MangaIndexMobile(props) {
                             src={manga.cover_art}
                             mb={0} />
                     </ContentMetadata>
+                    {manga.download_link ?
+                        <a href={manga.download_link} target="_blank" rel="noopener noreferrer">
+                            <Box mb={1}>
+                                <ContentLinksButton variant="contained" fullWidth>
+                                    <Typography variant="h6">İndir</Typography>
+                                </ContentLinksButton>
+                            </Box>
+                        </a>
+                        :
+                        ""
+                    }
+                    {manga.mos_link ?
+                        <a href={manga.mos_link} target="_blank" rel="noopener noreferrer">
+                            <Box>
+                                <ContentLinksButton variant="contained" fullWidth>
+                                    <Typography variant="h6">Oku</Typography>
+                                </ContentLinksButton>
+                            </Box>
+                        </a>
+                        :
+                        ""
+                    }
                     <MetadataHeader variant="body2">Çevirmen</MetadataHeader>
                     <ContentMetadata {...defaultBoxProps}>
                         {manga.translators.length !== 0 ?
@@ -100,6 +122,17 @@ export default function MangaIndexMobile(props) {
                                 <Typography variant="body2">Tür bulunamadı.</Typography>}
                         </ContentGenres>
                     </ContentMetadata>
+                    {manga.mal_link !== "-" ?
+                        <a href={manga.mal_link} target="_blank" rel="noopener noreferrer">
+                            <Box mb={1}>
+                                <ContentLinksButton variant="contained" fullWidth>
+                                    <Typography variant="h6">MyAnimeList Konusu</Typography>
+                                </ContentLinksButton>
+                            </Box>
+                        </a>
+                        :
+                        ""
+                    }
                 </ContentLeft>
                 <ContentRight item xs={12} md>
                     <Box mb={2}>
@@ -110,7 +143,7 @@ export default function MangaIndexMobile(props) {
                     </Box>
                     <Box mb={2}>
                         <Grid container spacing={2}>
-                            <ContentEpisodesContainer item xs={12} md={8}>
+                            <ContentEpisodesContainer item xs={12}>
                                 <ContentRightAltTitle variant="h4" aftercolor={theme.palette.text.primary}>Bölümler</ContentRightAltTitle>
                                 <ContentEpisodes spacing={theme.spacing(1)}>
                                     <WarningBox>
@@ -124,31 +157,6 @@ export default function MangaIndexMobile(props) {
                                     </WarningBox>
                                 </ContentEpisodes>
                             </ContentEpisodesContainer>
-                            <ContentLinks item xs>
-                                <a href={manga.mal_link} target="_blank" rel="noopener noreferrer">
-                                    <ContentLinksButton variant="contained" fullWidth>
-                                        <Typography variant="h6">MyAnimeList Konusu</Typography>
-                                    </ContentLinksButton>
-                                </a>
-                                {manga.download_link ?
-                                    <a href={manga.download_link} target="_blank" rel="noopener noreferrer">
-                                        <ContentLinksButton variant="contained" fullWidth>
-                                            <Typography variant="h6">Mangayı İndir</Typography>
-                                        </ContentLinksButton>
-                                    </a>
-                                    :
-                                    ""
-                                }
-                                {manga.mos_link ?
-                                    <a href={manga.mos_link} target="_blank" rel="noopener noreferrer">
-                                        <ContentLinksButton variant="contained" fullWidth>
-                                            <Typography variant="h6">Mangayı oku</Typography>
-                                        </ContentLinksButton>
-                                    </a>
-                                    :
-                                    ""
-                                }
-                            </ContentLinks>
                         </Grid>
                     </Box>
                     {process.env.REACT_APP_DISQUS_SHORTNAME

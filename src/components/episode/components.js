@@ -163,7 +163,6 @@ const Page = styled(Grid)`
 `
 
 function EpisodeListParser(episodenumber, specialtype) {
-
     if (specialtype && specialtype !== "toplu") {
         return {
             title: `${specialtype.toUpperCase()} ${episodenumber}`,

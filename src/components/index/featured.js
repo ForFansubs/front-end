@@ -22,8 +22,8 @@ const FeaturedImage = styled(Box).attrs(props => props.slug ? ({
         background-size: cover
         background-position: center;
         transition: ${props => props.transition};
-        .slick-center & {
-            transform: scale(1.16);
+        .slick-current & {
+            transform: scale(1.16) translateX(6%);
             z-index: 3;
         }
     `
@@ -34,6 +34,7 @@ const FeaturedTitle = styled(Typography)`
 `
 
 const FeaturedPremiered = styled(Typography)`
+    font-weight: 200!important;
     color: white;
 `
 
@@ -47,8 +48,8 @@ const FeaturedDivInner = styled.div`
         ${FeaturedTitle} {
             text-shadow: ${shadows.text_shadows[0]};
         }
-        .slick-center & {
-            transform: scale(1.16);
+        .slick-current & {
+            transform: scale(1.16) translateX(6%);
             bottom: 0px;
             z-index: 4;
             transform-origin: center top;
@@ -58,7 +59,7 @@ const FeaturedDivInner = styled.div`
             opacity: 0;
             transition: ${props => props.transition};
             text-shadow: ${shadows.text_shadows[0]};
-            .slick-center & {
+            .slick-current & {
                 opacity: 1;
             }
         }
@@ -68,7 +69,7 @@ const FeaturedInfoDiv = styled.div`
         opacity: 0;
         max-height: 0;
         transition: ${props => props.transition};
-        .slick-center & {
+        .slick-current & {
             opacity: 1;
             max-height: 80px;
         }
@@ -76,7 +77,7 @@ const FeaturedInfoDiv = styled.div`
 
 const GenresUl = styled.ul`
         color: white;
-        padding: 5px 10px 0;
+        padding: 2px 10px 0;
         font-size: 0.875rem;
         display: flex;
         list-style: none;
@@ -84,10 +85,10 @@ const GenresUl = styled.ul`
         flex-wrap: wrap;
         li {
             font-size: .6rem;
-            padding: 5px;
-            margin: 0 5px 5px;
+            font-weight: 200;
+            padding: 2px 5px;
+            margin: 0 3px 5px;
             background: ${props => props.bgcolor};
-            border-radius: ${borders[0]}
         }
     `
 
@@ -139,7 +140,7 @@ const FeaturedDiv = styled.div`
     
     @media(max-width:${props => props.theme.breakpoints.values.sm}px) {
         ${FeaturedDivInner} {
-            .slick-center & {
+            .slick-current & {
                 transform: scale(1);
                 bottom: 10px;
                 z-index: 4;
@@ -147,7 +148,7 @@ const FeaturedDiv = styled.div`
         }
 
         ${FeaturedImage} {
-            .slick-center & {
+            .slick-current & {
                 transform: scale(1);
             }
         }
@@ -160,16 +161,16 @@ const FeaturedDiv = styled.div`
 
 export const FeaturedLoading = (key, active) => {
     return (
-        <FeaturedLoadingDiv key={key} className={active ? "slick-center" : ""}>
+        <FeaturedLoadingDiv key={key} className={active ? "slick-current" : ""}>
             <Box
                 position="relative"
                 display="flex"
                 justifyContent="center"
                 flexDirection="row"
-                boxShadow={2}
+                boxShadow={0}
                 my={2}
                 mx={0}
-                p={0}>
+                px={1}>
                 <FeaturedImage boxShadow={2} bgcolor="background.level2" />
                 <FeaturedDivInner>
                     <LoadingText />

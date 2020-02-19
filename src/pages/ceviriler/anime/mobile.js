@@ -42,34 +42,15 @@ export default function AnimeIndexMobile(props) {
                         <ContentTitle variant="h1" gutterBottom>
                             {anime.name}
                         </ContentTitle>
-                        {anime.version === "bd"
-                            ?
-                            <ContentTitleBadge>
-                                <img title="bd-logo" loading="lazy" src={bluray} alt="bd-logo" style={{ height: "2rem" }} />
-                            </ContentTitleBadge>
-                            :
-                            null}
-                        {anime.premiered
-                            ?
-                            <ContentTitleBadge
-                                borderRadius="borderRadius"
-                                bgcolor="background.paper"
-                                boxShadow={2}
-                            >
-                                <Typography variant="body2">
-                                    {anime.premiered}
-                                </Typography>
-                            </ContentTitleBadge>
-                            :
-                            null
-                        }
                     </Grid>
                 </ContentHeader>
                 <ContentLeft item xs>
                     <ContentMetadata
                         m={4}
                         display="flex"
+                        flexDirection="column"
                         justifyContent="center"
+                        alignItems="center"
                     >
                         <ContentImage
                             loading="lazy"
@@ -80,7 +61,29 @@ export default function AnimeIndexMobile(props) {
                             spacingvalue={theme.spacing(2)}
                             src={anime.cover_art}
                             mb={0} />
+                        <ContentMetadata {...defaultBoxProps} display="flex" justifyContent="space-evenly" alignItems="center" width="70%" mb="0" boxShadow={0}>
+                            {anime.premiered
+                                ?
+                                <Typography variant="body2">{anime.premiered}</Typography>
+                                :
+                                null
+                            }
+                            {anime.version === "bd"
+                                ?
+                                <img title="bd-logo" loading="lazy" src={bluray} alt="bd-logo" style={{ height: "1rem" }} />
+                                :
+                                null}
+                        </ContentMetadata>
                     </ContentMetadata>
+                    {anime.episodes.length !== 0
+                        ?
+                        <Link to={getAnimeWatchIndex(anime.slug)}>
+                            <ContentLinksButton variant="contained" fullWidth>
+                                <Typography variant="h6">İzle</Typography>
+                            </ContentLinksButton>
+                        </Link>
+                        :
+                        null}
                     <MetadataHeader variant="body2">Çevirmen</MetadataHeader>
                     <ContentMetadata {...defaultBoxProps}>
                         {anime.translators.length !== 0 ?
@@ -157,15 +160,6 @@ export default function AnimeIndexMobile(props) {
                                             <Typography variant="h6">MyAnimeList Konusu</Typography>
                                         </ContentLinksButton>
                                     </a> :
-                                    null}
-                                {anime.episodes.length !== 0
-                                    ?
-                                    <Link to={getAnimeWatchIndex(anime.slug)}>
-                                        <ContentLinksButton variant="contained" fullWidth>
-                                            <Typography variant="h6">İzle</Typography>
-                                        </ContentLinksButton>
-                                    </Link>
-                                    :
                                     null}
                             </ContentLinks>
                         </Grid>

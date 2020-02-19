@@ -77,6 +77,23 @@ const theme = {
                 backgroundColor: '#212121'
             }
         },
+        MuiFormLabel: {
+            root: {
+                '&$focused': {
+                    color: '#FFF',
+                }
+            },
+            focused: {}
+        },
+        MuiOutlinedInput: {
+            root: {
+                '&$focused $notchedOutline': {
+                    color: '#FFF',
+                    borderColor: '#FFF'
+                }
+            },
+            focused: {}
+        },
         MuiAppBar: {
             colorPrimary: {
                 backgroundColor: '#333',

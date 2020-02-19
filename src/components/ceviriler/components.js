@@ -47,8 +47,8 @@ const ContentLeft = styled(Grid)`
 `
 
 const ContentImage = styled(Box)`
-    max-width: calc(225px - ${props => props.spacingvalue}px);
-    width: calc(225px - ${props => props.spacingvalue}px);
+    max-width: calc(225px - ${props => props.spacingvalue + 'px'});
+    width: calc(225px - ${props => props.spacingvalue + 'px'});
 
     img {
         width: inherit;
@@ -100,15 +100,7 @@ const ContentTitleBadge = styled(Box)`
 const ContentRightAltTitle = styled(Typography)`
     display: flex;
     align-items: center;
-
-    :after {
-        content: "";
-        height: 2px;
-        flex: 1 1 auto;
-        margin-left: 14px;
-        opacity: .6;
-        background: ${props => props.aftercolor}
-    }
+    margin-bottom: 10px!important;
 `
 
 const ContentSynopsis = styled(Typography)`
@@ -164,8 +156,8 @@ const Content = styled.div`
         }
 
         ${ContentImage} {
-            max-width: calc(185px - ${props => props.spacingvalue}px);
-            width: calc(185px - ${props => props.spacingvalue}px);
+            max-width: 70%;
+            width: 70%;
         }
     }
 `

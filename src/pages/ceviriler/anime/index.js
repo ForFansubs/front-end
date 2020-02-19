@@ -11,13 +11,13 @@ import useTheme from '@material-ui/styles/useTheme'
 import axios from '../../../config/axios/axios'
 
 import AnimeIndexDesktop from './desktop'
+import AnimeIndexMobile from './mobile';
 
 import { format } from 'date-fns'
 import { episodeParser } from '../../../components/ceviriler/components'
 import DownloadLink from '../../../components/ceviriler/anime/download-links'
 import { animePage } from '../../../config/front-routes'
 import { getAnimeIndex } from '../../../config/api-routes'
-import AnimeIndexMobile from './mobile';
 
 export default function AnimePage(props) {
     const theme = useTheme()

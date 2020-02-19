@@ -22,7 +22,7 @@ function Message(props) {
 }
 
 const reload = () => {
-    window.location.href=window.location.href
+    window.location.href = window.location.href
 }
 
 export function payload(container, type, message, autoClose, onClickFunction) {
@@ -46,10 +46,10 @@ export default function ToastNotification(payload) {
     }
     toast.dismiss()
 
-    if(onClickFunction) {
+    if (onClickFunction) {
         switch (onClickFunction) {
             case "reload":
-                onClickFunction = reload
+                onClickFunction = null
                 break;
             default:
                 onClickFunction = null

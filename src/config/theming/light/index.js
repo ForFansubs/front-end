@@ -74,7 +74,6 @@ const theme = {
         }
     },
     overrides: {
-        // Style sheet name ⚛️
         MuiAppBar: {
             colorPrimary: {
                 backgroundColor: 'rgb(236,236,236)'

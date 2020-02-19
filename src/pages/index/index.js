@@ -120,8 +120,8 @@ export default function IndexPage() {
 
     if (featuredLoading) {
         if (!mobile)
-            for (let i = 0; i < 3; i++) {
-                let active = i === 1 ? true : false
+            for (let i = 0; i < 4; i++) {
+                let active = i === 0 ? true : false
                 featuredAnimeContent.push(FeaturedLoading(i + "loadingfea", active))
             }
         else {
@@ -161,7 +161,7 @@ export default function IndexPage() {
             batchEpisodesWindow = <Error type="featured" />
     }
 
-    const title = `${process.env.REACT_APP_SITENAME} Türkçe Anime ve Manga Çeviri Grubu`
+    const title = `${process.env.REACT_APP_SITENAME} ${process.env.REACT_APP_INDEX_TITLE_TEXT}`
 
     return (
         <>
@@ -171,11 +171,7 @@ export default function IndexPage() {
             </Helmet>
             <ContainerDiv>
                 <IndexHeader variant="h4">Öne Çıkarılmış Animeler</IndexHeader>
-                {featuredAnimeWindow.length !== 0 ?
-                    featuredAnimeWindow
-                    :
-                    ""
-                }
+                {featuredAnimeWindow}
             </ContainerDiv>
             {batchEpisodesWindow.length ?
                 <ContainerDiv>
@@ -185,24 +181,30 @@ export default function IndexPage() {
                     </Grid>
                 </ContainerDiv>
                 : ""}
-            <ContainerDiv>
-                <IndexHeader variant="h4" gutterBottom>Son Bölümler</IndexHeader>
-                <Grid container spacing={2} direction="row" justify="center" alignItems="center">
-                    {latestEpisodesWindow}
-                </Grid>
-            </ContainerDiv>
-            <ContainerDiv>
-                <IndexHeader variant="h4" gutterBottom>Son Animeler</IndexHeader>
-                <Grid container spacing={2} direction="row" justify="center" alignItems="center">
-                    {latestAnimesWindow}
-                </Grid>
-            </ContainerDiv>
-            <ContainerDiv>
-                <IndexHeader variant="h4" gutterBottom>Son Mangalar</IndexHeader>
-                <Grid container spacing={2} direction="row" justify="center" alignItems="stretch">
-                    {latestMangasWindow}
-                </Grid>
-            </ContainerDiv>
+            {latestEpisodesWindow.length ?
+                <ContainerDiv>
+                    <IndexHeader variant="h4" gutterBottom>Son Bölümler</IndexHeader>
+                    <Grid container spacing={2} direction="row" justify="center" alignItems="center">
+                        {latestEpisodesWindow}
+                    </Grid>
+                </ContainerDiv>
+                : ""}
+            {latestAnimesWindow.length ?
+                <ContainerDiv>
+                    <IndexHeader variant="h4" gutterBottom>Son Animeler</IndexHeader>
+                    <Grid container spacing={2} direction="row" justify="center" alignItems="center">
+                        {latestAnimesWindow}
+                    </Grid>
+                </ContainerDiv>
+                : ""}
+            {latestMangasWindow.length ?
+                <ContainerDiv>
+                    <IndexHeader variant="h4" gutterBottom>Son Mangalar</IndexHeader>
+                    <Grid container spacing={2} direction="row" justify="center" alignItems="stretch">
+                        {latestMangasWindow}
+                    </Grid>
+                </ContainerDiv>
+                : ""}
         </>
     )
 }

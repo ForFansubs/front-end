@@ -10,6 +10,4 @@ const mangaPage = (slug) => `/ceviriler/manga/${slug}`
 const getAnimeWatchIndex = (slug) => `/ceviriler/anime/${slug}/izle`
 const episodePage = (slug, episodeSlug) => `/ceviriler/anime/${slug}/izle${episodeSlug ? `/${episodeSlug}` : ""}`
 
-const mosLink = "https://puzzmos.com/"
-
-export { indexPage, searchPage, faqPage, recPage, adminPage, animePage, getAnimeWatchIndex, mangaPage, episodePage, mosLink }
+export { indexPage, searchPage, faqPage, recPage, adminPage, animePage, getAnimeWatchIndex, mangaPage, episodePage }

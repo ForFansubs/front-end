@@ -27,17 +27,16 @@ export default function Slick(props) {
         case "featured":
             settings = {
                 className: "center",
-                centerMode: true,
                 autoplay: true,
                 lazyload: true,
                 autoplaySpeed: 4000,
                 infinite: true,
                 centerPadding: "0",
-                slidesToShow: 3,
+                slidesToShow: 4,
                 speed: 500,
                 responsive: [
                     {
-                        breakpoint: 1024,
+                        breakpoint: 1380,
                         settings: {
                             slidesToShow: 3,
                             slidesToScroll: 3,

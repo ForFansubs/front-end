@@ -25,8 +25,8 @@ import InfoIcon from '@material-ui/icons/Info'
 import BookIcon from '@material-ui/icons/Book'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 
-import { indexPage, searchPage, faqPage, recPage, mosLink, adminPage } from '../../config/front-routes'
-import { fullLogo, fullLogoDark } from '../../config/theming/images'
+import { indexPage, searchPage, faqPage, recPage, adminPage } from '../../config/front-routes'
+import { fullLogo, fullLogoGif, fullLogoDark, fullLogoDarkGif } from '../../config/theming/images'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -123,11 +123,6 @@ export default function MiniDrawer() {
         }
     ])
     const [menuItems2] = React.useState([
-        {
-            text: "Manga Oku",
-            link: mosLink,
-            icon: <BookIcon />
-        }
     ])
 
     function handleMenu(event) {
@@ -220,7 +215,12 @@ export default function MiniDrawer() {
                         <MenuIcon />
                     </IconButton>
                     <Link to={indexPage} className={classes.logoContainer}>
-                        <img title="Site logo" loading="lazy" className={classes.logo} src={usertheme === "dark" ? fullLogo : fullLogoDark} alt="Site Logo" />
+                        {
+                            process.env.REACT_APP_HEADER_LOGO_TYPE === "gif" && fullLogoGif !== null && fullLogoDarkGif !== null ?
+                                <img title="Site logo" loading="lazy" className={classes.logo} src={usertheme === "dark" ? fullLogoGif : fullLogoDarkGif} alt="Site Logo" />
+                                :
+                                <img title="Site logo" loading="lazy" className={classes.logo} src={usertheme === "dark" ? fullLogo : fullLogoDark} alt="Site Logo" />
+                        }
                     </Link>
                     <div>
                         {userInfo.success ?
