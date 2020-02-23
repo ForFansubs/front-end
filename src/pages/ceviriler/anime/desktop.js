@@ -67,19 +67,21 @@ export default function AnimeIndexDesktop(props) {
                         spacingvalue={theme.spacing(2)}
                         src={anime.cover_art}
                         mb={0} />
-                    <ContentMetadata {...defaultBoxProps} display="flex" justifyContent="space-evenly" alignItems="center" mb="0" boxShadow={0}>
-                        {anime.premiered
-                            ?
-                            <Typography variant="body2">{anime.premiered}</Typography>
-                            :
-                            null
-                        }
-                        {anime.version === "bd"
-                            ?
-                            <img title="bd-logo" loading="lazy" src={bluray} alt="bd-logo" style={{ height: "1rem" }} />
-                            :
-                            null}
-                    </ContentMetadata>
+                    {!anime.premiered && anime.version !== "bd" ?
+                        <ContentMetadata {...defaultBoxProps} display="flex" justifyContent="space-evenly" alignItems="center" mb="0" boxShadow={0}>
+                            {anime.premiered
+                                ?
+                                <Typography variant="body2">{anime.premiered}</Typography>
+                                :
+                                null
+                            }
+                            {anime.version === "bd"
+                                ?
+                                <img title="bd-logo" loading="lazy" src={bluray} alt="bd-logo" style={{ height: "1rem" }} />
+                                :
+                                null}
+                        </ContentMetadata>
+                        : ""}
                 </ContentMetadata>
                 {anime.episodes.length !== 0
                     ?

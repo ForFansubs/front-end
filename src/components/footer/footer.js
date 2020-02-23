@@ -50,14 +50,16 @@ export default function Footer() {
                 <FooterCopyrightText>
                     <FooterInnerDiv theme={theme}>
                         <Typography variant="h6">
-                        <a href="https://aybertocarlos.github.io/" rel="noopener noreferrer" target="_blank">
-                            aybertocarlos &copy; {(new Date()).getFullYear()}
-                        </a>
+                            <a href="https://aybertocarlos.github.io/" rel="noopener noreferrer" target="_blank">
+                                aybertocarlos &copy; {(new Date()).getFullYear()}
+                            </a>
                             &nbsp;-&nbsp;
-                            FFs v{version}
+                            <a href="https://github.com/ForFansubs" rel="noopener noreferrer" target="_blank">
+                                FFs v{version}
+                            </a>
                             &nbsp;-&nbsp;
                         </Typography>
-                        <a href="https://github.com/ayberktandogan/ForFansubs-Wiki/wiki" rel="noopener noreferrer" target="_blank">
+                        <a href="https://github.com/ayberktandogan" rel="noopener noreferrer" target="_blank">
                             <FooterLogo variant="body2">github</FooterLogo>
                         </a>
                         {process.env.REACT_APP_FACEBOOK_LINK ?
