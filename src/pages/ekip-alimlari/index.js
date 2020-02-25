@@ -10,7 +10,7 @@ import styled from 'styled-components'
 
 const CardImage = styled(Box)`
     width: 100%;
-    height: 200px;
+    height: 250px;
     background-size: cover;
     background-position: center center;
 `
@@ -19,58 +19,51 @@ export default function EkipAlimlariPage() {
     document.title = `Ekip Alımları - ${process.env.REACT_APP_SITENAME}`
     ReactGA.pageview(window.location.pathname)
 
-    const boxes = [
-        {
-            title: "Anime Çevirmeni",
-            subtitle: "İyi İngilizce ve Türkçe bilgisine sahip haftada en az 1 bölüm çevirebilecek, sorumluluk sahibi ve iletişimde kopukluk yaşatmayacak kişiler.",
-            image: "https://i.gifer.com/Thin.gif",
-            link: "https://docs.google.com/forms/d/e/1FAIpQLSekFySnQbXGtWL7PP-dMaASY9fjDVlUQLo_5i-ySYbmu-6luA/viewform?embedded=true",
-            button_text: "Başvuru için tıklayın"
-        },
-        {
-            title: "Manga Çevirmeni",
-            subtitle: "İyi İngilizce ve Türkçe bilgisine sahip haftada en az 1 bölüm çevirebilecek, sorumluluk sahibi ve iletişimde kopukluk yaşatmayacak kişiler.",
-            image: "https://i.gifer.com/2z7b.gif",
-            link: "https://docs.google.com/forms/d/e/1FAIpQLScWNimP1dueXt6BCk8OnS7Qi077ju_8C-dbGzIOY2gSbRAl6w/viewform?usp=sf_link",
-            button_text: "Başvuru için tıklayın"
-        },
-        {
-            title: "Encoder",
-            subtitle: "İşin görsel açıdan en önemli yeri Encode'dur. Eğer hayal gücüm iyi ve iyi bir PC ve upload hızım var diyorsan ve kendi hayallerini anime de görmek istiyorsan tam yerindesin. Buraya geldiğin de ne demek istediğimi daha iyi anlayacaksın. Kaldıki bu işi Türkiye’de en iyi yapan insanlardan Farklyzz sana yol gösterecek. Bu yüzden acaba yapabilir miyim diye sakın korkma. Bir de sorumluluk sahibi olunması bakımından 18 yaş üstü olmalısın.",
-            image: "https://media.giphy.com/media/jAe22Ec5iICCk/giphy.gif",
-            link: "https://discord.gg/39epJNW",
-            button_text: "Discord sunucumuzdan farklyzz#7797'a mesaj atın"
-        },
-        {
-            title: "Manga Editörü",
-            subtitle: "Haftada en az 1 bölüm editleyebilecek sorumluluk sahibi iletişim de sorun yaşatmayacak kişiler. Photoshop bilen kişiler önceliklidir ancak eğitim verilir.",
-            image: "https://pa1.narvii.com/5727/efe410ac748f0e943c11cb10a44aa807f43c165c_hq.gif",
-            link: "https://docs.google.com/forms/d/e/1FAIpQLSeJn4cGBhzRjrFiswLCOhKCWEkwf4wKtFqX1r95MZ953HTdwA/viewform?embedded=true",
-            button_text: "Başvuru için tıklayın"
-        },
-        {
-            title: "Uploader",
-            subtitle: "Upload hızınız en az 5mbit olmalı ya da vds sahibi olmalısınız. Zamanınız bol ve sorumluluk sahibi olmanız gerekmektedir.",
-            image: "https://media.giphy.com/media/bi6RQ5x3tqoSI/giphy.gif",
-            link: "https://discord.gg/39epJNW",
-            button_text: "Discord sunucumuzdan Kskle555#7219'e mesaj atın"
-        },
-        {
-            title: "Tasarımcı ve Geliştirici",
-            subtitle: "Web tasarım konusunda mevcut webmasterımızın yanında çalışacak siteyi geliştirecek yeni tasarımlar yapacak kişiler. İleride profesyonel olarak çalışmayı düşünenler önceliklidir.",
-            image: "https://thumbs.gfycat.com/ExaltedAccomplishedHornedtoad-size_restricted.gif",
-            link: "https://docs.google.com/forms/d/e/1FAIpQLSdylvHdUxrtAvWZ7d5uTYLmcILhHhVlPVcCRFJSGQcWjUYETw/viewform?embedded=true",
-            button_text: "Başvuru için tıklayın"
-        },
-    ]
+    const boxes = [{
+        title: "Anime / Manga Çevirmeni",
+        subtitle: "İyi İngilizce ve Türkçe bilgisine sahip haftada en az 1 bölüm çevirebilecek, sorumluluk sahibi ve iletişimde kopukluk yaşatmayacak kişiler.",
+        image: "https://cdn.discordapp.com/attachments/463396072438497280/678284039089684533/self-reflection1.gif",
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSdnM5aVeKxkYSdep1sY_fjrmZlth2CBrzyrATRMXfvJ8Prvbg/viewform?usp=sf_link",
+        button_text: "Başvuru için tıklayın"
+    }, {
+        title: "Diğer İçerik Çevirmeni",
+        subtitle: "İyi İngilizce ve Türkçe bilgisine sahip, sorumluluk sahibi ve iletişimde kopukluk yaşatmayacak kişiler.",
+        image: "https://i.hizliresim.com/Wo2312.gif",
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSdnM5aVeKxkYSdep1sY_fjrmZlth2CBrzyrATRMXfvJ8Prvbg/viewform?usp=sf_link",
+        button_text: "Başvuru için tıklayın"
+    }, {
+        title: "Encoder",
+        subtitle: "Haftada en az bir bölüm verebilecek, takım çalışmasına uyumlu, VDS sahibi ya da VDS hakkında bilgi sahibi olan kişiler.",
+        image: "https://media.giphy.com/media/jAe22Ec5iICCk/giphy.gif",
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSdnM5aVeKxkYSdep1sY_fjrmZlth2CBrzyrATRMXfvJ8Prvbg/viewform?usp=sf_link",
+        button_text: "Başvuru için tıklayın"
+    }, {
+        title: "Manga Editörü",
+        subtitle: "Photoshop kullanmayı bilen, manga editi yapabilecek kişiler.",
+        image: "https://pa1.narvii.com/5727/efe410ac748f0e943c11cb10a44aa807f43c165c_hq.gif",
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSdnM5aVeKxkYSdep1sY_fjrmZlth2CBrzyrATRMXfvJ8Prvbg/viewform?usp=sf_link",
+        button_text: "Başvuru için tıklayın"
+    }, {
+        title: "Uploader",
+        subtitle: "VDS sahibi ya da VDS hakkında bilgi sahibi olan kişiler ya da upload ve indirme hızı 50 mbps üstünde olan sorumluluk sahibi kişiler.",
+        image: "https://media.discordapp.net/attachments/305747239555301377/678282662762512414/26b1bd81783703f28b7c5c31fd49c1774021ff17r1-480-270_hq.gif",
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSdnM5aVeKxkYSdep1sY_fjrmZlth2CBrzyrATRMXfvJ8Prvbg/viewform?usp=sf_link",
+        button_text: "Başvuru için tıklayın"
+    }, {
+        title: "Marketing",
+        subtitle: "Yaptığımız işleri sosyal medya ve Discord'da yayımlayacak, Disqus hesabıyla izleyicilerle iletişime geçecek, FGL'yi temsil edecek kişiler.",
+        image: "https://media.discordapp.net/attachments/338776734939742219/678284883302285371/okabee.gif",
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSdnM5aVeKxkYSdep1sY_fjrmZlth2CBrzyrATRMXfvJ8Prvbg/viewform?usp=sf_link",
+        button_text: "Başvuru için tıklayın"
+    }]
 
     return (
         <>
             <Grid container spacing={2}>
                 {boxes.map(b => (
-                    <Grid item xs={12} md={4}>
+                    <Grid item xs={12} md={4} key={b.image}>
                         <Box boxShadow={2}>
-                            <CardImage style={{backgroundImage: `url(${b.image})`}}/>
+                            <CardImage style={{ backgroundImage: `url(${b.image})` }} />
                             <Box bgcolor="background.level2" p={2}>
                                 <Typography variant="h5">
                                     {b.title}
