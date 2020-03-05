@@ -67,7 +67,7 @@ export default function AnimeIndexDesktop(props) {
                         spacingvalue={theme.spacing(2)}
                         src={anime.cover_art}
                         mb={0} />
-                    {!anime.premiered && anime.version !== "bd" ?
+                    {anime.premiered || anime.version === "bd" ?
                         <ContentMetadata {...defaultBoxProps} display="flex" justifyContent="space-evenly" alignItems="center" mb="0" boxShadow={0}>
                             {anime.premiered
                                 ?
