@@ -83,16 +83,16 @@ export default function AnimePage(props) {
                     <Helmet>
                         <title>{title}</title>
                         <meta name="title" content={title} />
-                        <meta name="description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis.substring(0, 80)}`} />
+                        <meta name="description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis}`} />
                         <meta property="og:type" content="website" />
                         <meta property="og:url" content={process.env.REACT_APP_SITEURL + animePage(anime.slug)} />
                         <meta property="og:title" content={title} />
-                        <meta property="og:description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis.substring(0, 80)}`} />
+                        <meta property="og:description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis}`} />
                         <meta property="og:image" content={anime.cover_art} />
                         <meta property="twitter:card" content="summary_large_image" />
                         <meta property="twitter:url" content={process.env.REACT_APP_SITEURL + animePage(anime.slug)} />
                         <meta property="twitter:title" content={title} />
-                        <meta property="twitter:description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis.substring(0, 80)}`} />
+                        <meta property="twitter:description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis}`} />
                         <meta property="twitter:image" content={anime.cover_art} />
                     </Helmet>
                     <AnimeIndexDesktop anime={anime} theme={theme} releasedate={format(new Date(anime.release_date), "dd.MM.yyyy")} downloadLinks={downloadLinks} />

@@ -78,8 +78,9 @@ export default function EpisodePage(props) {
                 name: pageInfo.data[0].anime_name,
                 cover_art: pageInfo.data[0].cover_art,
                 id: pageInfo.data[0].anime_id,
-                slug: pageInfo.data[0].anime_slug}
-                )
+                slug: pageInfo.data[0].anime_slug
+            }
+            )
             setEpisodeData(pageInfo.data)
 
             if (episodeInfo) {
