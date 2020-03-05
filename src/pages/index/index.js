@@ -168,6 +168,18 @@ export default function IndexPage() {
             <Helmet>
                 <title>{title}</title>
                 <meta name="title" content={title} />
+                <meta name="description" content={process.env.REACT_APP_META_DESCRIPTION} />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="/" />
+                <meta property="og:title" content={title} />
+                <meta property="og:description" content={process.env.REACT_APP_META_DESCRIPTION} />
+                <meta property="og:image" content="/512.png" />
+                <meta property="twitter:card" content="summary_large_image" />
+                <meta property="twitter:url" content="/" />
+                <meta property="twitter:title" content={title} />
+                <meta property="twitter:description" content={process.env.REACT_APP_META_DESCRIPTION} />
+                <meta property="twitter:image" content="/512.png" />
+                <meta name="author" content={process.env.REACT_APP_META_AUTHOR} />
             </Helmet>
             <ContainerDiv>
                 <IndexHeader variant="h4">Öne Çıkarılmış Animeler</IndexHeader>

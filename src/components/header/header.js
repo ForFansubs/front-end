@@ -18,11 +18,12 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Typography from '@material-ui/core/Typography'
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDiscord } from '@fortawesome/free-brands-svg-icons'
 
 import HomeIcon from '@material-ui/icons/Home'
 import SearchIcon from '@material-ui/icons/Search'
 import InfoIcon from '@material-ui/icons/Info'
-import BookIcon from '@material-ui/icons/Book'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 
 import { indexPage, searchPage, faqPage, recPage, adminPage } from '../../config/front-routes'
@@ -78,6 +79,9 @@ const useStyles = makeStyles(theme => ({
     },
     fullList: {
         width: 'auto',
+    },
+    snsButton: {
+        margin: "16px"
     }
 }))
 
@@ -123,6 +127,12 @@ export default function MiniDrawer() {
         }
     ])
     const [menuItems2] = React.useState([
+        {
+            text: "Discord sunucumuza katılın!",
+            link: process.env.REACT_APP_DISCORD_LINK,
+            show: process.env.REACT_APP_DISCORD_LINK ? true : false,
+            icon: <FontAwesomeIcon icon={faDiscord} size="2x" />
+        }
     ])
 
     function handleMenu(event) {
@@ -180,17 +190,29 @@ export default function MiniDrawer() {
                         :
                         "")}
                 </List>
-                <Divider />
-                <List>
-                    {menuItems2.map((item, index) => (
-                        <a href={item.link} target="_blank" rel="noopener noreferrer" key={item.text}>
-                            <ListItem button>
-                                <ListItemIcon style={{ color: theme.palette.text.primary }}>{item.icon}</ListItemIcon>
-                                <ListItemText className={classes.ListItemText}><Typography variant="body2">{item.text}</Typography></ListItemText>
-                            </ListItem>
-                        </a>
-                    ))}
-                </List>
+                {
+                    menuItems2.length
+                        ?
+                        <>
+                            <Divider />
+                            <List>
+                                {menuItems2.map((item, index) => {
+                                    if (item.show)
+                                        return (
+                                            <a href={item.link} target="_blank" rel="noopener noreferrer" key={item.text}>
+                                                <ListItem button>
+                                                    <ListItemIcon style={{ color: theme.palette.text.primary }}>{item.icon}</ListItemIcon>
+                                                    <ListItemText className={classes.ListItemText}><Typography variant="body2">{item.text}</Typography></ListItemText>
+                                                </ListItem>
+                                            </a>
+                                        )
+                                    else return ""
+                                })}
+                            </List>
+                        </>
+                        :
+                        ""
+                }
             </div>
         )
     }
