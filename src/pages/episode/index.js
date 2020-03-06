@@ -227,16 +227,17 @@ export default function EpisodePage(props) {
                     <title>{title}</title>
                     <meta name="title" content={title} />
                     <meta name="description" content={desc} />
-                    <meta property="og:type" content="website" />
+                    <meta property="og:type" content="video.tv_show" />
                     <meta property="og:url" content={process.env.REACT_APP_SITEURL + episodePage(props.match.params.slug, activeEpisode.slug)} />
                     <meta property="og:title" content={title} />
                     <meta property="og:description" content={desc} />
                     <meta property="og:image" content={animeData.cover_art} />
-                    <meta property="twitter:card" content="summary_large_image" />
+                    <meta name="twitter:card" content="summary" />
                     <meta property="twitter:url" content={process.env.REACT_APP_SITEURL + episodePage(props.match.params.slug, activeEpisode.slug)} />
                     <meta property="twitter:title" content={title} />
                     <meta property="twitter:description" content={desc} />
-                    <meta property="twitter:image" content={animeData.cover_art} />
+                    <meta property="twitter:image:src" content={animeData.cover_art} />
+                    <meta name="referrer" content="default" />
                 </Helmet>
                 <Page theme={theme} container spacing={2}>
                     <PagePlacer item xs={12}>

@@ -33,14 +33,13 @@ export default function App() {
       <>
         <Router>
           <Wrapper>
-
             <Suspense fallback={<Loading />}>
               <Switch>
                 <Route path="/" exact component={IndexPage} />
                 <Route path="/ceviriler/anime/:slug/izle/:episodeInfo?" exact component={EpisodePage} />
-                <Route path={"/ceviriler/anime/:id/:slug"} exact render={({match}) => {
+                <Route path={"/ceviriler/anime/:id/:slug"} exact render={({ match }) => {
                   if (/([0-9])\w+/.test(match.params.id)) return <Redirect to={`/ceviriler/anime/${match.params.slug}`} />
-                }}/>
+                }} />
                 <Route path="/ceviriler/anime/:slug/:id" exact render={({ match }) => {
                   if (match.params.id !== "izle") return <Redirect to={`/ceviriler/anime/${match.params.slug}`} />
                 }} />
@@ -50,7 +49,7 @@ export default function App() {
                 <Route path="/ceviriler/manga/:slug/:id" exact render={({ match }) => <Redirect to={`/ceviriler/manga/${match.params.slug}`} />} />
                 <Route path="/ceviriler/anime/:slug" exact component={AnimePage} />
                 <Route path="/ceviriler/manga/:slug" exact component={MangaPage} />
-                <Route path="/opg/:type/:slug" exact render={({ match }) => <Redirect to={`/ceviriler/${match.params.type}/${match.params.slug}`}/>} />
+                <Route path="/opg/:type/:slug" exact render={({ match }) => <Redirect to={`/ceviriler/${match.params.type}/${match.params.slug}`} />} />
                 <Route path="/ara/:type?/:offset?" component={SearchPage} />
                 <Route path="/sss" exact component={SSSPage} />
                 <Route path="/ekip-alimlari" exact component={EkipAlimlariPage} />

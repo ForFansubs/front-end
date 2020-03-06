@@ -68,15 +68,18 @@ export default function MangaPage(props) {
                         <meta name="title" content={title} />
                         <meta name="description" content={`${manga.name} Türkçe İzle & İndir - ${manga.synopsis}`} />
                         <meta property="og:type" content="website" />
+                        <meta property="og:site_name" content={process.env.REACT_APP_SITEURL} />
                         <meta property="og:url" content={process.env.REACT_APP_SITEURL + mangaPage(manga.slug)} />
                         <meta property="og:title" content={title} />
                         <meta property="og:description" content={`${manga.name} Türkçe İzle & İndir - ${manga.synopsis}`} />
                         <meta property="og:image" content={manga.cover_art} />
+                        <meta name="twitter:card" content="summary" />
                         <meta property="twitter:card" content="summary_large_image" />
                         <meta property="twitter:url" content={process.env.REACT_APP_SITEURL + mangaPage(manga.slug)} />
                         <meta property="twitter:title" content={title} />
                         <meta property="twitter:description" content={`${manga.name} Türkçe İzle & İndir - ${manga.synopsis}`} />
-                        <meta property="twitter:image" content={manga.cover_art} />
+                        <meta property="twitter:image:src" content={manga.cover_art} />
+                        <meta name="referrer" content="default" />
                     </Helmet>
                     <MangaIndexDesktop manga={manga} theme={theme} releasedate={format(new Date(manga.release_date), "dd.MM.yyyy")} />
                 </>
@@ -89,17 +92,19 @@ export default function MangaPage(props) {
                     <Helmet>
                         <title>{title}</title>
                         <meta name="title" content={title} />
-                        <meta name="description" content={`${manga.name} Türkçe İzle & İndir - ${manga.synopsis.substring(0, 80)}`} />
+                        <meta name="description" content={`${manga.name} Türkçe İzle & İndir - ${manga.synopsis}`} />
                         <meta property="og:type" content="website" />
+                        <meta property="og:site_name" content={process.env.REACT_APP_SITEURL} />
                         <meta property="og:url" content={process.env.REACT_APP_SITEURL + mangaPage(manga.slug)} />
                         <meta property="og:title" content={title} />
-                        <meta property="og:description" content={`${manga.name} Türkçe İzle & İndir - ${manga.synopsis.substring(0, 80)}`} />
+                        <meta property="og:description" content={`${manga.name} Türkçe İzle & İndir - ${manga.synopsis}`} />
                         <meta property="og:image" content={manga.cover_art} />
-                        <meta property="twitter:card" content="summary_large_image" />
+                        <meta name="twitter:card" content="summary" />
                         <meta property="twitter:url" content={process.env.REACT_APP_SITEURL + mangaPage(manga.slug)} />
                         <meta property="twitter:title" content={title} />
-                        <meta property="twitter:description" content={`${manga.name} Türkçe İzle & İndir - ${manga.synopsis.substring(0, 80)}`} />
-                        <meta property="twitter:image" content={manga.cover_art} />
+                        <meta property="twitter:description" content={`${manga.name} Türkçe İzle & İndir - ${manga.synopsis}`} />
+                        <meta property="twitter:image:src" content={manga.cover_art} />
+                        <meta name="referrer" content="default" />
                     </Helmet>
                     <MangaIndexMobile manga={manga} theme={theme} releasedate={format(new Date(manga.release_date), "dd.MM.yyyy")} />
                 </>
