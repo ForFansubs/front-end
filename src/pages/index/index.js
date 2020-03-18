@@ -23,7 +23,7 @@ const ContainerDiv = styled.div`
 `
 
 const IndexHeader = styled(Typography)`
-    ${props => props.aligncenter ? "text-align: center" : ""}
+    ${props => props.aligncenter ? "text-align: center;" : ""}
     margin-bottom: 10px;
 `
 

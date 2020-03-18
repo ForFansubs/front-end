@@ -228,6 +228,7 @@ export default function EpisodePage(props) {
                     <meta name="title" content={title} />
                     <meta name="description" content={desc} />
                     <meta property="og:type" content="video.tv_show" />
+                    <meta property="og:site_name" content={process.env.REACT_APP_SITEURL} />
                     <meta property="og:url" content={process.env.REACT_APP_SITEURL + episodePage(props.match.params.slug, activeEpisode.slug)} />
                     <meta property="og:title" content={title} />
                     <meta property="og:description" content={desc} />

@@ -13,7 +13,7 @@ import blue from '@material-ui/core/colors/blue'
 import Format from '../date-fns/format'
 
 const ContentInfo = styled.div`
-    ${props => props.version === "bd" ? `border-right: 4px solid ${blue["A200"]}` : ""}
+    ${props => props.version === "bd" ? `border-right: 4px solid ${blue["A200"]};` : ""}
     position: relative;
     padding: 0 15px;
     width: 70%;

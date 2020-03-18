@@ -54,7 +54,7 @@ export default function Footer() {
                                 aybertocarlos &copy; {(new Date()).getFullYear()}
                             </a>
                             &nbsp;-&nbsp;
-                            <a href="https://github.com/ForFansubs" rel="noopener noreferrer" target="_blank">
+                            <a href="https://forfansubs.github.io/" rel="noopener noreferrer" target="_blank">
                                 FFs v{version}
                             </a>
                             &nbsp;-&nbsp;

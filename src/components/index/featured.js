@@ -19,7 +19,7 @@ const FeaturedImage = styled(Box).attrs(props => props.slug ? ({
         width: 100%;
         max-width: 100%;
         height: 200px;
-        background-size: cover
+        background-size: cover;
         background-position: center;
         transition: ${props => props.transition};
         .slick-current & {

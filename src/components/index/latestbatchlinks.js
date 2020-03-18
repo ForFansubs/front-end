@@ -7,7 +7,7 @@ import { animePage } from '../../config/front-routes'
 import styled from 'styled-components'
 
 const ContentDiv = styled(Typography)`
-    text-align: center
+    text-align: center;
 `
 
 export default function LatestBatchLinks(props) {

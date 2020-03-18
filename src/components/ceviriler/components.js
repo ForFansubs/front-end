@@ -60,7 +60,7 @@ const ContentMetadata = styled(Box)`
         font-size: .9rem;
         display: block;
     }
-    background-image: ${props => getIcon(props.type)}
+    background-image: ${props => getIcon(props.type)};
 `
 
 const MetadataHeader = styled(Typography)`
@@ -111,7 +111,7 @@ const ContentEpisodesContainer = styled(Grid)``
 
 const ContentEpisodes = styled.ul`
     button {
-        margin: ${props => `0 ${props.spacing}px ${props.spacing}px 0`}
+        margin: ${props => `0 ${props.spacing}px ${props.spacing}px 0`};
         display: inline-block;
     }
 `
