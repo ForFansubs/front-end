@@ -44,7 +44,7 @@ export default function AnimeIndexMobile(props) {
                         </ContentTitle>
                     </Grid>
                 </ContentHeader>
-                <ContentLeft item xs>
+                <ContentLeft item xs={12}>
                     <ContentMetadata
                         m={4}
                         display="flex"
@@ -62,7 +62,7 @@ export default function AnimeIndexMobile(props) {
                             src={anime.cover_art}
                             mb={0} />
                         {anime.premiered || anime.version === "bd" ?
-                            <ContentMetadata {...defaultBoxProps} display="flex" justifyContent="space-evenly" alignItems="center" mb="0" boxShadow={0}>
+                            <ContentMetadata {...defaultBoxProps} width="70%" display="flex" justifyContent="space-evenly" alignItems="center" mb="0" boxShadow={0}>
                                 {anime.premiered
                                     ?
                                     <Typography variant="body2">{anime.premiered}</Typography>

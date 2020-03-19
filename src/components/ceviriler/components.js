@@ -138,6 +138,11 @@ const ContentCommentsContainer = styled(DisqusBox)``
 
 const Content = styled.div`
     @media(max-width:${props => props.theme.breakpoints.values.sm}px) {
+        ${ContentLeft} {
+            max-width: initial;
+            min-width: initial;
+        }
+
         ${ContentTitle} {
             font-size: 1.6rem!important;
             display: block;
