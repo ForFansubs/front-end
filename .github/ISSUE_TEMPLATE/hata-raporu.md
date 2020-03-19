@@ -11,7 +11,7 @@ assignees: ayberktandogan
 
 ## Sistem Bilgisi
 - Kullandığınız işletim sistemi (Dağıtım ismi ve versiyonu)
-- node-server versiyonu (Lütfen hangi sürümü kullandığınızı yazın.)
+- front-end versiyonu (Lütfen hangi sürümü kullandığınızı yazın.)
 
 ## Aşağıdakileri doğruluyorum:
 - [ ] Kodda kendi değiştirdiğim bir şey yüzünden aldığım bir hata değil.
