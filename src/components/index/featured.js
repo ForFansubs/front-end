@@ -6,10 +6,11 @@ import { contentHeader } from '../../config/api-routes'
 
 import styled, { keyframes, css } from 'styled-components'
 import shadows from '../../config/theming/shadows'
-import borders from '../../config/theming/borders'
 
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
+
+import { bluray } from '../../config/theming/images'
 
 const FeaturedImage = styled(Box).attrs(props => props.slug ? ({
     style: {
@@ -159,6 +160,14 @@ const FeaturedDiv = styled.div`
     }
 `
 
+const FeaturedVersion = styled.img`
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    height: 1rem;
+    z-index: 4;
+`
+
 export const FeaturedLoading = (key, active) => {
     return (
         <FeaturedLoadingDiv key={key} className={active ? "slick-current" : ""}>
@@ -215,6 +224,18 @@ export default function Featured(props) {
                                 easing: theme.transitions.easing.easeInOut,
                                 duration: theme.transitions.duration.short,
                             })}>
+                            {props.version === "bd" ?
+                                <FeaturedVersion
+                                    src={bluray}
+                                    title="bd-logo"
+                                    loading="lazy"
+                                    alt="bd-logo"
+                                    transition={theme.transitions.create('all', {
+                                        easing: theme.transitions.easing.easing,
+                                        duration: theme.transitions.duration.short,
+                                    })} />
+                                :
+                                ""}
                             {props.premiered ?
                                 <FeaturedPremiered
                                     textcolor={theme.palette.common.white}

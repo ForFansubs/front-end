@@ -139,6 +139,7 @@ export default function IndexPage() {
                 slug={anime.slug}
                 premiered={anime.premiered}
                 genres={anime.genres}
+                version={anime.version}
                 key={anime.id + " featured"}
                 theme={theme}
             />)
@@ -169,12 +170,13 @@ export default function IndexPage() {
                 <title>{title}</title>
                 <meta name="title" content={title} />
                 <meta name="description" content={process.env.REACT_APP_META_DESCRIPTION} />
+                <meta name="keywords" content={process.env.REACT_APP_META_KEYWORDS} />
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content="/" />
                 <meta property="og:title" content={title} />
                 <meta property="og:description" content={process.env.REACT_APP_META_DESCRIPTION} />
                 <meta property="og:image" content="/512.png" />
-                <meta property="twitter:card" content="summary_large_image" />
+                <meta property="twitter:card" content="summary" />
                 <meta property="twitter:url" content="/" />
                 <meta property="twitter:title" content={title} />
                 <meta property="twitter:description" content={process.env.REACT_APP_META_DESCRIPTION} />

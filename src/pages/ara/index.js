@@ -98,7 +98,7 @@ export default function SearchPage(props) {
                 return setLoadingGenre(false)
             }
 
-            if(searchList.data.length < 24) setHasData(false)
+            if (searchList.data.length < 24) setHasData(false)
             setFullList(searchList.data)
             setData([...initialData])
             setLoadingData(false)
@@ -282,12 +282,13 @@ export default function SearchPage(props) {
                 <title>{title}</title>
                 <meta name="title" content={title} />
                 <meta name="description" content={desc} />
+                <meta name="keywords" content={process.env.REACT_APP_META_KEYWORDS} />
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content={process.env.REACT_APP_SITEURL + "/ara"} />
                 <meta property="og:title" content={title} />
                 <meta property="og:description" content={desc} />
                 <meta property="og:image" content={process.env.REACT_APP_SITEURL + "/512.png"} />
-                <meta property="twitter:card" content="summary_large_image" />
+                <meta property="twitter:card" content="summary" />
                 <meta property="twitter:url" content={process.env.REACT_APP_SITEURL + "/ara"} />
                 <meta property="twitter:title" content={title} />
                 <meta property="twitter:description" content={desc} />

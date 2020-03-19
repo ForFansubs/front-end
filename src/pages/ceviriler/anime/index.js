@@ -77,54 +77,35 @@ export default function AnimePage(props) {
         downloadLinks = downloadLinks.filter(d => d)
 
         const title = `${process.env.REACT_APP_SITENAME} ${anime.name} Türkçe ${anime.episodes.length !== 0 ? "İzle ve İndir" : ""}`
-        if (!mobile) {
-            return (
-                <>
-                    <Helmet>
-                        <title>{title}</title>
-                        <meta name="title" content={title} />
-                        <meta name="description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis}`} />
-                        <meta property="og:type" content="video.tv_show" />
-                        <meta property="og:site_name" content={process.env.REACT_APP_SITEURL} />
-                        <meta property="og:url" content={process.env.REACT_APP_SITEURL + animePage(anime.slug)} />
-                        <meta property="og:title" content={title} />
-                        <meta property="og:description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis}`} />
-                        <meta property="og:image" content={anime.cover_art} />
-                        <meta name="twitter:card" content="summary" />
-                        <meta property="twitter:url" content={process.env.REACT_APP_SITEURL + animePage(anime.slug)} />
-                        <meta property="twitter:title" content={title} />
-                        <meta property="twitter:description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis}`} />
-                        <meta property="twitter:image:src" content={anime.cover_art} />
-                        <meta name="referrer" content="default" />
-                    </Helmet>
-                    <AnimeIndexDesktop anime={anime} theme={theme} releasedate={format(new Date(anime.release_date), "dd.MM.yyyy")} downloadLinks={downloadLinks} />
-                </>
-            )
-        }
-        else {
-            return (
-                <>
-                    <Helmet>
-                        <title>{title}</title>
-                        <meta name="title" content={title} />
-                        <meta name="description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis}`} />
-                        <meta property="og:type" content="video.tv_show" />
-                        <meta property="og:site_name" content={process.env.REACT_APP_SITEURL} />
-                        <meta property="og:url" content={process.env.REACT_APP_SITEURL + animePage(anime.slug)} />
-                        <meta property="og:title" content={title} />
-                        <meta property="og:description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis}`} />
-                        <meta property="og:image" content={anime.cover_art} />
-                        <meta name="twitter:card" content="summary" />
-                        <meta property="twitter:url" content={process.env.REACT_APP_SITEURL + animePage(anime.slug)} />
-                        <meta property="twitter:title" content={title} />
-                        <meta property="twitter:description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis}`} />
-                        <meta property="twitter:image:src" content={anime.cover_art} />
-                        <meta name="referrer" content="default" />
-                    </Helmet>
-                    <AnimeIndexMobile anime={anime} theme={theme} releasedate={format(new Date(anime.release_date), "dd.MM.yyyy")} downloadLinks={downloadLinks} />
-                </>
-            )
-        }
+        return (
+            <>
+                <Helmet>
+                    <title>{title}</title>
+                    <meta name="title" content={title} />
+                    <meta name="description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis}`} />
+                    <meta name="keywords" content={process.env.REACT_APP_META_KEYWORDS} />
+                    <meta property="og:type" content="video.tv_show" />
+                    <meta property="og:site_name" content={process.env.REACT_APP_SITEURL} />
+                    <meta property="og:url" content={process.env.REACT_APP_SITEURL + animePage(anime.slug)} />
+                    <meta property="og:title" content={title} />
+                    <meta property="og:description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis}`} />
+                    <meta property="og:image" content={anime.cover_art} />
+                    <meta name="twitter:card" content="summary" />
+                    <meta property="twitter:url" content={process.env.REACT_APP_SITEURL + animePage(anime.slug)} />
+                    <meta property="twitter:title" content={title} />
+                    <meta property="twitter:description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis}`} />
+                    <meta property="twitter:image:src" content={anime.cover_art} />
+                    <meta name="referrer" content="default" />
+                </Helmet>
+                {
+                    mobile
+                        ?
+                        <AnimeIndexMobile anime={anime} theme={theme} releasedate={format(new Date(anime.release_date), "dd.MM.yyyy")} downloadLinks={downloadLinks} />
+                        :
+                        <AnimeIndexDesktop anime={anime} theme={theme} releasedate={format(new Date(anime.release_date), "dd.MM.yyyy")} downloadLinks={downloadLinks} />
+                }
+            </>
+        )
     }
     else return (
         <Loading />

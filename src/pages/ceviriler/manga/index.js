@@ -60,56 +60,34 @@ export default function MangaPage(props) {
     if (!loading) {
         const title = `${process.env.REACT_APP_SITENAME} ${manga.name} Türkçe ${manga.mos_link ? "Oku" : ""} ${manga.download_link ? "İndir" : ""}`
 
-        if (!mobile) {
-            return (
-                <>
-                    <Helmet>
-                        <title>{title}</title>
-                        <meta name="title" content={title} />
-                        <meta name="description" content={`${manga.name} Türkçe İzle & İndir - ${manga.synopsis}`} />
-                        <meta property="og:type" content="website" />
-                        <meta property="og:site_name" content={process.env.REACT_APP_SITEURL} />
-                        <meta property="og:url" content={process.env.REACT_APP_SITEURL + mangaPage(manga.slug)} />
-                        <meta property="og:title" content={title} />
-                        <meta property="og:description" content={`${manga.name} Türkçe İzle & İndir - ${manga.synopsis}`} />
-                        <meta property="og:image" content={manga.cover_art} />
-                        <meta name="twitter:card" content="summary" />
-                        <meta property="twitter:card" content="summary_large_image" />
-                        <meta property="twitter:url" content={process.env.REACT_APP_SITEURL + mangaPage(manga.slug)} />
-                        <meta property="twitter:title" content={title} />
-                        <meta property="twitter:description" content={`${manga.name} Türkçe İzle & İndir - ${manga.synopsis}`} />
-                        <meta property="twitter:image:src" content={manga.cover_art} />
-                        <meta name="referrer" content="default" />
-                    </Helmet>
-                    <MangaIndexDesktop manga={manga} theme={theme} releasedate={format(new Date(manga.release_date), "dd.MM.yyyy")} />
-                </>
-            )
-        }
-
-        else {
-            return (
-                <>
-                    <Helmet>
-                        <title>{title}</title>
-                        <meta name="title" content={title} />
-                        <meta name="description" content={`${manga.name} Türkçe İzle & İndir - ${manga.synopsis}`} />
-                        <meta property="og:type" content="website" />
-                        <meta property="og:site_name" content={process.env.REACT_APP_SITEURL} />
-                        <meta property="og:url" content={process.env.REACT_APP_SITEURL + mangaPage(manga.slug)} />
-                        <meta property="og:title" content={title} />
-                        <meta property="og:description" content={`${manga.name} Türkçe İzle & İndir - ${manga.synopsis}`} />
-                        <meta property="og:image" content={manga.cover_art} />
-                        <meta name="twitter:card" content="summary" />
-                        <meta property="twitter:url" content={process.env.REACT_APP_SITEURL + mangaPage(manga.slug)} />
-                        <meta property="twitter:title" content={title} />
-                        <meta property="twitter:description" content={`${manga.name} Türkçe İzle & İndir - ${manga.synopsis}`} />
-                        <meta property="twitter:image:src" content={manga.cover_art} />
-                        <meta name="referrer" content="default" />
-                    </Helmet>
+        return (
+            <>
+                <Helmet>
+                    <title>{title}</title>
+                    <meta name="title" content={title} />
+                    <meta name="description" content={`${manga.name} Türkçe Oku & İndir - ${manga.synopsis}`} />
+                    <meta name="keywords" content={process.env.REACT_APP_META_KEYWORDS} />
+                    <meta property="og:type" content="books.book" />
+                    <meta property="og:site_name" content={process.env.REACT_APP_SITEURL} />
+                    <meta property="og:url" content={process.env.REACT_APP_SITEURL + mangaPage(manga.slug)} />
+                    <meta property="og:title" content={title} />
+                    <meta property="og:description" content={`${manga.name} Türkçe Oku & İndir - ${manga.synopsis}`} />
+                    <meta property="og:image" content={manga.cover_art} />
+                    <meta name="twitter:card" content="summary" />
+                    <meta property="twitter:url" content={process.env.REACT_APP_SITEURL + mangaPage(manga.slug)} />
+                    <meta property="twitter:title" content={title} />
+                    <meta property="twitter:description" content={`${manga.name} Türkçe Oku & İndir - ${manga.synopsis}`} />
+                    <meta property="twitter:image:src" content={manga.cover_art} />
+                    <meta name="referrer" content="default" />
+                </Helmet>
+                {mobile ?
                     <MangaIndexMobile manga={manga} theme={theme} releasedate={format(new Date(manga.release_date), "dd.MM.yyyy")} />
-                </>
-            )
-        }
+                    :
+                    <MangaIndexDesktop manga={manga} theme={theme} releasedate={format(new Date(manga.release_date), "dd.MM.yyyy")} />
+                }
+            </>
+        )
+
 
     }
     else return (
