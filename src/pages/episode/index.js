@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from '../../config/axios/axios'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 import ReactGA from 'react-ga';
 
 import find from 'lodash-es/find'

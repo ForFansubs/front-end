@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useGlobal } from 'reactn'
 import useTheme from '@material-ui/styles/useTheme'
 import ReactGA from 'react-ga';
-import Helmet from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 
 import axios from '../../config/axios/axios'
 import { getIndexEpisodes, getIndexFeaturedAnime, getIndexBatchEpisodes } from '../../config/api-routes'
