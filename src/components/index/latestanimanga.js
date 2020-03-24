@@ -183,7 +183,7 @@ export default function LatestAniManga(props) {
                                     <ContentTitle
                                         variant="h6"
                                     >
-                                        <Dotdotdot clamp={2}>
+                                        <Dotdotdot clamp={1}>
                                             {name}
                                         </Dotdotdot>
                                     </ContentTitle>
@@ -193,14 +193,11 @@ export default function LatestAniManga(props) {
                                             easing: theme.transitions.easing.ease,
                                             duration: theme.transitions.duration.short,
                                         })}>
-                                        <Dotdotdot clamp={3}>
+                                        <Dotdotdot clamp={2}>
                                             <ContentSynopsis variant="subtitle2">
                                                 {synopsis}
                                             </ContentSynopsis>
                                         </Dotdotdot>
-                                        <ContentReleaseTime variant="h6">
-                                            {Format(new Date(created_time)).toUpperCase()} - {created_by ? created_by : "Silinmiş Kullanıcı"}
-                                        </ContentReleaseTime>
                                     </ContentAltInfo>
                                     {props.version === "bd"
                                         ?

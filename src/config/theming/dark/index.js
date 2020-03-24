@@ -69,6 +69,9 @@ const theme = {
         },
         subtitle1: {
             lineHeight: 1.25
+        },
+        subtitle2: {
+            fontSize: "0.775rem"
         }
     },
     overrides: {

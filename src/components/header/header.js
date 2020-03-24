@@ -1,57 +1,54 @@
 import React, { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { useGlobal, useDispatch } from 'reactn'
+import Footer from '../footer/footer'
 
 import clsx from 'clsx'
 import useTheme from '@material-ui/styles/useTheme'
-import makeStyles from '@material-ui/styles/makeStyles'
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import List from '@material-ui/core/List'
-import Divider from '@material-ui/core/Divider'
-import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import Typography from '@material-ui/core/Typography'
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
+import { Drawer, AppBar, Toolbar, List, Divider, ListItem, ListItemIcon, ListItemText, Typography, MenuItem, Menu, makeStyles } from '@material-ui/core'
+import HomeIcon from '@material-ui/icons/Home';
+import SearchIcon from '@material-ui/icons/Search';
+import InfoIcon from '@material-ui/icons/Info';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDiscord } from '@fortawesome/free-brands-svg-icons'
-
-import HomeIcon from '@material-ui/icons/Home'
-import SearchIcon from '@material-ui/icons/Search'
-import InfoIcon from '@material-ui/icons/Info'
-import AccountCircle from '@material-ui/icons/AccountCircle'
 
 import { indexPage, searchPage, faqPage, recPage, adminPage } from '../../config/front-routes'
 import { fullLogo, fullLogoGif, fullLogoDark, fullLogoDarkGif } from '../../config/theming/images'
 
+const drawerWidth = 260;
+
 const useStyles = makeStyles(theme => ({
     root: {
-        display: 'flex',
+        overflowX: "hidden",
+        [theme.breakpoints.up('sm')]: {
+            overflowX: "initial",
+        }
     },
     appBar: {
-        zIndex: theme.zIndex.drawer + 1,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
+        zIndex: theme.zIndex.drawer + 1
     },
     appBarShift: {
-        width: `100%`,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
+        marginLeft: drawerWidth,
+        width: 0,
+        [theme.breakpoints.up('sm')]: {
+            width: `calc(100% - ${drawerWidth}px)`,
+        }
     },
     menuButton: {
         [theme.breakpoints.down('sm')]: {
             marginRight: 10,
         },
         marginRight: 36,
+    },
+    drawer: {
+        width: drawerWidth,
+        flexShrink: 0,
+        whiteSpace: 'nowrap',
     },
     toolbar: {
         display: 'flex',
@@ -71,8 +68,31 @@ const useStyles = makeStyles(theme => ({
     logo: {
         height: "40px"
     },
+    ListItem: {
+        width: "100vw",
+        [theme.breakpoints.up('sm')]: {
+            width: drawerWidth,
+        }
+    },
     ListItemText: {
         fontSize: ".8rem!important"
+    },
+    drawerOpen: {
+        width: "100vw",
+        '& $ListItemText': {
+            whiteSpace: "pre-wrap"
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: drawerWidth,
+        },
+        overflowX: "hidden"
+    },
+    drawerClose: {
+        overflowX: 'hidden',
+        width: 0,
+        [theme.breakpoints.up('sm')]: {
+            width: theme.spacing(8) + 1,
+        },
     },
     list: {
         width: 250,
@@ -82,6 +102,12 @@ const useStyles = makeStyles(theme => ({
     },
     snsButton: {
         margin: "16px"
+    },
+    hide: {
+        display: "none"
+    },
+    footerDisplay: {
+        display: "block"
     }
 }))
 
@@ -153,35 +179,28 @@ export default function MiniDrawer() {
         setShowModal(type)
     }
 
-    function handleDrawerOpen() {
+    const handleDrawerOpen = () => {
         setOpen(true);
-    }
+    };
 
-    function handleDrawerClose() {
+    const handleDrawerClose = () => {
         setOpen(false);
-    }
-
-    const toggleDrawer = (open) => event => {
-        if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-            return;
-        }
-
-        setOpen(open);
     };
 
     function SidePanel() {
         return (
-            <div
-                className={classes.list}
-                role="presentation"
-                onClick={toggleDrawer(false)}
-                onKeyDown={toggleDrawer(false)}
-            >
+            <>
+                <div className={classes.toolbar}>
+                    <IconButton onClick={handleDrawerClose}>
+                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                    </IconButton>
+                </div>
+                <Divider />
                 <List>
                     {menuItems.map((item, index) => item.show ?
                         (
                             <NavLink exact to={item.link} onClick={handleDrawerClose} activeStyle={{ backgroundColor: theme.palette.background.level2 }} key={item.text}>
-                                <ListItem button style={{ backgroundColor: "inherit" }}>
+                                <ListItem className={classes.ListItem} button style={{ backgroundColor: "inherit" }}>
                                     <ListItemIcon style={{ color: theme.palette.text.primary }}>{item.icon}</ListItemIcon>
                                     <ListItemText className={classes.ListItemText}><Typography variant="body2">{item.text}</Typography></ListItemText>
                                 </ListItem>
@@ -200,9 +219,17 @@ export default function MiniDrawer() {
                                     if (item.show)
                                         return (
                                             <a href={item.link} target="_blank" rel="noopener noreferrer" key={item.text}>
-                                                <ListItem button>
+                                                <ListItem button className={classes.ListItem}>
                                                     <ListItemIcon style={{ color: theme.palette.text.primary }}>{item.icon}</ListItemIcon>
-                                                    <ListItemText className={classes.ListItemText}><Typography variant="body2">{item.text}</Typography></ListItemText>
+                                                    <ListItemText
+                                                        className={clsx(classes.ListItemText, {
+                                                            [classes.ListItemTextOpen]: open,
+                                                            [classes.ListItemTextClose]: !open,
+                                                        })}>
+                                                        <Typography variant="body2">
+                                                            {item.text}
+                                                        </Typography>
+                                                    </ListItemText>
                                                 </ListItem>
                                             </a>
                                         )
@@ -213,7 +240,13 @@ export default function MiniDrawer() {
                         :
                         ""
                 }
-            </div>
+                <Divider />
+                <div className={clsx(classes.hide, {
+                    [classes.footerDisplay]: open,
+                })}>
+                    <Footer />
+                </div>
+            </>
         )
     }
 
@@ -232,7 +265,9 @@ export default function MiniDrawer() {
                         aria-label="Open drawer"
                         onClick={handleDrawerOpen}
                         edge="start"
-                        className={classes.menuButton}
+                        className={clsx(classes.menuButton, {
+                            [classes.hide]: open,
+                        })}
                     >
                         <MenuIcon />
                     </IconButton>
@@ -247,7 +282,7 @@ export default function MiniDrawer() {
                     <div>
                         {userInfo.success ?
                             <IconButton
-                                aria-label="account of current user"
+                                aria-label={userInfo.username}
                                 aria-controls="menu-appbar"
                                 aria-haspopup="true"
                                 onClick={handleMenu}
@@ -315,16 +350,21 @@ export default function MiniDrawer() {
                     </div>
                 </Toolbar>
             </AppBar>
-            <SwipeableDrawer
-                open={open}
-                onClose={toggleDrawer(false)}
-                onOpen={toggleDrawer(true)}
-                hysteresis={0.01}
-                disableBackdropTransition={!iOS}
-                disableDiscovery={iOS}
+            <Drawer
+                variant="permanent"
+                className={clsx(classes.drawer, {
+                    [classes.drawerOpen]: open,
+                    [classes.drawerClose]: !open,
+                })}
+                classes={{
+                    paper: clsx({
+                        [classes.drawerOpen]: open,
+                        [classes.drawerClose]: !open,
+                    }),
+                }}
             >
                 <SidePanel />
-            </SwipeableDrawer>
+            </Drawer>
         </div >
     );
 }

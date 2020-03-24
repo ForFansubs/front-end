@@ -13,8 +13,7 @@ import Typography from '@material-ui/core/Typography'
 import styled from 'styled-components'
 import LatestAniManga, { LoadingDivAniManga } from '../../components/index/latestanimanga'
 import LatestEpisode, { LoadingDivEpisode } from '../../components/index/latestepisode';
-import Featured, { FeaturedLoading } from '../../components/index/featured'
-import Slick from '../../components/index/slick'
+import FeaturedContainer from '../../components/index/FeaturedContainer'
 import Error from '../../components/index/error'
 import LatestBatchLinks from '../../components/index/latestbatchlinks';
 
@@ -68,7 +67,6 @@ export default function IndexPage() {
         axios.get(getIndexFeaturedAnime)
             .then(res => {
                 setFeaturedAnimes(res.data)
-                setFeaturedLoading(false)
             })
             .catch(_ => {
                 console.log("Öne çıkarılmış animeleri yüklerken bir sorunla karşılaştık.")
@@ -118,36 +116,9 @@ export default function IndexPage() {
         ))
     }
 
-    if (featuredLoading) {
-        if (!mobile)
-            for (let i = 0; i < 4; i++) {
-                let active = i === 0 ? true : false
-                featuredAnimeContent.push(FeaturedLoading(i + "loadingfea", active))
-            }
-        else {
-            featuredAnimeContent.push(FeaturedLoading("1", false))
-        }
-        featuredAnimeWindow = <Slick content={featuredAnimeContent} type="featured-loading" />
-    }
-
-    //Handle featured animes
-    if (!featuredLoading) {
-        if (featuredAnimes.length) {
-            featuredAnimeContent = featuredAnimes.map(anime => <Featured
-                title={anime.name}
-                synopsis={anime.synopsis}
-                slug={anime.slug}
-                premiered={anime.premiered}
-                genres={anime.genres}
-                version={anime.version}
-                key={anime.id + " featured"}
-                theme={theme}
-            />)
-            featuredAnimeWindow = <Slick content={featuredAnimeContent} type="featured" />
-        }
-        else
-            featuredAnimeWindow = <Error type="featured" />
-    }
+    //Öne çıkarılmışlar yükleniyor...
+    console.log(featuredAnimes)
+    featuredAnimeWindow = <FeaturedContainer list={featuredAnimes} />
 
     //Handle latest batch episodes
     if (!batchLoading) {
@@ -184,7 +155,6 @@ export default function IndexPage() {
                 <meta name="author" content={process.env.REACT_APP_META_AUTHOR} />
             </Helmet>
             <ContainerDiv>
-                <IndexHeader variant="h4">Öne Çıkarılmış Animeler</IndexHeader>
                 {featuredAnimeWindow}
             </ContainerDiv>
             {batchEpisodesWindow.length ?

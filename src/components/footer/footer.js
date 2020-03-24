@@ -1,83 +1,59 @@
 import React from 'react'
 import { useGlobal } from 'reactn'
 import useTheme from '@material-ui/styles/useTheme'
-import styled from 'styled-components'
 
-import Box from '@material-ui/core/Box'
+import { Box, makeStyles } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 
-const FooterCopyrightText = styled.h4`
-        a {
-            text-decoration: none;
-        }
-    `
-
-const FooterDiv = styled.footer`
-    margin: 10px 0;
-    position: absolute;
-    width: 100%;
-    height: 20px;
-    right: 0px;
-    bottom: 10px;
-    left: 0px;
-    padding: 0 40px;
-
-    @media(max-width:${props => props.theme.breakpoints.values.sm}px) {
-        padding: 0 20px 0 20px;
-        
-        ${FooterCopyrightText} {
-            text-align: center;
-        }
+const useStyles = makeStyles(theme => ({
+    FooterInnerDiv: {
+        padding: `${theme.spacing(2)}px`
+    },
+    FooterAuthor: {
+        color: theme.palette.text.disabled,
+        marginTop: `${theme.spacing(4)}px`
     }
-`
-
-const FooterInnerDiv = styled(Box)`
-    display: flex;
-    @media(max-width:${props => props.theme.breakpoints.values.sm}px) {
-        display: block;
-    }
-`
-
-const FooterLogo = styled(Typography)``
+}))
 
 export default function Footer() {
     const theme = useTheme()
+    const classes = useStyles()
     const version = useGlobal('settings')[0].version
 
     return (
         <>
-            <FooterDiv theme={theme}>
-                <FooterCopyrightText>
-                    <FooterInnerDiv theme={theme}>
-                        <Typography variant="h6">
-                            <a href="https://aybertocarlos.github.io/" rel="noopener noreferrer" target="_blank">
-                                aybertocarlos &copy; {(new Date()).getFullYear()}
-                            </a>
-                            &nbsp;-&nbsp;
-                            <a href="https://forfansubs.github.io/" rel="noopener noreferrer" target="_blank">
-                                FFs v{version}
-                            </a>
-                            &nbsp;-&nbsp;
-                        </Typography>
-                        <a href="https://github.com/ayberktandogan" rel="noopener noreferrer" target="_blank">
-                            <FooterLogo variant="body2">github</FooterLogo>
+            <footer>
+                <Box className={classes.FooterInnerDiv}>
+                    <Typography variant="h6">
+                        <a href="https://forfansubs.github.io/" rel="noopener noreferrer" target="_blank">
+                            FFs v{version}
                         </a>
+                            &nbsp;-&nbsp;
+
+                    <a href="https://github.com/ayberktandogan" rel="noopener noreferrer" target="_blank">
+                            github
+                    </a>
                         {process.env.REACT_APP_FACEBOOK_LINK ?
                             <a href={process.env.REACT_APP_FACEBOOK_LINK} rel="noopener noreferrer" target="_blank">
-                                <FooterLogo variant="body2">.facebook</FooterLogo>
-                            </a>
+                                .facebook
+                        </a>
                             : ""
                         }
                         {process.env.REACT_APP_DISCORD_LINK ?
                             <a href={process.env.REACT_APP_DISCORD_LINK} rel="noopener noreferrer" target="_blank">
-                                <FooterLogo variant="body2">.discord</FooterLogo>
-                            </a>
+                                .discord
+                        </a>
                             :
                             ""
                         }
-                    </FooterInnerDiv>
-                </FooterCopyrightText>
-            </FooterDiv>
+                    </Typography>
+                    <Typography variant="subtitle2" className={classes.FooterAuthor}>
+                        <a href="https://aybertocarlos.github.io/" rel="noopener noreferrer" target="_blank">
+                            aybertocarlos &copy; {(new Date()).getFullYear()}
+                        </a>
+                    </Typography>
+                </Box>
+            </footer>
         </>
     )
 }
