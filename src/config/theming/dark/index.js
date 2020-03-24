@@ -27,50 +27,51 @@ const theme = {
         },
     },
     typography: {
+        fontFamily: `'Rubik', sans-serif`,
         h1: {
-            fontFamily: `'Rubik', sans-serif`,
+
             fontWeight: "bold",
             fontSize: "4.8rem",
             lineHeight: 1.2
         },
         h2: {
-            fontFamily: `'Rubik', sans-serif`,
             fontWeight: "bold",
             fontSize: "3rem",
             lineHeight: 1.2
         },
         h3: {
-            fontFamily: `'Rubik', sans-serif`,
             fontWeight: "bold",
             fontSize: "2.4rem",
             lineHeight: 1.2
         },
         h4: {
-            fontFamily: `'Rubik', sans-serif`,
             fontWeight: "bold",
             fontSize: "1.7rem"
         },
         h5: {
-            fontFamily: `'Rubik', sans-serif`,
             fontWeight: "bold",
             fontSize: "1rem"
         },
         h6: {
-            fontFamily: `'Rubik', sans-serif`,
             fontWeight: "bold",
             fontSize: ".8rem"
         },
+        body1: {
+            fontFamily: "'Source Sans Pro', sans-serif"
+        },
         body2: {
-            fontFamily: "'Rubik', sans-serif",
+            fontFamily: "'Source Sans Pro', sans-serif",
             fontSize: ".8rem",
             fontWeight: "bold",
             letterSpacing: "0.0075em",
             lineHeight: 1.6
         },
         subtitle1: {
+            fontFamily: "'Source Sans Pro', sans-serif",
             lineHeight: 1.25
         },
         subtitle2: {
+            fontFamily: "'Source Sans Pro', sans-serif",
             fontSize: "0.775rem"
         }
     },

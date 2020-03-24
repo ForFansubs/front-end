@@ -6,8 +6,6 @@ import axios from './config/axios/axios'
 import isEmpty from 'lodash-es/isEmpty'
 
 import './index.scss'
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -15,7 +13,7 @@ import getTheme from './config/theming/index'
 
 import App from './App'
 import * as serviceWorker from './serviceWorker'
-import ToastNotification, {payload} from './components/toastify/toast';
+import ToastNotification, { payload } from './components/toastify/toast';
 
 //Initiate program & define version
 addReactNDevTools()
@@ -158,9 +156,8 @@ function Mount() {
 
     return (
         <ThemeProvider theme={themeObject}>
-            <CssBaseline>
-                <App />
-            </CssBaseline>
+            <CssBaseline />
+            <App />
         </ThemeProvider>
     )
 }

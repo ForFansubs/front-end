@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
+import ReactInterval from 'react-interval';
 
-import Featured from './featured'
+
+import Featured, { FeaturedLoading } from './featured'
 import { makeStyles, Box } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
@@ -33,42 +35,46 @@ export default function FeaturedContainer(props) {
     const { type } = props
     const [list, setList] = useState([])
     const [active, setActive] = useState(0)
+    const [isAutoScrollActive, setIsAutoScrollActive] = useState(true)
     const classes = useStyles()
-
-    console.log("güncvellendğis")
 
     useEffect(() => {
         setList(props.list)
-        setActive(0)
-        // const AutoScroller = setInterval(() => {
-        //     const activeIndex = active
-        //     const newActiveIndex = activeIndex + 1 % content.length
-        //     console.log(activeIndex + 1 % content.length)
-        //     setActive(newActiveIndex)
-        // }, 4000)
     }, [props.list])
+
     return (
         <>
             <Box className={classes.FeaturedContainer}>
                 {list.length === 0 ?
-                    ""
+                    <>
+                        <FeaturedLoading />
+                    </>
                     :
-                    <Featured {...list[active]} />}
-                <Box className={classes.PaginationContainer}>
-                    {list.map((c, i) => (
-                        <div onClick={() => { setActive(i) }}>
-                            <div className={clsx(classes.PaginationCircles, {
-                                [classes.PaginationCirclesActive]: i === active
-                            })} />
+                    <>
+                        <ReactInterval timeout={5000} enabled={isAutoScrollActive}
+                            callback={() => {
+                                setActive((active + 1) % list.length)
+                            }} />
+                        <div
+                            onMouseEnter={() => setIsAutoScrollActive(false)}
+                            onMouseLeave={() => setIsAutoScrollActive(true)}>
+                            <Featured {...list[active]} />
                         </div>
-                    ))}
-                </Box>
+                        <Box className={classes.PaginationContainer}>
+                            {list.map((c, i) => (
+                                <div key={i + "featured"} onClick={() => { setActive(i) }}>
+                                    <div className={clsx(classes.PaginationCircles, {
+                                        [classes.PaginationCirclesActive]: i === active
+                                    })} />
+                                </div>
+                            ))}
+                        </Box>
+                    </>}
             </Box>
         </>
     )
 }
 
 FeaturedContainer.propTypes = {
-    list: PropTypes.array.isRequired,
-    type: PropTypes.string.isRequired
+    list: PropTypes.array.isRequired
 }

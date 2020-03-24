@@ -49,36 +49,36 @@ export default function IndexPage() {
 
     //Handle data fetch
     useEffect(() => {
-        axios.get(getIndexEpisodes)
-            .then(res => {
-                if (mobile) {
-                    res.data.animes = res.data.animes.slice(0, 4)
-                    res.data.mangas = res.data.mangas.slice(0, 4)
-                    res.data.episodes = res.data.episodes.slice(0, 8)
-                }
-                setLatestAnimes(res.data.animes)
-                setLatestMangas(res.data.mangas)
-                setLatestEpisodes(res.data.episodes)
-                setLatestLoading(false)
-            })
-            .catch(_ => {
-                console.log("Son konular yüklenirken bir sorunla karşılaştık.")
-            })
-        axios.get(getIndexFeaturedAnime)
-            .then(res => {
-                setFeaturedAnimes(res.data)
-            })
-            .catch(_ => {
-                console.log("Öne çıkarılmış animeleri yüklerken bir sorunla karşılaştık.")
-            })
-        axios.get(getIndexBatchEpisodes)
-            .then(res => {
-                setBatchEpisodes(res.data)
-                setBatchLoading(false)
-            })
-            .catch(_ => {
-                console.log("Öne çıkarılmış animeleri yüklerken bir sorunla karşılaştık.")
-            })
+        // axios.get(getIndexEpisodes)
+        //     .then(res => {
+        //         if (mobile) {
+        //             res.data.animes = res.data.animes.slice(0, 4)
+        //             res.data.mangas = res.data.mangas.slice(0, 4)
+        //             res.data.episodes = res.data.episodes.slice(0, 8)
+        //         }
+        //         setLatestAnimes(res.data.animes)
+        //         setLatestMangas(res.data.mangas)
+        //         setLatestEpisodes(res.data.episodes)
+        //         setLatestLoading(false)
+        //     })
+        //     .catch(_ => {
+        //         console.log("Son konular yüklenirken bir sorunla karşılaştık.")
+        //     })
+        // axios.get(getIndexFeaturedAnime)
+        //     .then(res => {
+        //         setFeaturedAnimes(res.data)
+        //     })
+        //     .catch(_ => {
+        //         console.log("Öne çıkarılmış animeleri yüklerken bir sorunla karşılaştık.")
+        //     })
+        // axios.get(getIndexBatchEpisodes)
+        //     .then(res => {
+        //         setBatchEpisodes(res.data)
+        //         setBatchLoading(false)
+        //     })
+        //     .catch(_ => {
+        //         console.log("Öne çıkarılmış animeleri yüklerken bir sorunla karşılaştık.")
+        //     })
         ReactGA.pageview(window.location.pathname)
     }, [mobile])
 
@@ -117,7 +117,6 @@ export default function IndexPage() {
     }
 
     //Öne çıkarılmışlar yükleniyor...
-    console.log(featuredAnimes)
     featuredAnimeWindow = <FeaturedContainer list={featuredAnimes} />
 
     //Handle latest batch episodes
