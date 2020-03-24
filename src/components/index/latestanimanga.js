@@ -65,6 +65,7 @@ li {
 
     h6 {
         font-size: .6rem;
+        color: ${props => props.textcolor};
         font-weight: 400!important;
     }
 }
@@ -187,7 +188,7 @@ export default function LatestAniManga(props) {
                                             {name}
                                         </Dotdotdot>
                                     </ContentTitle>
-                                    <ContentGenres bgcolor={theme.palette.primary.main}>{genres}</ContentGenres>
+                                    <ContentGenres bgcolor={theme.palette.primary.main} textcolor={theme.palette.primary.contrastText}>{genres}</ContentGenres>
                                     <ContentAltInfo
                                         transition={theme.transitions.create('max-height', {
                                             easing: theme.transitions.easing.ease,
@@ -241,7 +242,7 @@ export default function LatestAniManga(props) {
                                             {name}
                                         </Dotdotdot>
                                     </ContentTitle>
-                                    <ContentGenres bgcolor={theme.palette.primary.main}>{genres}</ContentGenres>
+                                    <ContentGenres bgcolor={theme.palette.primary.main} textcolor={theme.palette.primary.contrastText}>{genres}</ContentGenres>
                                     <ContentAltInfo
                                         transition={theme.transitions.create('max-height', {
                                             easing: theme.transitions.easing.ease,

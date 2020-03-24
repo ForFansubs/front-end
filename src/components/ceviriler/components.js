@@ -77,6 +77,7 @@ const ContentGenres = styled.ul`
         margin: 0 3px 3px 0;
 
         span {
+            color: ${props => props.textcolor};
             font-size: .6rem;
             font-weight: 400!important;
         }

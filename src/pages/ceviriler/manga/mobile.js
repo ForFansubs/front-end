@@ -110,7 +110,7 @@ export default function MangaIndexMobile(props) {
                     </ContentMetadata>
                     <MetadataHeader variant="body2">Türler</MetadataHeader>
                     <ContentMetadata {...defaultBoxProps} mb={2}>
-                        <ContentGenres bgcolor={theme.palette.primary.main}>
+                        <ContentGenres bgcolor={theme.palette.primary.main} textcolor={theme.palette.primary.contrastText}>
                             {manga.genres.length !== 0 ?
                                 manga.genres.map(data =>
                                     <li key={data + "genre"}>

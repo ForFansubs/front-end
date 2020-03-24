@@ -125,7 +125,7 @@ export default function AnimeIndexMobile(props) {
                     </ContentMetadata>
                     <MetadataHeader variant="body2">Türler</MetadataHeader>
                     <ContentMetadata {...defaultBoxProps} mb={2}>
-                        <ContentGenres bgcolor={theme.palette.primary.main}>
+                        <ContentGenres bgcolor={theme.palette.primary.main} textcolor={theme.palette.primary.contrastText}>
                             {anime.genres.length !== 0 ?
                                 anime.genres.map(data =>
                                     <li key={data + "genre"}>

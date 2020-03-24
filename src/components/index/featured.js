@@ -90,6 +90,7 @@ const GenresUl = styled.ul`
             padding: 2px 5px;
             margin: 0 3px 5px;
             background: ${props => props.bgcolor};
+            color: ${props => props.textcolor};
         }
     `
 
@@ -253,7 +254,7 @@ export default function Featured(props) {
                                     easing: theme.transitions.easing.easeInOut,
                                     duration: theme.transitions.duration.short,
                                 })}>
-                                <GenresUl bgcolor={theme.palette.primary.main}>
+                                <GenresUl bgcolor={theme.palette.primary.main} textcolor={theme.palette.primary.contrastText}>
                                     {props.genres.split(',').map(genre => <li key={genre + props.slug}>{genre}</li>)}
                                 </GenresUl>
                             </FeaturedInfoDiv>
