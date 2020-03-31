@@ -7,8 +7,6 @@ import Box from '@material-ui/core/Box'
 import Fade from '@material-ui/core/Fade';
 import styled, { css, keyframes } from 'styled-components'
 
-import { ContentEpisodesLinksButton, defaultBoxProps } from '../components'
-
 import { getEpisodeDownloadLinks } from '../../../config/api-routes'
 import { Typography } from '@material-ui/core';
 import WarningBox from '../../warningerrorbox/warning';
@@ -88,7 +86,7 @@ export default function DownloadLink(props) {
             return (
                 data.map((d, i) => (
                     <a href={d.link} target="_blank" rel="noopener noreferrer" key={d.link}>
-                        <ContentEpisodesLinksButton
+                        <Box
                             boxShadow={2}
                             bgcolor="background.level1"
                             hoverbg={props.hoverbg}
@@ -98,7 +96,7 @@ export default function DownloadLink(props) {
                             transition={props.transition}
                         >
                             <Typography variant="h6">{d.type.toUpperCase()}</Typography>
-                        </ContentEpisodesLinksButton>
+                        </Box>
                     </a>
                 ))
             )
@@ -108,7 +106,7 @@ export default function DownloadLink(props) {
 
         else return (
             <div>
-                <ContentEpisodesLinksButton
+                <Box
                     boxShadow={2}
                     bgcolor="background.level1"
                     px={3}
@@ -118,8 +116,8 @@ export default function DownloadLink(props) {
                     <LoadingTextContainer>
                         <LoadingText />
                     </LoadingTextContainer>
-                </ContentEpisodesLinksButton>
-                <ContentEpisodesLinksButton
+                </Box>
+                <Box
                     boxShadow={2}
                     bgcolor="background.level1"
                     px={3}
@@ -129,8 +127,8 @@ export default function DownloadLink(props) {
                     <LoadingTextContainer>
                         <LoadingText />
                     </LoadingTextContainer>
-                </ContentEpisodesLinksButton>
-                <ContentEpisodesLinksButton
+                </Box>
+                <Box
                     boxShadow={2}
                     bgcolor="background.level1"
                     px={3}
@@ -140,7 +138,7 @@ export default function DownloadLink(props) {
                     <LoadingTextContainer>
                         <LoadingText />
                     </LoadingTextContainer>
-                </ContentEpisodesLinksButton>
+                </Box>
             </div>
         )
     }
@@ -153,7 +151,7 @@ export default function DownloadLink(props) {
             <Popper placement="bottom-start" id={id} open={open} anchorEl={anchorEl} transition>
                 {({ TransitionProps }) => (
                     <Fade {...TransitionProps} timeout={350}>
-                        <Box boxShadow={2} {...defaultBoxProps} >
+                        <Box boxShadow={2} >
                             <DownloadLinkContainer />
                         </Box>
                     </Fade>

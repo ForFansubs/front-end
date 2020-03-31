@@ -5,9 +5,6 @@ import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
-
 import { fullLogo, fullLogoDark } from '../../config/theming/images'
 
 import { makeStyles } from '@material-ui/core'

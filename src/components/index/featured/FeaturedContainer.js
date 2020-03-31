@@ -9,7 +9,7 @@ import { makeStyles, Box } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
     FeaturedContainer: {
-        position: "relative"
+        position: "relative",
     },
     PaginationContainer: {
         display: "flex",
@@ -19,15 +19,14 @@ const useStyles = makeStyles(theme => ({
         zIndex: 2
     },
     PaginationCircles: {
-        width: 10,
-        height: 10,
-        borderRadius: "50%",
-        backgroundColor: theme.palette.secondary.main,
+        width: 15,
+        height: 15,
+        backgroundColor: theme.palette.primary.light,
         marginLeft: theme.spacing(1),
         cursor: "pointer"
     },
     PaginationCirclesActive: {
-        backgroundColor: theme.palette.secondary.dark
+        backgroundColor: theme.palette.primary.main
     }
 }))
 

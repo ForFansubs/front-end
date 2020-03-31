@@ -7,15 +7,14 @@ import { Helmet } from 'react-helmet-async'
 import axios from '../../config/axios/axios'
 import { getIndexEpisodes, getIndexFeaturedAnime, getIndexBatchEpisodes } from '../../config/api-routes'
 
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
-
+import { Grid, Typography, makeStyles } from '@material-ui/core'
 import styled from 'styled-components'
 import LatestAniManga, { LoadingDivAniManga } from '../../components/index/latestanimanga'
 import LatestEpisode, { LoadingDivEpisode } from '../../components/index/latestepisode';
-import FeaturedContainer from '../../components/index/FeaturedContainer'
+import FeaturedContainer from '../../components/index/featured/FeaturedContainer'
 import Error from '../../components/index/error'
 import LatestBatchLinks from '../../components/index/latestbatchlinks';
+import { logoRoute } from '../../config/front-routes';
 
 const ContainerDiv = styled.div`
     margin: 0 0 40px 0;
@@ -49,36 +48,36 @@ export default function IndexPage() {
 
     //Handle data fetch
     useEffect(() => {
-        // axios.get(getIndexEpisodes)
-        //     .then(res => {
-        //         if (mobile) {
-        //             res.data.animes = res.data.animes.slice(0, 4)
-        //             res.data.mangas = res.data.mangas.slice(0, 4)
-        //             res.data.episodes = res.data.episodes.slice(0, 8)
-        //         }
-        //         setLatestAnimes(res.data.animes)
-        //         setLatestMangas(res.data.mangas)
-        //         setLatestEpisodes(res.data.episodes)
-        //         setLatestLoading(false)
-        //     })
-        //     .catch(_ => {
-        //         console.log("Son konular yüklenirken bir sorunla karşılaştık.")
-        //     })
-        // axios.get(getIndexFeaturedAnime)
-        //     .then(res => {
-        //         setFeaturedAnimes(res.data)
-        //     })
-        //     .catch(_ => {
-        //         console.log("Öne çıkarılmış animeleri yüklerken bir sorunla karşılaştık.")
-        //     })
-        // axios.get(getIndexBatchEpisodes)
-        //     .then(res => {
-        //         setBatchEpisodes(res.data)
-        //         setBatchLoading(false)
-        //     })
-        //     .catch(_ => {
-        //         console.log("Öne çıkarılmış animeleri yüklerken bir sorunla karşılaştık.")
-        //     })
+        axios.get(getIndexEpisodes)
+            .then(res => {
+                if (mobile) {
+                    res.data.animes = res.data.animes.slice(0, 4)
+                    res.data.mangas = res.data.mangas.slice(0, 4)
+                    res.data.episodes = res.data.episodes.slice(0, 8)
+                }
+                setLatestAnimes(res.data.animes)
+                setLatestMangas(res.data.mangas)
+                setLatestEpisodes(res.data.episodes)
+                setLatestLoading(false)
+            })
+            .catch(_ => {
+                console.log("Son konular yüklenirken bir sorunla karşılaştık.")
+            })
+        axios.get(getIndexFeaturedAnime)
+            .then(res => {
+                setFeaturedAnimes(res.data)
+            })
+            .catch(_ => {
+                console.log("Öne çıkarılmış animeleri yüklerken bir sorunla karşılaştık.")
+            })
+        axios.get(getIndexBatchEpisodes)
+            .then(res => {
+                setBatchEpisodes(res.data)
+                setBatchLoading(false)
+            })
+            .catch(_ => {
+                console.log("Öne çıkarılmış animeleri yüklerken bir sorunla karşılaştık.")
+            })
         ReactGA.pageview(window.location.pathname)
     }, [mobile])
 
@@ -145,12 +144,12 @@ export default function IndexPage() {
                 <meta property="og:url" content="/" />
                 <meta property="og:title" content={title} />
                 <meta property="og:description" content={process.env.REACT_APP_META_DESCRIPTION} />
-                <meta property="og:image" content="/512.png" />
+                <meta property="og:image" content={logoRoute} />
                 <meta property="twitter:card" content="summary" />
                 <meta property="twitter:url" content="/" />
                 <meta property="twitter:title" content={title} />
                 <meta property="twitter:description" content={process.env.REACT_APP_META_DESCRIPTION} />
-                <meta property="twitter:image" content="/512.png" />
+                <meta property="twitter:image" content={logoRoute} />
                 <meta name="author" content={process.env.REACT_APP_META_AUTHOR} />
             </Helmet>
             <ContainerDiv>
@@ -158,7 +157,9 @@ export default function IndexPage() {
             </ContainerDiv>
             {batchEpisodesWindow.length ?
                 <ContainerDiv>
-                    <IndexHeader variant="h5" aligncenter="true" gutterBottom>Toplu Linkler</IndexHeader>
+                    <Typography variant="h4" component="h2" gutterBottom>
+                        Toplu Linkler
+                    </Typography>
                     <Grid container spacing={2} direction="row" justify="center" alignItems="center">
                         {batchEpisodesWindow}
                     </Grid>
@@ -166,7 +167,7 @@ export default function IndexPage() {
                 : ""}
             {latestEpisodesWindow.length ?
                 <ContainerDiv>
-                    <IndexHeader variant="h4" gutterBottom>Son Bölümler</IndexHeader>
+                    <IndexHeader variant="h4" component="h2" gutterBottom>Son Bölümler</IndexHeader>
                     <Grid container spacing={2} direction="row" justify="center" alignItems="center">
                         {latestEpisodesWindow}
                     </Grid>
@@ -174,7 +175,7 @@ export default function IndexPage() {
                 : ""}
             {latestAnimesWindow.length ?
                 <ContainerDiv>
-                    <IndexHeader variant="h4" gutterBottom>Son Animeler</IndexHeader>
+                    <IndexHeader variant="h4" component="h2" gutterBottom>Son Animeler</IndexHeader>
                     <Grid container spacing={2} direction="row" justify="center" alignItems="center">
                         {latestAnimesWindow}
                     </Grid>
@@ -182,7 +183,7 @@ export default function IndexPage() {
                 : ""}
             {latestMangasWindow.length ?
                 <ContainerDiv>
-                    <IndexHeader variant="h4" gutterBottom>Son Mangalar</IndexHeader>
+                    <IndexHeader variant="h4" component="h2" gutterBottom>Son Mangalar</IndexHeader>
                     <Grid container spacing={2} direction="row" justify="center" alignItems="stretch">
                         {latestMangasWindow}
                     </Grid>

@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { animePage } from '../../config/front-routes'
-import { contentHeader } from '../../config/api-routes'
+import { animePage } from '../../../config/front-routes'
+import { contentHeader } from '../../../config/api-routes'
 
-import { bluray } from '../../config/theming/images'
+import { bluray, HeaderPlaceholder } from '../../../config/theming/images'
 
 import { Box, makeStyles, Typography } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
@@ -13,15 +13,19 @@ import Dotdotdot from 'react-dotdotdot'
 const useStyles = makeStyles(theme => ({
     Container: {
         position: "relative",
-        margin: "-16px -40px -20px"
+        margin: "-16px -40px -20px",
+        boxShadow: theme.shadows[6]
     },
-    HeaderImage: {
-        backgroundImage: props => `url(${contentHeader("anime", props.slug)})`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center center",
-        width: "100%",
-        height: 500
+    ImageContainer: {
+        position: "relative",
+        paddingBottom: "30%",
+        overflow: "hidden",
+        '& img': {
+            position: "absolute",
+            objectFit: "cover",
+            width: "100%",
+            marginTop: "-10%"
+        }
     },
     InfoContainer: {
         position: "absolute",
@@ -51,7 +55,7 @@ const useStyles = makeStyles(theme => ({
         top: theme.spacing(2),
         right: theme.spacing(2),
         backgroundColor: theme.palette.background.default,
-        padding: `0 ${theme.spacing(1)}px`,
+        padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
         boxShadow: theme.shadows[6]
     }
 }))
@@ -84,8 +88,8 @@ export function FeaturedLoading() {
                     </Typography>
                 </div>
                 <div className={classes.PremieredContainer}>
-                    <Typography variant="h4">
-                        <Skeleton variant="text" width="100px" height={50} animation="wave" />
+                    <Typography variant="h5">
+                        <Skeleton variant="text" width="60px" height={20} animation="wave" />
                     </Typography>
                 </div>
             </div>
@@ -100,7 +104,12 @@ export default function Featured(props) {
         <>
             <Link to={animePage(props.slug)}>
                 <div className={classes.Container}>
-                    <div className={classes.HeaderImage} slug={slug} />
+                    <div className={classes.ImageContainer}>
+                        <img src={contentHeader("anime", slug)} onError={img => {
+                            img.target.onerror = null
+                            img.target.src = HeaderPlaceholder
+                        }} alt={name + " toplu"} />
+                    </div>
                     <div className={classes.InfoContainer}>
                         <Typography variant="h2" component="h1">
                             {name}
@@ -119,7 +128,7 @@ export default function Featured(props) {
                         </Typography>
                     </div>
                     <div className={classes.PremieredContainer}>
-                        <Typography variant="h4">
+                        <Typography variant="h5">
                             {premiered}
                         </Typography>
                     </div>

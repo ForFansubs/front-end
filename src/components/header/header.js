@@ -93,6 +93,9 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.up('sm')]: {
             width: theme.spacing(8) + 1,
         },
+        [theme.breakpoints.down('xs')]: {
+            borderRight: 0
+        }
     },
     list: {
         width: 250,
