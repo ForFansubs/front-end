@@ -10,15 +10,14 @@ import useTheme from '@material-ui/styles/useTheme'
 
 import axios from '../../../config/axios/axios'
 
-import { format } from 'date-fns'
-import MangaIndexDesktop from './desktop'
+import { MangaPage } from '../../../components/ceviriler/components'
+
 import { mangaPage } from '../../../config/front-routes'
 import { getMangaIndex } from '../../../config/api-routes'
-import MangaIndexMobile from './mobile';
 
 
 
-export default function MangaPage(props) {
+export default (props) => {
     const theme = useTheme()
 
     const [manga, setManga] = useState({})
@@ -80,11 +79,7 @@ export default function MangaPage(props) {
                     <meta property="twitter:image:src" content={manga.cover_art} />
                     <meta name="referrer" content="default" />
                 </Helmet>
-                {mobile ?
-                    <MangaIndexMobile manga={manga} theme={theme} releasedate={format(new Date(manga.release_date), "dd.MM.yyyy")} />
-                    :
-                    <MangaIndexDesktop manga={manga} theme={theme} releasedate={format(new Date(manga.release_date), "dd.MM.yyyy")} />
-                }
+                <MangaPage {...manga} />
             </>
         )
 

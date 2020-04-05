@@ -7,26 +7,17 @@ import { Helmet } from 'react-helmet-async'
 import axios from '../../config/axios/axios'
 import { getIndexEpisodes, getIndexFeaturedAnime, getIndexBatchEpisodes } from '../../config/api-routes'
 
-import { Grid, Typography, makeStyles } from '@material-ui/core'
-import styled from 'styled-components'
-import LatestAniManga, { LoadingDivAniManga } from '../../components/index/latestanimanga'
-import LatestEpisode, { LoadingDivEpisode } from '../../components/index/latestepisode';
+import { Grid, Typography } from '@material-ui/core'
+import { useStyles, TitleContainer } from '../../components/index/index'
+import LatestAniManga, { LoadingDivAniManga } from '../../components/index/latest/latestanimanga'
+import LatestEpisode, { LoadingDivEpisode } from '../../components/index/latest/latestepisode';
 import FeaturedContainer from '../../components/index/featured/FeaturedContainer'
-import Error from '../../components/index/error'
-import LatestBatchLinks from '../../components/index/latestbatchlinks';
+import LatestBatchLinks from '../../components/index/latest/latestbatchlinks';
 import { logoRoute } from '../../config/front-routes';
 
-const ContainerDiv = styled.div`
-    margin: 0 0 40px 0;
-`
-
-const IndexHeader = styled(Typography)`
-    ${props => props.aligncenter ? "text-align: center;" : ""}
-    margin-bottom: 10px;
-`
-
-export default function IndexPage() {
+export default () => {
     const theme = useTheme()
+    const classes = useStyles()
 
     let latestAnimesWindow = []
     let latestMangasWindow = []
@@ -66,6 +57,7 @@ export default function IndexPage() {
         axios.get(getIndexFeaturedAnime)
             .then(res => {
                 setFeaturedAnimes(res.data)
+                setFeaturedLoading(false)
             })
             .catch(_ => {
                 console.log("Öne çıkarılmış animeleri yüklerken bir sorunla karşılaştık.")
@@ -76,7 +68,7 @@ export default function IndexPage() {
                 setBatchLoading(false)
             })
             .catch(_ => {
-                console.log("Öne çıkarılmış animeleri yüklerken bir sorunla karşılaştık.")
+                console.log("Toplu linkleri yüklerken bir sorunla karşılaştık.")
             })
         ReactGA.pageview(window.location.pathname)
     }, [mobile])
@@ -111,12 +103,12 @@ export default function IndexPage() {
             <LatestAniManga type="manga" {...manga} key={manga.id + "manga"} theme={theme} />
         ))
         latestEpisodesWindow = latestEpisodes.map(episode => (
-            <LatestEpisode type="episode" {...episode} key={episode.id + "episode"} theme={theme} />
+            <LatestEpisode type="episode" {...episode} key={episode.episode_id + "episode"} theme={theme} />
         ))
     }
 
     //Öne çıkarılmışlar yükleniyor...
-    featuredAnimeWindow = <FeaturedContainer list={featuredAnimes} />
+    featuredAnimeWindow = <FeaturedContainer list={featuredAnimes} loading={featuredLoading} />
 
     //Handle latest batch episodes
     if (!batchLoading) {
@@ -124,11 +116,8 @@ export default function IndexPage() {
             batchEpisodesWindow = batchEpisodes.map(episode => <LatestBatchLinks
                 {...episode}
                 key={episode.id + " batch"}
-                theme={theme}
             />)
         }
-        else
-            batchEpisodesWindow = <Error type="featured" />
     }
 
     const title = `${process.env.REACT_APP_SITENAME} ${process.env.REACT_APP_INDEX_TITLE_TEXT}`
@@ -152,42 +141,51 @@ export default function IndexPage() {
                 <meta property="twitter:image" content={logoRoute} />
                 <meta name="author" content={process.env.REACT_APP_META_AUTHOR} />
             </Helmet>
-            <ContainerDiv>
+            <div className={classes.ContainerDiv}>
                 {featuredAnimeWindow}
-            </ContainerDiv>
+            </div>
             {batchEpisodesWindow.length ?
-                <ContainerDiv>
-                    <Typography variant="h4" component="h2" gutterBottom>
+                <div className={classes.ContainerDiv}>
+                    <Typography variant="h4" component="h2" >
                         Toplu Linkler
+                    </Typography>
+                    <Typography variant="subtitle1" gutterBottom>
+                        Sisteme eklenen toplu linkleri sırasıyla burada bulabilirsiniz
                     </Typography>
                     <Grid container spacing={2} direction="row" justify="center" alignItems="center">
                         {batchEpisodesWindow}
                     </Grid>
-                </ContainerDiv>
+                </div>
                 : ""}
+            <TitleContainer>
+                <Typography variant={mobile ? "h4" : "h3"} component="h2">En Son Eklenenler</Typography>
+                <Typography variant="subtitle1" gutterBottom>
+                    Sisteme eklenen en yeni içerikleri burada bulabilirsiniz
+                </Typography>
+            </TitleContainer>
             {latestEpisodesWindow.length ?
-                <ContainerDiv>
-                    <IndexHeader variant="h4" component="h2" gutterBottom>Son Bölümler</IndexHeader>
+                <div className={classes.ContainerDiv}>
+                    <Typography variant="h4" component="h2" gutterBottom>Bölümler</Typography>
                     <Grid container spacing={2} direction="row" justify="center" alignItems="center">
                         {latestEpisodesWindow}
                     </Grid>
-                </ContainerDiv>
+                </div>
                 : ""}
             {latestAnimesWindow.length ?
-                <ContainerDiv>
-                    <IndexHeader variant="h4" component="h2" gutterBottom>Son Animeler</IndexHeader>
+                <div className={classes.ContainerDiv}>
+                    <Typography variant="h4" component="h2" gutterBottom>Animeler</Typography>
                     <Grid container spacing={2} direction="row" justify="center" alignItems="center">
                         {latestAnimesWindow}
                     </Grid>
-                </ContainerDiv>
+                </div>
                 : ""}
             {latestMangasWindow.length ?
-                <ContainerDiv>
-                    <IndexHeader variant="h4" component="h2" gutterBottom>Son Mangalar</IndexHeader>
+                <div className={classes.ContainerDiv}>
+                    <Typography variant="h4" component="h2" gutterBottom>Mangalar</Typography>
                     <Grid container spacing={2} direction="row" justify="center" alignItems="stretch">
                         {latestMangasWindow}
                     </Grid>
-                </ContainerDiv>
+                </div>
                 : ""}
         </>
     )

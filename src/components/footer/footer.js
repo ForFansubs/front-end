@@ -48,8 +48,8 @@ export default function Footer() {
                         }
                     </Typography>
                     <Typography variant="subtitle2" className={classes.FooterAuthor}>
-                        <a href="https://aybertocarlos.github.io/" rel="noopener noreferrer" target="_blank">
-                            aybertocarlos &copy; {(new Date()).getFullYear()}
+                        <a href="https://ayberktandogan.github.io/" rel="noopener noreferrer" target="_blank">
+                            ayberktandogan &copy; {(new Date()).getFullYear()}
                         </a>
                     </Typography>
                 </Box>

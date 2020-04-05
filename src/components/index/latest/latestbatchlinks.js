@@ -3,13 +3,21 @@ import React from 'react'
 import Dotdotdot from 'react-dotdotdot'
 import { Link } from 'react-router-dom'
 import { Typography, Grid, makeStyles, Box } from '@material-ui/core'
-import { animePage } from '../../config/front-routes'
-import { contentHeader } from '../../config/api-routes'
-import { HeaderPlaceholder } from '../../config/theming/images'
+import { animePage } from '../../../config/front-routes'
+import { contentHeader } from '../../../config/api-routes'
+import { HeaderPlaceholder } from '../../../config/theming/images'
 
 const useStyles = makeStyles(theme => ({
     Container: {
-        position: "relative"
+        position: "relative",
+        '&:hover': {
+            '& $Backdrop': {
+                opacity: 0.3
+            },
+            '& $Text': {
+                opacity: 0
+            }
+        }
     },
     ImageContainer: {
         position: "relative",
@@ -30,25 +38,25 @@ const useStyles = makeStyles(theme => ({
         transform: "translate(-50%, -50%)",
         width: "100%",
         textAlign: "center",
-        zIndex: 3
+        zIndex: 3,
+        padding: `0 ${theme.spacing(1)}px`,
+        opacity: 1,
+        transition: theme.transitions.create(["opacity"], { easing: theme.transitions.easing.easeInOut, duration: theme.transitions.duration.short })
     },
     Backdrop: {
         position: "absolute",
-        backgroundColor: "rgba(0,0,0,0.8)",
+        backgroundColor: theme.palette.background.default + "cc",
         width: "100%",
         height: "100%",
         top: 0,
         left: 0,
         zIndex: 2,
         opacity: 1,
-        transition: theme.transitions.create(["opacity"], { easing: theme.transitions.easing.easeInOut, duration: theme.transitions.duration.short }),
-        '&:hover': {
-            opacity: 0.5
-        }
+        transition: theme.transitions.create(["opacity"], { easing: theme.transitions.easing.easeInOut, duration: theme.transitions.duration.short })
     }
 }))
 
-export default function LatestBatchLinks(props) {
+export default (props) => {
     const { slug, name } = props
     const classes = useStyles(props)
 

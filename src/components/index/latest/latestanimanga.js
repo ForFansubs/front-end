@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { animePage, mangaPage } from '../../config/front-routes'
+import { animePage, mangaPage } from '../../../config/front-routes'
 
 import Dotdotdot from 'react-dotdotdot'
 
@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography'
 import blue from '@material-ui/core/colors/blue'
 
-import Format from '../date-fns/format'
+import Format from '../../date-fns/format'
 
 const ContentInfo = styled.div`
     ${props => props.version === "bd" ? `border-right: 4px solid ${blue["A200"]};` : ""}

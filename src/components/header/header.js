@@ -48,7 +48,10 @@ const useStyles = makeStyles(theme => ({
     drawer: {
         width: drawerWidth,
         flexShrink: 0,
-        whiteSpace: 'nowrap',
+        whiteSpace: 'nowrap'
+    },
+    SidePanel: {
+        backgroundColor: theme.palette.background.level1
     },
     toolbar: {
         display: 'flex',
@@ -360,7 +363,7 @@ export default function MiniDrawer() {
                     [classes.drawerClose]: !open,
                 })}
                 classes={{
-                    paper: clsx({
+                    paper: clsx(classes.SidePanel, {
                         [classes.drawerOpen]: open,
                         [classes.drawerClose]: !open,
                     }),

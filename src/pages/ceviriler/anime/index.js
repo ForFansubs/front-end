@@ -10,16 +10,14 @@ import useTheme from '@material-ui/styles/useTheme'
 
 import axios from '../../../config/axios/axios'
 
-import AnimeIndexDesktop from './desktop'
-import AnimeIndexMobile from './mobile';
+import { AnimePage } from '../../../components/ceviriler/components'
 
-import { format } from 'date-fns'
 import { episodeParser } from '../../../components/ceviriler/components'
 import DownloadLink from '../../../components/ceviriler/anime/download-links'
 import { animePage } from '../../../config/front-routes'
 import { getAnimeIndex } from '../../../config/api-routes'
 
-export default function AnimePage(props) {
+export default (props) => {
     const theme = useTheme()
 
     const [anime, setAnime] = useState({})
@@ -33,10 +31,25 @@ export default function AnimePage(props) {
                 getAnimeIndex(props.match.params.slug)
             ).catch(res => res)
             if (res.status === 200) {
-                res.data.translators = res.data.translators.split(',')
-                res.data.encoders = res.data.encoders.split(',')
-                res.data.genres = res.data.genres.split(',')
-                res.data.studios = res.data.studios.split(',')
+                if (res.data.translators)
+                    res.data.translators = res.data.translators.split(',')
+                else
+                    res.data.translators = []
+
+                if (res.data.encoders)
+                    res.data.encoders = res.data.encoders.split(',')
+                else
+                    res.data.encoders = []
+
+                if (res.data.genres)
+                    res.data.genres = res.data.genres.split(',')
+                else
+                    res.data.genres = []
+
+                if (res.data.studios)
+                    res.data.studios = res.data.studios.split(',')
+                else
+                    res.data.studios = []
 
                 setAnime(res.data)
                 setLoading(false)
@@ -97,13 +110,7 @@ export default function AnimePage(props) {
                     <meta property="twitter:image:src" content={anime.cover_art} />
                     <meta name="referrer" content="default" />
                 </Helmet>
-                {
-                    mobile
-                        ?
-                        <AnimeIndexMobile anime={anime} theme={theme} releasedate={format(new Date(anime.release_date), "dd.MM.yyyy")} downloadLinks={downloadLinks} />
-                        :
-                        <AnimeIndexDesktop anime={anime} theme={theme} releasedate={format(new Date(anime.release_date), "dd.MM.yyyy")} downloadLinks={downloadLinks} />
-                }
+                <AnimePage {...anime} downloadLinks={downloadLinks} />
             </>
         )
     }

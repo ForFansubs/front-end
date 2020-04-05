@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { episodePage } from '../../config/front-routes'
+import { episodePage } from '../../../config/front-routes'
 import Dotdotdot from 'react-dotdotdot'
 
 import styled, { css, keyframes } from 'styled-components'
@@ -8,8 +8,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 
-import Format from '../date-fns/format'
-import episodeTitleParser from '../../config/episode-title-parser'
+import Format from '../../date-fns/format'
+import episodeTitleParser from '../../../config/episode-title-parser'
 
 const EpisodeDiv = styled(Box)`
     display: flex;

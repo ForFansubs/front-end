@@ -11,13 +11,10 @@ const theme = {
         primary: { main: '#90caf9' },
         secondary: { main: 'rgb(255,127,80)' },
         background: {
-            default: "rgb(255,255,255)",
-            level1: "rgb(236,236,236)",
-            level2: "rgb(246,246,246)",
-            paper: "rgb(255,255,255)"
-        },
-        text: {
-            primary: "rgba(0, 0, 0, 0.74)"
+            default: "#FFFFFF",
+            level1: "#ECECEC",
+            level2: "#F6F6F6",
+            paper: "#FFFFFF"
         },
         contrastThreshold: 3,
     },
@@ -82,7 +79,11 @@ const theme = {
             colorPrimary: {
                 backgroundColor: 'rgb(236,236,236)'
             }
-        }
+        },
+        defaultMargin: "80px 40px 24px",
+        defaultMarginMobile: "80px 24px 24px",
+        defaultMarginOverride: "-16px -40px -24px",
+        defaultMarginMobileOverride: "-16px -24px -24px"
     },
     transitions: {
         duration: {

@@ -76,11 +76,6 @@ const theme = {
         }
     },
     overrides: {
-        MuiPaper: {
-            root: {
-                backgroundColor: '#212121'
-            }
-        },
         MuiFormLabel: {
             root: {
                 '&$focused': {
@@ -98,22 +93,10 @@ const theme = {
             },
             focused: {}
         },
-        MuiAppBar: {
-            colorPrimary: {
-                backgroundColor: '#333',
-                color: "white"
-            }
-        },
-        MuiButton: {
-            outlinedSecondary: {
-                color: 'rgb(255,127,80)'
-            }
-        },
-        MuiCircularProgress: {
-            svg: {
-                color: '#333'
-            }
-        }
+        defaultMargin: "80px 40px 24px",
+        defaultMarginMobile: "80px 24px 24px",
+        defaultMarginOverride: "-80px -40px 0",
+        defaultMarginMobileOverride: "-80px -24px 0"
     },
     transitions: {
         duration: {

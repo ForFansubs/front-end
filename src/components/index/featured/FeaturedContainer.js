@@ -10,6 +10,11 @@ import { makeStyles, Box } from '@material-ui/core'
 const useStyles = makeStyles(theme => ({
     FeaturedContainer: {
         position: "relative",
+        margin: `-${theme.spacing(2)}px -${theme.spacing(5)}px -${theme.spacing(3)}px`,
+
+        [theme.breakpoints.down("xs")]: {
+            margin: `-${theme.spacing(3)}px -${theme.spacing(3)}px -${theme.spacing(3)}px`
+        }
     },
     PaginationContainer: {
         display: "flex",
@@ -26,12 +31,12 @@ const useStyles = makeStyles(theme => ({
         cursor: "pointer"
     },
     PaginationCirclesActive: {
-        backgroundColor: theme.palette.primary.main
+        backgroundColor: theme.palette.primary.dark
     }
 }))
 
 export default function FeaturedContainer(props) {
-    const { type } = props
+    const { loading } = props
     const [list, setList] = useState([])
     const [active, setActive] = useState(0)
     const [isAutoScrollActive, setIsAutoScrollActive] = useState(true)
@@ -44,7 +49,7 @@ export default function FeaturedContainer(props) {
     return (
         <>
             <Box className={classes.FeaturedContainer}>
-                {list.length === 0 ?
+                {loading ?
                     <>
                         <FeaturedLoading />
                     </>
@@ -57,7 +62,9 @@ export default function FeaturedContainer(props) {
                         <div
                             onMouseEnter={() => setIsAutoScrollActive(false)}
                             onMouseLeave={() => setIsAutoScrollActive(true)}>
-                            <Featured {...list[active]} />
+                            {list.map((l, i) => (
+                                <Featured key={i + " featured"} {...l} index={i} display={i === active} />
+                            ))}
                         </div>
                         <Box className={classes.PaginationContainer}>
                             {list.map((c, i) => (
@@ -75,5 +82,6 @@ export default function FeaturedContainer(props) {
 }
 
 FeaturedContainer.propTypes = {
-    list: PropTypes.array.isRequired
+    list: PropTypes.array.isRequired,
+    loading: PropTypes.bool.isRequired
 }
