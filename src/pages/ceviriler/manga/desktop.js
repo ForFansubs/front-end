@@ -23,7 +23,7 @@ import {
 } from '../../../components/ceviriler/components'
 import WarningBox from '../../../components/warningerrorbox/warning';
 import { Background } from "react-parallax";
-import { contentHeader } from "../../../config/api-routes";
+import { contentHeader, contentCover } from "../../../config/api-routes";
 
 export default function MangaIndexDesktop(props) {
     const { manga, theme, releasedate } = props
@@ -54,7 +54,7 @@ export default function MangaIndexDesktop(props) {
                     component="img" alt={manga.name + " Cover Art"}
                     boxShadow={2}
                     spacingvalue={theme.spacing(2)}
-                    src={manga.cover_art}
+                    src={contentCover("manga", manga.slug)}
                     mb={0} />
                 {manga.download_link ?
                     <a href={manga.download_link} target="_blank" rel="noopener noreferrer">

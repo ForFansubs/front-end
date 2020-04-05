@@ -31,7 +31,7 @@ import {
 import WarningBox from '../../../components/warningerrorbox/warning';
 
 import { getAnimeWatchIndex } from '../../../config/front-routes'
-import { contentHeader } from '../../../config/api-routes'
+import { contentHeader, contentCover } from '../../../config/api-routes'
 
 
 export default function AnimeIndexDesktop(props) {
@@ -65,7 +65,7 @@ export default function AnimeIndexDesktop(props) {
                         loading="lazy"
                         alt={anime.name + " Cover Art"}
                         spacingvalue={theme.spacing(2)}
-                        src={anime.cover_art}
+                        src={contentCover("anime", anime.slug)}
                         mb={0} />
                     {anime.premiered || anime.version === "bd" ?
                         <ContentMetadata {...defaultBoxProps} display="flex" justifyContent="space-evenly" alignItems="center" mb="0" boxShadow={0}>

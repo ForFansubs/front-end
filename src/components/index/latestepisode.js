@@ -10,6 +10,7 @@ import Box from '@material-ui/core/Box'
 
 import Format from '../date-fns/format'
 import episodeTitleParser from '../../config/episode-title-parser'
+import { contentCover } from '../../config/api-routes'
 
 const EpisodeDiv = styled(Box)`
     display: flex;
@@ -128,7 +129,7 @@ export default function LatestEpisode(props) {
                             duration: theme.transitions.duration.short,
                         })}
                         hoverbg={theme.palette.background.paper}>
-                        <EpisodeCoverArt image={props.cover_art} />
+                        <EpisodeCoverArt image={contentCover("anime", props.anime_slug)} />
                         <EpisodeInfo>
                             <Dotdotdot clamp={2} useNativeClamp>
                                 <EpisodeTitle variant="h6">{episodeInfo.title}</EpisodeTitle>

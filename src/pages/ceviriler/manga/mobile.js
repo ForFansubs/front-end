@@ -23,6 +23,7 @@ import {
     Content
 } from '../../../components/ceviriler/components'
 import WarningBox from '../../../components/warningerrorbox/warning';
+import { contentCover } from '../../../config/api-routes'
 
 export default function MangaIndexMobile(props) {
     const { manga, theme, releasedate } = props
@@ -46,7 +47,7 @@ export default function MangaIndexMobile(props) {
                             component="img" alt={manga.name + " Cover Art"}
                             boxShadow={2}
                             spacingvalue={theme.spacing(2)}
-                            src={manga.cover_art}
+                            src={contentCover("manga", manga.slug)}
                             mb={0} />
                     </ContentMetadata>
                     {manga.download_link ?

@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography'
 import blue from '@material-ui/core/colors/blue'
 
 import Format from '../date-fns/format'
+import { contentCover } from '../../config/api-routes';
 
 const ContentInfo = styled.div`
     ${props => props.version === "bd" ? `border-right: 4px solid ${blue["A200"]};` : ""}
@@ -179,7 +180,7 @@ export default function LatestAniManga(props) {
                                     duration: theme.transitions.duration.short,
                                 })}
                                 hoverbg={theme.palette.background.paper}>
-                                <ContentCoverArt image={cover_art} />
+                                <ContentCoverArt image={contentCover("anime", slug)} />
                                 <ContentInfo version={version}>
                                     <ContentTitle
                                         variant="h6"
@@ -233,7 +234,7 @@ export default function LatestAniManga(props) {
                                     duration: theme.transitions.duration.short,
                                 })}
                                 hoverbg={theme.palette.background.paper}>
-                                <ContentCoverArt image={cover_art} />
+                                <ContentCoverArt image={contentCover("manga", slug)} />
                                 <ContentInfo>
                                     <ContentTitle
                                         variant="h6"
