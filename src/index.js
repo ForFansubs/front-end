@@ -15,7 +15,7 @@ import getTheme from './config/theming/index'
 
 import App from './App'
 import * as serviceWorker from './serviceWorker'
-import ToastNotification, {payload} from './components/toastify/toast';
+import ToastNotification, { payload } from './components/toastify/toast';
 
 //Initiate program & define version
 addReactNDevTools()
@@ -39,11 +39,6 @@ try {
 //Get existing localstorage for later use
 const settings = localStorage.getItem("app-settings") ? JSON.parse(localStorage.getItem("app-settings")) : {}
 const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
-
-//Push message on app update
-const onUpdateHandler = () => {
-    ToastNotification(payload("notification-success", "success", "Uygulamanın yeni bir sürümü var. Lütfen bu bildirime basın.", false, "reload"))
-}
 
 //Set global variables & reducers via reactn package
 setGlobal({
@@ -167,8 +162,19 @@ function Mount() {
 
 ReactDOM.render(<Mount />, document.getElementById('app-mount'))
 
-window.onUpdate = onUpdateHandler
-
 serviceWorker.register({
-    onUpdate: onUpdateHandler
+    onUpdate: registration => {
+        ToastNotification(payload("notification-success", "success", "Uygulamanın yeni bir sürümü var. Lütfen bu bildirime basın.", false, "reload"))
+
+        const waitingServiceWorker = registration.waiting
+
+        if (waitingServiceWorker) {
+            waitingServiceWorker.addEventListener("statechange", event => {
+                if (event.target.state === "activated") {
+                    window.location.reload()
+                }
+            });
+            waitingServiceWorker.postMessage({ type: "SKIP_WAITING" });
+        }
+    }
 })
