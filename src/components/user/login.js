@@ -58,8 +58,6 @@ export default function LoginModal() {
     const [userInfo, setUserInfo] = useState(UserModel)
     const [errContainer, setErrContainer] = useState(errContainerModel)
 
-    ReactGA.modalview('/login')
-
     const handleChange = type => event => {
         setUserInfo({ ...userInfo, [type]: event.target.value })
         setErrContainer(errContainerModel)

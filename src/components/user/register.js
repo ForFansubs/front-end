@@ -59,8 +59,6 @@ export default function RegisterModal() {
     const [userInfo, setUserInfo] = useState(UserModel)
     const [errContainer, setErrContainer] = useState(errContainerModel)
 
-    ReactGA.modalview('/register')
-
     const handleChange = type => event => {
         setUserInfo({ ...userInfo, [type]: event.target.value })
         setErrContainer(errContainerModel)
