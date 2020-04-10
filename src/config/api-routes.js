@@ -16,7 +16,8 @@ const getEpisodeInfo = "/bolum/izleme-linkleri"
 const loginRoute = "/kullanici/giris"
 const registerRoute = "/kullanici/kayit"
 
-const contentHeader = (type, slug) => `/api/resimler/${type}/${slug}-header.jpeg`
+const contentCover = (type, slug, size) => `/api/resimler/${type}/${slug}-cover${size ? `?size=${size}` : ""}`
+const contentHeader = (type, slug, size) => `/api/resimler/${type}/${slug}-header${size ? `?size=${size}` : ""}`
 
 export {
     indexURL,
@@ -34,5 +35,6 @@ export {
     getEpisodeInfo,
     loginRoute,
     registerRoute,
+    contentCover,
     contentHeader
 }

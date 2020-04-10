@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from '../../config/axios/axios'
 import { Helmet } from 'react-helmet-async'
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga'
 
 import find from 'lodash-es/find'
 import Loading from '../../components/progress/index'
@@ -11,37 +11,23 @@ import { getEpisodePageInfo, getEpisodeInfo } from '../../config/api-routes'
 import { episodePage, animePage } from '../../config/front-routes'
 
 import {
-    PageContainer,
-    PagePlacer,
-    ContentIframeContainer,
+    useStyles,
     EpisodeListParser,
-    ContentEpisodeButtons,
-    ContentTitle,
-    ContentIframe,
-    ContentIframePlaceholder,
-    ContentWarning,
-    ContentError,
     defaultBoxProps,
-    ContentLinksContainer,
-    ContentLinksButtonContainer,
-    ContentLinksButton,
-    ContentFallback,
-    ContentEpisodeContainer,
-    ContentCommentsContainer,
-    ContentCreditsContainer,
-    ContentAnimeButton,
-    Page
-} from '../../components/episode/components';
+} from '../../components/episode/components'
+import ContentError from '../../components/warningerrorbox/error'
+import ContentWarning from '../../components/warningerrorbox/warning'
+import DisqusBox from '../../components/disqus/disqus'
 
-import useTheme from '@material-ui/styles/useTheme'
 import InfoIcon from '@material-ui/icons/Info'
-import WarningIcon from '@material-ui/icons/Warning';
-import Typography from '@material-ui/core/Typography';
-import CircularProgress from '../../components/progress/index';
-import EpisodeLinkOverride from '../../config/episode-link-overrides';
+import WarningIcon from '@material-ui/icons/Warning'
+import CircularProgress from '../../components/progress/index'
+import EpisodeLinkOverride from '../../config/episode-link-overrides'
+import { Grid, Box, Button, Typography } from '@material-ui/core'
+import clsx from 'clsx'
 
 export default function EpisodePage(props) {
-    const theme = useTheme()
+    const classes = useStyles()
     let episodeDataMapped = "", watchLinksMapped = ""
 
     const [animeData, setAnimeData] = useState({
@@ -63,6 +49,7 @@ export default function EpisodePage(props) {
     const [loading, setLoading] = useState(true)
     const [episodeLoading, setEpisodeLoading] = useState(false)
     const [iframeLoading, setIframeLoading] = useState(false)
+    const [showWatchLinks, setShowWatchLinks] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -136,6 +123,8 @@ export default function EpisodePage(props) {
 
     function handleEpisodeClick(slug, title, episode_data, credits) {
         setEpisodeLoading(true)
+        setShowWatchLinks(true)
+        handleMouseLeaveWatchLink()
         setActiveEpisode({
             episode_number: null,
             special_type: "",
@@ -176,6 +165,14 @@ export default function EpisodePage(props) {
         })
     }
 
+    function handleMouseEnterWatchLink() {
+        setShowWatchLinks(true)
+    }
+
+    function handleMouseLeaveWatchLink() {
+        setTimeout(() => setShowWatchLinks(false), 3000)
+    }
+
     function handleFirstLinkMount(link) {
         handleLinkClick(link)
     }
@@ -191,7 +188,8 @@ export default function EpisodePage(props) {
             let { slug, title, data } = EpisodeListParser(e.episode_number, e.special_type)
 
             return (
-                <ContentEpisodeButtons
+                <Button
+                    className={classes.EpisodeButtons}
                     last={data_length - 1 === i ? "true" : undefined}
                     fullWidth
                     variant="outlined"
@@ -199,13 +197,14 @@ export default function EpisodePage(props) {
                     color={e.special_type === activeEpisode.special_type && e.episode_number === activeEpisode.episode_number ? "secondary" : "default"}
                     key={e.id}>
                     {title}
-                </ContentEpisodeButtons>
+                </Button>
             )
         })
 
         if (watchLinks.length !== 0) {
             watchLinksMapped = watchLinks.map((w, i) => (
-                <ContentLinksButton
+                <Button
+                    className={classes.LinksButton}
                     size="small"
                     last={watchLinks.length - 1 === i ? "true" : undefined}
                     variant="outlined"
@@ -214,7 +213,7 @@ export default function EpisodePage(props) {
                     onClick={() => handleLinkClick(w.link)}
                 >
                     {w.type.toUpperCase()}
-                </ContentLinksButton>
+                </Button>
             ))
         }
 
@@ -241,12 +240,12 @@ export default function EpisodePage(props) {
                     <meta property="twitter:image:src" content={animeData.cover_art} />
                     <meta name="referrer" content="default" />
                 </Helmet>
-                <Page theme={theme} container spacing={2}>
-                    <PagePlacer item xs={12}>
-                        <ContentTitle variant="h1">{animeData.name} {activeEpisode.title ? activeEpisode.title : "- Lütfen bölüm seçin"}</ContentTitle>
-                    </PagePlacer>
-                    <PagePlacer item xs={12} md={9}>
-                        <ContentIframeContainer {...defaultBoxProps} bgcolor="background.level1">
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <Typography variant="h1">{animeData.name} {activeEpisode.title ? activeEpisode.title : "- Lütfen bölüm seçin"}</Typography>
+                    </Grid>
+                    <Grid item xs={12} md={9} onMouseEnter={handleMouseEnterWatchLink} onMouseLeave={handleMouseLeaveWatchLink}>
+                        <Box {...defaultBoxProps} className={classes.IframeContainer} bgcolor="background.level1">
                             {activeEpisode.episode_number
                                 ?
                                 watchLinks.length !== 0
@@ -254,15 +253,17 @@ export default function EpisodePage(props) {
                                     <>
                                         {iframeLoading
                                             ?
-                                            <ContentIframePlaceholder bgcolor="common.black">
+                                            <Box className={classes.IframePlaceholder} bgcolor="common.black">
                                                 <CircularProgress />
-                                            </ContentIframePlaceholder>
+                                            </Box>
                                             :
                                             ""
                                         }
                                         {activeLink
                                             ?
-                                            <ContentIframe
+                                            <iframe
+                                                title="watch-screen"
+                                                className={classes.Iframe}
                                                 id="video-iframe"
                                                 onLoad={() => setIframeLoading(false)}
                                                 allowFullScreen
@@ -270,14 +271,21 @@ export default function EpisodePage(props) {
                                             :
                                             ""
                                         }
-                                        <ContentFallback id="video-fallback" />
+                                        <div id="video-fallback" className={classes.FallbackContainer} />
                                         {watchLinksMapped.length !== 0
                                             ?
-                                            <ContentLinksContainer {...defaultBoxProps} p={1} bgcolor="background.level1">
-                                                <ContentLinksButtonContainer>
+                                            <Box
+                                                {...defaultBoxProps}
+                                                className={clsx(classes.LinksContainer, {
+                                                    [classes.LinksContainerOpen]: showWatchLinks,
+                                                    [classes.LinksContainerClose]: !showWatchLinks,
+                                                })}
+                                                p={1}
+                                                bgcolor="background.level1">
+                                                <div className={classes.LinksButtonContainer}>
                                                     {watchLinksMapped}
-                                                </ContentLinksButtonContainer>
-                                            </ContentLinksContainer>
+                                                </div>
+                                            </Box>
                                             :
                                             ""
                                         }
@@ -299,43 +307,43 @@ export default function EpisodePage(props) {
                                     <Typography variant="subtitle2">Lütfen bölüm seçiniz.</Typography>
                                 </ContentWarning>
                             }
-                        </ContentIframeContainer>
-                    </PagePlacer>
-                    <PagePlacer item xs={12} md={3}>
-                        <ContentEpisodeContainer mb={2}>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={12} md={3}>
+                        <Box mb={2} className={classes.EpisodeContainer}>
                             {episodeDataMapped.length !== 0
                                 ?
                                 episodeDataMapped
                                 :
                                 ""
                             }
-                        </ContentEpisodeContainer>
+                        </Box>
                         {activeEpisode.credits ?
-                            <PageContainer {...defaultBoxProps} p={2} mb={2} style={{ overflowWrap: "break-word" }}>
-                                <ContentCreditsContainer>
+                            <Box {...defaultBoxProps} p={2} mb={2} style={{ overflowWrap: "break-word" }}>
+                                <Box>
                                     <Typography variant="h4">Emektar</Typography>
                                     <Typography variant="h5">{activeEpisode.credits}</Typography>
-                                </ContentCreditsContainer>
-                            </PageContainer>
+                                </Box>
+                            </Box>
                             : ""}
-                        <PageContainer>
+                        <Box>
                             <Link to={animePage(props.match.params.slug)}>
-                                <ContentAnimeButton variant="contained" fullWidth>
+                                <Button variant="contained" fullWidth>
                                     <Typography variant="h6">Animeye git</Typography>
-                                </ContentAnimeButton>
+                                </Button>
                             </Link>
-                        </PageContainer>
-                    </PagePlacer>
+                        </Box>
+                    </Grid>
                     {activeEpisode.slug ?
-                        <PagePlacer item xs={12}>
-                            <PageContainer {...defaultBoxProps} p={2}>
-                                <ContentCommentsContainer
+                        <Grid item xs={12}>
+                            <Box {...defaultBoxProps} p={2}>
+                                <DisqusBox
                                     withButton
                                     config={{ identifier: `anime/${animeData.slug}/${activeEpisode.slug}` }} />
-                            </PageContainer>
-                        </PagePlacer>
+                            </Box>
+                        </Grid>
                         : ""}
-                </Page>
+                </Grid>
             </>
         )
     }
@@ -343,9 +351,9 @@ export default function EpisodePage(props) {
     else if (!loading) {
         return (
             <>
-                <PagePlacer container>
-                    <ContentTitle variant="h1">Bölüm bulunamadı.</ContentTitle>
-                </PagePlacer>
+                <Grid container>
+                    <Typography variant="h1">Bölüm bulunamadı.</Typography>
+                </Grid>
             </>
         )
     }

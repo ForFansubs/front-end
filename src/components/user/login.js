@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import ReactGA from 'react-ga';
 
 import Modal from '@material-ui/core/Modal'
 import Box from '@material-ui/core/Box'
@@ -57,8 +56,6 @@ export default function LoginModal() {
     const [showModal, setShowModal] = useGlobal('showModal')
     const [userInfo, setUserInfo] = useState(UserModel)
     const [errContainer, setErrContainer] = useState(errContainerModel)
-
-    ReactGA.modalview('/login')
 
     const handleChange = type => event => {
         setUserInfo({ ...userInfo, [type]: event.target.value })

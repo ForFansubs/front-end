@@ -78,7 +78,6 @@ export default (props) => {
                     title={episodeParser(data.episode_number, data.special_type)}
                     animeslug={anime.slug}
                     episodeid={data.id}
-                    hoverbg={theme.palette.background.paper}
                     transition={theme.transitions.create('background', {
                         easing: theme.transitions.easing.easeInOut,
                         duration: theme.transitions.duration.short,

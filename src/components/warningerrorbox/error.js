@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
         boxShadow: theme.shadows[2],
         padding: theme.spacing(1),
         marginBottom: theme.spacing(1),
-        backgroundColor: props => props.bgcolor || theme.palette.background.level2,
+        backgroundColor: props => props.bgcolor || theme.palette.background.paper,
         '& svg': {
             marginRight: 5
         }

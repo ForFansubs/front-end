@@ -9,10 +9,9 @@ const useStyles = makeStyles(theme => ({
         borderLeft: `${yellow.A200} 4px solid`,
         display: "flex",
         alignItems: "center",
-        backgroundColor: props => props.bgcolor || theme.palette.background.level2,
+        backgroundColor: props => props.bgcolor || theme.palette.background.paper,
         boxShadow: theme.shadows[2],
         padding: theme.spacing(1),
-        marginBottom: theme.spacing(1),
         '& svg': {
             marginRight: 5
         }
