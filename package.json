@@ -1,6 +1,6 @@
 {
   "name": "forfansubsfront",
-  "version": "2.6.0",
+  "version": "3.0.0beta1",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.27",

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
 import ReactGA from 'react-ga';
+import Metatags from '../../../components/helmet/index'
 
 import Loading from '../../../components/progress/index'
 
@@ -17,9 +17,7 @@ import { getMangaIndex } from '../../../config/api-routes'
 
 
 
-export default (props) => {
-    const theme = useTheme()
-
+export default function (props) {
     const [manga, setManga] = useState({})
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
@@ -58,27 +56,10 @@ export default (props) => {
 
     if (!loading) {
         const title = `${process.env.REACT_APP_SITENAME} ${manga.name} Türkçe ${manga.mos_link ? "Oku" : ""} ${manga.download_link ? "İndir" : ""}`
-
+        const desc = `${manga.name} Türkçe Oku & İndir - ${manga.synopsis}`
         return (
             <>
-                <Helmet>
-                    <title>{title}</title>
-                    <meta name="title" content={title} />
-                    <meta name="description" content={`${manga.name} Türkçe Oku & İndir - ${manga.synopsis}`} />
-                    <meta name="keywords" content={process.env.REACT_APP_META_KEYWORDS} />
-                    <meta property="og:type" content="books.book" />
-                    <meta property="og:site_name" content={process.env.REACT_APP_SITEURL} />
-                    <meta property="og:url" content={process.env.REACT_APP_SITEURL + mangaPage(manga.slug)} />
-                    <meta property="og:title" content={title} />
-                    <meta property="og:description" content={`${manga.name} Türkçe Oku & İndir - ${manga.synopsis}`} />
-                    <meta property="og:image" content={manga.cover_art} />
-                    <meta name="twitter:card" content="summary" />
-                    <meta property="twitter:url" content={process.env.REACT_APP_SITEURL + mangaPage(manga.slug)} />
-                    <meta property="twitter:title" content={title} />
-                    <meta property="twitter:description" content={`${manga.name} Türkçe Oku & İndir - ${manga.synopsis}`} />
-                    <meta property="twitter:image:src" content={manga.cover_art} />
-                    <meta name="referrer" content="default" />
-                </Helmet>
+                <Metatags title={title} desc={desc} url={mangaPage(manga.slug)} content="books.book" image={manga.cover_art} />
                 <MangaPage {...manga} />
             </>
         )

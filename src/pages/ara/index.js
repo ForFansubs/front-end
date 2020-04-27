@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Helmet } from 'react-helmet-async'
 import ReactGA from 'react-ga';
+import Metatags from '../../components/helmet/index'
 
 import TextField from '@material-ui/core/TextField'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -24,11 +24,10 @@ import {
     MangaContainerPlaceholder
 } from '../../components/ara/components'
 
-import { Typography, Box, Grid, Button } from '@material-ui/core';
+import { Typography, Box, Grid, Button } from '@material-ui/core'
 import InfoIcon from '@material-ui/icons/Info'
-import WarningIcon from '@material-ui/icons/Warning';
-import CircularProgress from '../../components/progress/index';
-import { logoRoute } from '../../config/front-routes';
+import WarningIcon from '@material-ui/icons/Warning'
+import CircularProgress from '../../components/progress/index'
 
 const searchTextAPI = (data, text) => {
     if (text.length < 3) {
@@ -274,22 +273,7 @@ export default function SearchPage(props) {
 
     return (
         <>
-            <Helmet>
-                <title>{title}</title>
-                <meta name="title" content={title} />
-                <meta name="description" content={desc} />
-                <meta name="keywords" content={process.env.REACT_APP_META_KEYWORDS} />
-                <meta property="og:type" content="website" />
-                <meta property="og:url" content={process.env.REACT_APP_SITEURL + "/ara"} />
-                <meta property="og:title" content={title} />
-                <meta property="og:description" content={desc} />
-                <meta property="og:image" content={process.env.REACT_APP_SITEURL + logoRoute} />
-                <meta property="twitter:card" content="summary" />
-                <meta property="twitter:url" content={process.env.REACT_APP_SITEURL + "/ara"} />
-                <meta property="twitter:title" content={title} />
-                <meta property="twitter:description" content={desc} />
-                <meta property="twitter:image" content={process.env.REACT_APP_SITEURL + logoRoute} />
-            </Helmet>
+            <Metatags title={title} desc={desc} url="/ara" type="website" />
             <Grid container spacing={2}>
                 <Grid item xs={12} md={2}>
                     <Box justifyContent="space">

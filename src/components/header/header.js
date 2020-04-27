@@ -5,7 +5,7 @@ import Footer from '../footer/footer'
 
 import clsx from 'clsx'
 import useTheme from '@material-ui/styles/useTheme'
-import { Drawer, AppBar, Toolbar, List, Divider, ListItem, ListItemIcon, ListItemText, Typography, MenuItem, Menu, makeStyles } from '@material-ui/core'
+import { Drawer, AppBar, Toolbar, List, Divider, ListItem, ListItemIcon, ListItemText, Typography, MenuItem, Menu, makeStyles, Box } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import InfoIcon from '@material-ui/icons/Info';
@@ -80,6 +80,23 @@ const useStyles = makeStyles(theme => ({
     ListItemText: {
         fontSize: ".8rem!important"
     },
+    ListItemIcon: {
+
+    },
+    iconContainer: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        flexWrap: "wrap",
+        width: theme.spacing(9) + 1,
+    },
+    shortText: {
+        display: "none",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap"
+    },
     drawerOpen: {
         width: "100vw",
         '& $ListItemText': {
@@ -91,10 +108,22 @@ const useStyles = makeStyles(theme => ({
         overflowX: "hidden"
     },
     drawerClose: {
+        '& $ListItem': {
+            padding: 0
+        },
+        '& $iconContainer': {
+            padding: theme.spacing(2)
+        },
+        '& $shortText': {
+            display: "block"
+        },
+        '& $ListItemText': {
+            display: "none"
+        },
         overflowX: 'hidden',
         width: 0,
         [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(8) + 1,
+            width: theme.spacing(9) + 1,
         },
         [theme.breakpoints.down('xs')]: {
             borderRight: 0
@@ -140,13 +169,15 @@ export default function MiniDrawer() {
             icon: <HomeIcon />
         },
         {
-            text: "Anime ara",
+            text: "İçerik ara",
+            shortText: "Ara",
             link: searchPage,
             show: true,
             icon: <SearchIcon />
         },
         {
             text: "Sıkça Sorulan Sorular",
+            shortText: "SSS",
             link: faqPage,
             show: process.env.REACT_APP_SSS_PAGE_TEXT ? true : false,
             icon: <InfoIcon />
@@ -161,6 +192,7 @@ export default function MiniDrawer() {
     const [menuItems2] = React.useState([
         {
             text: "Discord sunucumuza katılın!",
+            shortText: "Discord",
             link: process.env.REACT_APP_DISCORD_LINK,
             show: process.env.REACT_APP_DISCORD_LINK ? true : false,
             icon: <FontAwesomeIcon icon={faDiscord} size="2x" />
@@ -207,7 +239,10 @@ export default function MiniDrawer() {
                         (
                             <NavLink exact to={item.link} onClick={handleDrawerClose} activeStyle={{ backgroundColor: theme.palette.background.level2 }} key={item.text}>
                                 <ListItem className={classes.ListItem} button style={{ backgroundColor: "inherit" }}>
-                                    <ListItemIcon style={{ color: theme.palette.text.primary }}>{item.icon}</ListItemIcon>
+                                    <Box className={classes.iconContainer}>
+                                        <ListItemIcon className={classes.ListItemIcon}>{item.icon}</ListItemIcon>
+                                        <Typography variant="subtitle2" className={classes.shortText}>{item.shortText || item.text}</Typography>
+                                    </Box>
                                     <ListItemText className={classes.ListItemText}><Typography variant="body2">{item.text}</Typography></ListItemText>
                                 </ListItem>
                             </NavLink>

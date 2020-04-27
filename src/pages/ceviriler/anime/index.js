@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
+import Metatags from '../../../components/helmet/index'
 import ReactGA from 'react-ga';
 
 import Loading from '../../../components/progress/index'
@@ -17,9 +17,7 @@ import DownloadLink from '../../../components/ceviriler/anime/download-links'
 import { animePage } from '../../../config/front-routes'
 import { getAnimeIndex } from '../../../config/api-routes'
 
-export default (props) => {
-    const theme = useTheme()
-
+export default function (props) {
     const [anime, setAnime] = useState({})
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
@@ -77,11 +75,7 @@ export default (props) => {
                     key={data.id}
                     title={episodeParser(data.episode_number, data.special_type)}
                     animeslug={anime.slug}
-                    episodeid={data.id}
-                    transition={theme.transitions.create('background', {
-                        easing: theme.transitions.easing.easeInOut,
-                        duration: theme.transitions.duration.short,
-                    })} />
+                    episodeid={data.id} />
                 : null
         )
 
@@ -89,26 +83,10 @@ export default (props) => {
         downloadLinks = downloadLinks.filter(d => d)
 
         const title = `${process.env.REACT_APP_SITENAME} ${anime.name} Türkçe ${anime.episodes.length !== 0 ? "İzle ve İndir" : ""}`
+        const desc = `${anime.name} Türkçe İzle & İndir - ${anime.synopsis}`
         return (
             <>
-                <Helmet>
-                    <title>{title}</title>
-                    <meta name="title" content={title} />
-                    <meta name="description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis}`} />
-                    <meta name="keywords" content={process.env.REACT_APP_META_KEYWORDS} />
-                    <meta property="og:type" content="video.tv_show" />
-                    <meta property="og:site_name" content={process.env.REACT_APP_SITEURL} />
-                    <meta property="og:url" content={process.env.REACT_APP_SITEURL + animePage(anime.slug)} />
-                    <meta property="og:title" content={title} />
-                    <meta property="og:description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis}`} />
-                    <meta property="og:image" content={anime.cover_art} />
-                    <meta name="twitter:card" content="summary" />
-                    <meta property="twitter:url" content={process.env.REACT_APP_SITEURL + animePage(anime.slug)} />
-                    <meta property="twitter:title" content={title} />
-                    <meta property="twitter:description" content={`${anime.name} Türkçe İzle & İndir - ${anime.synopsis}`} />
-                    <meta property="twitter:image:src" content={anime.cover_art} />
-                    <meta name="referrer" content="default" />
-                </Helmet>
+                <Metatags title={title} desc={desc} url={animePage(anime.slug)} content="video.tv_show" image={anime.cover_art} />
                 <AnimePage {...anime} downloadLinks={downloadLinks} />
             </>
         )
