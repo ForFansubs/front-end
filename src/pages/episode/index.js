@@ -297,13 +297,12 @@ export default function EpisodePage(props) {
                                         <ContentError
                                             {...defaultBoxProps}
                                             p={1}>
-                                            <WarningIcon />
                                             <Typography variant="subtitle2">Link bulunamadı.</Typography>
                                         </ContentError>
                                 :
                                 <ContentWarning
                                     {...defaultBoxProps}
-                                    p={1}><InfoIcon />
+                                    p={1}>
                                     <Typography variant="subtitle2">Lütfen bölüm seçiniz.</Typography>
                                 </ContentWarning>
                             }

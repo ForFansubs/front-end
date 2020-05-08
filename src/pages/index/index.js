@@ -111,14 +111,11 @@ export default () => {
     featuredAnimeWindow = <FeaturedContainer list={featuredAnimes} loading={featuredLoading} />
 
     //Handle latest batch episodes
-    if (!batchLoading) {
-        if (batchEpisodes.length) {
-            batchEpisodesWindow = batchEpisodes.map(episode => <LatestBatchLinks
-                {...episode}
-                key={episode.id + " batch"}
-            />)
-        }
-    }
+    batchEpisodesWindow = batchEpisodes.map(episode => <LatestBatchLinks
+        loading={batchLoading}
+        {...episode}
+        key={episode.id + " batch"}
+    />)
 
     const title = `${process.env.REACT_APP_SITENAME} ${process.env.REACT_APP_INDEX_TITLE_TEXT}`
 

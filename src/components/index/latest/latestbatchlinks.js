@@ -57,31 +57,40 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default (props) => {
-    const { slug, name } = props
+    const { slug, name, loading } = props
     const classes = useStyles(props)
 
-    return (
-        <>
-            <Grid item xs={6} md={4} lg={2}>
-                <Link to={animePage(slug)}>
-                    <div className={classes.Container}>
-                        <div className={classes.ImageContainer}>
-                            <img src={contentHeader("anime", props.slug)} onError={img => {
-                                img.target.onerror = null
-                                img.target.src = HeaderPlaceholder
-                            }} alt={name + " toplu"} />
+    if (loading) {
+        console.log("batch yüklşeniyor")
+        return (
+            <>
+                <p>Yükleniyor</p>
+            </>
+        )
+    }
+    else
+        return (
+            <>
+                <Grid item xs={6} md={4} lg={2}>
+                    <Link to={animePage(slug)}>
+                        <div className={classes.Container}>
+                            <div className={classes.ImageContainer}>
+                                <img src={contentHeader("anime", props.slug)} onError={img => {
+                                    img.target.onerror = null
+                                    img.target.src = HeaderPlaceholder
+                                }} alt={name + " toplu"} />
+                            </div>
+                            <div className={classes.Text}>
+                                <Dotdotdot clamp={1} useNativeClamp>
+                                    <Typography variant="h6">
+                                        {name}
+                                    </Typography>
+                                </Dotdotdot>
+                            </div>
+                            <div className={classes.Backdrop} />
                         </div>
-                        <div className={classes.Text}>
-                            <Dotdotdot clamp={1} useNativeClamp>
-                                <Typography variant="h6">
-                                    {name}
-                                </Typography>
-                            </Dotdotdot>
-                        </div>
-                        <div className={classes.Backdrop} />
-                    </div>
-                </Link>
-            </Grid>
-        </>
-    )
+                    </Link>
+                </Grid>
+            </>
+        )
 }

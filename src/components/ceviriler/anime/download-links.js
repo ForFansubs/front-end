@@ -13,6 +13,9 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.background.level2,
         zIndex: 4
     },
+    Button: {
+        marginRight: theme.spacing(1)
+    },
     LinkContainer: {
         backgroundColor: theme.palette.background.level1,
         '&:hover': {
@@ -118,7 +121,7 @@ export default function DownloadLink(props) {
     return (
         <>
             <ClickAwayListener onClickAway={handleCloseEvent}>
-                <Button variant="outlined" aria-describedby={id} onClick={handleShowEvent}>
+                <Button variant="outlined" aria-describedby={id} onClick={handleShowEvent} className={classes.Button}>
                     {props.title}
                 </Button>
             </ClickAwayListener>
@@ -126,7 +129,7 @@ export default function DownloadLink(props) {
             <Popper placement="bottom-start" id={id} open={open} anchorEl={anchorEl} transition>
                 {({ TransitionProps }) => (
                     <Fade {...TransitionProps} timeout={350}>
-                        <Box className={classes.Container} boxShadow={2} p={1} >
+                        <Box className={classes.Container} boxShadow={2} p={1}>
                             <DownloadLinkContainer />
                         </Box>
                     </Fade>

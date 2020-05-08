@@ -18,6 +18,7 @@ const registerRoute = "/kullanici/kayit"
 
 const contentCover = (type, slug, size) => `/api/resimler/${type}/${slug}-cover${size ? `?size=${size}` : ""}`
 const contentHeader = (type, slug, size) => `/api/resimler/${type}/${slug}-header${size ? `?size=${size}` : ""}`
+const contentLogo = (type, slug) => `/api/resimler/${type}/${slug}-logo?type=logo`
 
 export {
     indexURL,
@@ -36,5 +37,6 @@ export {
     loginRoute,
     registerRoute,
     contentCover,
-    contentHeader
+    contentHeader,
+    contentLogo
 }

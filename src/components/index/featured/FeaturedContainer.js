@@ -10,10 +10,10 @@ import { makeStyles, Box } from '@material-ui/core'
 const useStyles = makeStyles(theme => ({
     FeaturedContainer: {
         position: "relative",
-        margin: `-${theme.spacing(2)}px -${theme.spacing(5)}px -${theme.spacing(3)}px`,
+        margin: theme.overrides.defaultMarginOverride,
 
         [theme.breakpoints.down("xs")]: {
-            margin: `-${theme.spacing(3)}px -${theme.spacing(3)}px -${theme.spacing(3)}px`
+            margin: theme.overrides.defaultMarginMobileOverride
         }
     },
     PaginationContainer: {

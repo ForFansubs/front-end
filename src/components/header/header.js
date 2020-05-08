@@ -75,32 +75,63 @@ const useStyles = makeStyles(theme => ({
         width: "100vw",
         [theme.breakpoints.up('sm')]: {
             width: drawerWidth,
+        },
+        transition: "none",
+        '&:hover': {
+            backgroundColor: theme.palette.background.level2
         }
     },
     ListItemText: {
         fontSize: ".8rem!important"
     },
     ListItemIcon: {
-
+        display: "contents",
+        color: theme.palette.grey["500"],
+        '& svg': {
+            color: theme.palette.grey["500"]
+        },
     },
     iconContainer: {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        flexWrap: "wrap",
         width: theme.spacing(9) + 1,
     },
     shortText: {
         display: "none",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-        whiteSpace: "nowrap"
+        whiteSpace: "pre-wrap",
+        textAlign: "center",
+        fontSize: "0.7rem",
+        color: theme.palette.grey["500"]
+    },
+    active: {
+        '& $ListItem': {
+            backgroundColor: theme.palette.background.level2
+        },
+        '& $shortText': {
+            color: theme.palette.primary.contrastText
+        },
+        '& $ListItemIcon': {
+            color: theme.palette.primary.contrastText,
+            '& svg': {
+                color: theme.palette.primary.contrastText
+            }
+        }
+    },
+    secondary: {
+        '&:hover': {
+            backgroundColor: theme.palette.background.level2
+        }
     },
     drawerOpen: {
         width: "100vw",
         '& $ListItemText': {
             whiteSpace: "pre-wrap"
+        },
+        '& $iconContainer': {
+            alignItems: "initial",
+            width: `${theme.spacing(6)}px`
         },
         [theme.breakpoints.up('sm')]: {
             width: drawerWidth,
@@ -112,7 +143,7 @@ const useStyles = makeStyles(theme => ({
             padding: 0
         },
         '& $iconContainer': {
-            padding: theme.spacing(2)
+            padding: `${theme.spacing(1)}px ${theme.spacing(0)}px`
         },
         '& $shortText': {
             display: "block"
@@ -150,7 +181,7 @@ export default function MiniDrawer() {
     const classes = useStyles();
     const theme = useTheme();
     // eslint-disable-next-line
-    const [showModal, setShowModal] = useGlobal('showModal')
+    const [, setShowModal] = useGlobal('showModal')
     const [userInfo] = useGlobal('user')
     const [usertheme] = useGlobal('theme')
     const [isAdmin] = useGlobal('isAdmin')
@@ -158,12 +189,12 @@ export default function MiniDrawer() {
     const setUserTheme = useDispatch('setTheme')
     const [anchorEl, setAnchorEl] = useState(null)
     const profileMenu = Boolean(anchorEl);
-    const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent)
 
     const [open, setOpen] = React.useState(false);
     const [menuItems] = React.useState([
         {
             text: "Ana sayfa",
+            shortText: "Ana Sayfa",
             link: indexPage,
             show: true,
             icon: <HomeIcon />
@@ -237,8 +268,8 @@ export default function MiniDrawer() {
                 <List>
                     {menuItems.map((item, index) => item.show ?
                         (
-                            <NavLink exact to={item.link} onClick={handleDrawerClose} activeStyle={{ backgroundColor: theme.palette.background.level2 }} key={item.text}>
-                                <ListItem className={classes.ListItem} button style={{ backgroundColor: "inherit" }}>
+                            <NavLink exact to={item.link} onClick={handleDrawerClose} activeClassName={classes.active} key={item.text}>
+                                <ListItem className={classes.ListItem} button>
                                     <Box className={classes.iconContainer}>
                                         <ListItemIcon className={classes.ListItemIcon}>{item.icon}</ListItemIcon>
                                         <Typography variant="subtitle2" className={classes.shortText}>{item.shortText || item.text}</Typography>
@@ -259,18 +290,13 @@ export default function MiniDrawer() {
                                 {menuItems2.map((item, index) => {
                                     if (item.show)
                                         return (
-                                            <a href={item.link} target="_blank" rel="noopener noreferrer" key={item.text}>
-                                                <ListItem button className={classes.ListItem}>
-                                                    <ListItemIcon style={{ color: theme.palette.text.primary }}>{item.icon}</ListItemIcon>
-                                                    <ListItemText
-                                                        className={clsx(classes.ListItemText, {
-                                                            [classes.ListItemTextOpen]: open,
-                                                            [classes.ListItemTextClose]: !open,
-                                                        })}>
-                                                        <Typography variant="body2">
-                                                            {item.text}
-                                                        </Typography>
-                                                    </ListItemText>
+                                            <a href={item.link} target="_blank" rel="noopener noreferrer" className={classes.secondary} key={item.text}>
+                                                <ListItem className={classes.ListItem} button style={{ backgroundColor: "inherit" }}>
+                                                    <Box className={classes.iconContainer}>
+                                                        <ListItemIcon className={classes.ListItemIcon}>{item.icon}</ListItemIcon>
+                                                        <Typography variant="subtitle2" className={classes.shortText}>{item.shortText}</Typography>
+                                                    </Box>
+                                                    <ListItemText className={classes.ListItemText}><Typography variant="body2">{item.text}</Typography></ListItemText>
                                                 </ListItem>
                                             </a>
                                         )

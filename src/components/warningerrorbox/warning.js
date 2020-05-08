@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { Box, Typography, makeStyles } from '@material-ui/core'
-import WarningIcon from '@material-ui/icons/Warning'
-import yellow from '@material-ui/core/colors/red'
+import InfoIcon from '@material-ui/icons/Info'
+import yellow from '@material-ui/core/colors/yellow'
 
 const useStyles = makeStyles(theme => ({
     Container: {
@@ -19,11 +19,11 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function WarningBox(props) {
-    const classes = useStyles()
+    const classes = useStyles(props)
 
     return (
-        <Box className={classes.Container}>
-            <WarningIcon /><Typography variant="subtitle2">{props.children}</Typography>
+        <Box className={classes.Container} bgcolor={props.bgcolor || ""}>
+            <InfoIcon /><Typography variant="subtitle2">{props.children}</Typography>
         </Box>
     )
 }

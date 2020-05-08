@@ -16,7 +16,6 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function Footer() {
-    const theme = useTheme()
     const classes = useStyles()
     const version = useGlobal('settings')[0].version
 

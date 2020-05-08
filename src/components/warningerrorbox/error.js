@@ -24,7 +24,7 @@ export default function ErrorBox(props) {
     const classes = useStyles()
 
     return (
-        <Box className={classes.Container}>
+        <Box className={classes.Container} bgcolor={props.bgcolor || ""}>
             <WarningIcon /><Typography variant="subtitle2">{props.children}</Typography>
         </Box>
     )
