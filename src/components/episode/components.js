@@ -45,17 +45,6 @@ const useStyles = makeStyles(theme => ({
         height: "100%"
     },
     LinksContainer: {
-        position: "absolute",
-        top: 20,
-        left: 20,
-        marginRight: 20,
-        marginBottom: -4,
-        zIndex: 3,
-        transition: theme.transitions.create('opacity', {
-            easing: theme.transitions.easing.easeInOut,
-            duration: theme.transitions.duration.short,
-        }),
-
         '& button': {
             marginBottom: 4,
             marginRight: 4
@@ -84,6 +73,12 @@ const useStyles = makeStyles(theme => ({
         },
         '& span': {
             fontSize: ".7rem"
+        }
+    },
+    MetadataContainer: {
+        '& img': {
+            width: "100%",
+            marginBottom: -5
         }
     },
     EpisodeContainer: {

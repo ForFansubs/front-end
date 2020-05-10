@@ -25,6 +25,8 @@ import CircularProgress from '../../components/progress/index'
 import EpisodeLinkOverride from '../../config/episode-link-overrides'
 import { Grid, Box, Button, Typography } from '@material-ui/core'
 import clsx from 'clsx'
+import { format } from 'date-fns'
+import Dotdotdot from 'react-dotdotdot'
 
 export default function EpisodePage(props) {
     const classes = useStyles()
@@ -43,7 +45,8 @@ export default function EpisodePage(props) {
         special_type: "",
         slug: "",
         title: "",
-        credits: ""
+        credits: "",
+        created_time: null
     })
     const [activeLink, setActiveLink] = useState(null)
     const [loading, setLoading] = useState(true)
@@ -79,8 +82,8 @@ export default function EpisodePage(props) {
                 let { slug, title, data } = EpisodeListParser(episode_number, special_type)
                 const episode = find(pageInfo.data, { special_type, episode_number })
                 if (episode) {
-                    const { credits } = episode
-                    handleEpisodeClick(slug, title, data, credits)
+                    const { credits, created_time } = episode
+                    handleEpisodeClick(slug, title, data, credits, created_time)
                 }
             }
 
@@ -121,7 +124,7 @@ export default function EpisodePage(props) {
         }
     }, [activeLink, setIframeLoading])
 
-    function handleEpisodeClick(slug, title, episode_data, credits) {
+    function handleEpisodeClick(slug, title, episode_data, credits, created_time) {
         setEpisodeLoading(true)
         setShowWatchLinks(true)
         handleMouseLeaveWatchLink()
@@ -161,7 +164,8 @@ export default function EpisodePage(props) {
             episode_number,
             slug,
             title,
-            credits
+            credits,
+            created_time
         })
     }
 
@@ -193,7 +197,7 @@ export default function EpisodePage(props) {
                     last={data_length - 1 === i ? "true" : undefined}
                     fullWidth
                     variant="outlined"
-                    onClick={() => handleEpisodeClick(slug, title, data, e.credits)}
+                    onClick={() => handleEpisodeClick(slug, title, data, e.credits, e.created_time)}
                     color={e.special_type === activeEpisode.special_type && e.episode_number === activeEpisode.episode_number ? "secondary" : "default"}
                     key={e.id}>
                     {title}
@@ -241,16 +245,14 @@ export default function EpisodePage(props) {
                     <meta name="referrer" content="default" />
                 </Helmet>
                 <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <Typography variant="h1">{animeData.name} {activeEpisode.title ? activeEpisode.title : "- Lütfen bölüm seçin"}</Typography>
-                    </Grid>
-                    <Grid item xs={12} md={9} onMouseEnter={handleMouseEnterWatchLink} onMouseLeave={handleMouseLeaveWatchLink}>
+                    <Grid item xs={12} md={9}>
                         <Box {...defaultBoxProps} className={classes.IframeContainer} bgcolor="background.level1">
                             {activeEpisode.episode_number
                                 ?
                                 watchLinks.length !== 0
                                     ?
                                     <>
+                                        {/*TODO: Video ekranıyla link kutusunu bir dive al, ona background shadow ver.*/}
                                         {iframeLoading
                                             ?
                                             <Box className={classes.IframePlaceholder} bgcolor="common.black">
@@ -272,23 +274,6 @@ export default function EpisodePage(props) {
                                             ""
                                         }
                                         <div id="video-fallback" className={classes.FallbackContainer} />
-                                        {watchLinksMapped.length !== 0
-                                            ?
-                                            <Box
-                                                {...defaultBoxProps}
-                                                className={clsx(classes.LinksContainer, {
-                                                    [classes.LinksContainerOpen]: showWatchLinks,
-                                                    [classes.LinksContainerClose]: !showWatchLinks,
-                                                })}
-                                                p={1}
-                                                bgcolor="background.level1">
-                                                <div className={classes.LinksButtonContainer}>
-                                                    {watchLinksMapped}
-                                                </div>
-                                            </Box>
-                                            :
-                                            ""
-                                        }
                                     </>
                                     :
                                     episodeLoading ?
@@ -307,6 +292,22 @@ export default function EpisodePage(props) {
                                 </ContentWarning>
                             }
                         </Box>
+                        {watchLinksMapped.length !== 0
+                            ?
+                            <>
+                                <Box
+                                    {...defaultBoxProps}
+                                    className={classes.LinksContainer}
+                                    p={1}
+                                    bgcolor="background.level1">
+                                    <div className={classes.LinksButtonContainer}>
+                                        {watchLinksMapped}
+                                    </div>
+                                </Box>
+                            </>
+                            :
+                            ""
+                        }
                     </Grid>
                     <Grid item xs={12} md={3}>
                         <Box mb={2} className={classes.EpisodeContainer}>
@@ -317,14 +318,39 @@ export default function EpisodePage(props) {
                                 ""
                             }
                         </Box>
-                        {activeEpisode.credits ?
-                            <Box {...defaultBoxProps} p={2} mb={2} style={{ overflowWrap: "break-word" }}>
-                                <Box>
-                                    <Typography variant="h4">Emektar</Typography>
-                                    <Typography variant="h5">{activeEpisode.credits}</Typography>
-                                </Box>
+                        <Box {...defaultBoxProps} mb={2} style={{ overflowWrap: "break-word" }}>
+                            <Box>
+                                <Grid container className={classes.MetadataContainer}>
+                                    <Grid item xs={12} md={4}>
+                                        <img src={animeData.cover_art} />
+                                    </Grid>
+                                    <Grid item xs={12} md={8}>
+                                        <Box p={2}>
+                                            <Typography variant="h4" component="h1">
+                                                <Dotdotdot clamp={2}>{animeData.name}</Dotdotdot>
+                                            </Typography>
+                                            {activeEpisode.credits ?
+                                                <div>
+                                                    <Typography variant="body1" component="span"><b>Emektar: </b></Typography>
+                                                    <Typography variant="body1" component="span">{activeEpisode.credits}</Typography>
+                                                </div>
+                                                :
+                                                ""
+                                            }
+                                            {activeEpisode.created_time ?
+                                                <div>
+                                                    <Typography variant="body1" component="span"><b>Eklenme Tarihi: </b></Typography>
+                                                    <Typography variant="body1" component="span">{format(new Date(activeEpisode.created_time), "dd.MM.yyyy")}</Typography>
+                                                </div>
+                                                :
+                                                ""
+                                            }
+                                        </Box>
+                                    </Grid>
+                                </Grid>
+
                             </Box>
-                            : ""}
+                        </Box>
                         <Box>
                             <Link to={animePage(props.match.params.slug)}>
                                 <Button variant="contained" fullWidth>

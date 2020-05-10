@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useGlobal } from 'reactn'
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
 import { Grid, Typography, Box, Button, makeStyles } from '@material-ui/core'
 import DisqusBox from '../../components/disqus/disqus'
 
@@ -43,9 +42,9 @@ const useStyles = makeStyles(theme => ({
         '& img': {
             position: "absolute",
             objectFit: "cover",
-            width: "100%",
+            width: "70%",
             top: "50%",
-            left: "50%",
+            left: "65%",
             transform: "translate(-50%, -50%)"
         },
         [theme.breakpoints.down("xs")]: {
@@ -196,7 +195,7 @@ function AnimePage(props) {
                                     ?
                                     <Link to={getAnimeWatchIndex(slug)}>
                                         <Button variant="outlined" size="large" className={classes.ContentButton}>
-                                            <Typography variant="h6">İzle</Typography>
+                                            İzle
                                         </Button>
                                     </Link>
                                     :
@@ -204,7 +203,7 @@ function AnimePage(props) {
                                 {mal_link ?
                                     <a href={mal_link} target="_blank" rel="noopener noreferrer">
                                         <Button variant="outlined" size="large" className={classes.ContentButton}>
-                                            <Typography variant="h6">MyAnimeList Konusu</Typography>
+                                            MyAnimeList Konusu
                                         </Button>
                                     </a>
                                     :

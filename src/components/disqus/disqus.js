@@ -12,7 +12,7 @@ export default function DisqusBox(props) {
         setComments(false)
     }, [config])
 
-    if (process.env.NODE_ENV === "development") return ("")
+    // if (process.env.NODE_ENV === "development") return ("")
 
     if (withButton) {
         return (
