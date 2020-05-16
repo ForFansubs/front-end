@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
 import { useGlobal } from 'reactn'
 import { Link } from 'react-router-dom'
-import { Grid, Typography, Box, Button, makeStyles } from '@material-ui/core'
+import { Grid, Typography, Box, Button, makeStyles, Divider } from '@material-ui/core'
+import clsx from 'clsx'
 import DisqusBox from '../../components/disqus/disqus'
 
-import { bluray } from '../../config/theming/images'
+import { bluray, CoverPlaceholder } from '../../config/theming/images'
 import { getAnimeWatchIndex } from '../../config/front-routes'
 import { contentHeader, contentLogo } from '../../config/api-routes'
 
 import { format } from 'date-fns'
+import {sortBy} from 'lodash-es'
 import WarningBox from '../warningerrorbox/warning'
+import DownloadLink from './anime/download-links'
 
 const useStyles = makeStyles(theme => ({
     LeftSideContent: {
@@ -58,12 +61,35 @@ const useStyles = makeStyles(theme => ({
     },
     BackgroundImageOverlay: {
         background: theme.palette.background.default,
+        //eslint-disable-next-line
         background: `linear-gradient(90deg, ${theme.palette.background.default} 0%, ${theme.palette.background.default} 35%, ${theme.palette.background.default}00 50%)`,
         position: "absolute",
         top: 0,
         bottom: 0,
         left: 0,
         right: 0
+    },
+    FallbackBackgroundImage: {
+        filter: "blur(5px)",
+        opacity: .8
+    },
+    CoverArtContainer: {
+        maxWidth: 225 - theme.spacing(2),
+        width: 225 - theme.spacing(2),
+        display: "none",
+        [theme.breakpoints.down('sm')]: {
+            maxWidth: "70%",
+            width: "70%"
+        },
+
+        '& img': {
+            width: "inherit"
+        }
+    },
+    FallbackCoverArt:{
+        display: "block",
+        zIndex: 2,
+        boxShadow: theme.shadows[6]
     },
     LogoImage: {
         '& img': {
@@ -90,18 +116,8 @@ const useStyles = makeStyles(theme => ({
     BottomStuff: {
         marginTop: theme.spacing(4)
     },
-    CoverArtContainer: {
-        maxWidth: 225 - theme.spacing(2),
-        width: 225 - theme.spacing(2),
-
-        [theme.breakpoints.down('sm')]: {
-            maxWidth: "70%",
-            width: "70%"
-        },
-
-        '& img': {
-            width: "inherit"
-        }
+    DownloadLinkDivider: {
+        marginBottom: theme.spacing(1)
     }
 }))
 
@@ -135,11 +151,35 @@ function MetadataContainer(props) {
 }
 
 function AnimePage(props) {
-    const { id, name, slug, cover_art, premiered, version, episodes, translators, encoders, studios, release_date, genres, mal_link, synopsis, downloadLinks } = props
+    const { id, name, slug, cover_art, premiered, version, translators, encoders, studios, release_date, genres, mal_link, synopsis, episodes } = props
     const classes = useStyles(props)
     const [mobile] = useGlobal('mobile')
     const [imageError, setImageError] = useState(false)
     const [logoError, setLogoError] = useState(false)
+
+    let batchLinks = episodes.map(data =>
+        data.seen_download_page && data.special_type === "toplu" ?
+            <DownloadLink
+                key={data.id}
+                title={episodeParser(data.episode_number, data.special_type)}
+                animeslug={slug}
+                episodeid={data.id} />
+            : null
+    )
+
+    let downloadLinks = episodes.map(data =>
+        data.seen_download_page && data.special_type !== "toplu" ?
+            <DownloadLink
+                key={data.id}
+                title={episodeParser(data.episode_number, data.special_type)}
+                animeslug={slug}
+                episodeid={data.id} />
+            : null
+    )
+
+    // Delete null objects from downloadLinks
+    batchLinks = batchLinks.filter(b => b)
+    downloadLinks = downloadLinks.filter(d => d)
 
     return (
         <>
@@ -212,13 +252,25 @@ function AnimePage(props) {
                         </Box>
                     </Box>
                     <Box className={classes.BackgroundImage}>
+                        <img title={name + " cover_art"}
+                            loading="lazy"
+                            alt={name + " cover_art"}
+                            src={cover_art}
+                            className={clsx(classes.CoverArtContainer, {[classes.FallbackCoverArt]: imageError})}
+                            onError={img => {
+                                img.target.src = CoverPlaceholder
+                            }}/>
                         <img
                             title={name + " headerimage"}
                             loading="lazy"
                             alt={name + " headerimage"}
                             src={contentHeader("anime", slug)}
+                            className={clsx({[classes.FallbackBackgroundImage]: imageError})}
                             onError={img => {
-                                img.target.style.display = "none"
+                                if(imageError)
+                                    return img.target.style.display = "none"
+
+                                img.target.src = cover_art
                                 setImageError(true)
                             }}></img>
                         <div className={classes.BackgroundImageOverlay} />
@@ -230,8 +282,17 @@ function AnimePage(props) {
                             <Grid item xs={12}>
                                 <Typography variant="h4">İndirme Linkleri</Typography>
                                 <ul>
+                                    {batchLinks.length !== 0 ?
+                                    <>
+                                        {batchLinks}
+                                        {downloadLinks.length === 0 ? null :
+                                        <Divider className={classes.DownloadLinkDivider} />}
+                                    </>
+                                    :
+                                    null}
                                     {downloadLinks.length !== 0 ?
                                         downloadLinks :
+                                        batchLinks.length !== 0 ? null :
                                         <WarningBox>İndirme linki bulunamadı.</WarningBox>}
                                 </ul>
                             </Grid>

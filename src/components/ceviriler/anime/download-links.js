@@ -14,7 +14,8 @@ const useStyles = makeStyles(theme => ({
         zIndex: 4
     },
     Button: {
-        marginRight: theme.spacing(1)
+        marginRight: theme.spacing(1),
+        marginBottom: theme.spacing(1)
     },
     LinkContainer: {
         backgroundColor: theme.palette.background.level1,
