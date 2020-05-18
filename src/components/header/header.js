@@ -320,7 +320,7 @@ export default function MiniDrawer() {
     return (
         <div className={classes.root}>
             <AppBar
-                color="primary"
+                color="default"
                 position="fixed"
                 className={clsx(classes.appBar, {
                     [classes.appBarShift]: open,

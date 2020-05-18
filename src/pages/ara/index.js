@@ -244,7 +244,7 @@ export default function SearchPage(props) {
                         size="small"
                         variant="outlined"
                         onClick={() => handleGenreClick(g)}
-                        color={find(searchProps.genres, (value) => g === value) ? "secondary" : "default"}
+                        color={find(searchProps.genres, (value) => g === value) ? "primary" : "default"}
                         disabled={isSearching}>
                         {g}
                     </Button>
@@ -281,7 +281,7 @@ export default function SearchPage(props) {
                             fullWidth
                             className={classes.PageTypeButton}
                             variant="outlined"
-                            color={type === "anime" ? "secondary" : "default"}
+                            color={type === "anime" ? "primary" : "default"}
                             onClick={() => handleTypeChange("anime")}
                             disabled={isSearching}>
                             Anime
@@ -290,7 +290,7 @@ export default function SearchPage(props) {
                             fullWidth
                             className={classes.PageTypeButton}
                             variant="outlined"
-                            color={type === "manga" ? "secondary" : "default"}
+                            color={type === "manga" ? "primary" : "default"}
                             onClick={() => handleTypeChange("manga")}
                             disabled={isSearching}>
                             Manga
@@ -339,7 +339,7 @@ export default function SearchPage(props) {
                                     p={1}
                                     key={0}
                                     textAlign="center"
-                                ><CircularProgress disableShrink color="secondary" /></Box>
+                                ><CircularProgress disableShrink color="primary" /></Box>
                                 :
                                 <Box p={1} className={`${classes.ContentWarning}`} boxShadow={6}>
                                     <WarningIcon />
@@ -365,7 +365,7 @@ export default function SearchPage(props) {
                                 p={1}
                                 key={0}
                                 textAlign="center"
-                            ><CircularProgress disableShrink color="secondary" /></Box>}
+                            ><CircularProgress disableShrink color="primary" /></Box>}
                         >
                             <Grid container spacing={2}>
                                 {mappedData}
@@ -375,7 +375,7 @@ export default function SearchPage(props) {
                         loadingData
                             ?
                             <Box mt={1} p={1} key={0} textAlign="center">
-                                <CircularProgress disableShrink color="secondary" />
+                                <CircularProgress disableShrink color="primary" />
                             </Box>
                             :
                             <Box p={1} className={`${classes.ContentError} ${classes.DefaultBox}`} boxShadow={6}>

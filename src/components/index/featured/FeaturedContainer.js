@@ -26,12 +26,12 @@ const useStyles = makeStyles(theme => ({
     PaginationCircles: {
         width: 15,
         height: 15,
-        backgroundColor: theme.palette.primary.light,
+        backgroundColor: theme.palette.background.default,
         marginLeft: theme.spacing(1),
         cursor: "pointer"
     },
     PaginationCirclesActive: {
-        backgroundColor: theme.palette.primary.dark
+        backgroundColor: theme.palette.background.paper
     }
 }))
 

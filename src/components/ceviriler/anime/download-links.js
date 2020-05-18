@@ -15,7 +15,8 @@ const useStyles = makeStyles(theme => ({
     },
     Button: {
         marginRight: theme.spacing(1),
-        marginBottom: theme.spacing(1)
+        marginBottom: theme.spacing(1),
+        boxShadow: theme.shadows[6]
     },
     LinkContainer: {
         backgroundColor: theme.palette.background.level1,

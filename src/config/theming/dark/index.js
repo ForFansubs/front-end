@@ -8,8 +8,12 @@ import merge from 'lodash-es/merge'
 
 const theme = {
     palette: {
-        primary: { main: '#212121' },
-        secondary: { main: 'rgb(255,127,80)' },
+        primary: { 
+            main: process.env.REACT_APP_DARK_THEME_PRIMARY_COLOR || '#212121'
+        },
+        secondary: { 
+            main: process.env.REACT_APP_DARK_THEME_SECONDARY_COLOR || 'rgb(255,127,80)'
+        },
         background: {
             default: "#121212",
             level1: "#212121",
@@ -96,7 +100,7 @@ const theme = {
         defaultMargin: "80px 40px 24px",
         defaultMarginMobile: "80px 24px 24px",
         defaultMarginOverride: "-16px -40px -24px",
-        defaultMarginMobileOverride: "-16px -24px -24px"
+        defaultMarginMobileOverride: "-16px -24px -24px",
     },
     transitions: {
         duration: {

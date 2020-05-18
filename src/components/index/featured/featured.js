@@ -61,7 +61,7 @@ const useStyles = makeStyles(theme => ({
         }
     },
     GenreBox: {
-        backgroundColor: theme.palette.primary.light,
+        backgroundColor: theme.palette.background.paper,
         marginRight: theme.spacing(1),
         marginBottom: theme.spacing(1),
         padding: `0 ${theme.spacing(1)}px`,

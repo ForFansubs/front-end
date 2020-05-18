@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
         '& li': {
             display: "inline-block",
             padding: "2px 4px",
-            backgroundColor: theme.palette.primary.main,
+            backgroundColor: theme.palette.background.level1,
             margin: "0 3px",
             '& h6': {
                 fontSize: ".6rem",

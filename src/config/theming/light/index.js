@@ -8,8 +8,12 @@ import merge from 'lodash-es/merge'
 
 const theme = {
     palette: {
-        primary: { main: '#90caf9' },
-        secondary: { main: 'rgb(255,127,80)' },
+        primary: { 
+            main: process.env.REACT_APP_LIGHT_THEME_PRIMARY_COLOR || '#90caf9' 
+        },
+        secondary: { 
+            main: process.env.REACT_APP_LIGHT_THEME_SECONDARY_COLOR || 'rgb(255,127,80)' 
+        },
         background: {
             default: "#FFFFFF",
             level1: "#ECECEC",
