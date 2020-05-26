@@ -12,6 +12,7 @@
 /public/*.html
 /public/*.json
 /public/*.ico
+ecosystem.config.js
 
 # testing
 /coverage

@@ -105,7 +105,10 @@ const useStyles = makeStyles((theme) => ({
     LogoImage: {
         "& img": {
             width: 400,
-        },
+            [theme.breakpoints.down('sm')]: {
+                width: "100%"
+            }
+        }
     },
     AnimeContainer: {
         position: "relative",
@@ -129,6 +132,7 @@ const useStyles = makeStyles((theme) => ({
     },
     ContentButton: {
         marginRight: theme.spacing(2),
+        boxShadow: theme.shadows[6]
     },
     BottomStuff: {
         marginTop: theme.spacing(4),
@@ -166,9 +170,25 @@ function MetadataContainer(props) {
 }
 
 function AnimePage(props) {
-    const { id, name, slug, cover_art, premiered, version, translators, encoders, studios, release_date, genres, mal_link, synopsis, episodes, series_status, trans_status, airing, episode_count } = props
+    const {
+        id,
+        name,
+        slug,
+        cover_art,
+        premiered,
+        version,
+        translators,
+        encoders,
+        studios,
+        release_date,
+        genres,
+        mal_link,
+        synopsis,
+        episodes,
+        series_status,
+        trans_status,
+        episode_count } = props
     const classes = useStyles(props)
-    const [mobile] = useGlobal("mobile")
     const [headerError, setHeaderError] = useState(false)
     const [coverArtError, setCoverArtError] = useState(false)
     const [logoError, setLogoError] = useState(false)

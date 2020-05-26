@@ -22,7 +22,6 @@ export default () => {
     let latestAnimesWindow = []
     let latestMangasWindow = []
     let latestEpisodesWindow = []
-    let featuredAnimeContent = []
     let featuredAnimeWindow = []
     let batchEpisodesWindow = []
 
@@ -154,17 +153,22 @@ export default () => {
                     </Grid>
                 </div>
                 : ""}
-            <TitleContainer>
-                <Typography variant={mobile ? "h4" : "h3"} component="h2">En Son Eklenenler</Typography>
-                <Typography variant="subtitle1" gutterBottom>
-                    Sisteme eklenen en yeni içerikleri burada bulabilirsiniz
-                </Typography>
-            </TitleContainer>
             {latestEpisodesWindow.length ?
                 <div className={classes.ContainerDiv}>
-                    <Typography variant="h4" component="h2" gutterBottom>Bölümler</Typography>
-                    <Grid container spacing={2} direction="row" justify="center" alignItems="center">
-                        {latestEpisodesWindow}
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} md={9} lg={8}>
+                            <Grid container spacing={2} direction="row" justify="center" alignItems="stretch">
+                                {latestEpisodesWindow}
+                            </Grid>
+                        </Grid>
+                        <Grid item xs={12} md={3} lg={4} className={classes.TitleContainer}>
+                            <Typography variant="h1" component="h2">
+                                En Yeni
+                            </Typography>
+                            <Typography variant="h1" component="h2" className={classes.LineAfter}>
+                                Bölümler
+                            </Typography>
+                        </Grid>
                     </Grid>
                 </div>
                 : ""}

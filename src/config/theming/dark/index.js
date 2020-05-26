@@ -8,17 +8,16 @@ import merge from 'lodash-es/merge'
 
 const theme = {
     palette: {
-        primary: { 
+        primary: {
             main: process.env.REACT_APP_DARK_THEME_PRIMARY_COLOR || '#212121'
         },
-        secondary: { 
+        secondary: {
             main: process.env.REACT_APP_DARK_THEME_SECONDARY_COLOR || 'rgb(255,127,80)'
         },
         background: {
             default: "#121212",
             level1: "#212121",
-            level2: "#333",
-            paper: "#424242"
+            paper: "#333"
         },
         contrastThreshold: 3,
         type: "dark"
@@ -31,7 +30,7 @@ const theme = {
         },
     },
     typography: {
-        fontFamily: `'Rubik', sans-serif`,
+        fontFamily: `'Roboto', sans-serif`,
         h1: {
 
             fontWeight: "bold",

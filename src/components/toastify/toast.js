@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { toast, closeToast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import './toast.css';
 
 import Box from '@material-ui/core/Box'
@@ -19,10 +19,6 @@ function Message(props) {
             <Typography variant="h5" color="textPrimary">{overridemessage ? overridemessage : message}</Typography>
         </Box>
     )
-}
-
-const reload = () => {
-    window.location.href = window.location.href
 }
 
 export function payload(container, type, message, autoClose, onClickFunction) {

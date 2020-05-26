@@ -1,24 +1,20 @@
 import React from 'react'
-import { makeStyles, Typography } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
 
 
 const useStyles = makeStyles(theme => ({
     TitleContainer: {
-        backgroundColor: theme.palette.background.level2,
-        boxShadow: theme.shadows[6],
-        margin: theme.overrides.defaultMarginOverride,
-        marginTop: 0,
-        marginBottom: theme.spacing(3),
-        padding: theme.overrides.defaultMargin,
-        paddingTop: theme.spacing(1),
-        paddingBottom: theme.spacing(1),
-        [theme.breakpoints.down('sm')]: {
-            margin: theme.overrides.defaultMarginMobileOverride,
-            marginTop: 0,
-            marginBottom: theme.spacing(3),
-            padding: theme.overrides.defaultMarginMobile,
-            paddingTop: theme.spacing(1),
-            paddingBottom: theme.spacing(1),
+        alignItems: "center",
+        '& h2': {
+            fontWeight: 900,
+        },
+        '& $LineAfter::after': {
+            content: "' '",
+            whiteSpace: "pre",
+            height: 2,
+            background: theme.palette.divider,
+            marginLeft: theme.spacing(2),
+            flexGrow: "1"
         }
     },
     ContainerDiv: {
@@ -26,6 +22,10 @@ const useStyles = makeStyles(theme => ({
     },
     IndexHeader: {
         marginBottom: theme.spacing(2)
+    },
+    LineAfter: {
+        display: "flex",
+        alignItems: "center"
     }
 }))
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Grid, Typography, Box, makeStyles } from '@material-ui/core'
 import { red, blue } from '@material-ui/core/colors'
@@ -6,6 +6,8 @@ import { red, blue } from '@material-ui/core/colors'
 import Dotdotdot from 'react-dotdotdot'
 import { Link } from 'react-router-dom'
 import { animePage, mangaPage } from '../../config/front-routes'
+import { CoverPlaceholder } from '../../config/theming/images'
+import { contentCover } from '../../config/api-routes'
 
 const useStyles = makeStyles(theme => ({
     // ./pages/ara/index.js içerisinde kullanılan classlar
@@ -41,10 +43,17 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.background.level1
     },
     ContentCover: {
-        backgroundImage: props => `url(${props.cover_art})`,
-        width: "125px",
-        height: "auto",
-        backgroundSize: "cover"
+        position: "relative",
+        width: 125,
+        paddingBottom: "30%",
+        overflow: "hidden",
+        backgroundSize: "cover",
+        '& img': {
+            position: "absolute",
+            objectFit: "cover",
+            width: "100%",
+            height: "100%"
+        }
     },
     ContentGenres: {
         padding: theme.spacing(1),
@@ -83,11 +92,12 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function AnimeContainer(props) {
-    const { slug, name, synopsis, genres, premiered } = props.data
+    const { slug, name, synopsis, genres, premiered, cover_art } = props.data
+    const [imageError, setImageError] = useState(false)
     const classes = useStyles(props.data)
 
     return (
-        <Grid item xs={12} md={6} lg={4} xl={3}>
+        <Grid item xs={12} sm={6} md={6} lg={4} xl={3}>
             <Link to={animePage(slug)}>
                 <Box p={0} boxShadow={6}>
                     <Box className={classes.ContentPremieredContainer} p={1}>
@@ -96,7 +106,21 @@ function AnimeContainer(props) {
                         </Typography>
                     </Box>
                     <div className={classes.ContentInPlacer}>
-                        <Box className={classes.ContentCover} title={name + " Cover Art"} />
+                        <div className={classes.ContentCover} title={name + " Cover Art"}>
+                            <img
+                                src={contentCover("anime", slug)}
+                                title={name + " Cover Art"}
+                                alt={name + " Cover Art"}
+                                onError={image => {
+                                    if (imageError) {
+                                        image.target.src = CoverPlaceholder
+                                    }
+                                    else {
+                                        image.target.src = cover_art
+                                    }
+                                    setImageError(true)
+                                }} />
+                        </div>
                         <Box className={classes.ContentTextInfo}>
                             <Dotdotdot clamp={2}>
                                 <Typography variant="h5">{name}</Typography>
@@ -137,7 +161,8 @@ function AnimeContainerPlaceholder(props) {
 }
 
 function MangaContainer(props) {
-    const { slug, name, synopsis, genres } = props.data
+    const { slug, name, synopsis, genres, cover_art } = props.data
+    const [imageError, setImageError] = useState(false)
     const classes = useStyles(props.data)
 
     return (
@@ -145,7 +170,21 @@ function MangaContainer(props) {
             <Link to={mangaPage(slug)}>
                 <Box p={0} boxShadow={6}>
                     <div className={classes.ContentInPlacer}>
-                        <Box className={classes.ContentCover} title={name + " Cover Art"} />
+                        <div className={classes.ContentCover} title={name + " Cover Art"}>
+                            <img
+                                src={contentCover("manga", slug)}
+                                title={name + " Cover Art"}
+                                alt={name + " Cover Art"}
+                                onError={image => {
+                                    if (imageError) {
+                                        image.target.src = CoverPlaceholder
+                                    }
+                                    else {
+                                        image.target.src = cover_art
+                                    }
+                                    setImageError(true)
+                                }} />
+                        </div>
                         <Box className={classes.ContentTextInfo}>
                             <Dotdotdot clamp={2}>
                                 <Typography variant="h5">{name}</Typography>

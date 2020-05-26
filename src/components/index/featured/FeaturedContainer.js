@@ -28,7 +28,10 @@ const useStyles = makeStyles(theme => ({
         height: 15,
         backgroundColor: theme.palette.background.default,
         marginLeft: theme.spacing(1),
-        cursor: "pointer"
+        cursor: "pointer",
+        '&:hover': {
+            backgroundColor: theme.palette.background.paper
+        }
     },
     PaginationCirclesActive: {
         backgroundColor: theme.palette.background.paper

@@ -48,6 +48,9 @@ const useStyles = makeStyles(theme => ({
         width: "40%",
         padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
         boxShadow: theme.shadows[6],
+        '& img': {
+            marginLeft: theme.spacing(2)
+        },
         [theme.breakpoints.down("xs")]: {
             width: "80%",
             bottom: theme.spacing(6),
@@ -130,9 +133,12 @@ export default function Featured(props) {
                         }} alt={name + " toplu"} />
                     </div>
                     <div className={classes.InfoContainer}>
-                        <Typography variant={mobile ? "h4" : "h2"} component="h1">
-                            {name}
-                        </Typography>
+                        <Box display="flex" alignItems="center">
+                            <Typography variant={mobile ? "h4" : "h2"} component="h1">
+                                {name}
+                                {version === "bd" ? <img width="50px" src={bluray} alt="bluray logo" /> : ""}
+                            </Typography>
+                        </Box>
                         <div className={classes.GenresContainer}>
                             {genres.split(",").map((g, i) => (
                                 <div key={i + "featured" + g} className={classes.GenreBox}>

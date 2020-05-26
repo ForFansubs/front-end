@@ -2,7 +2,7 @@ import React from 'react'
 
 import Dotdotdot from 'react-dotdotdot'
 import { Link } from 'react-router-dom'
-import { Typography, Grid, makeStyles, Box } from '@material-ui/core'
+import { Typography, Grid, makeStyles } from '@material-ui/core'
 import { animePage } from '../../../config/front-routes'
 import { contentHeader } from '../../../config/api-routes'
 import { HeaderPlaceholder } from '../../../config/theming/images'
@@ -61,7 +61,6 @@ export default (props) => {
     const classes = useStyles(props)
 
     if (loading) {
-        console.log("batch yüklşeniyor")
         return (
             <>
                 <p>Yükleniyor</p>

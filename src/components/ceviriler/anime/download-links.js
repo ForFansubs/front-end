@@ -10,7 +10,7 @@ import { Skeleton } from '@material-ui/lab';
 
 const useStyles = makeStyles(theme => ({
     Container: {
-        backgroundColor: theme.palette.background.level2,
+        backgroundColor: theme.palette.background.paper,
         zIndex: 4
     },
     Button: {

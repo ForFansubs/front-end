@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useGlobal } from 'reactn'
 import { Link } from 'react-router-dom'
 import axios from '../../config/axios/axios'
 import { Helmet } from 'react-helmet-async'
@@ -19,18 +20,16 @@ import ContentError from '../../components/warningerrorbox/error'
 import ContentWarning from '../../components/warningerrorbox/warning'
 import DisqusBox from '../../components/disqus/disqus'
 
-import InfoIcon from '@material-ui/icons/Info'
-import WarningIcon from '@material-ui/icons/Warning'
 import CircularProgress from '../../components/progress/index'
 import EpisodeLinkOverride from '../../config/episode-link-overrides'
 import { Grid, Box, Button, Typography } from '@material-ui/core'
-import clsx from 'clsx'
 import { format } from 'date-fns'
 import Dotdotdot from 'react-dotdotdot'
 
 export default function EpisodePage(props) {
     const classes = useStyles()
     let episodeDataMapped = "", watchLinksMapped = ""
+    const [mobile] = useGlobal("mobile")
 
     const [animeData, setAnimeData] = useState({
         name: "",
@@ -52,7 +51,6 @@ export default function EpisodePage(props) {
     const [loading, setLoading] = useState(true)
     const [episodeLoading, setEpisodeLoading] = useState(false)
     const [iframeLoading, setIframeLoading] = useState(false)
-    const [showWatchLinks, setShowWatchLinks] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -126,8 +124,6 @@ export default function EpisodePage(props) {
 
     function handleEpisodeClick(slug, title, episode_data, credits, created_time) {
         setEpisodeLoading(true)
-        setShowWatchLinks(true)
-        handleMouseLeaveWatchLink()
         setActiveEpisode({
             episode_number: null,
             special_type: "",
@@ -167,14 +163,6 @@ export default function EpisodePage(props) {
             credits,
             created_time
         })
-    }
-
-    function handleMouseEnterWatchLink() {
-        setShowWatchLinks(true)
-    }
-
-    function handleMouseLeaveWatchLink() {
-        setTimeout(() => setShowWatchLinks(false), 3000)
     }
 
     function handleFirstLinkMount(link) {
@@ -320,27 +308,27 @@ export default function EpisodePage(props) {
                         </Box>
                         <Box {...defaultBoxProps} mb={2} style={{ overflowWrap: "break-word" }}>
                             <Box>
-                                <Grid container className={classes.MetadataContainer}>
-                                    <Grid item xs={12} md={4}>
-                                        <img src={animeData.cover_art} />
+                                <Grid container className={classes.MetadataContainer} alignItems="center">
+                                    <Grid item xs={3} md={4}>
+                                        <img src={animeData.cover_art} alt={`${animeData.name} cover_art`} />
                                     </Grid>
-                                    <Grid item xs={12} md={8}>
+                                    <Grid item xs={9} md={8}>
                                         <Box p={2}>
-                                            <Typography variant="h4" component="h1">
+                                            <Typography variant={mobile ? "h5" : "h4"} component="h1">
                                                 <Dotdotdot clamp={2}>{animeData.name}</Dotdotdot>
                                             </Typography>
                                             {activeEpisode.credits ?
                                                 <div>
-                                                    <Typography variant="body1" component="span"><b>Emektar: </b></Typography>
-                                                    <Typography variant="body1" component="span">{activeEpisode.credits}</Typography>
+                                                    <Typography variant={mobile ? "body2" : "body1"} component="span"><b>Emektar: </b></Typography>
+                                                    <Typography variant={mobile ? "body2" : "body1"} component="span">{activeEpisode.credits}</Typography>
                                                 </div>
                                                 :
                                                 ""
                                             }
                                             {activeEpisode.created_time ?
                                                 <div>
-                                                    <Typography variant="body1" component="span"><b>Eklenme Tarihi: </b></Typography>
-                                                    <Typography variant="body1" component="span">{format(new Date(activeEpisode.created_time), "dd.MM.yyyy")}</Typography>
+                                                    <Typography variant={mobile ? "body2" : "body1"} component="span"><b>Eklenme Tarihi: </b></Typography>
+                                                    <Typography variant={mobile ? "body2" : "body1"} component="span">{format(new Date(activeEpisode.created_time), "dd.MM.yyyy")}</Typography>
                                                 </div>
                                                 :
                                                 ""

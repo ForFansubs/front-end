@@ -1,9 +1,4 @@
-import { Grid, Box, Typography, Button, makeStyles } from '@material-ui/core'
-import styled from 'styled-components'
-
-
-import yellow from '@material-ui/core/colors/yellow'
-import red from '@material-ui/core/colors/red'
+import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
     Container: {
@@ -106,7 +101,7 @@ function EpisodeListParser(episodenumber, specialtype) {
 }
 
 const defaultBoxProps = {
-    boxShadow: 2, bgcolor: "background.level2"
+    boxShadow: 2, bgcolor: "background.paper"
 }
 
 export {

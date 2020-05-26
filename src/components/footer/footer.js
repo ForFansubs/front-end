@@ -1,6 +1,5 @@
 import React from 'react'
 import { useGlobal } from 'reactn'
-import useTheme from '@material-ui/styles/useTheme'
 
 import { Box, makeStyles } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
@@ -47,8 +46,8 @@ export default function Footer() {
                         }
                     </Typography>
                     <Typography variant="subtitle2" className={classes.FooterAuthor}>
-                        <a href="https://ayberktandogan.github.io/" rel="noopener noreferrer" target="_blank">
-                            ayberktandogan &copy; {(new Date()).getFullYear()}
+                        <a href="https://aybertocarlos.github.io/" rel="noopener noreferrer" target="_blank">
+                            aybertocarlos &copy; {(new Date()).getFullYear()}
                         </a>
                     </Typography>
                 </Box>

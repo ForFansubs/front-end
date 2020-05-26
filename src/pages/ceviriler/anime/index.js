@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { useGlobal } from 'reactn'
 import { Redirect } from 'react-router-dom'
 import Metatags from '../../../components/helmet/index'
 import ReactGA from 'react-ga';

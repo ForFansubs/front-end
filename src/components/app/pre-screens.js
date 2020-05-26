@@ -27,7 +27,7 @@ export default function InitialLoading(props) {
 
     return (
         <Box position="absolute" left="50%" top="50%" textAlign="center" style={{ transform: "translate(-50%, -50%)" }}>
-            <img className={theme.LogoContainer} src={usertheme === "dark" ? fullLogo : fullLogoDark} />
+            <img className={theme.LogoContainer} src={usertheme === "dark" ? fullLogo : fullLogoDark} alt="Site loading logo" />
             {error ?
                 <>
                     <Typography variant="h4">
