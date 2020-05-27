@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 
+import Find from 'lodash-es/find'
 import { useStyles, defaultBoxProps } from '../../components/manga-episode/index'
-import { getMangaEpisodePageInfo } from '../../config/api-routes'
+import { getMangaEpisodePageInfo, mangaPageImage } from '../../config/api-routes'
 import axios from '../../config/axios/axios'
-import { Grid, Typography, Box } from '@material-ui/core'
+import { Grid, Typography, Box, Button, InputLabel, FormControl, Select, MenuItem } from '@material-ui/core'
+import { NavigateNext, NavigateBefore } from '@material-ui/icons'
 import ContentError from '../../components/warningerrorbox/error'
 import ContentWarning from '../../components/warningerrorbox/warning'
 import DisqusBox from '../../components/disqus/disqus'
@@ -12,7 +14,7 @@ import DisqusBox from '../../components/disqus/disqus'
 import { mangaEpisodePage } from '../../config/front-routes'
 import Loading from '../../components/progress'
 
-export default function (props) {
+export default function MangaEpisodePage(props) {
     const classes = useStyles()
     const [loading, setLoading] = useState(true)
     const [mangaData, setMangaData] = useState({
@@ -30,6 +32,7 @@ export default function (props) {
         episode_number: "",
         pages: []
     })
+    const [activePageNumber, setActivePageNumber] = useState(0)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -40,8 +43,6 @@ export default function (props) {
             if (pageInfo.data.length === 0 || pageInfo.status !== 200) {
                 return setLoading(false)
             }
-
-            console.log(pageInfo)
 
             setMangaData({
                 manga_name: pageInfo.data[0].manga_name,
@@ -56,6 +57,24 @@ export default function (props) {
 
         fetchData()
     }, [])
+
+    function handleChange(event) {
+        setActivePageNumber(0)
+        const newData = Find(episodeData, { episode_number: event.target.value })
+        setActiveEpisodeData(state => ({ ...state, ...newData, pages: JSON.parse(newData.pages) }));
+    }
+
+    function handleNavigateBeforeButton() {
+        setActivePageNumber(state => (
+            state === 0 ? 0 : state - 1
+        ))
+    }
+
+    function handleNavigateNextButton() {
+        setActivePageNumber(state => (
+            state === activeEpisodeData.pages.length - 1 ? state : state + 1
+        ))
+    }
 
     if (!loading && episodeData.length !== 0) {
 
@@ -83,19 +102,55 @@ export default function (props) {
                     <meta name="referrer" content="default" />
                 </Helmet>
                 <Grid container spacing={2} justify="center">
-                    <Grid xs={12}>
-
+                    <Grid item xs={12}>
+                        <Box className={classes.Navigator}>
+                            <FormControl fullWidth>
+                                <InputLabel htmlFor="episode-selector">Okumak istediğiniz bölümü seçin</InputLabel>
+                                <Select
+                                    fullWidth
+                                    value={`${activeEpisodeData.episode_number}`}
+                                    onChange={handleChange}
+                                    inputProps={{
+                                        name: "episode",
+                                        id: "episode-selector"
+                                    }}
+                                >
+                                    {episodeData.map(d => <MenuItem key={d.episode_number} value={`${d.episode_number}`}>{d.episode_number}. Bölüm - {d.episode_name}</MenuItem>)}
+                                </Select>
+                            </FormControl>
+                            <div className={classes.NavigatorButtonContainer}>
+                                <Button
+                                    className={classes.NavigateBefore}
+                                    fullWidth
+                                    variant="outlined"
+                                    onClick={handleNavigateBeforeButton}
+                                    disabled={activePageNumber !== 0 && activeEpisodeData.episode_number ? false : true}>
+                                    <NavigateBefore />
+                                </Button>
+                                <Button
+                                    className={classes.NavigateNext}
+                                    fullWidth
+                                    variant="outlined"
+                                    onClick={handleNavigateNextButton}
+                                    disabled={activePageNumber !== activeEpisodeData.pages.length - 1 && activeEpisodeData.episode_number ? false : true}>
+                                    <NavigateNext />
+                                </Button>
+                            </div>
+                        </Box>
                     </Grid>
                     <Grid item xs={12} md={9}>
-                        <Box {...defaultBoxProps} className={classes.IframeContainer} bgcolor="background.level1">
+                        <Box display="flex" justifyContent="center">
                             {activeEpisodeData.episode_number
                                 ?
-                                <p>Deneme</p>
+                                <img
+                                    className={classes.MainPageImage}
+                                    src={mangaPageImage(mangaData.manga_slug, activeEpisodeData.episode_number, activeEpisodeData.pages[activePageNumber].filename)}
+                                    alt={`${mangaData.manga_name} ${activeEpisodeData.episode_number}. Bölüm ${activePageNumber + 1}. Sayfa`} />
                                 :
                                 <ContentWarning
                                     {...defaultBoxProps}
                                     p={1}>
-                                    <Typography variant="subtitle2">Lütfen bölüm seçiniz.</Typography>
+                                    Lütfen bölüm seçiniz.
                                 </ContentWarning>
                             }
                         </Box>
@@ -105,7 +160,7 @@ export default function (props) {
                             <Box {...defaultBoxProps} p={2}>
                                 <DisqusBox
                                     withButton
-                                    config={{ identifier: `manga/${mangaData.slug}/${activeEpisodeData.episode_number}` }} />
+                                    config={{ identifier: `manga/${mangaData.manga_slug}/${activeEpisodeData.episode_number}` }} />
                             </Box>
                         </Grid>
                         : ""}

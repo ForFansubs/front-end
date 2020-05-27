@@ -14,11 +14,10 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDiscord } from '@fortawesome/free-brands-svg-icons'
 
 import { indexPage, searchPage, faqPage, recPage, adminPage } from '../../config/front-routes'
 import { fullLogo, fullLogoGif, fullLogoDark, fullLogoDarkGif } from '../../config/theming/images'
+import SecondMenuItems from '../../config/drawer_items'
 
 const drawerWidth = 260;
 
@@ -78,7 +77,7 @@ const useStyles = makeStyles(theme => ({
         },
         transition: "none",
         '&:hover': {
-            backgroundColor: theme.palette.background.level2
+            backgroundColor: theme.palette.background.paper
         }
     },
     ListItemText: {
@@ -105,10 +104,8 @@ const useStyles = makeStyles(theme => ({
         fontSize: "0.7rem",
         color: theme.palette.grey["500"]
     },
-    active: {
-        '& $ListItem': {
-            backgroundColor: theme.palette.background.level2
-        },
+    Active: {
+        backgroundColor: theme.palette.background.paper,
         '& $shortText': {
             color: theme.palette.primary.contrastText
         },
@@ -121,7 +118,7 @@ const useStyles = makeStyles(theme => ({
     },
     secondary: {
         '&:hover': {
-            backgroundColor: theme.palette.background.level2
+            backgroundColor: theme.palette.background.paper
         }
     },
     drawerOpen: {
@@ -136,11 +133,16 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.up('sm')]: {
             width: drawerWidth,
         },
-        overflowX: "hidden"
+        overflowX: "hidden",
+        '& $Active': {
+            '& $ListItem': {
+                backgroundColor: theme.palette.background.paper
+            }
+        }
     },
     drawerClose: {
         '& $ListItem': {
-            padding: 0
+            padding: `${theme.spacing(1)}px 0`
         },
         '& $iconContainer': {
             padding: `${theme.spacing(1)}px ${theme.spacing(0)}px`
@@ -220,15 +222,7 @@ export default function MiniDrawer() {
             icon: <h2>EA</h2>
         }
     ])
-    const [menuItems2] = React.useState([
-        {
-            text: "Discord sunucumuza katılın!",
-            shortText: "Discord",
-            link: process.env.REACT_APP_DISCORD_LINK,
-            show: process.env.REACT_APP_DISCORD_LINK ? true : false,
-            icon: <FontAwesomeIcon icon={faDiscord} size="2x" />
-        }
-    ])
+    const [menuItems2] = React.useState(SecondMenuItems)
 
     function handleMenu(event) {
         setAnchorEl(event.currentTarget);
@@ -268,7 +262,7 @@ export default function MiniDrawer() {
                 <List>
                     {menuItems.map((item, index) => item.show ?
                         (
-                            <NavLink exact to={item.link} onClick={handleDrawerClose} activeClassName={classes.active} key={item.text}>
+                            <NavLink exact to={item.link} onClick={handleDrawerClose} activeClassName={classes.Active} key={item.text}>
                                 <ListItem className={classes.ListItem} button>
                                     <Box className={classes.iconContainer}>
                                         <ListItemIcon className={classes.ListItemIcon}>{item.icon}</ListItemIcon>
@@ -283,25 +277,20 @@ export default function MiniDrawer() {
                 </List>
                 <Divider />
                 {
-                    menuItems2.length
-                        ?
+                    menuItems2.length ?
                         <>
                             <List>
-                                {menuItems2.map((item, index) => {
-                                    if (item.show)
-                                        return (
-                                            <a href={item.link} target="_blank" rel="noopener noreferrer" className={classes.secondary} key={item.text}>
-                                                <ListItem className={classes.ListItem} button style={{ backgroundColor: "inherit" }}>
-                                                    <Box className={classes.iconContainer}>
-                                                        <ListItemIcon className={classes.ListItemIcon}>{item.icon}</ListItemIcon>
-                                                        <Typography variant="subtitle2" className={classes.shortText}>{item.shortText}</Typography>
-                                                    </Box>
-                                                    <ListItemText className={classes.ListItemText}><Typography variant="body2">{item.text}</Typography></ListItemText>
-                                                </ListItem>
-                                            </a>
-                                        )
-                                    else return ""
-                                })}
+                                {menuItems2.map((item, index) => (
+                                    <a href={item.link} target="_blank" rel="noopener noreferrer" className={classes.secondary} key={item.title}>
+                                        <ListItem className={classes.ListItem} button style={{ backgroundColor: "inherit" }}>
+                                            <Box className={classes.iconContainer}>
+                                                <ListItemIcon className={classes.ListItemIcon}>{item.icon}</ListItemIcon>
+                                                <Typography variant="subtitle2" className={classes.shortText}>{item.short_title}</Typography>
+                                            </Box>
+                                            <ListItemText className={classes.ListItemText}><Typography variant="body2">{item.title}</Typography></ListItemText>
+                                        </ListItem>
+                                    </a>
+                                ))}
                             </List>
                             <Divider />
                         </>

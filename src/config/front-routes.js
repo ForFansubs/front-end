@@ -9,7 +9,9 @@ const animePage = (slug) => `/ceviriler/anime/${slug}`
 const mangaPage = (slug) => `/ceviriler/manga/${slug}`
 const getAnimeWatchIndex = (slug) => `/ceviriler/anime/${slug}/izle`
 const episodePage = (slug, episodeSlug) => `/ceviriler/anime/${slug}/izle${episodeSlug ? `/${episodeSlug}` : ""}`
-const mangaEpisodePage = (slug, episodeSlug) => `/ceviriler/manga/${slug}/oku${episodeSlug ? `/${episodeSlug}` : ""}`
+const mangaEpisodePage = (slug, episode_number, page_number) => {
+    return `/ceviriler/manga/${slug}/oku${episode_number ? `/${episode_number}` : ""}${episode_number && page_number ? `/${page_number}` : ""}`
+}
 
 const logoRoute = "/logo.png"
 

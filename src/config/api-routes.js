@@ -21,7 +21,7 @@ const contentCover = (type, slug, size) => `/api/resimler/${type}/${slug}-cover$
 const contentHeader = (type, slug, size) => `/api/resimler/${type}/${slug}-header${size ? `?size=${size}` : ""}`
 const contentLogo = (type, slug) => `/api/resimler/${type}/${slug}-logo?type=logo`
 
-const mangaPageImage = (filename, slug, episode_number) => `/api/resimler/manga-bolum/${slug}/${episode_number}/${filename}`
+const mangaPageImage = (slug, episode_number, filename) => `/api/resimler/manga/${slug}/oku/${episode_number}/${filename}`
 
 export {
     indexURL,

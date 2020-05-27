@@ -234,7 +234,7 @@ export default function EpisodePage(props) {
                 </Helmet>
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={9}>
-                        <Box {...defaultBoxProps} className={classes.IframeContainer} bgcolor="background.level1">
+                        <Box {...defaultBoxProps} boxShadow={0} className={classes.IframeContainer} bgcolor="background.level1">
                             {activeEpisode.episode_number
                                 ?
                                 watchLinks.length !== 0

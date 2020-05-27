@@ -11,8 +11,12 @@ const useStyles = makeStyles(theme => ({
         padding: `${theme.spacing(2)}px`
     },
     FooterAuthor: {
-        color: theme.palette.text.disabled,
+        color: theme.palette.grey["A200"],
         marginTop: `${theme.spacing(4)}px`
+    },
+    FooterItem: {
+        marginRight: theme.spacing(1),
+        color: theme.palette.grey["400"]
     }
 }))
 
@@ -25,33 +29,23 @@ export default function Footer() {
             <footer>
                 <Box className={classes.FooterInnerDiv}>
                     <Typography variant="h6">
-                        <a href="https://forfansubs.github.io/" rel="noopener noreferrer" target="_blank">
-                            FFs v{version}
-                        </a>
-                            &nbsp;-&nbsp;
-
                         {FooterItems.length !== 0 ?
                             FooterItems.map((item, index) => {
-                                if (index === 0) {
-                                    return (
-                                        <a key={item.title} href={item.link} rel="noopener noreferrer" target="_blank">
-                                            {item.title}
-                                        </a>
-                                    )
-                                }
-                                else {
-                                    return (
-                                        <a key={item.title} href={item.link} rel="noopener noreferrer" target="_blank">
-                                            .{item.title}
-                                        </a>
-                                    )
-                                }
+                                return (
+                                    <a key={item.title} href={item.link} rel="noopener noreferrer" target="_blank" className={classes.FooterItem}>
+                                        {item.title}
+                                    </a>
+                                )
                             })
                             :
                             ""
                         }
                     </Typography>
                     <Typography variant="subtitle2" className={classes.FooterAuthor}>
+                        <a href="https://forfansubs.github.io/" rel="noopener noreferrer" target="_blank">
+                            ForFansubs v{version}
+                        </a>
+                        <br />
                         <a href="https://aybertocarlos.github.io/" rel="noopener noreferrer" target="_blank">
                             aybertocarlos &copy; {(new Date()).getFullYear()}
                         </a>
