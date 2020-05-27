@@ -59,13 +59,16 @@ setGlobal({
     mobile: false
 })
 
-addReducer('getOnline', (global, dispatch) => {
-    axios.get(indexURL)
+addReducer('getOnline', (global, dispatch, token) => {
+    const headers = {
+        "Authorization": user.token
+    }
+
+    axios.get(indexURL, { headers })
         .then(res => {
             dispatch.setOnline(res.data)
-            if (!isEmpty(user)) {
-                dispatch.checkAdmin(user.token)
-            }
+            console.log(res.data)
+            dispatch.setAdmin(res.data.admin)
         })
         .catch(_ => dispatch.setOnline(false))
 })
@@ -118,16 +121,6 @@ addReducer('logoutHandler', (global, dispatch) => {
             success: false
         }
     })
-})
-
-addReducer('checkAdmin', (global, dispatch, token) => {
-    const headers = {
-        "Authorization": token
-    }
-
-    axios.get(isAdmin, { headers })
-        .then(res => dispatch.setAdmin(true))
-        .catch(_ => dispatch.setAdmin(false))
 })
 
 addReducer('setAdmin', (global, dispatch, status) => {

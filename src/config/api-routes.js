@@ -11,6 +11,7 @@ const getSearchIndex = (type, page) => `${type}/arama-liste/${page}`
 const getGenresList = "/genre-list"
 const getFullSearchList = (type) => `/${type}/liste`
 const getEpisodePageInfo = (slug) => `/bolum/${slug}/watch`
+const getMangaEpisodePageInfo = (slug) => `/manga-bolum/${slug}/read`
 const getEpisodeInfo = "/bolum/izleme-linkleri"
 
 const loginRoute = "/kullanici/giris"
@@ -19,6 +20,8 @@ const registerRoute = "/kullanici/kayit"
 const contentCover = (type, slug, size) => `/api/resimler/${type}/${slug}-cover${size ? `?size=${size}` : ""}`
 const contentHeader = (type, slug, size) => `/api/resimler/${type}/${slug}-header${size ? `?size=${size}` : ""}`
 const contentLogo = (type, slug) => `/api/resimler/${type}/${slug}-logo?type=logo`
+
+const mangaPageImage = (filename, slug, episode_number) => `/api/resimler/manga-bolum/${slug}/${episode_number}/${filename}`
 
 export {
     indexURL,
@@ -33,10 +36,12 @@ export {
     getGenresList,
     getFullSearchList,
     getEpisodePageInfo,
+    getMangaEpisodePageInfo,
     getEpisodeInfo,
     loginRoute,
     registerRoute,
     contentCover,
     contentHeader,
-    contentLogo
+    contentLogo,
+    mangaPageImage
 }

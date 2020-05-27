@@ -281,11 +281,11 @@ export default function MiniDrawer() {
                         :
                         "")}
                 </List>
+                <Divider />
                 {
                     menuItems2.length
                         ?
                         <>
-                            <Divider />
                             <List>
                                 {menuItems2.map((item, index) => {
                                     if (item.show)
@@ -303,11 +303,12 @@ export default function MiniDrawer() {
                                     else return ""
                                 })}
                             </List>
+                            <Divider />
                         </>
                         :
                         ""
                 }
-                <Divider />
+
                 <div className={clsx(classes.hide, {
                     [classes.footerDisplay]: open,
                 })}>

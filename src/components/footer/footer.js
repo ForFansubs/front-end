@@ -4,6 +4,8 @@ import { useGlobal } from 'reactn'
 import { Box, makeStyles } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 
+import FooterItems from '../../config/footer_items'
+
 const useStyles = makeStyles(theme => ({
     FooterInnerDiv: {
         padding: `${theme.spacing(2)}px`
@@ -28,19 +30,23 @@ export default function Footer() {
                         </a>
                             &nbsp;-&nbsp;
 
-                    <a href="https://github.com/ayberktandogan" rel="noopener noreferrer" target="_blank">
-                            github
-                    </a>
-                        {process.env.REACT_APP_FACEBOOK_LINK ?
-                            <a href={process.env.REACT_APP_FACEBOOK_LINK} rel="noopener noreferrer" target="_blank">
-                                .facebook
-                        </a>
-                            : ""
-                        }
-                        {process.env.REACT_APP_DISCORD_LINK ?
-                            <a href={process.env.REACT_APP_DISCORD_LINK} rel="noopener noreferrer" target="_blank">
-                                .discord
-                        </a>
+                        {FooterItems.length !== 0 ?
+                            FooterItems.map((item, index) => {
+                                if (index === 0) {
+                                    return (
+                                        <a key={item.title} href={item.link} rel="noopener noreferrer" target="_blank">
+                                            {item.title}
+                                        </a>
+                                    )
+                                }
+                                else {
+                                    return (
+                                        <a key={item.title} href={item.link} rel="noopener noreferrer" target="_blank">
+                                            .{item.title}
+                                        </a>
+                                    )
+                                }
+                            })
                             :
                             ""
                         }

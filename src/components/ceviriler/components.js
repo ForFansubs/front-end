@@ -1,12 +1,11 @@
 import React, { useState } from "react"
-import { useGlobal } from "reactn"
 import { Link } from "react-router-dom"
 import { Grid, Typography, Box, Button, makeStyles, Divider } from "@material-ui/core"
 import clsx from "clsx"
 import DisqusBox from "../../components/disqus/disqus"
 
 import { bluray, CoverPlaceholder } from "../../config/theming/images"
-import { getAnimeWatchIndex } from "../../config/front-routes"
+import { getAnimeWatchIndex, mangaEpisodePage } from "../../config/front-routes"
 import { contentHeader, contentLogo, contentCover } from "../../config/api-routes"
 
 import { format } from "date-fns"
@@ -440,7 +439,6 @@ function MangaPage(props) {
     const { id, name, slug, cover_art, translators, editors, authors, release_date, genres, mal_link, synopsis, mos_link, download_link, series_status, trans_status, airing
     } = props
     const classes = useStyles(props)
-    const [mobile] = useGlobal("mobile")
     const [headerError, setHeaderError] = useState(false)
     const [coverArtError, setCoverArtError] = useState(false)
     const [logoError, setLogoError] = useState(false)
@@ -539,7 +537,16 @@ function MangaPage(props) {
                                             Oku
                                         </Button>
                                     </a>
-                                ) : null}
+                                ) :
+                                    <Link to={mangaEpisodePage(slug)}>
+                                        <Button
+                                            variant="outlined"
+                                            size="large"
+                                            className={classes.ContentButton}
+                                        >
+                                            Oku
+                                    </Button>
+                                    </Link>}
                                 {mal_link ? (
                                     <a
                                         href={mal_link}

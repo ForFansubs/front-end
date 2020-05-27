@@ -86,7 +86,7 @@ const theme = {
         defaultMargin: "80px 40px 24px",
         defaultMarginMobile: "80px 24px 24px",
         defaultMarginOverride: "-16px -40px -24px",
-        defaultMarginMobileOverride: "-16px -24px -24px"
+        defaultMarginMobileOverride: "-24px -24px -24px"
     },
     transitions: {
         duration: {

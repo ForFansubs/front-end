@@ -9,7 +9,8 @@ const animePage = (slug) => `/ceviriler/anime/${slug}`
 const mangaPage = (slug) => `/ceviriler/manga/${slug}`
 const getAnimeWatchIndex = (slug) => `/ceviriler/anime/${slug}/izle`
 const episodePage = (slug, episodeSlug) => `/ceviriler/anime/${slug}/izle${episodeSlug ? `/${episodeSlug}` : ""}`
+const mangaEpisodePage = (slug, episodeSlug) => `/ceviriler/manga/${slug}/oku${episodeSlug ? `/${episodeSlug}` : ""}`
 
 const logoRoute = "/logo.png"
 
-export { indexPage, searchPage, faqPage, recPage, adminPage, animePage, getAnimeWatchIndex, mangaPage, episodePage, logoRoute }
+export { indexPage, searchPage, faqPage, recPage, adminPage, animePage, getAnimeWatchIndex, mangaPage, episodePage, mangaEpisodePage, logoRoute }
