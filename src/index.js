@@ -52,7 +52,10 @@ setGlobal({
         token: "",
         success: false
     },
-    settings,
+    settings: {
+        ...settings,
+        readingStyle: settings.readingStyle ? settings.readingStyle : "pagebypage"
+    },
     showModal: "",
     isAdmin: false,
     theme: settings.theme ? settings.theme : window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
@@ -67,7 +70,6 @@ addReducer('getOnline', (global, dispatch, token) => {
     axios.get(indexURL, { headers })
         .then(res => {
             dispatch.setOnline(res.data)
-            console.log(res.data)
             dispatch.setAdmin(res.data.admin)
         })
         .catch(_ => dispatch.setOnline(false))
@@ -134,7 +136,13 @@ addReducer('setTheme', (global, dispatch, type) => {
     return ({ theme: type })
 })
 
-//If there's any changes for existing localstorage, update it here
+addReducer('setSettings', (global, dispatch, key, value) => {
+    const settings = JSON.parse(localStorage.getItem('app-settings'))
+    settings[key] = value
+    localStorage.setItem('app-settings', JSON.stringify(settings))
+    return ({ settings: settings })
+})
+
 if (!settings.theme) {
     settings.theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
 }

@@ -1,3 +1,4 @@
+import React from 'react'
 import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
@@ -20,8 +21,23 @@ const useStyles = makeStyles(theme => ({
     NavigateNext: {
 
     },
+    ReadingStyleButtonContainer: {
+        display: "flex",
+        marginTop: theme.spacing(2),
+        justifyContent: "center",
+        '& svg': {
+            marginRight: theme.spacing(1)
+        },
+    },
+    WebtoonContainer: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center"
+    },
     MainPageImage: {
-        maxWidth: "100%"
+        maxWidth: "100%",
+        height: "auto"
     }
 }))
 

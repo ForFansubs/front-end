@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
+import { useGlobal, useDispatch } from 'reactn'
 import { Helmet } from 'react-helmet-async'
-
+import ReactGA from 'react-ga'
+import axios from '../../config/axios/axios'
 import Find from 'lodash-es/find'
+
 import { useStyles, defaultBoxProps } from '../../components/manga-episode/index'
 import { getMangaEpisodePageInfo, mangaPageImage } from '../../config/api-routes'
-import axios from '../../config/axios/axios'
 import { Grid, Typography, Box, Button, InputLabel, FormControl, Select, MenuItem } from '@material-ui/core'
-import { NavigateNext, NavigateBefore } from '@material-ui/icons'
-import ContentError from '../../components/warningerrorbox/error'
+import { NavigateNext, NavigateBefore, Image, BurstMode } from '@material-ui/icons'
 import ContentWarning from '../../components/warningerrorbox/warning'
 import DisqusBox from '../../components/disqus/disqus'
 
@@ -32,12 +33,14 @@ export default function MangaEpisodePage(props) {
         episode_number: "",
         pages: []
     })
-    const [activePageNumber, setActivePageNumber] = useState(0)
+    const [activePageNumber, setActivePageNumber] = useState(1)
+    const [settings] = useGlobal('settings')
+    const setSettings = useDispatch('setSettings')
 
     useEffect(() => {
-        const fetchData = async () => {
-            const { slug } = props.match.params
+        const { slug, episode_number, page_number } = props.match.params
 
+        const fetchData = async () => {
             const pageInfo = await axios.get(getMangaEpisodePageInfo(slug))
 
             if (pageInfo.data.length === 0 || pageInfo.status !== 200) {
@@ -50,30 +53,56 @@ export default function MangaEpisodePage(props) {
                 cover_art: pageInfo.data[0].cover_art
             })
 
-            setEpisodeData(pageInfo.data)
+            if (episode_number) {
+                const newData = Find(pageInfo.data, { episode_number: episode_number })
+                if (newData) {
+                    const pages = JSON.parse(newData.pages)
+                    setActiveEpisodeData(state => ({ ...state, ...newData, pages: pages }))
+                    // Gelen sayfa numarası, var olan sayfalara uyuşuyor mu bak. Çok büyük
+                    // ya da çok küçükse varolan değeri ata.
+                    setActivePageNumber(state => (
+                        page_number <= pages.length && page_number >= 1 ? Number(page_number) : state
+                    ))
+                }
+            }
 
+            setEpisodeData(pageInfo.data)
             setLoading(false)
         }
 
         fetchData()
     }, [])
 
+    useEffect(() => {
+        const { slug } = props.match.params
+
+        window.history.replaceState("", "", mangaEpisodePage(slug, activeEpisodeData.episode_number, activePageNumber))
+        ReactGA.pageview(window.location.pathname)
+        // eslint-disable-next-line
+    }, [activeEpisodeData, activePageNumber])
+
     function handleChange(event) {
-        setActivePageNumber(0)
+        setActivePageNumber(1)
         const newData = Find(episodeData, { episode_number: event.target.value })
         setActiveEpisodeData(state => ({ ...state, ...newData, pages: JSON.parse(newData.pages) }));
     }
 
     function handleNavigateBeforeButton() {
         setActivePageNumber(state => (
-            state === 0 ? 0 : state - 1
+            state === 1 ? 1 : state - 1
         ))
     }
 
     function handleNavigateNextButton() {
         setActivePageNumber(state => (
-            state === activeEpisodeData.pages.length - 1 ? state : state + 1
+            state === activeEpisodeData.pages.length ? state : state + 1
         ))
+    }
+
+    function handleReadingStyleChangeButton() {
+        // İki tür var. "pagebypage" ve "webtoon"
+        if (settings.readingStyle === "pagebypage") setSettings("readingStyle", "webtoon")
+        else setSettings("readingStyle", "pagebypage")
     }
 
     if (!loading && episodeData.length !== 0) {
@@ -118,22 +147,36 @@ export default function MangaEpisodePage(props) {
                                     {episodeData.map(d => <MenuItem key={d.episode_number} value={`${d.episode_number}`}>{d.episode_number}. Bölüm - {d.episode_name}</MenuItem>)}
                                 </Select>
                             </FormControl>
-                            <div className={classes.NavigatorButtonContainer}>
+                            {settings.readingStyle === "pagebypage" ?
+                                <div className={classes.NavigatorButtonContainer}>
+                                    <Button
+                                        className={classes.NavigateBefore}
+                                        fullWidth
+                                        variant="outlined"
+                                        onClick={handleNavigateBeforeButton}
+                                        disabled={activePageNumber !== 1 && activeEpisodeData.episode_number ? false : true}>
+                                        <NavigateBefore />
+                                    </Button>
+                                    <Button
+                                        className={classes.NavigateNext}
+                                        fullWidth
+                                        variant="outlined"
+                                        onClick={handleNavigateNextButton}
+                                        disabled={activePageNumber !== activeEpisodeData.pages.length && activeEpisodeData.episode_number ? false : true}>
+                                        <NavigateNext />
+                                    </Button>
+                                </div>
+                                : ""}
+                            <div className={classes.ReadingStyleButtonContainer}>
                                 <Button
-                                    className={classes.NavigateBefore}
-                                    fullWidth
+                                    className={classes.PagebyPage}
                                     variant="outlined"
-                                    onClick={handleNavigateBeforeButton}
-                                    disabled={activePageNumber !== 0 && activeEpisodeData.episode_number ? false : true}>
-                                    <NavigateBefore />
-                                </Button>
-                                <Button
-                                    className={classes.NavigateNext}
-                                    fullWidth
-                                    variant="outlined"
-                                    onClick={handleNavigateNextButton}
-                                    disabled={activePageNumber !== activeEpisodeData.pages.length - 1 && activeEpisodeData.episode_number ? false : true}>
-                                    <NavigateNext />
+                                    onClick={handleReadingStyleChangeButton}>
+                                    {settings.readingStyle === "pagebypage" ?
+                                        <><BurstMode />Webtoon</>
+                                        :
+                                        <><Image />Sayfa Sayfa</>
+                                    }
                                 </Button>
                             </div>
                         </Box>
@@ -142,10 +185,24 @@ export default function MangaEpisodePage(props) {
                         <Box display="flex" justifyContent="center">
                             {activeEpisodeData.episode_number
                                 ?
-                                <img
-                                    className={classes.MainPageImage}
-                                    src={mangaPageImage(mangaData.manga_slug, activeEpisodeData.episode_number, activeEpisodeData.pages[activePageNumber].filename)}
-                                    alt={`${mangaData.manga_name} ${activeEpisodeData.episode_number}. Bölüm ${activePageNumber + 1}. Sayfa`} />
+                                settings.readingStyle === "pagebypage" ?
+                                    <img
+                                        className={classes.MainPageImage}
+                                        src={mangaPageImage(mangaData.manga_slug, activeEpisodeData.episode_number, activeEpisodeData.pages[(activePageNumber - 1)].filename)}
+                                        alt={`${mangaData.manga_name} ${activeEpisodeData.episode_number}. Bölüm ${activePageNumber}. Sayfa`} />
+                                    :
+                                    <div className={classes.WebtoonContainer}>
+                                        {activeEpisodeData.pages.map((page, index) => (
+                                            <img
+                                                key={page.filename}
+                                                loading="lazy"
+                                                className={classes.MainPageImage}
+                                                width="700px"
+                                                height="1000px"
+                                                src={mangaPageImage(mangaData.manga_slug, activeEpisodeData.episode_number, page.filename)}
+                                                alt={`${mangaData.manga_name} ${activeEpisodeData.episode_number}. Bölüm ${index + 1}. Sayfa`} />
+                                        ))}
+                                    </div>
                                 :
                                 <ContentWarning
                                     {...defaultBoxProps}

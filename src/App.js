@@ -41,7 +41,7 @@ export default function App() {
                   <Route path="/" exact component={IndexPage} />
                   <Route path="/ceviriler/anime/:slug/izle/:episodeInfo?" exact component={EpisodePage} />
                   <Route path="/ceviriler/anime/:slug" exact component={AnimePage} />
-                  <Route path="/ceviriler/manga/:slug/oku/:episodeInfo?" exact component={MangaEpisodePage} />
+                  <Route path="/ceviriler/manga/:slug/oku/:episode_number?/:page_number?" exact component={MangaEpisodePage} />
                   <Route path="/ceviriler/manga/:slug" exact component={MangaPage} />
                   <Route path="/ara/:type?/:offset?" component={SearchPage} />
                   <Route path="/sss" exact component={SSSPage} />
