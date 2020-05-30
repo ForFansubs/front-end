@@ -143,6 +143,16 @@ addReducer('setSettings', (global, dispatch, key, value) => {
     return ({ settings: settings })
 })
 
+addReducer('checkAdmin', (global, dispatch, token) => {
+    const headers = {
+        "Authorization": token
+    }
+
+    axios.get(indexURL, { headers })
+        .then(res => dispatch.setAdmin(res.data.admin))
+        .catch(_ => dispatch.setAdmin(false))
+})
+
 if (!settings.theme) {
     settings.theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
 }

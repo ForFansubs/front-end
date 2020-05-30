@@ -5,17 +5,19 @@ import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
+import { makeStyles } from '@material-ui/core';
 
-import styled from 'styled-components'
-
-const CardImage = styled(Box)`
-    width: 100%;
-    height: 250px;
-    background-size: cover;
-    background-position: center center;
-`
+const useStyles = makeStyles(theme => ({
+    CardImage: {
+        width: "100%",
+        height: 250,
+        backgroundSize: "cover",
+        backgroundPosition: "center center"
+    }
+}))
 
 export default function EkipAlimlariPage() {
+    const classes = useStyles()
     document.title = `Ekip Alımları - ${process.env.REACT_APP_SITENAME}`
     ReactGA.pageview(window.location.pathname)
 
@@ -63,7 +65,7 @@ export default function EkipAlimlariPage() {
                 {boxes.map(b => (
                     <Grid item xs={12} md={4} key={b.image}>
                         <Box boxShadow={2}>
-                            <CardImage style={{ backgroundImage: `url(${b.image})` }} />
+                            <Box className={classes.CardImage} style={{ backgroundImage: `url(${b.image})` }} />
                             <Box bgcolor="background.level2" p={2}>
                                 <Typography variant="h5">
                                     {b.title}

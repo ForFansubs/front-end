@@ -12,7 +12,7 @@ function Message(props) {
     return (
         <Box
             p={2}
-            bgcolor="background.level2"
+            bgcolor="background.level1"
             boxShadow={2}
             onClick={onClick}
         >

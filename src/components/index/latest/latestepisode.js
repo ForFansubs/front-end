@@ -8,6 +8,8 @@ import { Grid, Box, Typography, makeStyles } from '@material-ui/core'
 import Format from '../../date-fns/format'
 import episodeTitleParser from '../../../config/episode-title-parser'
 import { CoverPlaceholder } from '../../../config/theming/images'
+import { contentCover } from '../../../config/api-routes'
+import { useState } from 'reactn'
 
 const useStyles = makeStyles(theme => ({
     Container: {
@@ -61,6 +63,7 @@ export const LoadingDivEpisode = (key) =>
 export default function LatestEpisode(props) {
     const classes = useStyles()
     const { anime_name, episode_number, special_type, cover_art, credits, created_by } = props
+    const [imageError, setImageError] = useState(false)
 
     const episodeInfo = episodeTitleParser(anime_name, episode_number, special_type)
 
@@ -74,10 +77,12 @@ export default function LatestEpisode(props) {
                         <Grid container className={classes.Container}>
                             <Grid item xs={12} className={classes.Image}>
                                 <img
-                                    src={cover_art}
+                                    src={contentCover("anime", props.anime_slug)}
                                     onError={img => {
                                         img.target.onerror = null
-                                        img.target.src = CoverPlaceholder
+                                        if (imageError) return img.target.src = CoverPlaceholder
+                                        img.target.src = cover_art
+                                        setImageError(true)
                                     }}
                                     alt={`${anime_name} ${episodeInfo.title} Poster Resmi`} />
                             </Grid>

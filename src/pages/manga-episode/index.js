@@ -144,7 +144,7 @@ export default function MangaEpisodePage(props) {
                                         id: "episode-selector"
                                     }}
                                 >
-                                    {episodeData.map(d => <MenuItem key={d.episode_number} value={`${d.episode_number}`}>{d.episode_number}. Bölüm - {d.episode_name}</MenuItem>)}
+                                    {episodeData.map(d => <MenuItem key={d.episode_number} value={`${d.episode_number}`}>{d.episode_number}. Bölüm: {d.episode_name}</MenuItem>)}
                                 </Select>
                             </FormControl>
                             {settings.readingStyle === "pagebypage" ?

@@ -15,7 +15,7 @@ import FeaturedContainer from '../../components/index/featured/FeaturedContainer
 import LatestBatchLinks from '../../components/index/latest/latestbatchlinks';
 import { logoRoute } from '../../config/front-routes';
 
-export default () => {
+export default function IndexPage() {
     const theme = useTheme()
     const classes = useStyles()
 

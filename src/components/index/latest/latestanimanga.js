@@ -1,268 +1,205 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { animePage, mangaPage } from '../../../config/front-routes'
 
-import Dotdotdot from 'react-dotdotdot'
 
-import Box from '@material-ui/core/Box';
-import styled, { css, keyframes } from 'styled-components'
-import Grid from '@material-ui/core/Grid';
+import { Grid, Box, makeStyles, Popper } from '@material-ui/core';
+import Fade from '@material-ui/core/Fade'
 import Typography from '@material-ui/core/Typography'
-import blue from '@material-ui/core/colors/blue'
+import { CoverPlaceholder } from '../../../config/theming/images';
 
-import Format from '../../date-fns/format'
-
-const ContentInfo = styled.div`
-    ${props => props.version === "bd" ? `border-right: 4px solid ${blue["A200"]};` : ""}
-    position: relative;
-    padding: 0 15px;
-    width: 70%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-`
-
-const ContentAltInfo = styled.div`
-    max-height: 0px;
-    overflow: hidden;
-
-    transition: ${props => props.transition};
-`
-
-const ContentTitle = styled(Typography)`
-    font-size: 1rem!important;
-`
-
-const ContentDiv = styled(Box)`
-        display: flex;
-        min-height: 170px;
-        transition: ${props => props.transition};
-
-        :hover {
-            background: ${props => props.hoverbg};
-
-            ${ContentAltInfo} {
-                max-height: 80px;
-            }
-    `
-
-const ContentCoverArt = styled.div.attrs(props => ({
-    style: {
-        backgroundImage: `url(${props.image})`,
+const useStyles = makeStyles(theme => ({
+    Container: {
+        position: "relative",
+        overflow: "hidden"
+    },
+    Image: {
+        position: "relative",
+        paddingBottom: "140%",
+        overflow: "hidden",
+        boxShadow: theme.shadows[6],
+        '& img': {
+            position: "absolute",
+            objectFit: "cover",
+            width: "100%",
+            height: "100%"
+        }
+    },
+    PopperContainer: {
+        zIndex: 1,
+        '&[x-placement*="bottom"] $Arrow': {
+            top: 0,
+            left: 0,
+            marginTop: '-0.9em',
+            width: '3em',
+            height: '1em',
+            '&::before': {
+                borderWidth: '0 1em 1em 1em',
+                borderColor: `transparent transparent ${theme.palette.background.level1} transparent`,
+            },
+        },
+        '&[x-placement*="top"] $Arrow': {
+            bottom: 0,
+            left: 0,
+            marginBottom: '-0.9em',
+            width: '3em',
+            height: '1em',
+            '&::before': {
+                borderWidth: '1em 1em 0 1em',
+                borderColor: `${theme.palette.background.level1} transparent transparent transparent`,
+            },
+        },
+        '&[x-placement*="right"] $Arrow': {
+            left: 0,
+            marginLeft: '-0.9em',
+            height: '3em',
+            width: '1em',
+            '&::before': {
+                borderWidth: '1em 1em 1em 0',
+                borderColor: `transparent ${theme.palette.background.level1} transparent transparent`,
+            },
+        },
+        '&[x-placement*="left"] $Arrow': {
+            right: 0,
+            marginRight: '-0.9em',
+            height: '3em',
+            width: '1em',
+            '&::before': {
+                borderWidth: '1em 0 1em 1em',
+                borderColor: `transparent transparent transparent ${theme.palette.background.level1}`,
+            },
+        },
+    },
+    Arrow: {
+        position: 'absolute',
+        fontSize: 7,
+        width: '3em',
+        height: '3em',
+        '&::before': {
+            content: '""',
+            margin: 'auto',
+            display: 'block',
+            width: 0,
+            height: 0,
+            borderStyle: 'solid',
+        },
+    },
+    InfoBox: {
+        backgroundColor: theme.palette.background.level1,
+        borderRadius: 4,
+        padding: theme.spacing(2),
+        maxWidth: 500,
+        minHeight: 200,
+        maxHeight: 275,
+        overflow: "hidden"
+    },
+    GenresContainer: {
+        marginTop: -4,
+        '& span': {
+            display: "inline-block",
+            padding: "2px 4px",
+            margin: "0 4px 4px 0",
+            backgroundColor: theme.palette.background.paper
+        }
+    },
+    SynopsisContainer: {
+        overflow: "hidden",
+        lineHeight: "1.4em",
+        maxHeight: "9.8em",
+        backgroundPosition: "bottom center"
     }
-}))`
-        width: 30%;
-        background-size: cover;
-        background-position: center;
-    `
-
-const ContentGenres = styled.ul`
-li {
-    display: inline-block;
-    padding: 2px 4px;
-    background: ${props => props.bgcolor};
-    margin: 0 3px 3px 0;
-
-    h6 {
-        font-size: .6rem;
-        font-weight: 400!important;
-    }
-}
-`
-
-const ContentSynopsis = styled(Typography)`
-        font-weight: bold,
-    `
-
-const ContentReleaseTime = styled(Typography)``
-
-const loading_animation = keyframes`
-    0%{
-        background-position: -468px 0
-    }
-    100%{
-        background-position: 468px 0
-    }
-`
-
-const animated_background = css`
-    height: 60px;
-    width: 60px;
-    animation-duration: 1.25s;
-    animation-fill-mode: forwards;
-    animation-iteration-count: infinite;
-    animation-name: ${loading_animation};
-    animation-timing-function: linear;
-    background: #090909;
-    background: linear-gradient(to right, #090909 8%, #2d2d2d 18%, #090909 33%);
-    background-size: 800px 104px;
-    height: 96px;
-    position: relative;
-`
-
-const LoadingImage = styled.div`
-    ${animated_background};
-    min-height: 170px;
-    width: 30%;
-`
-
-const LoadingTextContainer = styled.div`
-    padding: 0 15px;
-    width: 70%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-`
-
-const LoadingText = styled.div`
-    ${animated_background};
-    height: 10px;
-    width: 100%;
-    margin: 4px 0;
-`
-
-const LoadingGenreContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-`
-
-const LoadingGenre = styled.div`
-    ${animated_background};
-    height: 10px;
-    width: 40px;
-    margin: 4px 4px 4px 0;
-`
+}))
 
 export const LoadingDivAniManga = (key) =>
     <Grid key={key} item xs={12} sm={6} md={4} lg={3}>
-        <Box
-            bgcolor="background.level2"
-            boxShadow={2} display="flex">
-            <Grid container>
-                <LoadingImage />
-                <LoadingTextContainer>
-                    <LoadingText />
-                    <LoadingGenreContainer>
-                        <LoadingGenre />
-                        <LoadingGenre />
-                        <LoadingGenre />
-                    </LoadingGenreContainer>
-                </LoadingTextContainer>
-            </Grid>
-        </Box>
+        <p>Yükleniyor</p>
     </Grid>
 
 export default function LatestAniManga(props) {
-    const theme = props.theme
+    const classes = useStyles()
+    const { slug, cover_art, name, synopsis, release_date, version } = props
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [arrowEl, setArrowEl] = React.useState(null)
+    const refEl = useRef()
 
-    const { slug, cover_art, name, synopsis, created_time, created_by, version } = props
+
     const genres = props.genres.split(',').map((d, i) => i < 5 ? (
-        <li key={props.name + d}>
-            <Typography variant="h6">
-                {d}
-            </Typography>
-        </li>
+        <Typography key={props.name + d} variant="subtitle2" component="span">
+            {d}
+        </Typography>
     ) : null)
 
-    switch (props.type) {
-        case "anime":
-            return (
-                <>
-                    <Grid item xs={12} sm={6} md={4} lg={3}>
-                        <Link to={animePage(slug)}>
-                            <ContentDiv
-                                bgcolor="background.level2"
-                                boxShadow={2}
-                                transition={theme.transitions.create('background', {
-                                    easing: theme.transitions.easing.easeInOut,
-                                    duration: theme.transitions.duration.short,
-                                })}
-                                hoverbg={theme.palette.background.paper}>
-                                <ContentCoverArt image={cover_art} />
-                                <ContentInfo version={version}>
-                                    <ContentTitle
-                                        variant="h6"
-                                    >
-                                        <Dotdotdot clamp={1}>
-                                            {name}
-                                        </Dotdotdot>
-                                    </ContentTitle>
-                                    <ContentGenres bgcolor={theme.palette.primary.main}>{genres}</ContentGenres>
-                                    <ContentAltInfo
-                                        transition={theme.transitions.create('max-height', {
-                                            easing: theme.transitions.easing.ease,
-                                            duration: theme.transitions.duration.short,
-                                        })}>
-                                        <Dotdotdot clamp={2}>
-                                            <ContentSynopsis variant="subtitle2">
-                                                {synopsis}
-                                            </ContentSynopsis>
-                                        </Dotdotdot>
-                                    </ContentAltInfo>
-                                    {props.version === "bd"
-                                        ?
-                                        <Typography
-                                            style={{
-                                                position: "absolute",
-                                                bottom: "20px",
-                                                right: "-15px",
-                                                transform: "rotate(-90deg)"
-                                            }}
-                                            variant="h6">Blu-ray</Typography>
-                                        : ""}
-                                </ContentInfo>
-                            </ContentDiv>
-                        </Link>
-                    </Grid>
-                </>
-            )
-        case "manga":
-            return (
-                <>
-                    <Grid item xs={12} sm={6} md={4} lg={3}>
-                        <Link to={mangaPage(props.slug)}>
-                            <ContentDiv
-                                bgcolor="background.level2"
-                                boxShadow={2}
-                                transition={theme.transitions.create('background', {
-                                    easing: theme.transitions.easing.easeInOut,
-                                    duration: theme.transitions.duration.short,
-                                })}
-                                hoverbg={theme.palette.background.paper}>
-                                <ContentCoverArt image={cover_art} />
-                                <ContentInfo>
-                                    <ContentTitle
-                                        variant="h6"
-                                    >
-                                        <Dotdotdot clamp={2}>
-                                            {name}
-                                        </Dotdotdot>
-                                    </ContentTitle>
-                                    <ContentGenres bgcolor={theme.palette.primary.main}>{genres}</ContentGenres>
-                                    <ContentAltInfo
-                                        transition={theme.transitions.create('max-height', {
-                                            easing: theme.transitions.easing.ease,
-                                            duration: theme.transitions.duration.short,
-                                        })}>
-
-                                        <Dotdotdot clamp={3}>
-                                            <ContentSynopsis variant="subtitle2">
-                                                {synopsis}
-                                            </ContentSynopsis>
-                                        </Dotdotdot>
-                                        <ContentReleaseTime variant="h6">
-                                            {Format(new Date(created_time)).toUpperCase()} - {created_by ? created_by : "Silinmiş Kullanıcı"}
-                                        </ContentReleaseTime>
-                                    </ContentAltInfo>
-                                </ContentInfo>
-                            </ContentDiv>
-                        </Link>
-                    </Grid>
-                </>
-            )
-        default:
-            return false
+    function handlePopperMouseEnter() {
+        setAnchorEl(refEl.current)
     }
 
+    function handlePopperMouseLeave() {
+        setAnchorEl(null)
+    }
 
+    const open = Boolean(anchorEl)
+
+    return (
+        <>
+            <Grid item xs={6} sm={6} md={4} lg={2} xl={1} className={classes.Container}>
+                <Link to={props.type === "anime" ? animePage(slug) : mangaPage(slug)}
+                    onMouseEnter={handlePopperMouseEnter}
+                    onMouseOver={handlePopperMouseEnter}
+                    onMouseLeave={handlePopperMouseLeave}
+                >
+                    <Grid item xs={12} className={classes.Image} ref={refEl}>
+                        <img
+                            src={cover_art}
+                            onError={img => {
+                                img.target.onerror = null
+                                img.target.src = CoverPlaceholder
+                            }}
+                            alt={`${name} Poster Resmi`} />
+                    </Grid>
+                </Link>
+                <div>
+                    <Popper
+                        id={open ? name : undefined}
+                        open={open}
+                        anchorEl={anchorEl}
+                        placement="right"
+                        className={classes.PopperContainer}
+                        modifiers={{
+                            flip: {
+                                enabled: true,
+                            },
+                            preventOverflow: {
+                                enabled: true,
+                                boundariesElement: 'scrollParent',
+                            },
+                            arrow: {
+                                enabled: true,
+                                element: arrowEl
+                            },
+                        }}
+                        transition>
+                        {({ TransitionProps }) => (
+                            <Fade {...TransitionProps} timeout={350}>
+                                <div>
+                                    <span className={classes.Arrow} ref={setArrowEl} />
+                                    <Box className={classes.InfoBox}>
+                                        <Typography variant="body1" component="p">
+                                            <b>{name}{release_date ? ` - ${new Date(release_date).getFullYear()}` : ""}</b>
+                                        </Typography>
+                                        <Typography variant="body1" component="div" className={classes.GenresContainer}>
+                                            {genres}
+                                        </Typography>
+                                        <Typography variant="subtitle1" component="p" className={classes.SynopsisContainer}>
+                                            {synopsis}
+                                        </Typography>
+                                    </Box>
+                                </div>
+                            </Fade>
+                        )}
+                    </Popper>
+
+                </div>
+            </Grid>
+        </>
+    )
 }
