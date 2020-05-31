@@ -6,7 +6,7 @@ import lightTheme from './light/index'
 
 const generalBorderRadius = 2
 
-const theme = {
+const general = {
     breakpoints: {
         values: {
             xs: 0,
@@ -79,7 +79,7 @@ const theme = {
         defaultMargin: "80px 40px 24px",
         defaultMarginMobile: "80px 24px 24px",
         defaultMarginOverride: "-16px -40px -24px",
-        defaultMarginMobileOverride: "-16px -24px -24px"
+        defaultMarginMobileOverride: "-24px -24px -24px"
     },
     transitions: {
         duration: {
@@ -94,10 +94,10 @@ const theme = {
 
 export default function getTheme(type) {
     switch (type) {
-        case "dark":
-            return createMuiTheme(merge(theme, darkTheme))
-        case "light":
-            return createMuiTheme(merge(theme, lightTheme))
+        case type: {
+            const theme = merge(general, type === "dark" ? darkTheme : lightTheme)
+            return createMuiTheme(theme)
+        }
         default:
             return false
     }

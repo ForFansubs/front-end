@@ -12,7 +12,8 @@ const useStyles = makeStyles(theme => ({
     },
     FooterAuthor: {
         color: theme.palette.grey["A200"],
-        marginTop: `${theme.spacing(4)}px`
+        marginTop: `${theme.spacing(4)}px`,
+        fontSize: "0.975em"
     },
     FooterItem: {
         marginRight: theme.spacing(1),
@@ -41,7 +42,7 @@ export default function Footer() {
                             ""
                         }
                     </Typography>
-                    <Typography variant="subtitle2" className={classes.FooterAuthor}>
+                    <Typography variant="subtitle1" className={classes.FooterAuthor}>
                         <a href="https://forfansubs.github.io/" rel="noopener noreferrer" target="_blank">
                             ForFansubs v{version}
                         </a>

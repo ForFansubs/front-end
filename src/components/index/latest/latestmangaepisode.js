@@ -1,7 +1,7 @@
 import React from 'react'
 import propTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { episodePage } from '../../../config/front-routes'
+import { episodePage, mangaEpisodePage } from '../../../config/front-routes'
 
 import { Grid, Typography, makeStyles } from '@material-ui/core'
 
@@ -11,7 +11,6 @@ import { CoverPlaceholder } from '../../../config/theming/images'
 import { contentCover } from '../../../config/api-routes'
 import { useState } from 'reactn'
 import { Skeleton } from '@material-ui/lab'
-import Dotdotdot from 'react-dotdotdot'
 
 const useStyles = makeStyles(theme => ({
     Container: {
@@ -53,44 +52,40 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-export const LoadingDivEpisode = (key) =>
+export const LoadingDivMangaEpisode = (key) =>
     <Grid key={key} item xs={4} sm={3} md={2} lg={2} xl={2}>
         <Skeleton width="100%" style={{ paddingBottom: "140%" }} variant="rect" />
     </Grid>
 
-export default function LatestEpisode(props) {
+export default function LatestMangaEpisode(props) {
     const classes = useStyles()
-    const { anime_name, episode_number, special_type, cover_art, credits, created_by } = props
+    const { manga_name, manga_cover, manga_slug, episode_number, episode_name, created_by } = props
     const [imageError, setImageError] = useState(false)
-
-    const episodeInfo = episodeTitleParser(anime_name, episode_number, special_type)
 
     const formattedDate = Format(new Date(props.created_time)).toUpperCase()
 
     return (
         <>
             <Grid item xs={4} sm={3} md={2} lg={2} xl={2}>
-                <Link to={episodePage(props.anime_slug, episodeInfo.slug)}>
+                <Link to={mangaEpisodePage(manga_slug, episode_number)}>
                     <Grid container className={classes.Container}>
                         <Grid item xs={12} className={classes.Image}>
                             <img
-                                src={contentCover("anime", props.anime_slug)}
+                                src={contentCover("manga", manga_slug)}
                                 onError={img => {
                                     img.target.onerror = null
                                     if (imageError) return img.target.src = CoverPlaceholder
-                                    img.target.src = cover_art
+                                    img.target.src = manga_cover
                                     setImageError(true)
                                 }}
-                                alt={`${anime_name} ${episodeInfo.title} Poster Resmi`} />
+                                alt={`${manga_name} Poster Resmi`} />
                         </Grid>
                         <Grid item xs={12} className={classes.Metadata}>
                             <Typography variant="body2" className={classes.HiddenMetadata} component="p">
-                                <Dotdotdot clamp={3}>
-                                    {anime_name}
-                                </Dotdotdot>
+                                {manga_name}
                             </Typography>
                             <Typography variant="body2">
-                                {episodeInfo.title}
+                                {episode_number}. Bölüm{episode_name ? `: ${episode_name}` : ""}
                             </Typography>
                             <Typography variant="subtitle2" className={classes.HiddenMetadata}>
                                 {formattedDate} - {created_by}
@@ -103,7 +98,7 @@ export default function LatestEpisode(props) {
     )
 }
 
-LatestEpisode.propTypes = {
+LatestMangaEpisode.propTypes = {
     anime_name: propTypes.string.isRequired,
     episode_number: propTypes.string.isRequired,
     special_type: propTypes.string.isRequired,

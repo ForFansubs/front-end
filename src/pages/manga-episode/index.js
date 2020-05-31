@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useGlobal, useDispatch } from 'reactn'
 import { Helmet } from 'react-helmet-async'
 import ReactGA from 'react-ga'
@@ -36,6 +36,8 @@ export default function MangaEpisodePage(props) {
     const [activePageNumber, setActivePageNumber] = useState(1)
     const [settings] = useGlobal('settings')
     const setSettings = useDispatch('setSettings')
+
+    const NavigatorRef = useRef()
 
     useEffect(() => {
         const { slug, episode_number, page_number } = props.match.params
@@ -105,6 +107,13 @@ export default function MangaEpisodePage(props) {
         else setSettings("readingStyle", "pagebypage")
     }
 
+    function handleCenteringPage(image) {
+        const offset = NavigatorRef.current.clientHeight
+        window.scrollTo({
+            top: offset
+        })
+    }
+
     if (!loading && episodeData.length !== 0) {
 
         const title = `${mangaData.manga_name} ${activeEpisodeData.episode_number ? `${activeEpisodeData.episode_number}. Bölüm` : ""} Türkçe Oku - ${process.env.REACT_APP_SITENAME} Manga`
@@ -130,9 +139,9 @@ export default function MangaEpisodePage(props) {
                     <meta property="twitter:image:src" content={activeEpisodeData.cover_art} />
                     <meta name="referrer" content="default" />
                 </Helmet>
-                <Grid container spacing={2} justify="center">
+                <Grid container spacing={2} justify="center" className={classes.Container}>
                     <Grid item xs={12}>
-                        <Box className={classes.Navigator}>
+                        <Box className={classes.Navigator} ref={NavigatorRef}>
                             <FormControl fullWidth>
                                 <InputLabel htmlFor="episode-selector">Okumak istediğiniz bölümü seçin</InputLabel>
                                 <Select
@@ -150,16 +159,16 @@ export default function MangaEpisodePage(props) {
                             {settings.readingStyle === "pagebypage" ?
                                 <div className={classes.NavigatorButtonContainer}>
                                     <Button
+                                        size="large"
                                         className={classes.NavigateBefore}
-                                        fullWidth
                                         variant="outlined"
                                         onClick={handleNavigateBeforeButton}
                                         disabled={activePageNumber !== 1 && activeEpisodeData.episode_number ? false : true}>
                                         <NavigateBefore />
                                     </Button>
                                     <Button
+                                        size="large"
                                         className={classes.NavigateNext}
-                                        fullWidth
                                         variant="outlined"
                                         onClick={handleNavigateNextButton}
                                         disabled={activePageNumber !== activeEpisodeData.pages.length && activeEpisodeData.episode_number ? false : true}>
@@ -182,14 +191,30 @@ export default function MangaEpisodePage(props) {
                         </Box>
                     </Grid>
                     <Grid item xs={12} md={9}>
-                        <Box display="flex" justifyContent="center">
+                        <div className={classes.ImageContainer}>
                             {activeEpisodeData.episode_number
                                 ?
                                 settings.readingStyle === "pagebypage" ?
-                                    <img
-                                        className={classes.MainPageImage}
-                                        src={mangaPageImage(mangaData.manga_slug, activeEpisodeData.episode_number, activeEpisodeData.pages[(activePageNumber - 1)].filename)}
-                                        alt={`${mangaData.manga_name} ${activeEpisodeData.episode_number}. Bölüm ${activePageNumber}. Sayfa`} />
+                                    <>
+                                        <img
+                                            className={classes.MainPageImage}
+                                            src={mangaPageImage(mangaData.manga_slug, activeEpisodeData.episode_number, activeEpisodeData.pages[(activePageNumber - 1)].filename)}
+                                            alt={`${mangaData.manga_name} ${activeEpisodeData.episode_number}. Bölüm ${activePageNumber}. Sayfa`}
+                                            onLoad={image => {
+                                                handleCenteringPage(image)
+                                            }} />
+                                        <div className={classes.ImageOverlayContainer}>
+                                            <div
+                                                className={classes.ImageOverlay}
+                                                onClick={handleNavigateBeforeButton}
+                                                title="Önceki Sayfa"
+                                            />
+                                            <div
+                                                className={classes.ImageOverlay}
+                                                onClick={handleNavigateNextButton}
+                                                title="Sonraki Sayfa" />
+                                        </div>
+                                    </>
                                     :
                                     <div className={classes.WebtoonContainer}>
                                         {activeEpisodeData.pages.map((page, index) => (
@@ -197,8 +222,8 @@ export default function MangaEpisodePage(props) {
                                                 key={page.filename}
                                                 loading="lazy"
                                                 className={classes.MainPageImage}
-                                                width="700px"
-                                                height="1000px"
+                                                width="900px"
+                                                height="1270px"
                                                 src={mangaPageImage(mangaData.manga_slug, activeEpisodeData.episode_number, page.filename)}
                                                 alt={`${mangaData.manga_name} ${activeEpisodeData.episode_number}. Bölüm ${index + 1}. Sayfa`} />
                                         ))}
@@ -210,7 +235,7 @@ export default function MangaEpisodePage(props) {
                                     Lütfen bölüm seçiniz.
                                 </ContentWarning>
                             }
-                        </Box>
+                        </div>
                     </Grid>
                     {activeEpisodeData.episode_number ?
                         <Grid item xs={12}>

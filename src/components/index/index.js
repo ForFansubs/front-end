@@ -7,14 +7,18 @@ const useStyles = makeStyles(theme => ({
         alignItems: "center",
         '& h2': {
             fontWeight: 900,
-        },
-        '& $LineAfter::after': {
-            content: "' '",
-            whiteSpace: "pre",
-            height: 2,
-            background: theme.palette.divider,
-            marginLeft: theme.spacing(2),
-            flexGrow: "1"
+            [theme.breakpoints.down('sm')]: {
+                color: theme.palette.text.primary,
+                textShadow: "none"
+            },
+            '&:after': {
+                content: "''",
+                color: theme.palette.background.default,
+                textShadow: `-1px -1px 0 ${theme.palette.text.primary},  
+                        1px -1px 0 ${theme.palette.text.primary},
+                        -1px 1px 0 ${theme.palette.text.primary},
+                        1px 1px 0 ${theme.palette.text.primary}`
+            }
         }
     },
     ContainerDiv: {
@@ -22,10 +26,6 @@ const useStyles = makeStyles(theme => ({
     },
     IndexHeader: {
         marginBottom: theme.spacing(2)
-    },
-    LineAfter: {
-        display: "flex",
-        alignItems: "center"
     }
 }))
 

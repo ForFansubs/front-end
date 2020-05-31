@@ -126,7 +126,7 @@ function AnimeContainer(props) {
                                 <Typography variant="h5">{name}</Typography>
                             </Dotdotdot>
                             <Typography
-                                variant="subtitle2"
+                                variant="subtitle1"
                                 className={classes.ContentSynopsis}
                                 bgcolor={props.scrollbg}
                             >
@@ -190,7 +190,7 @@ function MangaContainer(props) {
                                 <Typography variant="h5">{name}</Typography>
                             </Dotdotdot>
                             <Typography
-                                variant="subtitle2"
+                                variant="subtitle1"
                                 className={classes.ContentSynopsis}
                             >
                                 {synopsis || "Konu bulunamadı."}

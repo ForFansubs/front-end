@@ -1,17 +1,17 @@
 import React, { useState, useRef } from 'react'
+import { useGlobal } from 'reactn'
 import { Link } from 'react-router-dom'
 import { animePage, mangaPage } from '../../../config/front-routes'
 
 
-import { Grid, Box, makeStyles, Popper } from '@material-ui/core';
-import Fade from '@material-ui/core/Fade'
+import { Grid, makeStyles, Popper } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography'
 import { CoverPlaceholder } from '../../../config/theming/images';
+import { Skeleton } from '@material-ui/lab';
 
 const useStyles = makeStyles(theme => ({
     Container: {
-        position: "relative",
-        overflow: "hidden"
+        position: "relative"
     },
     Image: {
         position: "relative",
@@ -89,6 +89,7 @@ const useStyles = makeStyles(theme => ({
         borderRadius: 4,
         padding: theme.spacing(2),
         maxWidth: 500,
+        minWidth: 350,
         minHeight: 200,
         maxHeight: 275,
         overflow: "hidden"
@@ -110,10 +111,14 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-export const LoadingDivAniManga = (key) =>
-    <Grid key={key} item xs={12} sm={6} md={4} lg={3}>
-        <p>Yükleniyor</p>
-    </Grid>
+export const LoadingDivAniManga = (key) => {
+    return (
+        <Grid key={key} item xs={6} sm={3} md={2} lg={2} xl={1}>
+            <Skeleton width="100%" style={{ paddingBottom: "140%" }} variant="rect" />
+        </Grid>
+    )
+}
+
 
 export default function LatestAniManga(props) {
     const classes = useStyles()
@@ -121,6 +126,7 @@ export default function LatestAniManga(props) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [arrowEl, setArrowEl] = React.useState(null)
     const refEl = useRef()
+    const [mobile] = useGlobal("mobile")
 
 
     const genres = props.genres.split(',').map((d, i) => i < 5 ? (
@@ -141,7 +147,7 @@ export default function LatestAniManga(props) {
 
     return (
         <>
-            <Grid item xs={6} sm={6} md={4} lg={2} xl={1} className={classes.Container}>
+            <Grid item xs={6} sm={3} md={2} lg={2} xl={1} className={classes.Container}>
                 <Link to={props.type === "anime" ? animePage(slug) : mangaPage(slug)}
                     onMouseEnter={handlePopperMouseEnter}
                     onMouseOver={handlePopperMouseEnter}
@@ -157,48 +163,43 @@ export default function LatestAniManga(props) {
                             alt={`${name} Poster Resmi`} />
                     </Grid>
                 </Link>
-                <div>
-                    <Popper
-                        id={open ? name : undefined}
-                        open={open}
-                        anchorEl={anchorEl}
-                        placement="right"
-                        className={classes.PopperContainer}
-                        modifiers={{
-                            flip: {
-                                enabled: true,
-                            },
-                            preventOverflow: {
-                                enabled: true,
-                                boundariesElement: 'scrollParent',
-                            },
-                            arrow: {
-                                enabled: true,
-                                element: arrowEl
-                            },
-                        }}
-                        transition>
-                        {({ TransitionProps }) => (
-                            <Fade {...TransitionProps} timeout={350}>
-                                <div>
-                                    <span className={classes.Arrow} ref={setArrowEl} />
-                                    <Box className={classes.InfoBox}>
-                                        <Typography variant="body1" component="p">
-                                            <b>{name}{release_date ? ` - ${new Date(release_date).getFullYear()}` : ""}</b>
-                                        </Typography>
-                                        <Typography variant="body1" component="div" className={classes.GenresContainer}>
-                                            {genres}
-                                        </Typography>
-                                        <Typography variant="subtitle1" component="p" className={classes.SynopsisContainer}>
-                                            {synopsis}
-                                        </Typography>
-                                    </Box>
-                                </div>
-                            </Fade>
-                        )}
-                    </Popper>
-
-                </div>
+                {mobile ? "" :
+                    <div>
+                        <Popper
+                            id={open ? name : undefined}
+                            open={open}
+                            anchorEl={anchorEl}
+                            placement="right"
+                            className={classes.PopperContainer}
+                            disablePortal={true}
+                            modifiers={{
+                                flip: {
+                                    enabled: true,
+                                },
+                                preventOverflow: {
+                                    enabled: true,
+                                    boundariesElement: 'scrollParent',
+                                },
+                                arrow: {
+                                    enabled: true,
+                                    element: arrowEl
+                                },
+                            }}
+                            transition>
+                            <span className={classes.Arrow} ref={setArrowEl} />
+                            <div className={classes.InfoBox}>
+                                <Typography variant="body1" component="p">
+                                    <b>{name}{release_date ? ` - ${new Date(release_date).getFullYear()}` : ""}{version === "bd" ? ` - (Blu-ray)` : ""}</b>
+                                </Typography>
+                                <Typography variant="body1" component="div" className={classes.GenresContainer}>
+                                    {genres}
+                                </Typography>
+                                <Typography variant="subtitle1" component="p" className={classes.SynopsisContainer}>
+                                    {synopsis}
+                                </Typography>
+                            </div>
+                        </Popper>
+                    </div>}
             </Grid>
         </>
     )

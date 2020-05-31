@@ -75,6 +75,9 @@ const useStyles = makeStyles((theme) => ({
         bottom: 0,
         left: 0,
         right: 0,
+        [theme.breakpoints.down("xs")]: {
+            background: `linear-gradient(90deg, ${theme.palette.background.default} 0%, ${theme.palette.background.default} 35%, ${theme.palette.background.default}00 100%)`,
+        },
     },
     FallbackBackgroundImage: {
         filter: "blur(5px)",
@@ -131,6 +134,7 @@ const useStyles = makeStyles((theme) => ({
     },
     ContentButton: {
         marginRight: theme.spacing(2),
+        marginTop: theme.spacing(2),
         boxShadow: theme.shadows[6]
     },
     BottomStuff: {
@@ -221,9 +225,9 @@ function AnimePage(props) {
     return (
         <>
             <div className={classes.Container}>
-                <Box className={classes.BackgroundContainer}>
-                    <Box className={classes.AnimeContainer}>
-                        <Box className={classes.TextContainer}>
+                <div className={classes.BackgroundContainer}>
+                    <div className={classes.AnimeContainer}>
+                        <div className={classes.TextContainer}>
                             <Box mb={2}>
                                 <Typography variant="h4" component="h6" className={classes.PremieredContainer}>
                                     {premiered ? premiered : null}
@@ -320,9 +324,9 @@ function AnimePage(props) {
                                     </a>
                                 ) : null}
                             </Box>
-                        </Box>
-                    </Box>
-                    <Box className={classes.BackgroundImage}>
+                        </div>
+                    </div>
+                    <div className={classes.BackgroundImage}>
                         {headerError ? (
                             <img
                                 title={name + " cover_art"}
@@ -356,8 +360,8 @@ function AnimePage(props) {
                             }}
                         ></img>
                         <div className={classes.BackgroundImageOverlay} />
-                    </Box>
-                </Box>
+                    </div>
+                </div>
                 <Box className={classes.BottomContainer}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={4}>

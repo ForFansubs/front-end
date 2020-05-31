@@ -20,6 +20,7 @@ const theme = {
             paper: "#F6F6F6"
         },
         contrastThreshold: 3,
+        type: "light"
     },
     overrides: {
         MuiAppBar: {

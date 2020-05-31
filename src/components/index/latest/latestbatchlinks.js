@@ -6,6 +6,7 @@ import { Typography, Grid, makeStyles } from '@material-ui/core'
 import { animePage } from '../../../config/front-routes'
 import { contentHeader } from '../../../config/api-routes'
 import { HeaderPlaceholder } from '../../../config/theming/images'
+import { Skeleton } from '@material-ui/lab'
 
 const useStyles = makeStyles(theme => ({
     Container: {
@@ -62,9 +63,9 @@ export default (props) => {
 
     if (loading) {
         return (
-            <>
-                <p>Yükleniyor</p>
-            </>
+            <Grid item xs={6} md={4} lg={2}>
+                <Skeleton variant="rect" width="100%" style={{ paddingBottom: "25%" }} />
+            </Grid>
         )
     }
     else

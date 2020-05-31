@@ -14,6 +14,7 @@ import LatestEpisode, { LoadingDivEpisode } from '../../components/index/latest/
 import FeaturedContainer from '../../components/index/featured/FeaturedContainer'
 import LatestBatchLinks from '../../components/index/latest/latestbatchlinks';
 import { logoRoute } from '../../config/front-routes';
+import LatestMangaEpisode, { LoadingDivMangaEpisode } from '../../components/index/latest/latestmangaepisode';
 
 export default function IndexPage() {
     const theme = useTheme()
@@ -22,12 +23,14 @@ export default function IndexPage() {
     let latestAnimesWindow = []
     let latestMangasWindow = []
     let latestEpisodesWindow = []
+    let latestMangaEpisodesWindow = []
     let featuredAnimeWindow = []
     let batchEpisodesWindow = []
 
     const [latestAnimes, setLatestAnimes] = useState([])
     const [latestMangas, setLatestMangas] = useState([])
     const [latestEpisodes, setLatestEpisodes] = useState([])
+    const [latestMangaEpisodes, setLatestMangaEpisodes] = useState([])
     const [featuredAnimes, setFeaturedAnimes] = useState([])
     const [batchEpisodes, setBatchEpisodes] = useState([])
 
@@ -41,13 +44,12 @@ export default function IndexPage() {
         axios.get(getIndexEpisodes)
             .then(res => {
                 if (mobile) {
-                    res.data.animes = res.data.animes.slice(0, 4)
-                    res.data.mangas = res.data.mangas.slice(0, 4)
                     res.data.episodes = res.data.episodes.slice(0, 8)
                 }
                 setLatestAnimes(res.data.animes)
                 setLatestMangas(res.data.mangas)
                 setLatestEpisodes(res.data.episodes)
+                setLatestMangaEpisodes(res.data.manga_episodes)
                 setLatestLoading(false)
             })
             .catch(_ => {
@@ -74,21 +76,21 @@ export default function IndexPage() {
 
     if (latestLoading) {
         if (!mobile) {
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0; i < 12; i++) {
                 latestAnimesWindow.push(LoadingDivAniManga(i + "loadingani"))
                 latestMangasWindow.push(LoadingDivAniManga(i + "loadingman"))
-            }
-            for (let i = 0; i < 18; i++) {
                 latestEpisodesWindow.push(LoadingDivEpisode(i + "loadingepi"))
+                latestMangaEpisodesWindow.push(LoadingDivMangaEpisode(i + "loadingepi"))
             }
         }
         else {
-            for (let i = 0; i < 4; i++) {
+            for (let i = 0; i < 8; i++) {
                 latestAnimesWindow.push(LoadingDivAniManga(i + "loadingani"))
                 latestMangasWindow.push(LoadingDivAniManga(i + "loadingman"))
             }
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0; i < 9; i++) {
                 latestEpisodesWindow.push(LoadingDivEpisode(i + "loadingepi"))
+                latestMangaEpisodesWindow.push(LoadingDivMangaEpisode(i + "loadingepi"))
             }
         }
     }
@@ -103,6 +105,9 @@ export default function IndexPage() {
         ))
         latestEpisodesWindow = latestEpisodes.map(episode => (
             <LatestEpisode type="episode" {...episode} key={episode.episode_id + "episode"} theme={theme} />
+        ))
+        latestMangaEpisodesWindow = latestMangaEpisodes.map(episode => (
+            <LatestMangaEpisode type="episode" {...episode} key={episode.episode_id + "manga episode"} theme={theme} />
         ))
     }
 
@@ -153,38 +158,61 @@ export default function IndexPage() {
                     </Grid>
                 </div>
                 : ""}
-            {latestEpisodesWindow.length ?
-                <div className={classes.ContainerDiv}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} md={9} lg={8}>
-                            <Grid container spacing={2} direction="row" justify="center" alignItems="stretch">
-                                {latestEpisodesWindow}
-                            </Grid>
-                        </Grid>
-                        <Grid item xs={12} md={3} lg={4} className={classes.TitleContainer}>
-                            <Typography variant="h1" component="h2">
-                                En Yeni
-                            </Typography>
-                            <Typography variant="h1" component="h2" className={classes.LineAfter}>
-                                Bölümler
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                </div>
-                : ""}
             {latestAnimesWindow.length ?
                 <div className={classes.ContainerDiv}>
-                    <Typography variant="h4" component="h2" gutterBottom>Animeler</Typography>
+                    <Typography variant="h2" component="h2" gutterBottom>
+                        Animeler
+                    </Typography>
                     <Grid container spacing={2} direction="row" justify="center" alignItems="center">
                         {latestAnimesWindow}
                     </Grid>
                 </div>
                 : ""}
+            {latestEpisodesWindow.length ?
+                <div className={classes.ContainerDiv}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} md={4} lg={4} className={classes.TitleContainer}>
+                            <Typography variant={mobile ? "h2" : "h1"} component="h2" noWrap>
+                                En Yeni
+                            </Typography>
+                            <Typography variant={mobile ? "h2" : "h1"} component="h2">
+                                Bölümler
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12} md={8} lg={8}>
+                            <Grid container spacing={2} direction="row" justify="center" alignItems="stretch">
+                                {latestEpisodesWindow}
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </div>
+                : ""}
             {latestMangasWindow.length ?
                 <div className={classes.ContainerDiv}>
-                    <Typography variant="h4" component="h2" gutterBottom>Mangalar</Typography>
+                    <Typography variant="h2" component="h2" gutterBottom>
+                        Mangalar
+                        </Typography>
                     <Grid container spacing={2} direction="row" justify="center" alignItems="stretch">
                         {latestMangasWindow}
+                    </Grid>
+                </div>
+                : ""}
+            {latestMangaEpisodesWindow.length ?
+                <div className={classes.ContainerDiv}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} md={3} lg={4} className={classes.TitleContainer}>
+                            <Typography variant={mobile ? "h2" : "h1"} component="h2" noWrap>
+                                En Yeni
+                            </Typography>
+                            <Typography variant={mobile ? "h2" : "h1"} component="h2">
+                                Bölümler
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12} md={9} lg={8}>
+                            <Grid container spacing={2} direction="row" justify="center" alignItems="stretch">
+                                {latestMangaEpisodesWindow}
+                            </Grid>
+                        </Grid>
                     </Grid>
                 </div>
                 : ""}
