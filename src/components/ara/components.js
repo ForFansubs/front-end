@@ -7,7 +7,6 @@ import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button';
 import red from '@material-ui/core/colors/red'
 import blue from '@material-ui/core/colors/blue'
-import { contentCover } from '../../config/api-routes'
 
 import Dotdotdot from 'react-dotdotdot'
 import { Link } from 'react-router-dom'
@@ -134,7 +133,7 @@ function AnimeContainer(props) {
                         <ContentPremieredText variant="h6">{d.premiered ? d.premiered : "Bilgi bulunamadı"}</ContentPremieredText>
                     </ContentPremieredContainer>
                     <ContentInPlacer>
-                        <ContentCover bgimage={contentCover("anime", d.slug)} title={d.name + " Cover Art"} />
+                        <ContentCover bgimage={d.cover_art} title={d.name + " Cover Art"} />
                         <ContentTextInfo>
                             <Dotdotdot clamp={2}>
                                 <ContentTitle variant="h5">{d.name}</ContentTitle>
@@ -182,7 +181,7 @@ function MangaContainer(props) {
             <Link to={mangaPage(d.slug)}>
                 <ContentContainer {...defaultBoxProps} mb={0}>
                     <ContentInPlacer>
-                        <ContentCover bgimage={contentCover("manga", d.slug)} title={d.name + " Cover Art"} />
+                        <ContentCover bgimage={d.cover_art} title={d.name + " Cover Art"} />
                         <ContentTextInfo>
                             <Dotdotdot clamp={2}>
                                 <ContentTitle variant="h5">{d.name}</ContentTitle>

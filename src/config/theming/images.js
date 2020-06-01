@@ -1,11 +1,4 @@
 import fourOhFourGif from '../../static/404.gif'
-
-import anchorI from '../../static/anchor-i.png'
-import bookI from '../../static/book-i.png'
-import calendarI from '../../static/calendar-i.png'
-import computerI from '../../static/computer-i.png'
-import paintbrushI from '../../static/paint-brush-i.png'
-import videoI from '../../static/video-i.png'
 import bluray from '../../static/bluraylogo.png'
 
 // Değişken görselleri tanımla.
@@ -38,4 +31,4 @@ try {
     console.warn('GIF logo bulunamadı.')
 }
 
-export { logo, fullLogo, fullLogoGif, fullLogoDark, fullLogoDarkGif, fourOhFourGif, anchorI, bookI, calendarI, computerI, paintbrushI, videoI, bluray }
+export { logo, fullLogo, fullLogoGif, fullLogoDark, fullLogoDarkGif, fourOhFourGif, bluray }

@@ -5,7 +5,6 @@ import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 
-import { Background } from 'react-parallax'
 import { bluray } from '../../../config/theming/images'
 
 import {
@@ -41,19 +40,15 @@ export default function AnimeIndexDesktop(props) {
         <Grid container spacing={2}>
             <ContentHeader item xs={12}>
                 <Box boxShadow={2}>
-                    <ContentHeaderImage
-                        strength={-300}
-                    >
-                        <Background>
-                            <img
-                                title={anime.name + " headerimage"}
-                                loading="lazy"
-                                alt={anime.name + " headerimage"}
-                                src={contentHeader("anime", anime.slug)}
-                                onError={() => {
-                                    document.getElementsByClassName('react-parallax')[0].style.height = "0px"
-                                }}></img>
-                        </Background>
+                    <ContentHeaderImage>
+                        <img
+                            title={anime.name + " headerimage"}
+                            loading="lazy"
+                            alt={anime.name + " headerimage"}
+                            src={contentHeader("anime", anime.slug)}
+                            onError={() => {
+                                document.getElementsByClassName('react-parallax')[0].style.height = "0px"
+                            }}></img>
                     </ContentHeaderImage>
                 </Box>
             </ContentHeader>
@@ -65,7 +60,7 @@ export default function AnimeIndexDesktop(props) {
                         loading="lazy"
                         alt={anime.name + " Cover Art"}
                         spacingvalue={theme.spacing(2)}
-                        src={contentCover("anime", anime.slug)}
+                        src={anime.cover_art}
                         mb={0} />
                     {anime.premiered || anime.version === "bd" ?
                         <ContentMetadata {...defaultBoxProps} display="flex" justifyContent="space-evenly" alignItems="center" mb="0" boxShadow={0}>

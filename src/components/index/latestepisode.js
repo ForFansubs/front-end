@@ -129,7 +129,7 @@ export default function LatestEpisode(props) {
                             duration: theme.transitions.duration.short,
                         })}
                         hoverbg={theme.palette.background.paper}>
-                        <EpisodeCoverArt image={contentCover("anime", props.anime_slug)} />
+                        <EpisodeCoverArt image={props.cover_art} />
                         <EpisodeInfo>
                             <Dotdotdot clamp={2} useNativeClamp>
                                 <EpisodeTitle variant="h6">{episodeInfo.title}</EpisodeTitle>

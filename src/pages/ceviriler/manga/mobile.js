@@ -47,7 +47,7 @@ export default function MangaIndexMobile(props) {
                             component="img" alt={manga.name + " Cover Art"}
                             boxShadow={2}
                             spacingvalue={theme.spacing(2)}
-                            src={contentCover("manga", manga.slug)}
+                            src={manga.cover_art}
                             mb={0} />
                     </ContentMetadata>
                     {manga.download_link ?

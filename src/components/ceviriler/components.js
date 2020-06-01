@@ -7,26 +7,6 @@ import DisqusBox from '../../components/disqus/disqus'
 
 import { Parallax } from 'react-parallax'
 
-import { anchorI, bookI, calendarI, computerI, paintbrushI, videoI } from '../../config/theming/images'
-
-function getIcon(icon) {
-    switch (icon) {
-        case "translator":
-            return bookI;
-        case "encoder":
-            return computerI;
-        case "editor":
-            return paintbrushI;
-        case "genres":
-            return anchorI;
-        case "time":
-            return calendarI;
-        case "studio":
-            return videoI;
-        default:
-            return false
-    }
-}
 
 const ContentHeader = styled(Grid)``
 
@@ -37,7 +17,8 @@ const ContentHeaderImage = styled(Parallax)`
     
     img {
         background-size: cover;
-        width: 100vw;
+        width: 100%;
+        margin-top: -10%;
     }
 `
 
@@ -60,7 +41,6 @@ const ContentMetadata = styled(Box)`
         font-size: .9rem;
         display: block;
     }
-    background-image: ${props => getIcon(props.type)};
 `
 
 const MetadataHeader = styled(Typography)`

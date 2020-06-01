@@ -60,7 +60,7 @@ export default function AnimeIndexMobile(props) {
                             alt={anime.name + " Cover Art"}
                             boxShadow={2}
                             spacingvalue={theme.spacing(2)}
-                            src={contentCover("anime", anime.slug)}
+                            src={anime.cover_art}
                             mb={0} />
                         {anime.premiered || anime.version === "bd" ?
                             <ContentMetadata {...defaultBoxProps} width="70%" display="flex" justifyContent="space-evenly" alignItems="center" mb="0" boxShadow={0}>

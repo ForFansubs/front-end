@@ -180,7 +180,7 @@ export default function LatestAniManga(props) {
                                     duration: theme.transitions.duration.short,
                                 })}
                                 hoverbg={theme.palette.background.paper}>
-                                <ContentCoverArt image={contentCover("anime", slug)} />
+                                <ContentCoverArt image={cover_art} />
                                 <ContentInfo version={version}>
                                     <ContentTitle
                                         variant="h6"
@@ -234,7 +234,7 @@ export default function LatestAniManga(props) {
                                     duration: theme.transitions.duration.short,
                                 })}
                                 hoverbg={theme.palette.background.paper}>
-                                <ContentCoverArt image={contentCover("manga", slug)} />
+                                <ContentCoverArt image={cover_art} />
                                 <ContentInfo>
                                     <ContentTitle
                                         variant="h6"

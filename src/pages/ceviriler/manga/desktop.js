@@ -22,8 +22,7 @@ import {
     MetadataHeader, ContentHeaderImage, ContentHeader
 } from '../../../components/ceviriler/components'
 import WarningBox from '../../../components/warningerrorbox/warning';
-import { Background } from "react-parallax";
-import { contentHeader, contentCover } from "../../../config/api-routes";
+import { contentHeader } from "../../../config/api-routes";
 
 export default function MangaIndexDesktop(props) {
     const { manga, theme, releasedate } = props
@@ -32,19 +31,15 @@ export default function MangaIndexDesktop(props) {
         <Grid container spacing={2}>
             <ContentHeader item xs={12}>
                 <Box boxShadow={2}>
-                    <ContentHeaderImage
-                        strength={-300}
-                    >
-                        <Background>
-                            <img
-                                title={manga.name + " headerimage"}
-                                loading="lazy"
-                                alt={manga.name + " headerimage"}
-                                src={contentHeader("manga", manga.slug)}
-                                onError={() => {
-                                    document.getElementsByClassName('react-parallax')[0].style.height = "0px"
-                                }} />
-                        </Background>
+                    <ContentHeaderImage>
+                        <img
+                            title={manga.name + " headerimage"}
+                            loading="lazy"
+                            alt={manga.name + " headerimage"}
+                            src={contentHeader("manga", manga.slug)}
+                            onError={() => {
+                                document.getElementsByClassName('react-parallax')[0].style.height = "0px"
+                            }} />
                     </ContentHeaderImage>
                 </Box>
             </ContentHeader>
@@ -54,7 +49,7 @@ export default function MangaIndexDesktop(props) {
                     component="img" alt={manga.name + " Cover Art"}
                     boxShadow={2}
                     spacingvalue={theme.spacing(2)}
-                    src={contentCover("manga", manga.slug)}
+                    src={manga.cover_art}
                     mb={0} />
                 {manga.download_link ?
                     <a href={manga.download_link} target="_blank" rel="noopener noreferrer">
