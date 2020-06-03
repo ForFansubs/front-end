@@ -1,4 +1,3 @@
-import React from 'react'
 import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
@@ -11,20 +10,20 @@ const useStyles = makeStyles(theme => ({
     },
     NavigateBefore: {
         position: "fixed",
-        top: "50%",
-        left: "calc(73px + 60px)",
+        bottom: 0,
+        left: theme.spacing(12),
         [theme.breakpoints.down('sm')]: {
             position: "initial",
-            width: "100%"
+            width: "50%"
         }
     },
     NavigateNext: {
         position: "fixed",
-        top: "50%",
-        right: 60,
+        bottom: 0,
+        right: theme.spacing(12),
         [theme.breakpoints.down('sm')]: {
             position: "initial",
-            width: "100%"
+            width: "50%"
         }
     },
     ReadingStyleButtonContainer: {
@@ -34,6 +33,12 @@ const useStyles = makeStyles(theme => ({
         '& svg': {
             marginRight: theme.spacing(1)
         },
+    },
+    PagebyPage: {
+        marginRight: theme.spacing(2)
+    },
+    ToManga: {
+        marginLeft: theme.spacing(2)
     },
     WebtoonContainer: {
         display: "flex",

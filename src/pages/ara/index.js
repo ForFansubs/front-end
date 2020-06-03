@@ -209,27 +209,13 @@ export default function SearchPage(props) {
     if (!loadingData) {
         if (data.length !== 0 && type === "anime") {
             mappedData = data.map(d =>
-                <LazyLoad
-                    height={225}
-                    key={d.slug + "anime"}
-                    placeholder={
-                        <AnimeContainerPlaceholder />
-                    }>
-                    <AnimeContainer scrollbg={theme.palette.background.level1} data={{ ...d }} />
-                </LazyLoad>
+                <AnimeContainer key={d.slug} data={{ ...d }} />
             )
         }
 
         else if (data.length !== 0 && type === "manga") {
             mappedData = data.map(d =>
-                <LazyLoad
-                    height={187}
-                    key={d.slug + d.name + "manga"}
-                    placeholder={
-                        <MangaContainerPlaceholder />
-                    }>
-                    <MangaContainer scrollbg={theme.palette.background.level1} data={{ ...d }} />
-                </LazyLoad>
+                <MangaContainer key={d.slug} data={{ ...d }} />
             )
         }
 
@@ -356,6 +342,7 @@ export default function SearchPage(props) {
                         <InfiniteScroll
                             style={{ overflow: "inherit" }}
                             dataLength={data.length}
+                            scrollableTarget="scroll-node"
                             next={handleGetMore}
                             hasMore={hasData}
                             scrollThreshold={1}

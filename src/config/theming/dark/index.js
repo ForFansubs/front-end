@@ -17,7 +17,7 @@ const theme = {
         background: {
             default: "#121212",
             level1: "#212121",
-            paper: "#333"
+            paper: "#333333"
         },
         contrastThreshold: 3,
         type: "dark"

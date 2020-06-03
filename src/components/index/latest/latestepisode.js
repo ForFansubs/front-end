@@ -84,11 +84,11 @@ export default function LatestEpisode(props) {
                                 alt={`${anime_name} ${episodeInfo.title} Poster Resmi`} />
                         </Grid>
                         <Grid item xs={12} className={classes.Metadata}>
-                            <Typography variant="body2" className={classes.HiddenMetadata} component="p">
-                                <Dotdotdot clamp={3}>
+                            <Dotdotdot clamp={3}>
+                                <Typography variant="body2" className={classes.HiddenMetadata} component="p">
                                     {anime_name}
-                                </Dotdotdot>
-                            </Typography>
+                                </Typography>
+                            </Dotdotdot>
                             <Typography variant="body2">
                                 {episodeInfo.title}
                             </Typography>

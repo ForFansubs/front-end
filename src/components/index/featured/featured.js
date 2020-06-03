@@ -1,13 +1,13 @@
 import React from 'react'
-import { useGlobal } from 'reactn'
+import { useState } from 'reactn'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { animePage } from '../../../config/front-routes'
-import { contentHeader } from '../../../config/api-routes'
+import { contentHeader, contentLogo } from '../../../config/api-routes'
 
-import { bluray, HeaderPlaceholder } from '../../../config/theming/images'
+import { HeaderPlaceholder } from '../../../config/theming/images'
 
-import { Box, makeStyles, Typography } from '@material-ui/core'
+import { makeStyles, Typography, fade } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
 import Dotdotdot from 'react-dotdotdot'
 
@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     },
     ImageContainer: {
         position: "relative",
-        paddingBottom: "30%",
+        paddingBottom: "35%",
         overflow: "hidden",
         '& img': {
             position: "absolute",
@@ -42,18 +42,30 @@ const useStyles = makeStyles(theme => ({
     InfoContainer: {
         position: "absolute",
         zIndex: 2,
-        bottom: theme.spacing(4),
-        left: theme.spacing(5),
-        backgroundColor: theme.palette.background.default + 'dd',
-        width: "40%",
-        padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
-        boxShadow: theme.shadows[6],
-        '& img': {
-            marginLeft: theme.spacing(2)
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        width: "35%",
+        backgroundColor: fade(theme.palette.background.default, 0.6),
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        padding: theme.spacing(4),
+        '& h1': {
+            fontSize: "4.8rem",
+            lineHeight: "3.6rem"
         },
-        [theme.breakpoints.down("xs")]: {
-            width: "80%",
-            bottom: theme.spacing(6),
+        '& img': {
+            maxWidth: 350,
+            maxHeight: 200,
+            [theme.breakpoints.down('sm')]: {
+                width: "60%"
+            }
+        },
+        [theme.breakpoints.down('sm')]: {
+            backgroundColor: "transparent",
+            width: "80%"
         }
     },
     GenresContainer: {
@@ -63,20 +75,22 @@ const useStyles = makeStyles(theme => ({
             marginRight: 5,
         }
     },
-    GenreBox: {
-        backgroundColor: theme.palette.background.paper,
-        marginRight: theme.spacing(1),
-        marginBottom: theme.spacing(1),
-        padding: `0 ${theme.spacing(1)}px`,
-        color: theme.palette.primary.contrastText
+    GenreList: {
+        display: "flex",
+        flexWrap: "wrap"
     },
-    PremieredContainer: {
-        position: "absolute",
-        top: theme.spacing(2),
-        right: theme.spacing(2),
-        backgroundColor: theme.palette.background.default,
-        padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
-        boxShadow: theme.shadows[6]
+    GenreItem: {
+        padding: theme.spacing(1),
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.primary.contrastText,
+        marginRight: theme.spacing(2),
+        marginTop: theme.spacing(2),
+        borderRadius: theme.overrides.defaultBorderRadius,
+        [theme.breakpoints.down('sm')]: {
+            marginRight: theme.spacing(1),
+            marginTop: theme.spacing(1),
+            padding: 4
+        }
     }
 }))
 
@@ -85,31 +99,13 @@ export function FeaturedLoading() {
     return (
         <>
             <div className={[classes.Container, classes.ContainerActive]}>
-                <Skeleton variant="rect" width="100%" height={500} />
+                <Skeleton variant="rect" width="100%" style={{ paddingBottom: "35%" }} />
                 <div className={classes.InfoContainer}>
-                    <Skeleton variant="text" width="50%" height={30} animation="wave" />
-                    <div className={classes.GenresContainer}>
-                        <div>
-                            <Skeleton variant="text" width="50px" height={20} animation="wave" />
-                        </div>
-                        <div>
-                            <Skeleton variant="text" width="50px" height={20} animation="wave" />
-                        </div>
-                        <div>
-                            <Skeleton variant="text" width="50px" height={20} animation="wave" />
-                        </div>
-                    </div>
-                    <Typography variant="subtitle1">
-                        <Dotdotdot clamp={5}>
-                            <Skeleton variant="text" width="50%" height={14} animation="wave" />
-                            <Skeleton variant="text" width="50%" height={14} animation="wave" />
-                            <Skeleton variant="text" width="50%" height={14} animation="wave" />
-                        </Dotdotdot>
-                    </Typography>
-                </div>
-                <div className={classes.PremieredContainer}>
-                    <Typography variant="h5">
-                        <Skeleton variant="text" width="60px" height={20} animation="wave" />
+                    <Skeleton variant="text" width="50%" height={100} animation="wave" />
+                    <Typography variant="h5" component="ul" className={classes.GenreList}>
+                        <Skeleton variant="text" width={80} height={50} animation="wave" className={classes.GenreItem} />
+                        <Skeleton variant="text" width={80} height={50} animation="wave" className={classes.GenreItem} />
+                        <Skeleton variant="text" width={80} height={50} animation="wave" className={classes.GenreItem} />
                     </Typography>
                 </div>
             </div>
@@ -118,13 +114,13 @@ export function FeaturedLoading() {
 }
 
 export default function Featured(props) {
-    const { name, synopsis, slug, premiered, genres, version, display } = props
+    const { name, slug, genres, display } = props
     const classes = useStyles(props)
-    const [mobile] = useGlobal('mobile')
+    const [logoError, setLogoError] = useState(false)
 
     return (
         <>
-            <Link to={animePage(props.slug)}>
+            <Link to={animePage(slug)}>
                 <div className={display ? [classes.Container, classes.ContainerActive] : classes.Container}>
                     <div className={classes.ImageContainer}>
                         <img src={contentHeader("anime", slug)} onError={img => {
@@ -133,32 +129,23 @@ export default function Featured(props) {
                         }} alt={name + " toplu"} />
                     </div>
                     <div className={classes.InfoContainer}>
-                        <Box display="flex" alignItems="center">
-                            <Typography variant={mobile ? "h4" : "h2"} component="h1">
-                                {name}
-                                {version === "bd" ? <img width="50px" src={bluray} alt="bluray logo" /> : ""}
+                        {logoError ?
+                            <Typography variant="h1">
+                                <Dotdotdot clamp={2}>
+                                    {name.toUpperCase()}
+                                </Dotdotdot>
                             </Typography>
-                        </Box>
-                        <div className={classes.GenresContainer}>
-                            {genres.split(",").map((g, i) => (
-                                <div key={i + "featured" + g} className={classes.GenreBox}>
-                                    {g}
-                                </div>
-                            ))}
-                        </div>
-                        <Typography variant="subtitle1">
-                            <Dotdotdot clamp={mobile ? 2 : 5}>
-                                {synopsis}
-                            </Dotdotdot>
+                            : <img
+                                src={contentLogo("anime", slug)}
+                                onError={_ => {
+                                    setLogoError(true)
+                                }}
+                                alt=""
+                                title={`${name} logo`} />}
+                        <Typography variant="h6" component="ul" className={classes.GenreList}>
+                            {genres.split(',').map(genre => <li key={name + genre} className={classes.GenreItem}>{genre}</li>)}
                         </Typography>
                     </div>
-                    {premiered ?
-                        <div className={classes.PremieredContainer}>
-                            <Typography variant="h5">
-                                {premiered}
-                            </Typography>
-                        </div>
-                        : ""}
                 </div>
             </Link>
         </>

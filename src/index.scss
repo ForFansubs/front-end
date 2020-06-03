@@ -21,9 +21,21 @@ html {
 }
 
 body {
+  width: 100%;
+  height: 100%;
+  overscroll-behavior-y: none;
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+#app-mount {
+  width: 100%;
+  height: 100%;
 }
 
 code {

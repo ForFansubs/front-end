@@ -24,8 +24,8 @@ function isAdminRoute() {
   return window.location.pathname.startsWith('/admin')
 }
 
-function isRegisterRoute() {
-  return window.location.pathname.startsWith('/kayit-tamamla')
+function isAPIRoute() {
+  return window.location.pathname.startsWith('/api')
 }
 
 export function register(config) {
@@ -40,7 +40,7 @@ export function register(config) {
     }
 
     window.addEventListener('load', () => {
-      if (isAdminRoute() || isRegisterRoute()) {
+      if (isAdminRoute() || isAPIRoute()) {
         console.info('unregistering service worker for admin route')
         unregister()
         console.info('reloading')

@@ -12,8 +12,9 @@ import { NavigateNext, NavigateBefore, Image, BurstMode } from '@material-ui/ico
 import ContentWarning from '../../components/warningerrorbox/warning'
 import DisqusBox from '../../components/disqus/disqus'
 
-import { mangaEpisodePage } from '../../config/front-routes'
+import { mangaEpisodePage, mangaPage } from '../../config/front-routes'
 import Loading from '../../components/progress'
+import { Link } from 'react-router-dom'
 
 export default function MangaEpisodePage(props) {
     const classes = useStyles()
@@ -107,9 +108,10 @@ export default function MangaEpisodePage(props) {
         else setSettings("readingStyle", "pagebypage")
     }
 
-    function handleCenteringPage(image) {
-        const offset = NavigatorRef.current.clientHeight
-        window.scrollTo({
+    function handleCenteringPage() {
+        // Header için 64 ekle
+        const offset = NavigatorRef.current.clientHeight + 48
+        document.getElementById('scroll-node').scrollTo({
             top: offset
         })
     }
@@ -157,7 +159,7 @@ export default function MangaEpisodePage(props) {
                                 </Select>
                             </FormControl>
                             {settings.readingStyle === "pagebypage" ?
-                                <div className={classes.NavigatorButtonContainer}>
+                                <>
                                     <Button
                                         size="large"
                                         className={classes.NavigateBefore}
@@ -174,7 +176,7 @@ export default function MangaEpisodePage(props) {
                                         disabled={activePageNumber !== activeEpisodeData.pages.length && activeEpisodeData.episode_number ? false : true}>
                                         <NavigateNext />
                                     </Button>
-                                </div>
+                                </>
                                 : ""}
                             <div className={classes.ReadingStyleButtonContainer}>
                                 <Button
@@ -187,6 +189,14 @@ export default function MangaEpisodePage(props) {
                                         <><Image />Sayfa Sayfa</>
                                     }
                                 </Button>
+                                <Link to={mangaPage(mangaData.manga_slug)}>
+                                    <Button
+                                        className={classes.ToManga}
+                                        variant="outlined"
+                                    >
+                                        Mangaya git
+                                    </Button>
+                                </Link>
                             </div>
                         </Box>
                     </Grid>

@@ -59,10 +59,10 @@ export const LoadingDivMangaEpisode = (key) =>
 
 export default function LatestMangaEpisode(props) {
     const classes = useStyles()
-    const { manga_name, manga_cover, manga_slug, episode_number, episode_name, created_by } = props
+    const { manga_name, manga_cover, manga_slug, episode_number, episode_name, created_by, created_time } = props
     const [imageError, setImageError] = useState(false)
 
-    const formattedDate = Format(new Date(props.created_time)).toUpperCase()
+    const formattedDate = Format(new Date(created_time)).toUpperCase()
 
     return (
         <>
@@ -99,11 +99,11 @@ export default function LatestMangaEpisode(props) {
 }
 
 LatestMangaEpisode.propTypes = {
-    anime_name: propTypes.string.isRequired,
+    manga_name: propTypes.string.isRequired,
+    manga_cover: propTypes.string.isRequired,
+    manga_slug: propTypes.string.isRequired,
     episode_number: propTypes.string.isRequired,
-    special_type: propTypes.string.isRequired,
-    cover_art: propTypes.string.isRequired,
-    credits: propTypes.string.isRequired,
+    episode_name: propTypes.string,
     created_by: propTypes.string.isRequired,
     created_time: propTypes.string.isRequired
 }

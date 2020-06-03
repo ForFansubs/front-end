@@ -1,11 +1,11 @@
 import React, { setGlobal, addReducer, useGlobal } from 'reactn'
 import ReactDOM from 'react-dom'
 import addReactNDevTools from 'reactn-devtools'
-import { indexURL, isAdmin } from './config/api-routes'
+import { indexURL } from './config/api-routes'
 import axios from './config/axios/axios'
-import isEmpty from 'lodash-es/isEmpty'
 
 import './index.scss'
+import './config/polyfills'
 
 import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -87,7 +87,8 @@ addReducer('setOnline', (global, dispatch, data) => {
         online: true,
         settings: {
             ...global.settings,
-            version: data.version
+            version: data.version,
+            "release-name": data["release-name"]
         }
     })
 })

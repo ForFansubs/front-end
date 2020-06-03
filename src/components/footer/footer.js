@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Footer() {
     const classes = useStyles()
-    const version = useGlobal('settings')[0].version
+    const [settings] = useGlobal('settings')
 
     return (
         <>
@@ -44,7 +44,9 @@ export default function Footer() {
                     </Typography>
                     <Typography variant="subtitle1" className={classes.FooterAuthor}>
                         <a href="https://forfansubs.github.io/" rel="noopener noreferrer" target="_blank">
-                            ForFansubs v{version}
+                            ForFansubs v{settings.version}
+                            <br />
+                            Release name: {settings["release-name"]}
                         </a>
                         <br />
                         <a href="https://aybertocarlos.github.io/" rel="noopener noreferrer" target="_blank">

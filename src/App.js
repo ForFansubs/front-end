@@ -1,6 +1,6 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import { useDispatch, useGlobal } from 'reactn'
-import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async'
 import Wrapper from './components/hoc/wrapper'
 import ReactGA from 'react-ga';

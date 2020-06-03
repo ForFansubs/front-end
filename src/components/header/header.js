@@ -95,7 +95,7 @@ const useStyles = makeStyles(theme => ({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        width: theme.spacing(9) + 1,
+        width: theme.spacing(10) + 1,
     },
     shortText: {
         display: "none",
@@ -156,7 +156,7 @@ const useStyles = makeStyles(theme => ({
         overflowX: 'hidden',
         width: 0,
         [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(9) + 1,
+            width: theme.spacing(10) + 1,
         },
         [theme.breakpoints.down('xs')]: {
             borderRight: 0

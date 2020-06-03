@@ -8,7 +8,7 @@ import axios from '../../config/axios/axios'
 import { getIndexEpisodes, getIndexFeaturedAnime, getIndexBatchEpisodes } from '../../config/api-routes'
 
 import { Grid, Typography } from '@material-ui/core'
-import { useStyles, TitleContainer } from '../../components/index/index'
+import { useStyles } from '../../components/index/index'
 import LatestAniManga, { LoadingDivAniManga } from '../../components/index/latest/latestanimanga'
 import LatestEpisode, { LoadingDivEpisode } from '../../components/index/latest/latestepisode';
 import FeaturedContainer from '../../components/index/featured/FeaturedContainer'
@@ -43,9 +43,6 @@ export default function IndexPage() {
     useEffect(() => {
         axios.get(getIndexEpisodes)
             .then(res => {
-                if (mobile) {
-                    res.data.episodes = res.data.episodes.slice(0, 8)
-                }
                 setLatestAnimes(res.data.animes)
                 setLatestMangas(res.data.mangas)
                 setLatestEpisodes(res.data.episodes)
@@ -107,7 +104,7 @@ export default function IndexPage() {
             <LatestEpisode type="episode" {...episode} key={episode.episode_id + "episode"} theme={theme} />
         ))
         latestMangaEpisodesWindow = latestMangaEpisodes.map(episode => (
-            <LatestMangaEpisode type="episode" {...episode} key={episode.episode_id + "manga episode"} theme={theme} />
+            <LatestMangaEpisode type="episode" {...episode} key={episode.manga_name + episode.episode_number + "manga episode"} theme={theme} />
         ))
     }
 

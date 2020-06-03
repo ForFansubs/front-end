@@ -10,11 +10,7 @@ import { makeStyles, Box } from '@material-ui/core'
 const useStyles = makeStyles(theme => ({
     FeaturedContainer: {
         position: "relative",
-        margin: theme.overrides.defaultMarginOverride,
-
-        [theme.breakpoints.down("xs")]: {
-            margin: theme.overrides.defaultMarginMobileOverride
-        }
+        boxShadow: theme.shadows[6]
     },
     PaginationContainer: {
         display: "flex",
@@ -24,8 +20,9 @@ const useStyles = makeStyles(theme => ({
         zIndex: 2
     },
     PaginationCircles: {
-        width: 15,
-        height: 15,
+        width: 10,
+        height: 10,
+        borderRadius: "50%",
         backgroundColor: theme.palette.background.default,
         marginLeft: theme.spacing(1),
         cursor: "pointer",
@@ -42,6 +39,7 @@ export default function FeaturedContainer(props) {
     const { loading } = props
     const [list, setList] = useState([])
     const [active, setActive] = useState(0)
+    const [isIntervalEnabled,] = useState(true)
     const [isAutoScrollActive, setIsAutoScrollActive] = useState(true)
     const classes = useStyles()
 
@@ -58,7 +56,7 @@ export default function FeaturedContainer(props) {
                     </>
                     :
                     <>
-                        <ReactInterval timeout={5000} enabled={isAutoScrollActive}
+                        <ReactInterval timeout={5000} enabled={isIntervalEnabled ? isAutoScrollActive : isIntervalEnabled}
                             callback={() => {
                                 setActive((active + 1) % list.length)
                             }} />

@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
-import { Grid, Typography, Box, Button, makeStyles, Divider } from "@material-ui/core"
+import { Grid, Typography, Box, Button, makeStyles, Divider, fade } from "@material-ui/core"
 import clsx from "clsx"
 import DisqusBox from "../../components/disqus/disqus"
 
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
             margin: theme.overrides.defaultMarginMobileOverride,
             marginTop: 0,
             marginBottom: 0
-        },
+        }
     },
     BackgroundImage: {
         position: "absolute",
@@ -53,15 +53,14 @@ const useStyles = makeStyles((theme) => ({
             position: "absolute",
             objectFit: "cover",
             width: "70%",
+            height: "100%",
             top: "50%",
             left: "65%",
             transform: "translate(-50%, -50%)",
         },
         [theme.breakpoints.down("xs")]: {
             paddingBottom: "80%",
-
             "& img": {
-                height: "100%",
                 marginTop: 0,
             },
         },
@@ -69,14 +68,14 @@ const useStyles = makeStyles((theme) => ({
     BackgroundImageOverlay: {
         background: theme.palette.background.default,
         //eslint-disable-next-line
-        background: `linear-gradient(90deg, ${theme.palette.background.default} 0%, ${theme.palette.background.default} 35%, ${theme.palette.background.default}00 50%)`,
+        background: `linear-gradient(90deg, ${theme.palette.background.default} 0%, ${theme.palette.background.default} 35%, ${fade(theme.palette.background.default, 0)} 50%)`,
         position: "absolute",
         top: 0,
         bottom: 0,
         left: 0,
         right: 0,
         [theme.breakpoints.down("xs")]: {
-            background: `linear-gradient(90deg, ${theme.palette.background.default} 0%, ${theme.palette.background.default} 35%, ${theme.palette.background.default}00 100%)`,
+            background: `linear-gradient(90deg, ${theme.palette.background.default} 0%, ${theme.palette.background.default} 35%, ${fade(theme.palette.background.default, 0)} 100%)`,
         },
     },
     FallbackBackgroundImage: {
@@ -100,6 +99,7 @@ const useStyles = makeStyles((theme) => ({
         display: "block",
         zIndex: 2,
         boxShadow: theme.shadows[6],
+        height: "auto!important",
         [theme.breakpoints.down('sm')]: {
             display: "none"
         }
@@ -115,7 +115,7 @@ const useStyles = makeStyles((theme) => ({
     AnimeContainer: {
         position: "relative",
         zIndex: 2,
-        padding: theme.spacing(5),
+        padding: theme.spacing(7),
         [theme.breakpoints.down('sm')]: {
             padding: theme.spacing(3),
         }
@@ -197,7 +197,7 @@ function AnimePage(props) {
     const [logoError, setLogoError] = useState(false)
 
     let batchLinks = episodes.map((data) =>
-        data.seen_download_page && data.special_type === "toplu" ? (
+        data.can_user_download && data.special_type === "toplu" ? (
             <DownloadLink
                 key={data.id}
                 title={episodeParser(data.episode_number, data.special_type)}
@@ -208,7 +208,7 @@ function AnimePage(props) {
     )
 
     let downloadLinks = episodes.map((data) =>
-        data.seen_download_page && data.special_type !== "toplu" ? (
+        data.can_user_download && data.special_type !== "toplu" ? (
             <DownloadLink
                 key={data.id}
                 title={episodeParser(data.episode_number, data.special_type)}

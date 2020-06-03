@@ -270,13 +270,13 @@ export default function EpisodePage(props) {
                                         <ContentError
                                             {...defaultBoxProps}
                                             p={1}>
-                                            <Typography variant="subtitle2">Link bulunamadı.</Typography>
+                                            Link bulunamadı.
                                         </ContentError>
                                 :
                                 <ContentWarning
                                     {...defaultBoxProps}
                                     p={1}>
-                                    <Typography variant="subtitle2">Lütfen bölüm seçiniz.</Typography>
+                                    Lütfen bölüm seçiniz.
                                 </ContentWarning>
                             }
                         </Box>
@@ -342,7 +342,7 @@ export default function EpisodePage(props) {
                         <Box>
                             <Link to={animePage(props.match.params.slug)}>
                                 <Button variant="contained" fullWidth>
-                                    <Typography variant="h6">Animeye git</Typography>
+                                    Animeye git
                                 </Button>
                             </Link>
                         </Box>

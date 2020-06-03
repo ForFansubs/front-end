@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { animePage, mangaPage } from '../../../config/front-routes'
 
 
-import { Grid, makeStyles, Popper } from '@material-ui/core';
+import { Grid, makeStyles, Popper, Fade } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography'
 import { CoverPlaceholder } from '../../../config/theming/images';
 import { Skeleton } from '@material-ui/lab';
@@ -186,18 +186,26 @@ export default function LatestAniManga(props) {
                                 },
                             }}
                             transition>
-                            <span className={classes.Arrow} ref={setArrowEl} />
-                            <div className={classes.InfoBox}>
-                                <Typography variant="body1" component="p">
-                                    <b>{name}{release_date ? ` - ${new Date(release_date).getFullYear()}` : ""}{version === "bd" ? ` - (Blu-ray)` : ""}</b>
-                                </Typography>
-                                <Typography variant="body1" component="div" className={classes.GenresContainer}>
-                                    {genres}
-                                </Typography>
-                                <Typography variant="subtitle1" component="p" className={classes.SynopsisContainer}>
-                                    {synopsis}
-                                </Typography>
-                            </div>
+                            {({ TransitionProps }) =>
+                                (
+                                    <Fade {...TransitionProps} timeout={100} exit={false}>
+                                        <div>
+                                            <span className={classes.Arrow} ref={setArrowEl} />
+                                            <div className={classes.InfoBox}>
+                                                <Typography variant="body1" component="p">
+                                                    <b>{name}{release_date ? ` - ${new Date(release_date).getFullYear()}` : ""}{version === "bd" ? ` - (Blu-ray)` : ""}</b>
+                                                </Typography>
+                                                <Typography variant="body1" component="div" className={classes.GenresContainer}>
+                                                    {genres}
+                                                </Typography>
+                                                <Typography variant="subtitle1" component="p" className={classes.SynopsisContainer}>
+                                                    {synopsis}
+                                                </Typography>
+                                            </div>
+                                        </div>
+                                    </Fade>
+                                )
+                            }
                         </Popper>
                     </div>}
             </Grid>

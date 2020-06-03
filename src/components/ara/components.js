@@ -86,8 +86,12 @@ const useStyles = makeStyles(theme => ({
             width: 3,
         },
         "&::-webkit-scrollbar-thumb": {
-            backgroundColor: theme.palette.background.level1
-        }
+            marginTop: 0,
+            backgroundColor: theme.palette.primary.main
+        },
+        '&::-webkit-scrollbar-track': {
+            marginTop: 0
+        },
     }
 }))
 
@@ -108,6 +112,9 @@ function AnimeContainer(props) {
                     <div className={classes.ContentInPlacer}>
                         <div className={classes.ContentCover} title={name + " Cover Art"}>
                             <img
+                                width="125px"
+                                height="151px"
+                                loading="lazy"
                                 src={contentCover("anime", slug)}
                                 title={name + " Cover Art"}
                                 alt={name + " Cover Art"}
@@ -172,6 +179,9 @@ function MangaContainer(props) {
                     <div className={classes.ContentInPlacer}>
                         <div className={classes.ContentCover} title={name + " Cover Art"}>
                             <img
+                                width="125px"
+                                height="151px"
+                                loading="lazy"
                                 src={contentCover("manga", slug)}
                                 title={name + " Cover Art"}
                                 alt={name + " Cover Art"}

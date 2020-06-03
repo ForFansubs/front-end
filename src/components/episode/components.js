@@ -78,7 +78,17 @@ const useStyles = makeStyles(theme => ({
     },
     EpisodeContainer: {
         maxHeight: 200,
-        overflow: "auto"
+        overflow: "auto",
+        "&::-webkit-scrollbar": {
+            width: 3,
+        },
+        "&::-webkit-scrollbar-thumb": {
+            marginTop: 0,
+            backgroundColor: theme.palette.primary.main
+        },
+        '&::-webkit-scrollbar-track': {
+            marginTop: 0
+        }
     },
     EpisodeButtons: {
         marginBottom: "5px!important"

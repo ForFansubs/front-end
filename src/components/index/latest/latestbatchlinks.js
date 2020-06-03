@@ -2,7 +2,7 @@ import React from 'react'
 
 import Dotdotdot from 'react-dotdotdot'
 import { Link } from 'react-router-dom'
-import { Typography, Grid, makeStyles } from '@material-ui/core'
+import { Typography, Grid, makeStyles, fade } from '@material-ui/core'
 import { animePage } from '../../../config/front-routes'
 import { contentHeader } from '../../../config/api-routes'
 import { HeaderPlaceholder } from '../../../config/theming/images'
@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
     },
     Backdrop: {
         position: "absolute",
-        backgroundColor: theme.palette.background.default + "cc",
+        backgroundColor: fade(theme.palette.background.default, 0.7),
         width: "100%",
         height: "100%",
         top: 0,
