@@ -440,8 +440,7 @@ function AnimePage(props) {
 }
 
 function MangaPage(props) {
-    const { id, name, slug, cover_art, translators, editors, authors, release_date, genres, mal_link, synopsis, mos_link, download_link, series_status, trans_status, airing
-    } = props
+    const { id, name, slug, cover_art, translators, editors, authors, release_date, genres, mal_link, synopsis, mos_link, download_link, series_status, trans_status, episode_count } = props
     const classes = useStyles(props)
     const [headerError, setHeaderError] = useState(false)
     const [coverArtError, setCoverArtError] = useState(false)
@@ -466,7 +465,7 @@ function MangaPage(props) {
                                                 title={name + " logoimage"}
                                                 loading="lazy"
                                                 alt={name + " logoimage"}
-                                                src={contentLogo("anime", slug)}
+                                                src={contentLogo("manga", slug)}
                                                 onError={(img) => {
                                                     setLogoError(true)
                                                     img.target.style.display =
@@ -541,16 +540,21 @@ function MangaPage(props) {
                                             Oku
                                         </Button>
                                     </a>
-                                ) :
-                                    <Link to={mangaEpisodePage(slug)}>
-                                        <Button
-                                            variant="outlined"
-                                            size="large"
-                                            className={classes.ContentButton}
-                                        >
-                                            Oku
+                                )
+                                    :
+                                    episode_count ?
+                                        <Link to={mangaEpisodePage(slug)}>
+                                            <Button
+                                                variant="outlined"
+                                                size="large"
+                                                className={classes.ContentButton}
+                                            >
+                                                Oku
                                     </Button>
-                                    </Link>}
+                                        </Link>
+                                        :
+                                        ""
+                                }
                                 {mal_link ? (
                                     <a
                                         href={mal_link}
@@ -636,8 +640,8 @@ function MangaPage(props) {
                             <Box>
                                 <DisqusBox
                                     config={{
-                                        identifier: "anime/" + id,
-                                        title: `${name} - ${process.env.REACT_APP_SITENAME} Anime`,
+                                        identifier: "manga/" + id,
+                                        title: `${name} - ${process.env.REACT_APP_SITENAME} Manga`,
                                     }}
                                 />
                             </Box>

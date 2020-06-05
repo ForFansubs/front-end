@@ -44,17 +44,27 @@ export default function MangaEpisodePage(props) {
         const { slug, episode_number, page_number } = props.match.params
 
         const fetchData = async () => {
-            const pageInfo = await axios.get(getMangaEpisodePageInfo(slug))
+            let pageInfo
+
+            setMangaData({
+                manga_slug: slug,
+            })
+
+            try {
+                pageInfo = await axios.get(getMangaEpisodePageInfo(slug))
+            } catch (err) {
+                return setLoading(false)
+            }
 
             if (pageInfo.data.length === 0 || pageInfo.status !== 200) {
                 return setLoading(false)
             }
 
-            setMangaData({
+            setMangaData(state => ({
+                ...state,
                 manga_name: pageInfo.data[0].manga_name,
-                manga_slug: slug,
                 cover_art: pageInfo.data[0].cover_art
-            })
+            }))
 
             if (episode_number) {
                 const newData = Find(pageInfo.data, { episode_number: episode_number })
@@ -266,6 +276,16 @@ export default function MangaEpisodePage(props) {
             <>
                 <Grid container>
                     <Typography variant="h1">Bölüm bulunamadı.</Typography>
+                    <Grid item xs={12}>
+                        <Link to={mangaPage(mangaData.manga_slug)}>
+                            <Button
+                                className={classes.ToManga}
+                                variant="outlined"
+                            >
+                                Mangaya Dön
+                        </Button>
+                        </Link>
+                    </Grid>
                 </Grid>
             </>
         )
