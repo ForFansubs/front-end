@@ -28,13 +28,13 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const UserModel = {
-    username: "",
+    name: "",
     password: ""
 }
 
 const errContainerModel = {
     err: "",
-    username: "",
+    name: "",
     password: ""
 }
 
@@ -55,7 +55,7 @@ export default function LoginModal() {
         event.preventDefault()
 
         const userData = {
-            name: userInfo.username,
+            name: userInfo.name,
             password: userInfo.password
         }
 
@@ -100,12 +100,12 @@ export default function LoginModal() {
                     <Typography variant="h4">Giriş yap</Typography>
                     <form autoComplete="off" onSubmit={event => handleSubmitForm(event)}>
                         <TextField
-                            id="username"
-                            error={errContainer.username ? true : false}
-                            helperText={errContainer.username ? errContainer.username : ""}
+                            id="name"
+                            error={errContainer.name ? true : false}
+                            helperText={errContainer.name ? errContainer.name : ""}
                             label="Kullanıcı adı"
-                            value={userInfo.username}
-                            onChange={handleChange('username')}
+                            value={userInfo.name}
+                            onChange={handleChange('name')}
                             margin="normal"
                             variant="outlined"
                             required
