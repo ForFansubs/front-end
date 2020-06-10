@@ -15,19 +15,13 @@ import Dotdotdot from 'react-dotdotdot'
 
 const useStyles = makeStyles(theme => ({
     Container: {
-        position: "relative",
-        overflow: "hidden",
-        boxShadow: theme.shadows[6],
-        '&:hover': {
-            '& $HiddenMetadata': {
-                maxHeight: 1000
-            }
-        }
+        position: "relative"
     },
     Image: {
         position: "relative",
         paddingBottom: "140%",
         overflow: "hidden",
+        boxShadow: theme.shadows[6],
         '& img': {
             position: "absolute",
             objectFit: "cover",
@@ -36,20 +30,7 @@ const useStyles = makeStyles(theme => ({
         }
     },
     Metadata: {
-        position: "absolute",
-        padding: theme.spacing(1),
-        bottom: 0,
-        left: 0,
-        right: 0,
-        background: `linear-gradient(0deg, ${theme.palette.background.default} 0%, ${theme.palette.background.default} 0%, ${theme.palette.background.default}00 100%)`
-    },
-    HiddenMetadata: {
-        maxHeight: 0,
-        overflow: "hidden",
-        transition: theme.transitions.create('max-height', {
-            easing: theme.transitions.easing.easeInOut,
-            duration: "500ms",
-        })
+        padding: `${theme.spacing(1)}px 0`,
     }
 }))
 
@@ -84,15 +65,10 @@ export default function LatestEpisode(props) {
                                 alt={`${anime_name} ${episodeInfo.title} Poster Resmi`} />
                         </Grid>
                         <Grid item xs={12} className={classes.Metadata}>
-                            <Dotdotdot clamp={3}>
-                                <Typography variant="body2" className={classes.HiddenMetadata} component="p">
-                                    {anime_name}
-                                </Typography>
-                            </Dotdotdot>
                             <Typography variant="body2">
                                 {episodeInfo.title}
                             </Typography>
-                            <Typography variant="subtitle2" className={classes.HiddenMetadata}>
+                            <Typography variant="subtitle2">
                                 {formattedDate} - {created_by}
                             </Typography>
                         </Grid>

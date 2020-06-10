@@ -1,6 +1,6 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
-import { Grid, Typography, Box, Button, makeStyles, Divider, fade } from "@material-ui/core"
+import { Grid, Typography, Box, Button, makeStyles, Divider, fade, Modal } from "@material-ui/core"
 import clsx from "clsx"
 import DisqusBox from "../../components/disqus/disqus"
 
@@ -11,6 +11,7 @@ import { contentHeader, contentLogo, contentCover } from "../../config/api-route
 import { format } from "date-fns"
 import WarningBox from "../warningerrorbox/warning"
 import DownloadLink from "./anime/download-links"
+import MotdContainer from "../motd"
 
 const useStyles = makeStyles((theme) => ({
     Container: {
@@ -143,6 +144,20 @@ const useStyles = makeStyles((theme) => ({
     DownloadLinkDivider: {
         marginBottom: theme.spacing(1),
     },
+    ModalContainer: {
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        position: 'absolute',
+        width: 600,
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+        [theme.breakpoints.down('sm')]: {
+            width: "100%"
+        }
+    }
 }))
 
 function episodeParser(episodenumber, specialtype) {
@@ -154,8 +169,46 @@ function episodeParser(episodenumber, specialtype) {
     } else return `${episodenumber}. Bölüm`
 }
 
+function AdultModal(props) {
+    const classes = useStyles()
+    const { open, handleClose } = props
+
+    useEffect(() => {
+        if (open)
+            document.getElementById("scroll-node").style.filter = "blur(50px)"
+        else document.getElementById("scroll-node").style.removeProperty('filter')
+        return function cleanup() {
+            document.getElementById("scroll-node").style.removeProperty('filter')
+        }
+    })
+
+    return (
+        <Modal
+            className={classes.Modal}
+            open={open}
+            aria-labelledby="+18 İçerik"
+            aria-describedby="+18 içeriğe ulaşmak üzeresiniz..."
+        >
+            <div className={classes.ModalContainer}>
+                <Typography variant="body1" gutterBottom>
+                    +18 ögelere sahip bir içeriğe ulaşmak istediniz, devam etmek istiyor musunuz?
+                </Typography>
+                <Link to="/">
+                    <Button variant="outlined" style={{ marginRight: 8 }}>
+                        Ana sayfaya dön
+                    </Button>
+                </Link>
+                <Button variant="outlined" style={{ color: "red" }} onClick={handleClose}>
+                    Evet
+                </Button>
+            </div>
+        </Modal>
+    )
+}
+
 function MetadataContainer(props) {
     const { title, titleM, list } = props
+
     return (
         <Box mr={1}>
             <Typography variant="body1" component="span">
@@ -195,6 +248,7 @@ function AnimePage(props) {
     const [headerError, setHeaderError] = useState(false)
     const [coverArtError, setCoverArtError] = useState(false)
     const [logoError, setLogoError] = useState(false)
+    const [adultModal, setAdultModal] = useState(props.adult_modal)
 
     let batchLinks = episodes.map((data) =>
         data.can_user_download && data.special_type === "toplu" ? (
@@ -218,15 +272,21 @@ function AnimePage(props) {
         ) : null
     )
 
+    function handleClose() {
+        return setAdultModal(state => (!state))
+    }
+
     // Delete null objects from downloadLinks
     batchLinks = batchLinks.filter((b) => b)
     downloadLinks = downloadLinks.filter((d) => d)
 
     return (
         <>
+            <AdultModal open={adultModal} handleClose={handleClose} />
             <div className={classes.Container}>
                 <div className={classes.BackgroundContainer}>
                     <div className={classes.AnimeContainer}>
+                        <MotdContainer {...props} content_type="anime" content_id={id} />
                         <div className={classes.TextContainer}>
                             <Box mb={2}>
                                 <Typography variant="h4" component="h6" className={classes.PremieredContainer}>
@@ -391,7 +451,7 @@ function AnimePage(props) {
                     <Box mb={2}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
-                                <Typography variant="h4">
+                                <Typography variant="h4" gutterBottom>
                                     İndirme Linkleri
                                 </Typography>
                                 <ul>
@@ -445,12 +505,19 @@ function MangaPage(props) {
     const [headerError, setHeaderError] = useState(false)
     const [coverArtError, setCoverArtError] = useState(false)
     const [logoError, setLogoError] = useState(false)
+    const [adultModal, setAdultModal] = useState(props.adult_modal)
+
+    function handleClose() {
+        return setAdultModal(state => (!state))
+    }
 
     return (
         <>
+            <AdultModal open={adultModal} handleClose={handleClose} />
             <div className={classes.Container}>
                 <Box className={classes.BackgroundContainer}>
                     <Box className={classes.AnimeContainer}>
+                        <MotdContainer {...props} content_type="manga" content_id={id} />
                         <Box className={classes.TextContainer}>
                             <Box mb={2}>
                                 <Typography variant="h4" component="h6" className={classes.PremieredContainer}>

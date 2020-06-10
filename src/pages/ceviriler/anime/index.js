@@ -21,6 +21,7 @@ export default function (props) {
             const res = await axios(
                 getAnimeIndex(props.match.params.slug)
             ).catch(res => res)
+
             if (res.status === 200) {
                 if (res.data.translators)
                     res.data.translators = res.data.translators.split(',')
@@ -32,8 +33,10 @@ export default function (props) {
                 else
                     res.data.encoders = []
 
-                if (res.data.genres)
+                if (res.data.genres) {
+                    res.data.adult_modal = res.data.genres.search(/\+18/) !== -1 ? true : false
                     res.data.genres = res.data.genres.split(',')
+                }
                 else
                     res.data.genres = []
 

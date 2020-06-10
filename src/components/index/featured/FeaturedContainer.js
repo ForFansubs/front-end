@@ -9,29 +9,30 @@ import { makeStyles, Box } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
     FeaturedContainer: {
-        position: "relative",
+        position: "relative"
+    },
+    FeaturedComponent: {
         boxShadow: theme.shadows[6]
     },
     PaginationContainer: {
         display: "flex",
-        position: "absolute",
-        right: theme.spacing(2),
-        bottom: theme.spacing(2),
+        position: "relative",
+        justifyContent: "flex-end",
+        marginTop: theme.spacing(2),
         zIndex: 2
     },
     PaginationCircles: {
-        width: 10,
-        height: 10,
-        borderRadius: "50%",
-        backgroundColor: theme.palette.background.default,
+        width: 20,
+        height: 5,
+        backgroundColor: theme.palette.background.paper,
         marginLeft: theme.spacing(1),
         cursor: "pointer",
         '&:hover': {
-            backgroundColor: theme.palette.background.paper
+            backgroundColor: theme.palette.primary.main
         }
     },
     PaginationCirclesActive: {
-        backgroundColor: theme.palette.background.paper
+        backgroundColor: theme.palette.primary.main
     }
 }))
 
@@ -39,7 +40,7 @@ export default function FeaturedContainer(props) {
     const { loading } = props
     const [list, setList] = useState([])
     const [active, setActive] = useState(0)
-    const [isIntervalEnabled,] = useState(true)
+    const [isIntervalEnabled,] = useState(false)
     const [isAutoScrollActive, setIsAutoScrollActive] = useState(true)
     const classes = useStyles()
 
@@ -62,7 +63,8 @@ export default function FeaturedContainer(props) {
                             }} />
                         <div
                             onMouseEnter={() => setIsAutoScrollActive(false)}
-                            onMouseLeave={() => setIsAutoScrollActive(true)}>
+                            onMouseLeave={() => setIsAutoScrollActive(true)}
+                            className={classes.FeaturedComponent}>
                             {list.map((l, i) => (
                                 <Featured key={i + " featured"} {...l} index={i} display={i === active} />
                             ))}

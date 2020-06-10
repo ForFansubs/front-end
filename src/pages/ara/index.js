@@ -19,9 +19,7 @@ import slice from 'lodash-es/slice'
 import {
     useStyles,
     AnimeContainer,
-    AnimeContainerPlaceholder,
     MangaContainer,
-    MangaContainerPlaceholder
 } from '../../components/ara/components'
 
 import { Typography, Box, Grid, Button } from '@material-ui/core'
@@ -374,7 +372,6 @@ export default function SearchPage(props) {
                     }
                 </Grid>
             </Grid>
-
         </>
     )
 }

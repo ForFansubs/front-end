@@ -13,10 +13,21 @@ const getFullSearchList = (type) => `/${type}/liste`
 const getEpisodePageInfo = (slug) => `/bolum/${slug}/watch`
 const getMangaEpisodePageInfo = (slug) => `/manga-bolum/${slug}/read`
 const getEpisodeInfo = "/bolum/izleme-linkleri"
+const getMotdInfo = (props) => {
+    let params = ""
+    if (props) {
+        for (const prop in props) {
+            if (props[prop])
+                params += `${prop}=${props[prop]}&`
+        }
+    }
+    return `/motd${params ? `?${params}` : ""}`
+}
 
 const loginRoute = "/kullanici/giris"
 const registerRoute = "/kullanici/kayit"
 
+// API gerekiyor çünkü normal src propu içinde istiyoruz
 const contentCover = (type, slug, size) => `/api/resimler/${type}/${slug}-cover${size ? `?size=${size}` : ""}`
 const contentHeader = (type, slug, size) => `/api/resimler/${type}/${slug}-header${size ? `?size=${size}` : ""}`
 const contentLogo = (type, slug) => `/api/resimler/${type}/${slug}-logo?type=logo`
@@ -38,6 +49,7 @@ export {
     getEpisodePageInfo,
     getMangaEpisodePageInfo,
     getEpisodeInfo,
+    getMotdInfo,
     loginRoute,
     registerRoute,
     contentCover,

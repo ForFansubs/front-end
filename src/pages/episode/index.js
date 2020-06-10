@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useGlobal } from 'reactn'
 import { Link } from 'react-router-dom'
 import axios from '../../config/axios/axios'
-import { Helmet } from 'react-helmet-async'
+import Metatags from '../../components/helmet/index'
 import ReactGA from 'react-ga'
 
 import find from 'lodash-es/find'
@@ -25,6 +25,7 @@ import EpisodeLinkOverride from '../../config/episode-link-overrides'
 import { Grid, Box, Button, Typography } from '@material-ui/core'
 import { format } from 'date-fns'
 import Dotdotdot from 'react-dotdotdot'
+import MotdContainer from '../../components/motd'
 
 export default function EpisodePage(props) {
     const classes = useStyles()
@@ -80,8 +81,8 @@ export default function EpisodePage(props) {
                 let { slug, title, data } = EpisodeListParser(episode_number, special_type)
                 const episode = find(pageInfo.data, { special_type, episode_number })
                 if (episode) {
-                    const { credits, created_time } = episode
-                    handleEpisodeClick(slug, title, data, credits, created_time)
+                    const { credits, created_time, id } = episode
+                    handleEpisodeClick(slug, title, data, credits, created_time, id)
                 }
             }
 
@@ -122,7 +123,7 @@ export default function EpisodePage(props) {
         }
     }, [activeLink, setIframeLoading])
 
-    function handleEpisodeClick(slug, title, episode_data, credits, created_time) {
+    function handleEpisodeClick(slug, title, episode_data, credits, created_time, id) {
         setEpisodeLoading(true)
         setActiveEpisode({
             episode_number: null,
@@ -156,6 +157,7 @@ export default function EpisodePage(props) {
         fetchData()
 
         setActiveEpisode({
+            id,
             special_type,
             episode_number,
             slug,
@@ -185,7 +187,7 @@ export default function EpisodePage(props) {
                     last={data_length - 1 === i ? "true" : undefined}
                     fullWidth
                     variant="outlined"
-                    onClick={() => handleEpisodeClick(slug, title, data, e.credits, e.created_time)}
+                    onClick={() => handleEpisodeClick(slug, title, data, e.credits, e.created_time, e.id)}
                     color={e.special_type === activeEpisode.special_type && e.episode_number === activeEpisode.episode_number ? "secondary" : "default"}
                     key={e.id}>
                     {title}
@@ -214,25 +216,11 @@ export default function EpisodePage(props) {
 
         return (
             <>
-                <Helmet>
-                    <title>{title}</title>
-                    <meta name="title" content={title} />
-                    <meta name="description" content={desc} />
-                    <meta name="keywords" content={process.env.REACT_APP_META_KEYWORDS} />
-                    <meta property="og:type" content="video.tv_show" />
-                    <meta property="og:site_name" content={process.env.REACT_APP_SITEURL} />
-                    <meta property="og:url" content={process.env.REACT_APP_SITEURL + episodePage(props.match.params.slug, activeEpisode.slug)} />
-                    <meta property="og:title" content={title} />
-                    <meta property="og:description" content={desc} />
-                    <meta property="og:image" content={animeData.cover_art} />
-                    <meta name="twitter:card" content="summary" />
-                    <meta property="twitter:url" content={process.env.REACT_APP_SITEURL + episodePage(props.match.params.slug, activeEpisode.slug)} />
-                    <meta property="twitter:title" content={title} />
-                    <meta property="twitter:description" content={desc} />
-                    <meta property="twitter:image:src" content={animeData.cover_art} />
-                    <meta name="referrer" content="default" />
-                </Helmet>
+                <Metatags title={title} desc={desc} url={process.env.REACT_APP_SITEURL + episodePage(props.match.params.slug, activeEpisode.slug)} content="video.tv_show" image={animeData.cover_art} />
                 <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <MotdContainer {...props} content_type="episode" content_id={activeEpisode.id} />
+                    </Grid>
                     <Grid item xs={12} md={9}>
                         <Box {...defaultBoxProps} boxShadow={0} className={classes.IframeContainer} bgcolor="background.level1">
                             {activeEpisode.episode_number

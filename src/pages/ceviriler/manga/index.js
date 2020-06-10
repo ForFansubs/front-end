@@ -5,9 +5,6 @@ import Metatags from '../../../components/helmet/index'
 
 import Loading from '../../../components/progress/index'
 
-import { useGlobal } from 'reactn'
-import useTheme from '@material-ui/styles/useTheme'
-
 import axios from '../../../config/axios/axios'
 
 import { MangaPage } from '../../../components/ceviriler/components'
@@ -21,7 +18,6 @@ export default function (props) {
     const [manga, setManga] = useState({})
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
-    const [mobile] = useGlobal('mobile')
 
     useEffect(() => {
         const fetchData = async () => {
@@ -30,10 +26,16 @@ export default function (props) {
             ).catch(res => res)
 
             if (res.status === 200) {
-                res.data.translators = res.data.translators.split(',')
-                res.data.editors = res.data.editors.split(',')
-                res.data.genres = res.data.genres.split(',')
-                res.data.authors = res.data.authors.split(',')
+                if (res.data.translators)
+                    res.data.translators = res.data.translators.split(',')
+                if (res.data.editors)
+                    res.data.editors = res.data.editors.split(',')
+                if (res.data.genres) {
+                    res.data.adult_modal = res.data.genres.search(/\+18/) !== -1 ? true : false
+                    res.data.genres = res.data.genres.split(',')
+                }
+                if (res.data.authors)
+                    res.data.authors = res.data.authors.split(',')
 
                 setManga(res.data)
                 setLoading(false)

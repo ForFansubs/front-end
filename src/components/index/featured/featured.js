@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'reactn'
 import PropTypes from 'prop-types'
+import clsx from 'clsx'
 import { Link } from 'react-router-dom'
 import { animePage } from '../../../config/front-routes'
 import { contentHeader, contentLogo } from '../../../config/api-routes'
@@ -14,7 +15,6 @@ import Dotdotdot from 'react-dotdotdot'
 const useStyles = makeStyles(theme => ({
     Container: {
         position: "relative",
-        boxShadow: theme.shadows[6],
         display: "none"
     },
     ContainerActive: {
@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
             position: "absolute",
             objectFit: "cover",
             width: "100%",
-            marginTop: "-10%"
+            height: "100%"
         },
         [theme.breakpoints.down("xs")]: {
             paddingBottom: "80%",
@@ -56,16 +56,16 @@ const useStyles = makeStyles(theme => ({
             fontSize: "4.8rem",
             lineHeight: "3.6rem"
         },
-        '& img': {
-            maxWidth: 350,
-            maxHeight: 200,
-            [theme.breakpoints.down('sm')]: {
-                width: "60%"
-            }
-        },
         [theme.breakpoints.down('sm')]: {
             backgroundColor: "transparent",
-            width: "80%"
+            width: "100%"
+        }
+    },
+    LogoContainer: {
+        maxWidth: 350,
+        maxHeight: 200,
+        [theme.breakpoints.down('sm')]: {
+            width: "100%"
         }
     },
     GenresContainer: {
@@ -121,7 +121,9 @@ export default function Featured(props) {
     return (
         <>
             <Link to={animePage(slug)}>
-                <div className={display ? [classes.Container, classes.ContainerActive] : classes.Container}>
+                <div className={clsx(classes.Container, {
+                    [classes.ContainerActive]: display,
+                })}>
                     <div className={classes.ImageContainer}>
                         <img src={contentHeader("anime", slug)} onError={img => {
                             img.target.onerror = null
@@ -136,6 +138,7 @@ export default function Featured(props) {
                                 </Dotdotdot>
                             </Typography>
                             : <img
+                                className={classes.LogoContainer}
                                 src={contentLogo("anime", slug)}
                                 onError={_ => {
                                     setLogoError(true)

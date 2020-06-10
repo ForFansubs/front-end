@@ -15,8 +15,9 @@ import FeaturedContainer from '../../components/index/featured/FeaturedContainer
 import LatestBatchLinks from '../../components/index/latest/latestbatchlinks';
 import { logoRoute } from '../../config/front-routes';
 import LatestMangaEpisode, { LoadingDivMangaEpisode } from '../../components/index/latest/latestmangaepisode';
+import MotdContainer from '../../components/motd';
 
-export default function IndexPage() {
+export default function IndexPage(props) {
     const theme = useTheme()
     const classes = useStyles()
 
@@ -139,6 +140,7 @@ export default function IndexPage() {
                 <meta property="twitter:image" content={logoRoute} />
                 <meta name="author" content={process.env.REACT_APP_META_AUTHOR} />
             </Helmet>
+            <MotdContainer {...props} />
             <div className={classes.ContainerDiv}>
                 {featuredAnimeWindow}
             </div>

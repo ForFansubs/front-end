@@ -35,12 +35,12 @@ const useStyles = makeStyles(theme => ({
     //Bu sayfadaki componentlar üzerinde kullanılan classlar
     ContentInPlacer: {
         display: "flex",
-        backgroundColor: theme.palette.background.paper
+        backgroundColor: theme.palette.background.level1
     },
     ContentPremieredContainer: {
         textAling: "center",
         borderTop: props => props.version === "bd" ? `2px solid ${blue.A200}` : "none",
-        backgroundColor: theme.palette.background.level1
+        backgroundColor: theme.palette.background.paper
     },
     ContentCover: {
         position: "relative",
@@ -57,11 +57,10 @@ const useStyles = makeStyles(theme => ({
     },
     ContentGenres: {
         padding: theme.spacing(1),
-        backgroundColor: theme.palette.background.level1,
+        backgroundColor: theme.palette.background.paper,
         '& li': {
             display: "inline-block",
             padding: "2px 4px",
-            backgroundColor: theme.palette.background.level1,
             margin: "0 3px",
             '& h6': {
                 fontSize: ".6rem",
@@ -158,15 +157,6 @@ function AnimeContainer(props) {
     )
 }
 
-function AnimeContainerPlaceholder(props) {
-    return (
-        <Grid item xs={12} md={6} lg={4} xl={3}>
-            <div height="225px">
-            </div>
-        </Grid>
-    )
-}
-
 function MangaContainer(props) {
     const { slug, name, synopsis, genres, cover_art } = props.data
     const [imageError, setImageError] = useState(false)
@@ -224,22 +214,8 @@ function MangaContainer(props) {
     )
 }
 
-function MangaContainerPlaceholder(props) {
-    const classes = useStyles()
-
-    return (
-        <Grid item xs={12} md={6} lg={4} xl={3}>
-            <Box className={classes.DefaultBox} mb={0} height="187px">
-
-            </Box>
-        </Grid>
-    )
-}
-
 export {
     AnimeContainer,
-    AnimeContainerPlaceholder,
     MangaContainer,
-    MangaContainerPlaceholder,
     useStyles
 }

@@ -34,9 +34,17 @@ try {
     if (err) localStorage.removeItem("user")
 }
 
+//Try reading localStorage before using it
+try {
+    JSON.parse(localStorage.getItem("motd"))
+} catch (err) {
+    if (err) localStorage.removeItem("motd")
+}
+
 //Get existing localstorage for later use
 const settings = localStorage.getItem("app-settings") ? JSON.parse(localStorage.getItem("app-settings")) : {}
 const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
+const motd = JSON.parse(localStorage.getItem("motd")) ? JSON.parse(localStorage.getItem("motd")) : []
 
 //Push message on app update
 const onUpdateHandler = () => {
@@ -56,6 +64,7 @@ setGlobal({
         ...settings,
         readingStyle: settings.readingStyle ? settings.readingStyle : "pagebypage"
     },
+    motd: motd,
     showModal: "",
     isAdmin: false,
     theme: settings.theme ? settings.theme : window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
@@ -142,6 +151,14 @@ addReducer('setSettings', (global, dispatch, key, value) => {
     settings[key] = value
     localStorage.setItem('app-settings', JSON.stringify(settings))
     return ({ settings: settings })
+})
+
+addReducer('setMotd', (global, dispatch, motd_id) => {
+    const motd = global.motd
+    motd.push(motd_id)
+    localStorage.setItem('motd', JSON.stringify(motd))
+    console.log(motd)
+    return ({ motd: motd })
 })
 
 addReducer('checkAdmin', (global, dispatch, token) => {

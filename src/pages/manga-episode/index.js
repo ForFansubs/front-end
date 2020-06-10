@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { useGlobal, useDispatch } from 'reactn'
-import { Helmet } from 'react-helmet-async'
+import Metatags from '../../components/helmet/index'
 import ReactGA from 'react-ga'
 import axios from '../../config/axios/axios'
 import Find from 'lodash-es/find'
@@ -133,24 +133,7 @@ export default function MangaEpisodePage(props) {
 
         return (
             <>
-                <Helmet>
-                    <title>{title}</title>
-                    <meta name="title" content={title} />
-                    <meta name="description" content={desc} />
-                    <meta name="keywords" content={process.env.REACT_APP_META_KEYWORDS} />
-                    <meta property="og:type" content="video.tv_show" />
-                    <meta property="og:site_name" content={process.env.REACT_APP_SITEURL} />
-                    <meta property="og:url" content={process.env.REACT_APP_SITEURL + mangaEpisodePage(props.match.params.slug, activeEpisodeData.slug)} />
-                    <meta property="og:title" content={title} />
-                    <meta property="og:description" content={desc} />
-                    <meta property="og:image" content={activeEpisodeData.cover_art} />
-                    <meta name="twitter:card" content="summary" />
-                    <meta property="twitter:url" content={process.env.REACT_APP_SITEURL + mangaEpisodePage(props.match.params.slug, activeEpisodeData.slug)} />
-                    <meta property="twitter:title" content={title} />
-                    <meta property="twitter:description" content={desc} />
-                    <meta property="twitter:image:src" content={activeEpisodeData.cover_art} />
-                    <meta name="referrer" content="default" />
-                </Helmet>
+                <Metatags title={title} desc={desc} url={process.env.REACT_APP_SITEURL + mangaEpisodePage(props.match.params.slug, mangaData.slug)} content="books.book" image={mangaData.cover_art} />
                 <Grid container spacing={2} justify="center" className={classes.Container}>
                     <Grid item xs={12}>
                         <Box className={classes.Navigator} ref={NavigatorRef}>

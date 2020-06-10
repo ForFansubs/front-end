@@ -9,10 +9,10 @@ import merge from 'lodash-es/merge'
 const theme = {
     palette: {
         primary: {
-            main: process.env.REACT_APP_DARK_THEME_PRIMARY_COLOR || '#212121'
+            main: '#212121'
         },
         secondary: {
-            main: process.env.REACT_APP_DARK_THEME_SECONDARY_COLOR || 'rgb(255,127,80)'
+            main: 'rgb(255,127,80)'
         },
         background: {
             default: "#121212",
