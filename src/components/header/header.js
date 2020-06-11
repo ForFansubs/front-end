@@ -212,7 +212,7 @@ export default function MiniDrawer() {
             text: "Sıkça Sorulan Sorular",
             shortText: "SSS",
             link: faqPage,
-            show: process.env.REACT_APP_SSS_PAGE_TEXT ? true : false,
+            show: process.env.REACT_APP_SSS_PAGE ? true : false,
             icon: <InfoIcon />
         },
         {
