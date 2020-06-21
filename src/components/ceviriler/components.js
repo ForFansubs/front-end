@@ -357,7 +357,7 @@ function AnimePage(props) {
                                 />
                             </Box>
                             <Box mt={2}>
-                                {downloadLinks.length !== 0 ? (
+                                {episodes.length !== 0 ? (
                                     <Link to={getAnimeWatchIndex(slug)}>
                                         <Button
                                             variant="outlined"

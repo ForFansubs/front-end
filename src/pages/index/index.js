@@ -102,7 +102,7 @@ export default function IndexPage(props) {
             <LatestAniManga type="manga" {...manga} key={manga.id + "manga"} theme={theme} />
         ))
         latestEpisodesWindow = latestEpisodes.map(episode => (
-            <LatestEpisode type="episode" {...episode} key={episode.episode_id + "episode"} theme={theme} />
+            <LatestEpisode type="episode" {...episode} key={`${episode.anime_name} ${episode.episode_number} ${episode.special_type} episode`} theme={theme} />
         ))
         latestMangaEpisodesWindow = latestMangaEpisodes.map(episode => (
             <LatestMangaEpisode type="episode" {...episode} key={episode.manga_name + episode.episode_number + "manga episode"} theme={theme} />

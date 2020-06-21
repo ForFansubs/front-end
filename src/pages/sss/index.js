@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography'
 
 import SSS_TEXT from '../../config/sss_page_text'
 import Markdown from '../../components/markdown/markdown'
+import { Redirect } from 'react-router-dom';
 
 export default function SSSPage() {
     document.title = `SSS - ${process.env.REACT_APP_SITENAME}`
@@ -14,6 +15,8 @@ export default function SSSPage() {
 
     return (
         <>
+            {/*Eğer SSS sayfası kapatılmışsa, gelen istekleri ana sayfaya yönlendir*/}
+            {process.env.REACT_APP_SSS_PAGE === true ? "" : <Redirect to="/" />}
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <Box bgcolor="background.paper" boxShadow={2} p={1} textAlign="center">

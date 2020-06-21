@@ -40,7 +40,7 @@ export default function FeaturedContainer(props) {
     const { loading } = props
     const [list, setList] = useState([])
     const [active, setActive] = useState(0)
-    const [isIntervalEnabled,] = useState(false)
+    const [isIntervalEnabled,] = useState(true)
     const [isAutoScrollActive, setIsAutoScrollActive] = useState(true)
     const classes = useStyles()
 

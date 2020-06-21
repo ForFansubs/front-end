@@ -22,12 +22,12 @@ export default function MangaEpisodePage(props) {
     const [mangaData, setMangaData] = useState({
         manga_name: "",
         manga_slug: "",
-        cover_art: ""
+        manga_cover: ""
     })
     const [episodeData, setEpisodeData] = useState([])
     const [activeEpisodeData, setActiveEpisodeData] = useState({
         manga_name: "",
-        cover_art: "",
+        manga_cover: "",
         credits: "",
         created_by: "",
         episode_name: "",
@@ -63,13 +63,13 @@ export default function MangaEpisodePage(props) {
             setMangaData(state => ({
                 ...state,
                 manga_name: pageInfo.data[0].manga_name,
-                cover_art: pageInfo.data[0].cover_art
+                manga_cover: pageInfo.data[0].manga_cover
             }))
 
             if (episode_number) {
                 const newData = Find(pageInfo.data, { episode_number: episode_number })
                 if (newData) {
-                    const pages = JSON.parse(newData.pages)
+                    const pages = newData.pages
                     setActiveEpisodeData(state => ({ ...state, ...newData, pages: pages }))
                     // Gelen sayfa numarası, var olan sayfalara uyuşuyor mu bak. Çok büyük
                     // ya da çok küçükse varolan değeri ata.
@@ -97,7 +97,7 @@ export default function MangaEpisodePage(props) {
     function handleChange(event) {
         setActivePageNumber(1)
         const newData = Find(episodeData, { episode_number: event.target.value })
-        setActiveEpisodeData(state => ({ ...state, ...newData, pages: JSON.parse(newData.pages) }));
+        setActiveEpisodeData(state => ({ ...state, ...newData, pages: newData.pages }));
     }
 
     function handleNavigateBeforeButton() {
@@ -119,7 +119,7 @@ export default function MangaEpisodePage(props) {
     }
 
     function handleCenteringPage() {
-        // Header için 64 ekle
+        // Header için 64 height ekle
         const offset = NavigatorRef.current.clientHeight + 48
         document.getElementById('scroll-node').scrollTo({
             top: offset
@@ -133,7 +133,7 @@ export default function MangaEpisodePage(props) {
 
         return (
             <>
-                <Metatags title={title} desc={desc} url={process.env.REACT_APP_SITEURL + mangaEpisodePage(props.match.params.slug, mangaData.slug)} content="books.book" image={mangaData.cover_art} />
+                <Metatags title={title} desc={desc} url={process.env.REACT_APP_SITEURL + mangaEpisodePage(props.match.params.slug, mangaData.slug)} content="books.book" image={mangaData.manga_cover} />
                 <Grid container spacing={2} justify="center" className={classes.Container}>
                     <Grid item xs={12}>
                         <Box className={classes.Navigator} ref={NavigatorRef}>
@@ -259,16 +259,6 @@ export default function MangaEpisodePage(props) {
             <>
                 <Grid container>
                     <Typography variant="h1">Bölüm bulunamadı.</Typography>
-                    <Grid item xs={12}>
-                        <Link to={mangaPage(mangaData.manga_slug)}>
-                            <Button
-                                className={classes.ToManga}
-                                variant="outlined"
-                            >
-                                Mangaya Dön
-                        </Button>
-                        </Link>
-                    </Grid>
                 </Grid>
             </>
         )

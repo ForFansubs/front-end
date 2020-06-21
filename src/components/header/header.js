@@ -107,12 +107,12 @@ const useStyles = makeStyles(theme => ({
     Active: {
         backgroundColor: theme.palette.background.paper,
         '& $shortText': {
-            color: theme.palette.primary.contrastText
+            color: theme.palette.text.primary
         },
         '& $ListItemIcon': {
-            color: theme.palette.primary.contrastText,
+            color: theme.palette.text.primary,
             '& svg': {
-                color: theme.palette.primary.contrastText
+                color: theme.palette.text.primary
             }
         }
     },
@@ -212,7 +212,7 @@ export default function MiniDrawer() {
             text: "Sıkça Sorulan Sorular",
             shortText: "SSS",
             link: faqPage,
-            show: process.env.REACT_APP_SSS_PAGE ? true : false,
+            show: process.env.REACT_APP_SSS_PAGE === true ? true : false,
             icon: <InfoIcon />
         },
         {

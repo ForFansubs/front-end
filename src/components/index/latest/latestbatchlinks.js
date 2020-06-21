@@ -58,7 +58,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default (props) => {
-    const { slug, name, loading } = props
+    const { anime_slug, anime_name, loading } = props
     const classes = useStyles(props)
 
     if (loading) {
@@ -72,18 +72,18 @@ export default (props) => {
         return (
             <>
                 <Grid item xs={6} md={4} lg={2}>
-                    <Link to={animePage(slug)}>
+                    <Link to={animePage(anime_slug)}>
                         <div className={classes.Container}>
                             <div className={classes.ImageContainer}>
-                                <img src={contentHeader("anime", props.slug)} onError={img => {
+                                <img src={contentHeader("anime", anime_slug)} onError={img => {
                                     img.target.onerror = null
                                     img.target.src = HeaderPlaceholder
-                                }} alt={name + " toplu"} />
+                                }} alt={anime_name + " toplu"} />
                             </div>
                             <div className={classes.Text}>
                                 <Dotdotdot clamp={1} useNativeClamp>
                                     <Typography variant="h6">
-                                        {name}
+                                        {anime_name}
                                     </Typography>
                                 </Dotdotdot>
                             </div>

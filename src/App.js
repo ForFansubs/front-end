@@ -18,6 +18,7 @@ const AnimePage = lazy(() => import('./pages/ceviriler/anime/index'))
 const MangaPage = lazy(() => import('./pages/ceviriler/manga/index'))
 const EpisodePage = lazy(() => import('./pages/episode/index'))
 const MangaEpisodePage = lazy(() => import('./pages/manga-episode/index'))
+const CompleteRegistrationPage = lazy(() => import('./pages/kayit-tamamla/index'))
 
 export default function App() {
   const getOnline = useDispatch('getOnline')
@@ -46,6 +47,7 @@ export default function App() {
                   <Route path="/ara/:type?/:offset?" component={SearchPage} />
                   <Route path="/sss" exact component={SSSPage} />
                   <Route path="/ekip-alimlari" exact component={EkipAlimlariPage} />
+                  <Route path="/kullanici/kayit-tamamla/:hash" exact component={CompleteRegistrationPage} />
                   <Route component={FourOhFourPage} />
                 </Switch>
               </Suspense>
