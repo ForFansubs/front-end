@@ -11,6 +11,7 @@ import { Grid, Typography, Box, Button, InputLabel, FormControl, Select, MenuIte
 import { NavigateNext, NavigateBefore, Image, BurstMode } from '@material-ui/icons'
 import ContentWarning from '../../components/warningerrorbox/warning'
 import DisqusBox from '../../components/disqus/disqus'
+import MotdContainer from '../../components/motd'
 
 import { mangaEpisodePage, mangaPage } from '../../config/front-routes'
 import Loading from '../../components/progress'
@@ -26,6 +27,7 @@ export default function MangaEpisodePage(props) {
     })
     const [episodeData, setEpisodeData] = useState([])
     const [activeEpisodeData, setActiveEpisodeData] = useState({
+        id: null,
         manga_name: "",
         manga_cover: "",
         credits: "",
@@ -135,6 +137,9 @@ export default function MangaEpisodePage(props) {
             <>
                 <Metatags title={title} desc={desc} url={process.env.REACT_APP_SITEURL + mangaEpisodePage(props.match.params.slug, mangaData.slug)} content="books.book" image={mangaData.manga_cover} />
                 <Grid container spacing={2} justify="center" className={classes.Container}>
+                    <Grid item xs={12}>
+                        <MotdContainer {...props} content_type="manga-episode" content_id={activeEpisodeData.id} />
+                    </Grid>
                     <Grid item xs={12}>
                         <Box className={classes.Navigator} ref={NavigatorRef}>
                             <FormControl fullWidth>
