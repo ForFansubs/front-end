@@ -8,6 +8,6 @@
 // # DENEME
 // `
 
-module.exports = String.raw`
+export default String.raw`
 
 `
