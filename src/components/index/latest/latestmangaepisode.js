@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom'
 import { episodePage, mangaEpisodePage } from '../../../config/front-routes'
 
 import { Grid, Typography, makeStyles } from '@material-ui/core'
+import { grey } from '@material-ui/core/colors'
 
 import Format from '../../date-fns/format'
-import episodeTitleParser from '../../../config/episode-title-parser'
 import { CoverPlaceholder } from '../../../config/theming/images'
 import { contentCover } from '../../../config/api-routes'
 import { useState } from 'reactn'
@@ -30,6 +30,10 @@ const useStyles = makeStyles(theme => ({
     },
     Metadata: {
         padding: `${theme.spacing(1)}px 0`,
+        color: theme.palette.type === "dark" ? "inherit" : grey[700],
+        '& *': {
+            fontFamily: "'Overpass', sans-serif"
+        }
     }
 }))
 

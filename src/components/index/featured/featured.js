@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
             width: "100%",
             height: "100%"
         },
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             paddingBottom: "80%",
 
             '& img': {
@@ -62,11 +62,9 @@ const useStyles = makeStyles(theme => ({
         }
     },
     LogoContainer: {
-        maxWidth: 350,
+        maxWidth: 400,
         maxHeight: 200,
-        [theme.breakpoints.down('sm')]: {
-            width: "100%"
-        }
+        width: "100%"
     },
     GenresContainer: {
         display: "flex",
@@ -80,11 +78,11 @@ const useStyles = makeStyles(theme => ({
         flexWrap: "wrap"
     },
     GenreItem: {
-        padding: theme.spacing(1),
+        padding: `2px ${theme.spacing(1)}px`,
         backgroundColor: theme.palette.primary.main,
         color: theme.palette.primary.contrastText,
-        marginRight: theme.spacing(2),
-        marginTop: theme.spacing(2),
+        marginRight: theme.spacing(1),
+        marginTop: theme.spacing(1),
         borderRadius: theme.overrides.defaultBorderRadius,
         [theme.breakpoints.down('sm')]: {
             marginRight: theme.spacing(1),
@@ -103,9 +101,9 @@ export function FeaturedLoading() {
                 <div className={classes.InfoContainer}>
                     <Skeleton variant="text" width="50%" height={100} animation="wave" />
                     <Typography variant="h5" component="ul" className={classes.GenreList}>
-                        <Skeleton variant="text" width={80} height={50} animation="wave" className={classes.GenreItem} />
-                        <Skeleton variant="text" width={80} height={50} animation="wave" className={classes.GenreItem} />
-                        <Skeleton variant="text" width={80} height={50} animation="wave" className={classes.GenreItem} />
+                        <Skeleton variant="text" width={80} height={40} animation="wave" className={classes.GenreItem} />
+                        <Skeleton variant="text" width={80} height={40} animation="wave" className={classes.GenreItem} />
+                        <Skeleton variant="text" width={80} height={40} animation="wave" className={classes.GenreItem} />
                     </Typography>
                 </div>
             </div>

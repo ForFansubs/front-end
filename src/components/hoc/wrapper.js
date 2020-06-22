@@ -18,7 +18,6 @@ const useStyles = makeStyles(theme => ({
         boxSizing: "border-box",
         padding: theme.overrides.defaultMargin,
         width: "100%",
-        position: "relative",
         [theme.breakpoints.down("xs")]: {
             padding: theme.overrides.defaultMarginMobile
         }
@@ -28,14 +27,23 @@ const useStyles = makeStyles(theme => ({
         height: "100%",
         overflowY: "auto",
         "-webkit-transform": "translateZ(0)",
-        transform: "translateZ(0)"
+        transform: "translateZ(0)",
+        [theme.breakpoints.down('sm')]: {
+            overflowY: "scroll",
+            scrollbarWidth: "none", /* Firefox */
+            "-ms-overflow-style": "none"  /* Internet Explorer 10+ */
+        }
     },
     MainContainer: {
         isolation: "isolate"
     },
     '@global': {
         '*::-webkit-scrollbar': {
-            width: 8
+            width: 8,
+            [theme.breakpoints.down('sm')]: {
+                width: 0,
+                height: 0
+            }
         },
         '*::-webkit-scrollbar-track': {
             '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)',

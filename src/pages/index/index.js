@@ -141,11 +141,11 @@ export default function IndexPage(props) {
                 <meta name="author" content={process.env.REACT_APP_META_AUTHOR} />
             </Helmet>
             <MotdContainer {...props} />
-            <div className={classes.ContainerDiv}>
+            <section className={classes.ContainerDiv}>
                 {featuredAnimeWindow}
-            </div>
+            </section>
             {batchEpisodesWindow.length ?
-                <div className={classes.ContainerDiv}>
+                <section className={classes.ContainerDiv}>
                     <Typography variant="h4" component="h2" >
                         Toplu Linkler
                     </Typography>
@@ -155,20 +155,20 @@ export default function IndexPage(props) {
                     <Grid container spacing={2} direction="row" justify="center" alignItems="center">
                         {batchEpisodesWindow}
                     </Grid>
-                </div>
+                </section>
                 : ""}
             {latestAnimesWindow.length ?
-                <div className={classes.ContainerDiv}>
+                <section className={classes.ContainerDiv}>
                     <Typography variant="h2" component="h2" gutterBottom>
                         Animeler
                     </Typography>
-                    <Grid container spacing={2} direction="row" justify="center" alignItems="center">
+                    <Grid container spacing={2} direction="row" justify="center">
                         {latestAnimesWindow}
                     </Grid>
-                </div>
+                </section>
                 : ""}
             {latestEpisodesWindow.length ?
-                <div className={classes.ContainerDiv}>
+                <section className={classes.ContainerDiv}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={4} lg={4} className={classes.TitleContainer}>
                             <Typography variant={mobile ? "h2" : "h1"} component="h2" noWrap>
@@ -184,20 +184,20 @@ export default function IndexPage(props) {
                             </Grid>
                         </Grid>
                     </Grid>
-                </div>
+                </section>
                 : ""}
             {latestMangasWindow.length ?
-                <div className={classes.ContainerDiv}>
+                <section className={classes.ContainerDiv}>
                     <Typography variant="h2" component="h2" gutterBottom>
                         Mangalar
                         </Typography>
                     <Grid container spacing={2} direction="row" justify="center" alignItems="stretch">
                         {latestMangasWindow}
                     </Grid>
-                </div>
+                </section>
                 : ""}
             {latestMangaEpisodesWindow.length ?
-                <div className={classes.ContainerDiv}>
+                <section className={classes.ContainerDiv}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={3} lg={4} className={classes.TitleContainer}>
                             <Typography variant={mobile ? "h2" : "h1"} component="h2" noWrap>
@@ -213,7 +213,7 @@ export default function IndexPage(props) {
                             </Grid>
                         </Grid>
                     </Grid>
-                </div>
+                </section>
                 : ""}
         </>
     )

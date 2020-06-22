@@ -10,6 +10,8 @@ import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import InfoIcon from '@material-ui/icons/Info';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import MoonIcon from '@material-ui/icons/NightsStay'
+import SunIcon from '@material-ui/icons/WbSunny'
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -115,6 +117,9 @@ const useStyles = makeStyles(theme => ({
                 color: theme.palette.text.primary
             }
         }
+    },
+    RightBox: {
+        display: "flex"
     },
     secondary: {
         '&:hover': {
@@ -328,15 +333,24 @@ export default function MiniDrawer() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Link to={indexPage} className={classes.logoContainer}>
+                    <div className={classes.logoContainer}>
+                        <Link to={indexPage}>
+                            {
+                                process.env.REACT_APP_HEADER_LOGO_TYPE === "gif" && fullLogoGif !== null && fullLogoDarkGif !== null ?
+                                    <img title="Site logo" loading="lazy" className={classes.logo} src={usertheme === "dark" ? fullLogoGif : fullLogoDarkGif} alt="Site Logo" />
+                                    :
+                                    <img title="Site logo" loading="lazy" className={classes.logo} src={usertheme === "dark" ? fullLogo : fullLogoDark} alt="Site Logo" />
+                            }
+                        </Link>
+                    </div>
+                    <div className={classes.RightBox}>
                         {
-                            process.env.REACT_APP_HEADER_LOGO_TYPE === "gif" && fullLogoGif !== null && fullLogoDarkGif !== null ?
-                                <img title="Site logo" loading="lazy" className={classes.logo} src={usertheme === "dark" ? fullLogoGif : fullLogoDarkGif} alt="Site Logo" />
+                            usertheme === "dark"
+                                ?
+                                <IconButton onClick={() => setUserTheme("light")}><SunIcon style={{ height: "25px" }} /></IconButton>
                                 :
-                                <img title="Site logo" loading="lazy" className={classes.logo} src={usertheme === "dark" ? fullLogo : fullLogoDark} alt="Site Logo" />
+                                <IconButton onClick={() => setUserTheme("dark")}><MoonIcon style={{ height: "25px" }} /></IconButton>
                         }
-                    </Link>
-                    <div>
                         {userInfo.success ?
                             <IconButton
                                 aria-label={userInfo.username}
@@ -346,7 +360,7 @@ export default function MiniDrawer() {
                                 color="default"
                             >
                                 {userInfo.avatar ?
-                                    <img title={`${userInfo.username} avatar`} loading="lazy" src={userInfo.avatar} style={{ height: "25px" }} alt={`${userInfo.username} avatar`} aria-labelledby={`${userInfo.username} avatar`} />
+                                    <img title={`${userInfo.username} avatar`} loading="lazy" src={userInfo.avatar} style={{ height: "24px" }} alt={`${userInfo.username} avatar`} aria-labelledby={`${userInfo.username} avatar`} />
                                     :
                                     <AccountCircle title={`${userInfo.username} avatar`} alt={`${userInfo.username} avatar`} aria-labelledby={`${userInfo.username} avatar`} />}
                             </IconButton>
@@ -393,14 +407,6 @@ export default function MiniDrawer() {
                                         <MenuItem onClick={() => handleLoginRegisterButtons("login")}>Giriş yap</MenuItem>
                                         <MenuItem onClick={() => handleLoginRegisterButtons("register")}>Kayıt ol</MenuItem>
                                     </>
-                                }
-                                <Divider />
-                                {
-                                    usertheme === "dark"
-                                        ?
-                                        <MenuItem onClick={() => setUserTheme("light")}><span role="img" title="güneş" aria-labelledby="güneş">🌞</span> Gündüz Modu</MenuItem>
-                                        :
-                                        <MenuItem onClick={() => setUserTheme("dark")}><span role="img" title="ay" aria-labelledby="ay">🌙</span> Gece Modu</MenuItem>
                                 }
                             </div>
                         </Menu>

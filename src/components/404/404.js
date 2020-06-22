@@ -1,14 +1,23 @@
 import React, { useState } from 'react'
 import { Redirect } from 'react-router-dom'
 
-import { Box, Typography, makeStyles } from '@material-ui/core'
+import { Typography, makeStyles } from '@material-ui/core'
 
 import { fourOhFourGif } from '../../config/theming/images'
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
+    Container: {
+        position: "absolute",
+        left: "50%",
+        top: "50%",
+        textAlign: "center",
+        transform: "translate(-50%, -50%)"
+    },
     Image: {
         maxWidth: "100vw",
-        width: "500px"
+        width: "500px",
+        boxShadow: theme.shadows[6],
+        marginBottom: theme.spacing(2)
     }
 }))
 
@@ -24,15 +33,15 @@ export default function FourOhFourPage() {
     return (
         <>
             {redirect ? <Redirect to="/" /> : ""}
-            <Box position="absolute" left="50%" top="50%" textAlign="center" style={{ transform: "translate(-50%, -50%)" }}>
-                <Box className={classes.Image} component="img" mb={2} boxShadow={2} src={fourOhFourGif} />
+            <div className={classes.Container}>
+                <img src={fourOhFourGif} className={classes.Image} alt="404gif" />
                 <Typography variant="h4">
                     Aradığınız sayfayı bulamadık, kaldırılmış olabilir.
                     </Typography>
                 <Typography variant="body1">
                     10 saniye içerisinde ana sayfaya yönlendirileceksiniz.
                     </Typography>
-            </Box>
+            </div>
         </>
     )
 }

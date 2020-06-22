@@ -5,13 +5,18 @@ import { animePage, mangaPage } from '../../../config/front-routes'
 
 
 import { Grid, makeStyles, Popper, Fade } from '@material-ui/core';
+import { grey } from '@material-ui/core/colors'
 import Typography from '@material-ui/core/Typography'
 import { CoverPlaceholder } from '../../../config/theming/images';
 import { Skeleton } from '@material-ui/lab';
+import Dotdotdot from 'react-dotdotdot';
 
 const useStyles = makeStyles(theme => ({
     Container: {
-        position: "relative"
+        position: "relative",
+        '& *': {
+            fontFamily: "'Overpass', sans-serif"
+        }
     },
     Image: {
         position: "relative",
@@ -23,6 +28,13 @@ const useStyles = makeStyles(theme => ({
             objectFit: "cover",
             width: "100%",
             height: "100%"
+        }
+    },
+    Title: {
+        marginTop: theme.spacing(1),
+        color: theme.palette.type === "dark" ? "inherit" : grey[700],
+        '& *': {
+            fontFamily: "'Overpass', sans-serif"
         }
     },
     PopperContainer: {
@@ -98,16 +110,11 @@ const useStyles = makeStyles(theme => ({
         marginTop: -4,
         '& span': {
             display: "inline-block",
-            padding: "2px 4px",
+            padding: "4px 4px 0",
             margin: "0 4px 4px 0",
-            backgroundColor: theme.palette.background.paper
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.primary.contrastText
         }
-    },
-    SynopsisContainer: {
-        overflow: "hidden",
-        lineHeight: "1.4em",
-        maxHeight: "9.8em",
-        backgroundPosition: "bottom center"
     }
 }))
 
@@ -147,7 +154,7 @@ export default function LatestAniManga(props) {
 
     return (
         <>
-            <Grid item xs={6} sm={3} md={2} lg={2} xl={1} className={classes.Container}>
+            <Grid item xs={4} sm={3} md={2} lg={2} xl={1} className={classes.Container}>
                 <Link to={props.type === "anime" ? animePage(slug) : mangaPage(slug)}
                     onMouseEnter={handlePopperMouseEnter}
                     onMouseOver={handlePopperMouseEnter}
@@ -162,6 +169,13 @@ export default function LatestAniManga(props) {
                             }}
                             alt={`${name} Poster Resmi`} />
                     </Grid>
+                    {mobile ?
+                        <Grid item xs={12} className={classes.Title}>
+                            <Dotdotdot clamp={2} useNativeClamp>
+                                {name}
+                            </Dotdotdot>
+                        </Grid>
+                        : ""}
                 </Link>
                 {mobile ? "" :
                     <div>
@@ -198,9 +212,11 @@ export default function LatestAniManga(props) {
                                                 <Typography variant="body1" component="div" className={classes.GenresContainer}>
                                                     {genres}
                                                 </Typography>
-                                                <Typography variant="subtitle1" component="p" className={classes.SynopsisContainer}>
-                                                    {synopsis}
-                                                </Typography>
+                                                <Dotdotdot clamp={7} useNativeClamp>
+                                                    <Typography variant="subtitle1" component="p">
+                                                        {synopsis}
+                                                    </Typography>
+                                                </Dotdotdot>
                                             </div>
                                         </div>
                                     </Fade>

@@ -77,7 +77,7 @@ const useStyles = makeStyles(theme => ({
         overflow: "hidden",
         paddingRight: "6px",
 
-        "&:hover": {
+        "&:hover, &:focus, &:active": {
             paddingRight: 3,
             overflowY: "auto"
         },

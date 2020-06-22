@@ -14,7 +14,9 @@ const useStyles = makeStyles(theme => ({
         left: theme.spacing(12),
         [theme.breakpoints.down('sm')]: {
             position: "initial",
-            width: "50%"
+            width: `calc(50% - ${theme.spacing(1)}px)`,
+            marginTop: theme.spacing(1),
+            marginRight: theme.spacing(1)
         }
     },
     NavigateNext: {
@@ -23,7 +25,9 @@ const useStyles = makeStyles(theme => ({
         right: theme.spacing(12),
         [theme.breakpoints.down('sm')]: {
             position: "initial",
-            width: "50%"
+            width: `calc(50% - ${theme.spacing(1)}px)`,
+            marginTop: theme.spacing(1),
+            marginLeft: theme.spacing(1)
         }
     },
     ReadingStyleButtonContainer: {
@@ -35,10 +39,10 @@ const useStyles = makeStyles(theme => ({
         },
     },
     PagebyPage: {
-        marginRight: theme.spacing(2)
+        marginRight: theme.spacing(1)
     },
     ToManga: {
-        marginLeft: theme.spacing(2)
+        marginLeft: theme.spacing(1)
     },
     WebtoonContainer: {
         display: "flex",

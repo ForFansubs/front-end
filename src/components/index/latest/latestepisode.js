@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { episodePage } from '../../../config/front-routes'
 
 import { Grid, Typography, makeStyles } from '@material-ui/core'
+import { grey } from '@material-ui/core/colors'
 
 import Format from '../../date-fns/format'
 import episodeTitleParser from '../../../config/episode-title-parser'
@@ -31,6 +32,10 @@ const useStyles = makeStyles(theme => ({
     },
     Metadata: {
         padding: `${theme.spacing(1)}px 0`,
+        color: theme.palette.type === "dark" ? "inherit" : grey[700],
+        '& *': {
+            fontFamily: "'Overpass', sans-serif"
+        }
     }
 }))
 
@@ -41,7 +46,7 @@ export const LoadingDivEpisode = (key) =>
 
 export default function LatestEpisode(props) {
     const classes = useStyles()
-    const { anime_name, episode_number, special_type, cover_art, credits, created_by } = props
+    const { anime_name, episode_number, special_type, cover_art, created_by } = props
     const [imageError, setImageError] = useState(false)
 
     const episodeInfo = episodeTitleParser(anime_name, episode_number, special_type)
@@ -65,9 +70,11 @@ export default function LatestEpisode(props) {
                                 alt={`${anime_name} ${episodeInfo.title} Poster Resmi`} />
                         </Grid>
                         <Grid item xs={12} className={classes.Metadata}>
-                            <Typography variant="body2">
-                                {episodeInfo.title}
-                            </Typography>
+                            <Dotdotdot clamp={2} useNativeClamp>
+                                <Typography variant="body2">
+                                    {episodeInfo.title}
+                                </Typography>
+                            </Dotdotdot>
                             <Typography variant="subtitle2">
                                 {formattedDate} - {created_by}
                             </Typography>

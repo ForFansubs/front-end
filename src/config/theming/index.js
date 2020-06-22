@@ -77,9 +77,9 @@ const general = {
     },
     overrides: {
         defaultMargin: "96px 56px 24px",
-        defaultMarginMobile: "80px 24px 24px",
+        defaultMarginMobile: "80px 12px 24px",
         defaultMarginOverride: "-32px -56px -24px",
-        defaultMarginMobileOverride: "-24px -24px -24px",
+        defaultMarginMobileOverride: "-24px -12px -24px",
         defaultBorderRadius: 4
     },
     transitions: {
