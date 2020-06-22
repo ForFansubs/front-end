@@ -46,11 +46,6 @@ const settings = localStorage.getItem("app-settings") ? JSON.parse(localStorage.
 const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
 const motd = JSON.parse(localStorage.getItem("motd")) ? JSON.parse(localStorage.getItem("motd")) : []
 
-//Push message on app update
-const onUpdateHandler = () => {
-    ToastNotification(payload("notification-success", "success", "Uygulamanın yeni bir sürümü var. Lütfen bu bildirime basın.", false, "reload"))
-}
-
 //Set global variables & reducers via reactn package
 setGlobal({
     user: user ? user : {
@@ -193,8 +188,21 @@ function Mount() {
 
 ReactDOM.render(<Mount />, document.getElementById('app-mount'))
 
-window.onUpdate = onUpdateHandler
-
 serviceWorker.register({
-    onUpdate: onUpdateHandler
+    onUpdate: function onUpdateHandler(registration) {
+        const waitingServiceWorker = registration.waiting
+
+        const payload = {
+            container: "notification-success",
+            type: "success",
+            autoClose: false,
+            onClickFunction: () => {
+                waitingServiceWorker.postMessage({ type: "SKIP_WAITING" })
+                window.location.reload()
+            },
+            message: "Uygulamanın yeni bir sürümü var. Güncellemek için bu bildirime basın."
+        }
+
+        ToastNotification(payload)
+    }
 })

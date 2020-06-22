@@ -42,17 +42,6 @@ export default function ToastNotification(payload) {
     }
     toast.dismiss()
 
-    if (onClickFunction) {
-        switch (onClickFunction) {
-            case "reload":
-                onClickFunction = null
-                break;
-            default:
-                onClickFunction = null
-                break;
-        }
-    }
-
 
     switch (container) {
         case "login-success":
