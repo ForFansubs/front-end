@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography'
 import { CoverPlaceholder } from '../../../config/theming/images';
 import { Skeleton } from '@material-ui/lab';
 import Dotdotdot from 'react-dotdotdot';
+import { contentCover } from '../../../config/api-routes';
 
 const useStyles = makeStyles(theme => ({
     Container: {
@@ -131,7 +132,8 @@ export default function LatestAniManga(props) {
     const classes = useStyles()
     const { slug, cover_art, name, synopsis, release_date, version } = props
     const [anchorEl, setAnchorEl] = useState(null);
-    const [arrowEl, setArrowEl] = React.useState(null)
+    const [arrowEl, setArrowEl] = useState(null)
+    const [imageError, setImageError] = useState(false)
     const refEl = useRef()
     const [mobile] = useGlobal("mobile")
 
@@ -162,10 +164,12 @@ export default function LatestAniManga(props) {
                 >
                     <Grid item xs={12} className={classes.Image} ref={refEl}>
                         <img
-                            src={cover_art}
+                            src={contentCover(props.type, slug)}
                             onError={img => {
                                 img.target.onerror = null
-                                img.target.src = CoverPlaceholder
+                                if (imageError) return img.target.src = CoverPlaceholder
+                                img.target.src = cover_art
+                                setImageError(true)
                             }}
                             alt={`${name} Poster Resmi`} />
                     </Grid>
