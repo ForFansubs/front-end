@@ -23,7 +23,8 @@ const getMotdInfo = (props) => {
     }
     return `/motd${params ? `?${params}` : ""}`
 }
-const getRegisterDone = (hash) => `/kullanici/kayit-tamamla/${hash}`
+const getRegisterDone = `/kullanici/kayit-tamamla`
+const getRegisterRefresh = `/kullanici/kayit-tamamla/yenile`
 
 const loginRoute = "/kullanici/giris"
 const registerRoute = "/kullanici/kayit"
@@ -52,6 +53,7 @@ export {
     getEpisodeInfo,
     getMotdInfo,
     getRegisterDone,
+    getRegisterRefresh,
     loginRoute,
     registerRoute,
     contentCover,
