@@ -38,6 +38,7 @@ export default function MangaEpisodePage(props) {
     })
     const [activePageNumber, setActivePageNumber] = useState(1)
     const [settings] = useGlobal('settings')
+    const [mobile] = useGlobal('mobile')
     const setSettings = useDispatch('setSettings')
 
     const NavigatorRef = useRef()
@@ -146,6 +147,7 @@ export default function MangaEpisodePage(props) {
                                 <InputLabel htmlFor="episode-selector">Okumak istediğiniz bölümü seçin</InputLabel>
                                 <Select
                                     fullWidth
+                                    native={mobile}
                                     value={`${activeEpisodeData.episode_number}`}
                                     onChange={handleChange}
                                     inputProps={{
@@ -153,7 +155,7 @@ export default function MangaEpisodePage(props) {
                                         id: "episode-selector"
                                     }}
                                 >
-                                    {episodeData.map(d => <MenuItem key={d.episode_number} value={`${d.episode_number}`}>{d.episode_number}. Bölüm: {d.episode_name}</MenuItem>)}
+                                    {episodeData.map(d => mobile ? <option key={d.episode_number} value={`${d.episode_number}`}>{d.episode_number}. Bölüm: {d.episode_name}</option> : <MenuItem key={d.episode_number} value={`${d.episode_number}`}>{d.episode_number}. Bölüm: {d.episode_name}</MenuItem>)}
                                 </Select>
                             </FormControl>
                             {settings.readingStyle === "pagebypage" ?

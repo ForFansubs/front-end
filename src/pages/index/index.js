@@ -74,11 +74,13 @@ export default function IndexPage(props) {
 
     if (latestLoading) {
         if (!mobile) {
-            for (let i = 0; i < 12; i++) {
+            for (let i = 0; i < 24; i++) {
                 latestAnimesWindow.push(LoadingDivAniManga(i + "loadingani"))
                 latestMangasWindow.push(LoadingDivAniManga(i + "loadingman"))
-                latestEpisodesWindow.push(LoadingDivEpisode(i + "loadingepi"))
-                latestMangaEpisodesWindow.push(LoadingDivMangaEpisode(i + "loadingepi"))
+            }
+            for (let k = 0; k < 12; k++) {
+                latestEpisodesWindow.push(LoadingDivEpisode(k + "loadingepi"))
+                latestMangaEpisodesWindow.push(LoadingDivMangaEpisode(k + "loadingepi"))
             }
         }
         else {
