@@ -67,12 +67,12 @@ export default function LoginModal() {
                 setErrContainer(errContainerModel)
             })
             .catch(err => {
-                console.log(err)
+                console.log(err.response)
                 const errors = err.response ? err.response.data : ""
                 const payload = {
                     container: "login-error",
                     type: "error",
-                    message: ""
+                    message: err.response.status === 429 ? err.response.data : ""
                 }
                 ToastNotification(payload)
                 setErrContainer({ ...errContainer, ...errors })

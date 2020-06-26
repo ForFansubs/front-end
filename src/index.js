@@ -73,7 +73,7 @@ addReducer('getOnline', (global, dispatch, token) => {
 
     axios.get(indexURL, { headers })
         .then(res => {
-            dispatch.setOnline(true)
+            dispatch.setOnline(res.data)
             dispatch.setAdmin(res.data.admin)
         })
         .catch(_ => dispatch.setOnline(false))

@@ -130,7 +130,7 @@ export default function Featured(props) {
                     </div>
                     <div className={classes.InfoContainer}>
                         {logoError ?
-                            <Typography variant="h1">
+                            <Typography variant="h2">
                                 <Dotdotdot clamp={2}>
                                     {name.toUpperCase()}
                                 </Dotdotdot>

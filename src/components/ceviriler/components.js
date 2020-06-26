@@ -122,7 +122,7 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     PremieredContainer: {
-        color: theme.palette.grey["400"],
+        color: theme.palette.type === "dark" ? theme.palette.grey["400"] : theme.palette.text.primary,
     },
     TextContainer: {
         width: "45%",
