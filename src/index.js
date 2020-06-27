@@ -142,7 +142,7 @@ addReducer('setTheme', (global, dispatch, type) => {
 })
 
 addReducer('setSettings', (global, dispatch, key, value) => {
-    const settings = JSON.parse(localStorage.getItem('app-settings'))
+    const settings = global.settings
     settings[key] = value
     localStorage.setItem('app-settings', JSON.stringify(settings))
     return ({ settings: settings })

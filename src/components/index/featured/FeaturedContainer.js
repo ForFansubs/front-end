@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Swipeable } from 'react-swipeable'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import ReactInterval from 'react-interval';
@@ -27,8 +28,10 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.background.paper,
         marginLeft: theme.spacing(1),
         cursor: "pointer",
-        '&:hover': {
-            backgroundColor: theme.palette.primary.main
+        ['@media (hover: hover) and (pointer: fine)']: {
+            '&:hover': {
+                backgroundColor: theme.palette.primary.main
+            }
         }
     },
     PaginationCirclesActive: {
@@ -59,16 +62,25 @@ export default function FeaturedContainer(props) {
                     <>
                         <ReactInterval timeout={5000} enabled={isIntervalEnabled ? isAutoScrollActive : isIntervalEnabled}
                             callback={() => {
-                                setActive((active + 1) % list.length)
+                                return setActive((active + 1) % list.length)
                             }} />
-                        <div
-                            onMouseEnter={() => setIsAutoScrollActive(false)}
-                            onMouseLeave={() => setIsAutoScrollActive(true)}
-                            className={classes.FeaturedComponent}>
-                            {list.map((l, i) => (
-                                <Featured key={i + " featured"} {...l} index={i} display={i === active} />
-                            ))}
-                        </div>
+                        <Swipeable
+                            onSwipedLeft={() => {
+                                return setActive((active + 1) % list.length)
+                            }}
+                            onSwipedRight={() => {
+                                if (active === 0) return setActive(list.length - 1)
+                                else return setActive((active - 1) % list.length)
+                            }}>
+                            <div
+                                onMouseEnter={() => setIsAutoScrollActive(false)}
+                                onMouseLeave={() => setIsAutoScrollActive(true)}
+                                className={classes.FeaturedComponent}>
+                                {list.map((l, i) => (
+                                    <Featured key={i + " featured"} {...l} index={i} display={i === active} />
+                                ))}
+                            </div>
+                        </Swipeable>
                         <Box className={classes.PaginationContainer}>
                             {list.map((c, i) => (
                                 <div key={i + "featured"} onClick={() => { setActive(i) }}>
