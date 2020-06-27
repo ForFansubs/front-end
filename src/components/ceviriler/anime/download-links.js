@@ -1,58 +1,37 @@
 import React, { useState } from 'react'
 import axios from '../../../config/axios/axios'
 
-import Button from '@material-ui/core/Button';
-import Popper from '@material-ui/core/Popper';
-import Box from '@material-ui/core/Box'
-import Fade from '@material-ui/core/Fade';
-import styled, { css, keyframes } from 'styled-components'
-
-import { ContentEpisodesLinksButton, defaultBoxProps } from '../components'
+import { Button, Popper, Box, Fade, makeStyles, ClickAwayListener } from '@material-ui/core'
 
 import { getEpisodeDownloadLinks } from '../../../config/api-routes'
 import { Typography } from '@material-ui/core';
 import WarningBox from '../../warningerrorbox/warning';
+import { Skeleton } from '@material-ui/lab';
 
-const loading_animation = keyframes`
-    0%{
-        background-position: -468px 0
+const useStyles = makeStyles(theme => ({
+    Container: {
+        backgroundColor: theme.palette.background.paper,
+        zIndex: 4
+    },
+    Button: {
+        marginRight: theme.spacing(1),
+        marginBottom: theme.spacing(1),
+        boxShadow: theme.shadows[6]
+    },
+    LinkContainer: {
+        backgroundColor: theme.palette.background.level1,
+        '&:hover': {
+            backgroundColor: theme.palette.background.paper
+        }
+    },
+    Backdrop: {
+        zIndex: 3,
+
     }
-    100%{
-        background-position: 468px 0
-    }
-`
-
-const animated_background = css`
-    height: 60px;
-    width: 60px;
-    animation-duration: 1.25s;
-    animation-fill-mode: forwards;
-    animation-iteration-count: infinite;
-    animation-name: ${loading_animation};
-    animation-timing-function: linear;
-    background: #090909;
-    background: linear-gradient(to right, #090909 8%, #2d2d2d 18%, #090909 33%);
-    background-size: 800px 104px;
-    height: 96px;
-    position: relative;
-`
-
-const LoadingTextContainer = styled.div`
-    padding: 0;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-`
-
-const LoadingText = styled.div`
-    ${animated_background};
-    height: 10px;
-    width: 60px;
-    margin: 4px 0;
-`
+}))
 
 export default function DownloadLink(props) {
+    const classes = useStyles()
     const [loading, setLoading] = useState(true)
     const [data, setData] = useState([])
 
@@ -67,6 +46,10 @@ export default function DownloadLink(props) {
             handleData()
             setAnchorEl(event.currentTarget)
         }
+    }
+
+    function handleCloseEvent() {
+        setAnchorEl(null)
     }
 
     async function handleData() {
@@ -88,17 +71,16 @@ export default function DownloadLink(props) {
             return (
                 data.map((d, i) => (
                     <a href={d.link} target="_blank" rel="noopener noreferrer" key={d.link}>
-                        <ContentEpisodesLinksButton
+                        <Box
+                            className={classes.LinkContainer}
                             boxShadow={2}
-                            bgcolor="background.level1"
-                            hoverbg={props.hoverbg}
                             px={3}
                             py={1}
                             mb={data.length === i + 1 ? 0 : 1}
                             transition={props.transition}
                         >
                             <Typography variant="h6">{d.type.toUpperCase()}</Typography>
-                        </ContentEpisodesLinksButton>
+                        </Box>
                     </a>
                 ))
             )
@@ -108,52 +90,48 @@ export default function DownloadLink(props) {
 
         else return (
             <div>
-                <ContentEpisodesLinksButton
+                <Box
+                    className={classes.LinkContainer}
                     boxShadow={2}
-                    bgcolor="background.level1"
                     px={3}
                     py={1}
                     mb={1}
                 >
-                    <LoadingTextContainer>
-                        <LoadingText />
-                    </LoadingTextContainer>
-                </ContentEpisodesLinksButton>
-                <ContentEpisodesLinksButton
+                    <Skeleton variant="text" width="60px" height={20} animation="wave" />
+                </Box>
+                <Box
+                    className={classes.LinkContainer}
                     boxShadow={2}
-                    bgcolor="background.level1"
                     px={3}
                     py={1}
                     mb={1}
                 >
-                    <LoadingTextContainer>
-                        <LoadingText />
-                    </LoadingTextContainer>
-                </ContentEpisodesLinksButton>
-                <ContentEpisodesLinksButton
+                    <Skeleton variant="text" width="60px" height={20} animation="wave" />
+                </Box>
+                <Box
+                    className={classes.LinkContainer}
                     boxShadow={2}
-                    bgcolor="background.level1"
                     px={3}
                     py={1}
-                    mb={1}
                 >
-                    <LoadingTextContainer>
-                        <LoadingText />
-                    </LoadingTextContainer>
-                </ContentEpisodesLinksButton>
+                    <Skeleton variant="text" width="60px" height={20} animation="wave" />
+                </Box>
             </div>
         )
     }
 
     return (
         <>
-            <Button variant="outlined" aria-describedby={id} onClick={handleShowEvent}>
-                {props.title}
-            </Button>
+            <ClickAwayListener onClickAway={handleCloseEvent}>
+                <Button variant="outlined" aria-describedby={id} onClick={handleShowEvent} className={classes.Button}>
+                    {props.title}
+                </Button>
+            </ClickAwayListener>
+
             <Popper placement="bottom-start" id={id} open={open} anchorEl={anchorEl} transition>
                 {({ TransitionProps }) => (
                     <Fade {...TransitionProps} timeout={350}>
-                        <Box boxShadow={2} {...defaultBoxProps} >
+                        <Box className={classes.Container} boxShadow={2} p={1}>
                             <DownloadLinkContainer />
                         </Box>
                     </Fade>

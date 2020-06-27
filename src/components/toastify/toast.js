@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { toast, closeToast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import './toast.css';
 
 import Box from '@material-ui/core/Box'
@@ -12,17 +12,13 @@ function Message(props) {
     return (
         <Box
             p={2}
-            bgcolor="background.level2"
+            bgcolor="background.level1"
             boxShadow={2}
             onClick={onClick}
         >
             <Typography variant="h5" color="textPrimary">{overridemessage ? overridemessage : message}</Typography>
         </Box>
     )
-}
-
-const reload = () => {
-    window.location.href = window.location.href
 }
 
 export function payload(container, type, message, autoClose, onClickFunction) {
@@ -45,17 +41,6 @@ export default function ToastNotification(payload) {
         progressClassName: type === "success" ? "success-progressbar" : "error-progressbar"
     }
     toast.dismiss()
-
-    if (onClickFunction) {
-        switch (onClickFunction) {
-            case "reload":
-                onClickFunction = null
-                break;
-            default:
-                onClickFunction = null
-                break;
-        }
-    }
 
 
     switch (container) {

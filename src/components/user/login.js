@@ -1,57 +1,45 @@
 import React, { useState } from 'react'
-import ReactGA from 'react-ga';
-
-import Modal from '@material-ui/core/Modal'
-import Box from '@material-ui/core/Box'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
-import TextField from '@material-ui/core/TextField'
-import useTheme from '@material-ui/styles/useTheme'
 import { useDispatch, useGlobal } from 'reactn'
-import styled from 'styled-components'
+
+import { Modal, Box, Button, Typography, TextField, makeStyles } from '@material-ui/core'
 
 import ToastNotification from '../toastify/toast'
 
 import axios from '../../config/axios/axios'
 import { loginRoute } from '../../config/api-routes';
 
-const ModalContainer = styled(Box)`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: ${props => props.theme.breakpoints.values.sm}px;
+const useStyles = makeStyles(theme => ({
+    ModalContainer: {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: theme.breakpoints.values.sm,
 
-    @media(max-width:${props => props.theme.breakpoints.values.sm}px) {
-        width: 100%;
+        [theme.breakpoints.down("sm")]: {
+            width: "100%"
+        }
+    },
+    FormButton: {
+        '&:first-child': {
+            marginRight: theme.spacing(1)
+        }
     }
-`
-
-const ButtonContainer = styled(Box)``
-
-const ModalTitle = styled(Typography)``
-
-const FormContainer = styled.form``
-
-const FormButton = styled(Button)`
-    :first-child {
-        margin-right: 5px;
-    }
-`
+}))
 
 const UserModel = {
-    username: "",
+    name: "",
     password: ""
 }
 
 const errContainerModel = {
     err: "",
-    username: "",
+    name: "",
     password: ""
 }
 
 export default function LoginModal() {
-    const theme = useTheme()
+    const classes = useStyles()
 
     const setUser = useDispatch('loginHandler')
     const [showModal, setShowModal] = useGlobal('showModal')
@@ -67,7 +55,7 @@ export default function LoginModal() {
         event.preventDefault()
 
         const userData = {
-            name: userInfo.username,
+            name: userInfo.name,
             password: userInfo.password
         }
 
@@ -79,11 +67,12 @@ export default function LoginModal() {
                 setErrContainer(errContainerModel)
             })
             .catch(err => {
+                console.log(err.response)
                 const errors = err.response ? err.response.data : ""
                 const payload = {
                     container: "login-error",
                     type: "error",
-                    message: ""
+                    message: err.response.status === 429 ? err.response.data : ""
                 }
                 ToastNotification(payload)
                 setErrContainer({ ...errContainer, ...errors })
@@ -103,20 +92,20 @@ export default function LoginModal() {
                 aria-describedby="login-modal"
                 disableAutoFocus
             >
-                <ModalContainer
-                    theme={theme}
+                <Box
                     p={2}
                     bgcolor="background.level1"
-                    boxShadow={2}>
-                    <ModalTitle variant="h4">Giriş yap</ModalTitle>
-                    <FormContainer autoComplete="off" onSubmit={event => handleSubmitForm(event)}>
+                    boxShadow={2}
+                    className={classes.ModalContainer}>
+                    <Typography variant="h4">Giriş yap</Typography>
+                    <form autoComplete="off" onSubmit={event => handleSubmitForm(event)}>
                         <TextField
-                            id="username"
-                            error={errContainer.username ? true : false}
-                            helperText={errContainer.username ? errContainer.username : ""}
+                            id="name"
+                            error={errContainer.name ? true : false}
+                            helperText={errContainer.name ? errContainer.name : ""}
                             label="Kullanıcı adı"
-                            value={userInfo.username}
-                            onChange={handleChange('username')}
+                            value={userInfo.name}
+                            onChange={handleChange('name')}
                             margin="normal"
                             variant="outlined"
                             required
@@ -134,12 +123,12 @@ export default function LoginModal() {
                             required
                             autoFocus
                             fullWidth />
-                        <ButtonContainer mt={2}>
-                            <FormButton variant="outlined" type="submit">Giriş yap</FormButton>
-                            <FormButton variant="outlined" onClick={() => setShowModal("register")}>Hesabın yok mu?</FormButton>
-                        </ButtonContainer>
-                    </FormContainer>
-                </ModalContainer>
+                        <Box mt={2}>
+                            <Button variant="outlined" type="submit" className={classes.FormButton}>Giriş yap</Button>
+                            <Button variant="outlined" onClick={() => setShowModal("register")} className={classes.FormButton}>Hesabın yok mu?</Button>
+                        </Box>
+                    </form>
+                </Box>
             </Modal>
         </>
     )

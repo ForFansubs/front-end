@@ -12,6 +12,7 @@
 /public/*.html
 /public/*.json
 /public/*.ico
+ecosystem.config.js
 
 # testing
 /coverage
@@ -31,3 +32,6 @@ npm-debug.log*
 debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+src/static/CoverPlaceholder.png
+src/static/HeaderPlaceholder.png

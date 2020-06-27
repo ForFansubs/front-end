@@ -1,13 +1,11 @@
 import React, { setGlobal, addReducer, useGlobal } from 'reactn'
 import ReactDOM from 'react-dom'
 import addReactNDevTools from 'reactn-devtools'
-import { indexURL, isAdmin } from './config/api-routes'
+import { indexURL } from './config/api-routes'
 import axios from './config/axios/axios'
-import isEmpty from 'lodash-es/isEmpty'
 
 import './index.scss'
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import './config/polyfills'
 
 import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -36,9 +34,17 @@ try {
     if (err) localStorage.removeItem("user")
 }
 
+//Try reading localStorage before using it
+try {
+    JSON.parse(localStorage.getItem("motd"))
+} catch (err) {
+    if (err) localStorage.removeItem("motd")
+}
+
 //Get existing localstorage for later use
 const settings = localStorage.getItem("app-settings") ? JSON.parse(localStorage.getItem("app-settings")) : {}
 const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
+const motd = JSON.parse(localStorage.getItem("motd")) ? JSON.parse(localStorage.getItem("motd")) : []
 
 //Set global variables & reducers via reactn package
 setGlobal({
@@ -49,20 +55,26 @@ setGlobal({
         token: "",
         success: false
     },
-    settings,
+    settings: {
+        ...settings,
+        readingStyle: settings.readingStyle ? settings.readingStyle : "pagebypage"
+    },
+    motd: motd,
     showModal: "",
     isAdmin: false,
     theme: settings.theme ? settings.theme : window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
     mobile: false
 })
 
-addReducer('getOnline', (global, dispatch) => {
-    axios.get(indexURL)
+addReducer('getOnline', (global, dispatch, token) => {
+    const headers = {
+        "Authorization": user.token
+    }
+
+    axios.get(indexURL, { headers })
         .then(res => {
             dispatch.setOnline(res.data)
-            if (!isEmpty(user)) {
-                dispatch.checkAdmin(user.token)
-            }
+            dispatch.setAdmin(res.data.admin)
         })
         .catch(_ => dispatch.setOnline(false))
 })
@@ -79,7 +91,8 @@ addReducer('setOnline', (global, dispatch, data) => {
         online: true,
         settings: {
             ...global.settings,
-            version: data.version
+            version: data.version,
+            "release-name": data["release-name"]
         }
     })
 })
@@ -117,16 +130,6 @@ addReducer('logoutHandler', (global, dispatch) => {
     })
 })
 
-addReducer('checkAdmin', (global, dispatch, token) => {
-    const headers = {
-        "Authorization": token
-    }
-
-    axios.get(isAdmin, { headers })
-        .then(res => dispatch.setAdmin(true))
-        .catch(_ => dispatch.setAdmin(false))
-})
-
 addReducer('setAdmin', (global, dispatch, status) => {
     return ({ isAdmin: status })
 })
@@ -138,7 +141,31 @@ addReducer('setTheme', (global, dispatch, type) => {
     return ({ theme: type })
 })
 
-//If there's any changes for existing localstorage, update it here
+addReducer('setSettings', (global, dispatch, key, value) => {
+    const settings = global.settings
+    settings[key] = value
+    localStorage.setItem('app-settings', JSON.stringify(settings))
+    return ({ settings: settings })
+})
+
+addReducer('setMotd', (global, dispatch, motd_id) => {
+    const motd = global.motd
+    motd.push(motd_id)
+    localStorage.setItem('motd', JSON.stringify(motd))
+    console.log(motd)
+    return ({ motd: motd })
+})
+
+addReducer('checkAdmin', (global, dispatch, token) => {
+    const headers = {
+        "Authorization": token
+    }
+
+    axios.get(indexURL, { headers })
+        .then(res => dispatch.setAdmin(res.data.admin))
+        .catch(_ => dispatch.setAdmin(false))
+})
+
 if (!settings.theme) {
     settings.theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
 }
@@ -153,9 +180,8 @@ function Mount() {
 
     return (
         <ThemeProvider theme={themeObject}>
-            <CssBaseline>
-                <App />
-            </CssBaseline>
+            <CssBaseline />
+            <App />
         </ThemeProvider>
     )
 }
@@ -163,18 +189,20 @@ function Mount() {
 ReactDOM.render(<Mount />, document.getElementById('app-mount'))
 
 serviceWorker.register({
-    onUpdate: registration => {
-        ToastNotification(payload("notification-success", "success", "Uygulamanın yeni bir sürümü var. Lütfen bu bildirime basın.", false, "reload"))
-
+    onUpdate: function onUpdateHandler(registration) {
         const waitingServiceWorker = registration.waiting
 
-        if (waitingServiceWorker) {
-            waitingServiceWorker.addEventListener("statechange", event => {
-                if (event.target.state === "activated") {
-                    window.location.reload()
-                }
-            });
-            waitingServiceWorker.postMessage({ type: "SKIP_WAITING" });
+        const payload = {
+            container: "notification-success",
+            type: "success",
+            autoClose: false,
+            onClickFunction: () => {
+                waitingServiceWorker.postMessage({ type: "SKIP_WAITING" })
+                window.location.reload()
+            },
+            message: "Uygulamanın yeni bir sürümü var. Güncellemek için bu bildirime basın."
         }
+
+        ToastNotification(payload)
     }
 })

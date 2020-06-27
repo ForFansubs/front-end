@@ -1,152 +1,164 @@
-import styled from 'styled-components'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box'
-import Button from '@material-ui/core/Button'
-import DisqusBox from '../../components/disqus/disqus'
+import React, { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
+import { Grid, Typography, Box, Button, makeStyles, Divider, fade, Modal } from "@material-ui/core"
+import clsx from "clsx"
+import DisqusBox from "../../components/disqus/disqus"
 
-import { Parallax } from 'react-parallax'
+import { bluray, CoverPlaceholder } from "../../config/theming/images"
+import { getAnimeWatchIndex, mangaEpisodePage } from "../../config/front-routes"
+import { contentHeader, contentLogo, contentCover } from "../../config/api-routes"
 
+import { format } from "date-fns"
+import WarningBox from "../warningerrorbox/warning"
+import DownloadLink from "./anime/download-links"
+import MotdContainer from "../motd"
 
-const ContentHeader = styled(Grid)``
+const useStyles = makeStyles((theme) => ({
+    Container: {
+        position: "relative",
+    },
+    BackgroundContainer: {
+        overflow: "hidden",
+        position: "relative",
+        margin: theme.overrides.defaultMarginOverride,
+        marginBottom: 0,
 
-const ContentHeaderImage = styled(Parallax)`
-    width: 100%;
-    max-width: 100%;
-    height: 300px;
-    
-    img {
-        background-size: cover;
-        width: 100%;
-        margin-top: -10%;
-    }
-`
+        [theme.breakpoints.down("sm")]: {
+            margin: theme.overrides.defaultMarginMobileOverride,
+            marginBottom: 0
+        },
+    },
+    BottomContainer: {
+        position: "relative",
+        margin: theme.overrides.defaultMarginOverride,
+        marginTop: 0,
+        marginBottom: 0,
+        padding: `${theme.spacing(2)}px ${theme.spacing(5)}px`,
+        backgroundColor: theme.palette.background.default,
+        textAlign: "center",
 
-const ContentLeft = styled(Grid)`
-    max-width: 225px;
-    min-width: 225px;
-`
-
-const ContentImage = styled(Box)`
-    max-width: calc(225px - ${props => props.spacingvalue + 'px'});
-    width: calc(225px - ${props => props.spacingvalue + 'px'});
-
-    img {
-        width: inherit;
-    }
-`
-
-const ContentMetadata = styled(Box)`
-    span {
-        font-size: .9rem;
-        display: block;
-    }
-`
-
-const MetadataHeader = styled(Typography)`
-    font-size: 1.1rem!important;
-`
-
-const ContentGenres = styled.ul`
-    margin-bottom: -3px;
-
-    li {
-        display: inline-block;
-        padding: 2px 4px;
-        background: ${props => props.bgcolor};
-        margin: 0 3px 3px 0;
-
-        span {
-            color: ${props => props.textcolor};
-            font-size: .6rem;
-            font-weight: 400!important;
+        [theme.breakpoints.down("sm")]: {
+            margin: theme.overrides.defaultMarginMobileOverride,
+            marginTop: 0,
+            marginBottom: 0
         }
-    }
-`
+    },
+    BackgroundImage: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        height: "100%",
+        overflow: "hidden",
+        "& img": {
+            position: "absolute",
+            objectFit: "cover",
+            width: "70%",
+            height: "100%",
+            top: "50%",
+            left: "65%",
+            transform: "translate(-50%, -50%)",
+        },
+        [theme.breakpoints.down("xs")]: {
+            paddingBottom: "80%",
+            "& img": {
+                marginTop: 0,
+            },
+        },
+    },
+    BackgroundImageOverlay: {
+        background: theme.palette.background.default,
+        //eslint-disable-next-line
+        background: `linear-gradient(90deg, ${theme.palette.background.default} 0%, ${theme.palette.background.default} 35%, ${fade(theme.palette.background.default, 0)} 50%)`,
+        position: "absolute",
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        [theme.breakpoints.down("xs")]: {
+            background: `linear-gradient(90deg, ${theme.palette.background.default} 0%, ${theme.palette.background.default} 35%, ${fade(theme.palette.background.default, 0)} 100%)`,
+        },
+    },
+    FallbackBackgroundImage: {
+        filter: "blur(5px)",
+        opacity: 0.8,
+    },
+    CoverArtContainer: {
+        maxWidth: 225 - theme.spacing(2),
+        width: 225 - theme.spacing(2),
+        display: "none",
+        [theme.breakpoints.down("sm")]: {
+            maxWidth: "70%",
+            width: "70%",
+        },
 
-const ContentRight = styled(Grid)``
-
-const ContentTitle = styled(Typography)`
-    font-size: 3rem!important;
-`
-
-const ContentTitleBadge = styled(Box)`
-    padding: 5px;
-    margin: 0 5px!important;
-    span {
-        font-size: .7rem!important;
-    }
-`
-
-const ContentRightAltTitle = styled(Typography)`
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px!important;
-`
-
-const ContentSynopsis = styled(Typography)`
-    white-space: pre-wrap;
-`
-
-const ContentEpisodesContainer = styled(Grid)``
-
-const ContentEpisodes = styled.ul`
-    button {
-        margin: ${props => `0 ${props.spacing}px ${props.spacing}px 0`};
-        display: inline-block;
-    }
-`
-
-const ContentEpisodesLinksButton = styled(Box)`
-:hover {
-    transition: ${props => props.transition};
-    :hover {
-        background: ${props => props.hoverbg};
-    }
-}
-`
-
-const ContentLinks = styled(Grid)`
-    button {
-        margin-right: 5px;
-        margin-bottom: 5px;
-    }
-`
-
-const ContentLinksButton = styled(Button)``
-
-const ContentCommentsContainer = styled(DisqusBox)``
-
-const Content = styled.div`
-    @media(max-width:${props => props.theme.breakpoints.values.sm}px) {
-        ${ContentLeft} {
-            max-width: initial;
-            min-width: initial;
+        "& img": {
+            width: "inherit",
+        },
+    },
+    FallbackCoverArt: {
+        display: "block",
+        zIndex: 2,
+        boxShadow: theme.shadows[6],
+        height: "auto!important",
+        [theme.breakpoints.down('sm')]: {
+            display: "none"
         }
-
-        ${ContentTitle} {
-            font-size: 1.6rem!important;
-            display: block;
-        }
-
-        ${ContentTitleBadge} {
-            margin: 0!important;
-            span {
-                font-size: .6rem!important;
+    },
+    LogoImage: {
+        "& img": {
+            width: 400,
+            [theme.breakpoints.down('sm')]: {
+                width: "100%"
             }
         }
-
-        ${ContentGenres} {
-            margin: 0;
-            padding: 0;
+    },
+    AnimeContainer: {
+        position: "relative",
+        zIndex: 2,
+        padding: theme.spacing(7),
+        [theme.breakpoints.down('sm')]: {
+            padding: theme.spacing(3),
         }
-
-        ${ContentImage} {
-            max-width: 70%;
-            width: 70%;
+    },
+    PremieredContainer: {
+        color: theme.palette.type === "dark" ? theme.palette.grey["400"] : theme.palette.text.primary,
+    },
+    TextContainer: {
+        width: "45%",
+        [theme.breakpoints.down('sm')]: {
+            width: "100%"
+        }
+    },
+    SynopsisContainer: {
+        whiteSpace: "pre-wrap",
+    },
+    ContentButton: {
+        marginRight: theme.spacing(2),
+        marginTop: theme.spacing(2),
+        boxShadow: theme.shadows[6]
+    },
+    BottomStuff: {
+        marginTop: theme.spacing(4),
+    },
+    DownloadLinkDivider: {
+        marginBottom: theme.spacing(1),
+    },
+    ModalContainer: {
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        position: 'absolute',
+        width: 600,
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+        [theme.breakpoints.down('sm')]: {
+            width: "100%"
         }
     }
-`
+}))
 
 function episodeParser(episodenumber, specialtype) {
     if (specialtype === "toplu")
@@ -154,34 +166,560 @@ function episodeParser(episodenumber, specialtype) {
 
     if (specialtype && specialtype !== "toplu") {
         return `${specialtype.toUpperCase()} ${episodenumber}`
+    } else return `${episodenumber}. Bölüm`
+}
+
+function AdultModal(props) {
+    const classes = useStyles()
+    const { open, handleClose } = props
+
+    useEffect(() => {
+        if (open)
+            document.getElementById("scroll-node").style.filter = "blur(50px)"
+        else document.getElementById("scroll-node").style.removeProperty('filter')
+        return function cleanup() {
+            document.getElementById("scroll-node").style.removeProperty('filter')
+        }
+    })
+
+    return (
+        <Modal
+            className={classes.Modal}
+            open={open}
+            aria-labelledby="+18 İçerik"
+            aria-describedby="+18 içeriğe ulaşmak üzeresiniz..."
+        >
+            <div className={classes.ModalContainer}>
+                <Typography variant="body1" gutterBottom>
+                    +18 ögelere sahip bir içeriğe ulaşmak istediniz, devam etmek istiyor musunuz?
+                </Typography>
+                <Link to="/">
+                    <Button variant="outlined" style={{ marginRight: 8 }}>
+                        Ana sayfaya dön
+                    </Button>
+                </Link>
+                <Button variant="outlined" style={{ color: "red" }} onClick={handleClose}>
+                    Evet
+                </Button>
+            </div>
+        </Modal>
+    )
+}
+
+function MetadataContainer(props) {
+    const { title, titleM, list } = props
+
+    return (
+        <Box mr={1}>
+            <Typography variant="body1" component="span">
+                <b>{list.length > 1 ? `${titleM}: ` : `${title}: `}</b>
+            </Typography>
+            {list.length !== 0 ? (
+                <Typography variant="body1" component="span">
+                    {list.join(", ")}
+                </Typography>
+            ) : (
+                    <Typography variant="body1">${title} bulunamadı.</Typography>
+                )}
+        </Box>
+    )
+}
+
+function AnimePage(props) {
+    const {
+        id,
+        name,
+        slug,
+        cover_art,
+        premiered,
+        version,
+        translators,
+        encoders,
+        studios,
+        release_date,
+        genres,
+        mal_link,
+        synopsis,
+        episodes,
+        series_status,
+        trans_status,
+        episode_count } = props
+    const classes = useStyles(props)
+    const [headerError, setHeaderError] = useState(false)
+    const [coverArtError, setCoverArtError] = useState(false)
+    const [logoError, setLogoError] = useState(false)
+    const [adultModal, setAdultModal] = useState(props.adult_modal)
+
+    let batchLinks = episodes.map((data) =>
+        data.can_user_download && data.special_type === "toplu" ? (
+            <DownloadLink
+                key={data.id}
+                title={episodeParser(data.episode_number, data.special_type)}
+                animeslug={slug}
+                episodeid={data.id}
+            />
+        ) : null
+    )
+
+    let downloadLinks = episodes.map((data) =>
+        data.can_user_download && data.special_type !== "toplu" ? (
+            <DownloadLink
+                key={data.id}
+                title={episodeParser(data.episode_number, data.special_type)}
+                animeslug={slug}
+                episodeid={data.id}
+            />
+        ) : null
+    )
+
+    function handleClose() {
+        return setAdultModal(state => (!state))
     }
-    else return `${episodenumber}. Bölüm`
+
+    // Delete null objects from downloadLinks
+    batchLinks = batchLinks.filter((b) => b)
+    downloadLinks = downloadLinks.filter((d) => d)
+
+    return (
+        <>
+            <AdultModal open={adultModal} handleClose={handleClose} />
+            <div className={classes.Container}>
+                <div className={classes.BackgroundContainer}>
+                    <div className={classes.AnimeContainer}>
+                        <MotdContainer {...props} content_type="anime" content_id={id} />
+                        <div className={classes.TextContainer}>
+                            <Box mb={2}>
+                                <Typography variant="h4" component="h6" className={classes.PremieredContainer}>
+                                    {premiered ? premiered : null}
+                                    {version === "bd" ? (
+                                        <img
+                                            title="bd-logo"
+                                            loading="lazy"
+                                            src={bluray}
+                                            alt="bd-logo"
+                                            style={{ height: "1rem" }}
+                                        />
+                                    ) : null}
+                                </Typography>
+                                {logoError ? (
+                                    <Typography variant="h3" component="h1">
+                                        {name}
+                                    </Typography>
+                                ) : (
+                                        <Box className={classes.LogoImage}>
+                                            <img
+                                                title={name + " logoimage"}
+                                                loading="lazy"
+                                                alt={name + " logoimage"}
+                                                src={contentLogo("anime", slug)}
+                                                onError={(img) => {
+                                                    setLogoError(true)
+                                                    img.target.style.display =
+                                                        "none"
+                                                }}
+                                            ></img>
+                                        </Box>
+                                    )}
+                                <Typography
+                                    variant="body1"
+                                    className={classes.SynopsisContainer}
+                                >
+                                    {synopsis ? synopsis : "Konu bulunamadı."}
+                                </Typography>
+                            </Box>
+                            <Box display="flex" flexWrap="wrap">
+                                <MetadataContainer
+                                    title="Çevirmen"
+                                    titleM="Çevirmenler"
+                                    list={translators}
+                                />
+                                <MetadataContainer
+                                    title="Encoder"
+                                    titleM="Encoderlar"
+                                    list={encoders}
+                                />
+                            </Box>
+                            <Box display="flex" flexWrap="wrap">
+                                <MetadataContainer
+                                    title="Stüdyo"
+                                    titleM="Stüdyolar"
+                                    list={studios}
+                                />
+                                <MetadataContainer
+                                    title="Çıkış Tarihi"
+                                    titleM=""
+                                    list={[
+                                        format(
+                                            new Date(release_date),
+                                            "dd.MM.yyyy"
+                                        ),
+                                    ]}
+                                />
+                            </Box>
+                            <Box mt={2}>
+                                {episodes.length !== 0 ? (
+                                    <Link to={getAnimeWatchIndex(slug)}>
+                                        <Button
+                                            variant="outlined"
+                                            size="large"
+                                            className={classes.ContentButton}
+                                        >
+                                            İzle
+                                        </Button>
+                                    </Link>
+                                ) : null}
+                                {mal_link ? (
+                                    <a
+                                        href={mal_link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <Button
+                                            variant="outlined"
+                                            size="large"
+                                            className={classes.ContentButton}
+                                        >
+                                            MyAnimeList Konusu
+                                        </Button>
+                                    </a>
+                                ) : null}
+                            </Box>
+                        </div>
+                    </div>
+                    <div className={classes.BackgroundImage}>
+                        {headerError ? (
+                            <img
+                                title={name + " cover_art"}
+                                loading="lazy"
+                                alt={name + " cover_art"}
+                                src={contentCover("anime", slug)}
+                                className={clsx(classes.CoverArtContainer, {
+                                    [classes.FallbackCoverArt]: headerError,
+                                })}
+                                onError={(img) => {
+                                    if (coverArtError) {
+                                        img.target.src = CoverPlaceholder
+                                        return null
+                                    }
+                                    img.target.src = cover_art
+                                    setCoverArtError(true)
+                                }}
+                            />
+                        ) : null}
+                        <img
+                            title={name + " headerimage"}
+                            loading="lazy"
+                            alt={name + " headerimage"}
+                            src={contentHeader("anime", slug)}
+                            className={clsx({
+                                [classes.FallbackBackgroundImage]: headerError,
+                            })}
+                            onError={(img) => {
+                                img.target.src = coverArtError ? cover_art : contentCover("anime", slug)
+                                setHeaderError(true)
+                            }}
+                        ></img>
+                        <div className={classes.BackgroundImageOverlay} />
+                    </div>
+                </div>
+                <Box className={classes.BottomContainer}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} md={4}>
+                            <MetadataContainer
+                                title="Tür"
+                                titleM="Türler"
+                                list={genres}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <MetadataContainer
+                                title="Seri Durumu"
+                                titleM="Seri Durumu"
+                                list={[series_status, `${episode_count} Bölüm`]}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <MetadataContainer
+                                title="Çeviri Durumu"
+                                titleM=""
+                                list={[trans_status]}
+                            />
+                        </Grid>
+                    </Grid>
+                </Box>
+                <div className={classes.BottomStuff}>
+                    <Box mb={2}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <Typography variant="h4" gutterBottom>
+                                    İndirme Linkleri
+                                </Typography>
+                                <ul>
+                                    {batchLinks.length !== 0 ? (
+                                        <>
+                                            {batchLinks}
+                                            {downloadLinks.length ===
+                                                0 ? null : (
+                                                    <Divider
+                                                        className={
+                                                            classes.DownloadLinkDivider
+                                                        }
+                                                    />
+                                                )}
+                                        </>
+                                    ) : null}
+                                    {downloadLinks.length !== 0 ? (
+                                        downloadLinks
+                                    ) : batchLinks.length !== 0 ? null : (
+                                        <WarningBox>
+                                            İndirme linki bulunamadı.
+                                        </WarningBox>
+                                    )}
+                                </ul>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                    {process.env.REACT_APP_DISQUS_SHORTNAME ? (
+                        <>
+                            <Box>
+                                <DisqusBox
+                                    config={{
+                                        identifier: "anime/" + id,
+                                        title: `${name} - ${process.env.REACT_APP_SITENAME} Anime`,
+                                    }}
+                                />
+                            </Box>
+                        </>
+                    ) : (
+                            ""
+                        )}
+                </div>
+            </div>
+        </>
+    )
 }
 
-const defaultBoxProps = {
-    boxShadow: 2, p: 1, mb: 1, bgcolor: "background.level2"
+function MangaPage(props) {
+    const { id, name, slug, cover_art, translators, editors, authors, release_date, genres, mal_link, synopsis, mos_link, download_link, series_status, trans_status, episode_count } = props
+    const classes = useStyles(props)
+    const [headerError, setHeaderError] = useState(false)
+    const [coverArtError, setCoverArtError] = useState(false)
+    const [logoError, setLogoError] = useState(false)
+    const [adultModal, setAdultModal] = useState(props.adult_modal)
+
+    function handleClose() {
+        return setAdultModal(state => (!state))
+    }
+
+    return (
+        <>
+            <AdultModal open={adultModal} handleClose={handleClose} />
+            <div className={classes.Container}>
+                <Box className={classes.BackgroundContainer}>
+                    <Box className={classes.AnimeContainer}>
+                        <MotdContainer {...props} content_type="manga" content_id={id} />
+                        <Box className={classes.TextContainer}>
+                            <Box mb={2}>
+                                <Typography variant="h4" component="h6" className={classes.PremieredContainer}>
+                                </Typography>
+                                {logoError ? (
+                                    <Typography variant="h3" component="h1">
+                                        {name}
+                                    </Typography>
+                                ) : (
+                                        <Box className={classes.LogoImage}>
+                                            <img
+                                                title={name + " logoimage"}
+                                                loading="lazy"
+                                                alt={name + " logoimage"}
+                                                src={contentLogo("manga", slug)}
+                                                onError={(img) => {
+                                                    setLogoError(true)
+                                                    img.target.style.display =
+                                                        "none"
+                                                }}
+                                            ></img>
+                                        </Box>
+                                    )}
+                                <Typography
+                                    variant="body1"
+                                    className={classes.SynopsisContainer}
+                                >
+                                    {synopsis ? synopsis : "Konu bulunamadı."}
+                                </Typography>
+                            </Box>
+                            <Box display="flex" flexWrap="wrap">
+                                <MetadataContainer
+                                    title="Çevirmen"
+                                    titleM="Çevirmenler"
+                                    list={translators}
+                                />
+                                <MetadataContainer
+                                    title="Editör"
+                                    titleM="Editörler"
+                                    list={editors}
+                                />
+                            </Box>
+                            <Box display="flex" flexWrap="wrap">
+                                <MetadataContainer
+                                    title="Yazar"
+                                    titleM="Yazarlar"
+                                    list={authors}
+                                />
+                                <MetadataContainer
+                                    title="Çıkış Tarihi"
+                                    titleM=""
+                                    list={[
+                                        format(
+                                            new Date(release_date),
+                                            "dd.MM.yyyy"
+                                        ),
+                                    ]}
+                                />
+                            </Box>
+                            <Box mt={2}>
+                                {download_link ? (
+                                    <a
+                                        href={download_link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <Button
+                                            variant="outlined"
+                                            size="large"
+                                            className={classes.ContentButton}
+                                        >
+                                            İndir
+                                        </Button>
+                                    </a>
+                                ) : null}
+                                {mos_link ? (
+                                    <a
+                                        href={mos_link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <Button
+                                            variant="outlined"
+                                            size="large"
+                                            className={classes.ContentButton}
+                                        >
+                                            Oku
+                                        </Button>
+                                    </a>
+                                )
+                                    :
+                                    episode_count ?
+                                        <Link to={mangaEpisodePage(slug)}>
+                                            <Button
+                                                variant="outlined"
+                                                size="large"
+                                                className={classes.ContentButton}
+                                            >
+                                                Oku
+                                    </Button>
+                                        </Link>
+                                        :
+                                        ""
+                                }
+                                {mal_link ? (
+                                    <a
+                                        href={mal_link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <Button
+                                            variant="outlined"
+                                            size="large"
+                                            className={classes.ContentButton}
+                                        >
+                                            MyAnimeList Konusu
+                                        </Button>
+                                    </a>
+                                ) : null}
+                            </Box>
+                        </Box>
+                    </Box>
+                    <Box className={classes.BackgroundImage}>
+                        {headerError ? (
+                            <img
+                                title={name + " cover_art"}
+                                loading="lazy"
+                                alt={name + " cover_art"}
+                                src={contentCover("manga", slug)}
+                                className={clsx(classes.CoverArtContainer, {
+                                    [classes.FallbackCoverArt]: headerError,
+                                })}
+                                onError={(img) => {
+                                    if (coverArtError) {
+                                        img.target.src = CoverPlaceholder
+                                        return null
+                                    }
+                                    img.target.src = cover_art
+                                    setCoverArtError(true)
+                                }}
+                            />
+                        ) : null}
+                        <img
+                            title={name + " headerimage"}
+                            loading="lazy"
+                            alt={name + " headerimage"}
+                            src={contentHeader("manga", slug)}
+                            className={clsx({
+                                [classes.FallbackBackgroundImage]: headerError,
+                            })}
+                            onError={(img) => {
+                                img.target.src = coverArtError ? cover_art : contentCover("manga", slug)
+                                setHeaderError(true)
+                            }}
+                        ></img>
+                        <div className={classes.BackgroundImageOverlay} />
+                    </Box>
+                </Box>
+                <Box className={classes.BottomContainer}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} md={4}>
+                            <MetadataContainer
+                                title="Tür"
+                                titleM="Türler"
+                                list={genres}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <MetadataContainer
+                                title="Seri Durumu"
+                                titleM="Seri Durumu"
+                                list={[series_status]}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <MetadataContainer
+                                title="Çeviri Durumu"
+                                titleM=""
+                                list={[trans_status]}
+                            />
+                        </Grid>
+                    </Grid>
+                </Box>
+                <div className={classes.BottomStuff}>
+                    {process.env.REACT_APP_DISQUS_SHORTNAME ? (
+                        <>
+                            <Box>
+                                <DisqusBox
+                                    config={{
+                                        identifier: "manga/" + id,
+                                        title: `${name} - ${process.env.REACT_APP_SITENAME} Manga`,
+                                    }}
+                                />
+                            </Box>
+                        </>
+                    ) : (
+                            ""
+                        )}
+                </div>
+            </div>
+        </>
+    )
 }
 
-export {
-    Content,
-    ContentHeader,
-    ContentHeaderImage,
-    ContentLeft,
-    ContentImage,
-    ContentMetadata,
-    MetadataHeader,
-    ContentGenres,
-    ContentRight,
-    ContentTitle,
-    ContentTitleBadge,
-    ContentRightAltTitle,
-    ContentSynopsis,
-    ContentEpisodesContainer,
-    ContentEpisodes,
-    ContentEpisodesLinksButton,
-    ContentLinks,
-    ContentLinksButton,
-    ContentCommentsContainer,
-    episodeParser,
-    defaultBoxProps
-}
+export { AnimePage, MangaPage, episodeParser }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Helmet } from 'react-helmet'
 import ReactGA from 'react-ga';
+import Metatags from '../../components/helmet/index'
 
 import TextField from '@material-ui/core/TextField'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -17,25 +17,15 @@ import find from 'lodash-es/find'
 import slice from 'lodash-es/slice'
 
 import {
-    PageContainer,
-    ContentContainer,
-    defaultBoxProps,
-    PagePlacer,
-    PageGenreButton,
-    PageGenreList,
-    ContentWarning,
-    ContentError,
-    PageTypeButton,
+    useStyles,
     AnimeContainer,
-    AnimeContainerPlaceholder,
     MangaContainer,
-    MangaContainerPlaceholder
 } from '../../components/ara/components'
 
+import { Typography, Box, Grid, Button } from '@material-ui/core'
 import InfoIcon from '@material-ui/icons/Info'
-import WarningIcon from '@material-ui/icons/Warning';
-import { Typography } from '@material-ui/core';
-import CircularProgress from '../../components/progress/index';
+import WarningIcon from '@material-ui/icons/Warning'
+import CircularProgress from '../../components/progress/index'
 
 const searchTextAPI = (data, text) => {
     if (text.length < 3) {
@@ -68,6 +58,7 @@ const searchGenresAPIDebounced = AwesomeDebouncePromise(searchGenresAPI, 500);
 
 export default function SearchPage(props) {
     const theme = useTheme()
+    const classes = useStyles()
 
     const [offset, setOffset] = useState(1)
     const [data, setData] = useState([])
@@ -216,27 +207,13 @@ export default function SearchPage(props) {
     if (!loadingData) {
         if (data.length !== 0 && type === "anime") {
             mappedData = data.map(d =>
-                <LazyLoad
-                    height={225}
-                    key={d.slug + "anime"}
-                    placeholder={
-                        <AnimeContainerPlaceholder genresbg={theme.palette.secondary.main} />
-                    }>
-                    <AnimeContainer genresbg={theme.palette.primary.main} scrollbg={theme.palette.background.level1} data={{ ...d }} />
-                </LazyLoad>
+                <AnimeContainer key={d.slug} data={{ ...d }} />
             )
         }
 
         else if (data.length !== 0 && type === "manga") {
             mappedData = data.map(d =>
-                <LazyLoad
-                    height={187}
-                    key={d.slug + d.name + "manga"}
-                    placeholder={
-                        <MangaContainerPlaceholder genresbg={theme.palette.secondary.main} />
-                    }>
-                    <MangaContainer genresbg={theme.palette.primary.main} scrollbg={theme.palette.background.level1} data={{ ...d }} />
-                </LazyLoad>
+                <MangaContainer key={d.slug} data={{ ...d }} />
             )
         }
 
@@ -246,16 +223,16 @@ export default function SearchPage(props) {
     if (!loadingGenre) {
         if (genreData.length !== 0)
             genreMappedData = genreData.map((g, i) =>
-                <PagePlacer item key={"genres" + i}>
-                    <PageGenreButton
+                <Grid item key={"genres" + i}>
+                    <Button
                         size="small"
                         variant="outlined"
                         onClick={() => handleGenreClick(g)}
-                        color={find(searchProps.genres, (value) => g === value) ? "secondary" : "default"}
+                        color={find(searchProps.genres, (value) => g === value) ? "primary" : "default"}
                         disabled={isSearching}>
                         {g}
-                    </PageGenreButton>
-                </PagePlacer>
+                    </Button>
+                </Grid>
             )
 
 
@@ -264,12 +241,14 @@ export default function SearchPage(props) {
 
     else {
         return (
-            <ContentContainer
+            <Box
                 mt={1}
                 p={1}
                 key={0}
                 textAlign="center"
-            ><CircularProgress disableShrink color="secondary" /></ContentContainer>
+            >
+                <CircularProgress disableShrink color="secondary" />
+            </Box>
         )
     }
 
@@ -278,42 +257,29 @@ export default function SearchPage(props) {
 
     return (
         <>
-            <Helmet>
-                <title>{title}</title>
-                <meta name="title" content={title} />
-                <meta name="description" content={desc} />
-                <meta name="keywords" content={process.env.REACT_APP_META_KEYWORDS} />
-                <meta property="og:type" content="website" />
-                <meta property="og:url" content={process.env.REACT_APP_SITEURL + "/ara"} />
-                <meta property="og:title" content={title} />
-                <meta property="og:description" content={desc} />
-                <meta property="og:image" content={process.env.REACT_APP_SITEURL + "/512.png"} />
-                <meta property="twitter:card" content="summary" />
-                <meta property="twitter:url" content={process.env.REACT_APP_SITEURL + "/ara"} />
-                <meta property="twitter:title" content={title} />
-                <meta property="twitter:description" content={desc} />
-                <meta property="twitter:image" content={process.env.REACT_APP_SITEURL + "/512.png"} />
-            </Helmet>
-            <PagePlacer container spacing={2}>
-                <PagePlacer item xs={12} md={2}>
-                    <PageContainer justifyContent="space">
-                        <PageTypeButton
+            <Metatags title={title} desc={desc} url="/ara" type="website" />
+            <Grid container spacing={2}>
+                <Grid item xs={12} md={2}>
+                    <Box justifyContent="space">
+                        <Button
                             fullWidth
+                            className={classes.PageTypeButton}
                             variant="outlined"
-                            color={type === "anime" ? "secondary" : "default"}
+                            color={type === "anime" ? "primary" : "default"}
                             onClick={() => handleTypeChange("anime")}
                             disabled={isSearching}>
                             Anime
-                        </PageTypeButton>
-                        <PageTypeButton
+                        </Button>
+                        <Button
                             fullWidth
+                            className={classes.PageTypeButton}
                             variant="outlined"
-                            color={type === "manga" ? "secondary" : "default"}
+                            color={type === "manga" ? "primary" : "default"}
                             onClick={() => handleTypeChange("manga")}
                             disabled={isSearching}>
                             Manga
-                        </PageTypeButton>
-                    </PageContainer>
+                        </Button>
+                    </Box>
                     <form autoComplete="off">
                         <TextField
                             disabled={isSearching}
@@ -328,83 +294,84 @@ export default function SearchPage(props) {
                     </form>
                     {type === "anime"
                         ?
-                        <ContentWarning
-                            {...defaultBoxProps}
-                            p={1}><InfoIcon />
-                            <Typography variant="subtitle2">Üstü mavi çizgili olanlar Blu-ray içeriklerdir.</Typography>
-                        </ContentWarning>
+                        <Box className={`${classes.ContentWarning} ${classes.DefaultBox}`} p={1} mb={1} boxShadow={1}>
+                            <InfoIcon />
+                            <Typography variant="subtitle2">
+                                Üstü mavi çizgili olanlar Blu-ray içeriklerdir.
+                            </Typography>
+                        </Box>
                         :
                         ""}
-                    <ContentError
-                        {...defaultBoxProps}
-                        p={1}>
+                    <Box
+                        className={`${classes.ContentError} ${classes.DefaultBox}`} p={1} boxShadow={1}>
                         <WarningIcon />
-                        <Typography variant="subtitle2">Sayfanın performans sorunu vardır. Donma yaşarsanız şimdilik <span role="img" aria-label="shrug-emoji">🤷</span></Typography>
-                    </ContentError>
-                    <PageContainer mt={1}>
+                        <Typography variant="subtitle2">
+                            Sayfanın performans sorunu vardır. Donma yaşarsanız şimdilik <span role="img" aria-label="shrug-emoji">🤷</span>
+                        </Typography>
+                    </Box>
+                    <Box mt={1}>
                         {genreMappedData.length !== 0
                             ?
-                            <PageGenreList container spacing={1}>
+                            <Grid container spacing={1}>
                                 {genreMappedData}
-                            </PageGenreList>
+                            </Grid>
                             :
                             loadingGenre
                                 ?
-                                <ContentContainer
+                                <Box
                                     mt={1}
                                     p={1}
                                     key={0}
                                     textAlign="center"
-                                ><CircularProgress disableShrink color="secondary" /></ContentContainer>
+                                ><CircularProgress disableShrink color="primary" /></Box>
                                 :
-                                <ContentError
-                                    {...defaultBoxProps}
-                                    p={1}>
-                                    <WarningIcon /><Typography variant="subtitle2">Gösterilecek bir şey bulunamadı.</Typography>
-                                </ContentError>
+                                <Box p={1} className={`${classes.ContentWarning}`} boxShadow={6}>
+                                    <WarningIcon />
+                                    <Typography variant="subtitle2">
+                                        Gösterilecek bir şey bulunamadı.
+                                    </Typography>
+                                </Box>
                         }
-                    </PageContainer>
-                </PagePlacer>
-                <PagePlacer item xs={12} md={10}>
+                    </Box>
+                </Grid>
+                <Grid item xs={12} md={10}>
                     {mappedData.length !== 0
                         ?
                         <InfiniteScroll
                             style={{ overflow: "inherit" }}
                             dataLength={data.length}
+                            scrollableTarget="scroll-node"
                             next={handleGetMore}
                             hasMore={hasData}
                             scrollThreshold={1}
                             endMessage={<Typography variant="h6" style={{ padding: "8px", textAlign: "center" }}>Liste sonu.</Typography>}
-                            loader={<ContentContainer
+                            loader={<Box
                                 mt={1}
                                 p={1}
                                 key={0}
                                 textAlign="center"
-                            ><CircularProgress disableShrink color="secondary" /></ContentContainer>}
+                            ><CircularProgress disableShrink color="primary" /></Box>}
                         >
-                            <PagePlacer container spacing={2}>
+                            <Grid container spacing={2}>
                                 {mappedData}
-                            </PagePlacer>
+                            </Grid>
                         </InfiniteScroll>
                         :
                         loadingData
                             ?
-                            <ContentContainer
-                                mt={1}
-                                p={1}
-                                key={0}
-                                textAlign="center"
-                            ><CircularProgress disableShrink color="secondary" /></ContentContainer>
+                            <Box mt={1} p={1} key={0} textAlign="center">
+                                <CircularProgress disableShrink color="primary" />
+                            </Box>
                             :
-                            <ContentError
-                                {...defaultBoxProps}
-                                p={1}>
-                                <WarningIcon /><Typography variant="subtitle2">Gösterilecek bir şey bulunamadı.</Typography>
-                            </ContentError>
+                            <Box p={1} className={`${classes.ContentError} ${classes.DefaultBox}`} boxShadow={6}>
+                                <WarningIcon />
+                                <Typography variant="subtitle2">
+                                    Gösterilecek bir şey bulunamadı.
+                                </Typography>
+                            </Box>
                     }
-                </PagePlacer>
-            </PagePlacer>
-
+                </Grid>
+            </Grid>
         </>
     )
 }

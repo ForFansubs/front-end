@@ -1,43 +1,31 @@
 import React, { useState } from 'react'
-import ReactGA from 'react-ga';
-
-import Modal from '@material-ui/core/Modal'
-import Box from '@material-ui/core/Box'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
-import TextField from '@material-ui/core/TextField'
-import useTheme from '@material-ui/styles/useTheme'
 import { useGlobal } from 'reactn'
-import styled from 'styled-components'
+
+import { Modal, Box, Button, Typography, TextField, makeStyles } from '@material-ui/core'
 
 import ToastNotification from '../toastify/toast'
 
 import axios from '../../config/axios/axios'
 import { registerRoute } from '../../config/api-routes';
 
-const ModalContainer = styled(Box)`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: ${props => props.theme.breakpoints.values.sm}px;
+const useStyles = makeStyles(theme => ({
+    ModalContainer: {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: theme.breakpoints.values.sm,
 
-    @media(max-width:${props => props.theme.breakpoints.values.sm}px) {
-        width: 100%;
+        [theme.breakpoints.down("sm")]: {
+            width: "100%"
+        }
+    },
+    FormButton: {
+        '&:first-child': {
+            marginRight: theme.spacing(1)
+        }
     }
-`
-
-const ButtonContainer = styled(Box)``
-
-const ModalTitle = styled(Typography)``
-
-const FormContainer = styled.form``
-
-const FormButton = styled(Button)`
-    :first-child {
-        margin-right: 5px;
-    }
-`
+}))
 
 const UserModel = {
     username: "",
@@ -53,7 +41,7 @@ const errContainerModel = {
 }
 
 export default function RegisterModal() {
-    const theme = useTheme()
+    const classes = useStyles()
 
     const [showModal, setShowModal] = useGlobal('showModal')
     const [userInfo, setUserInfo] = useState(UserModel)
@@ -111,13 +99,13 @@ export default function RegisterModal() {
                 aria-describedby="login-modal"
                 disableAutoFocus
             >
-                <ModalContainer
-                    theme={theme}
+                <Box
                     p={2}
                     bgcolor="background.level1"
-                    boxShadow={2}>
-                    <ModalTitle variant="h4">Kayıt ol</ModalTitle>
-                    <FormContainer autoComplete="off" onSubmit={event => handleSubmitForm(event)}>
+                    boxShadow={2}
+                    className={classes.ModalContainer}>
+                    <Typography variant="h4">Kayıt ol</Typography>
+                    <form autoComplete="off" onSubmit={event => handleSubmitForm(event)}>
                         <TextField
                             id="email"
                             error={errContainer.email ? true : false}
@@ -168,12 +156,12 @@ export default function RegisterModal() {
                             required
                             autoFocus
                             fullWidth />
-                        <ButtonContainer mt={2}>
-                            <FormButton variant="outlined" type="submit">Kayıt ol</FormButton>
-                            <FormButton variant="outlined" onClick={() => setShowModal("login")}>Hesabın var mı?</FormButton>
-                        </ButtonContainer>
-                    </FormContainer>
-                </ModalContainer>
+                        <Box mt={2}>
+                            <Button variant="outlined" className={classes.FormButton} type="submit">Kayıt ol</Button>
+                            <Button variant="outlined" className={classes.FormButton} onClick={() => setShowModal("login")}>Hesabın var mı?</Button>
+                        </Box>
+                    </form>
+                </Box>
             </Modal>
         </>
     )

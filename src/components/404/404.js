@@ -1,18 +1,29 @@
 import React, { useState } from 'react'
 import { Redirect } from 'react-router-dom'
 
-import Box from '@material-ui/core/Box'
-import Typography from '@material-ui/core/Typography'
+import { Typography, makeStyles } from '@material-ui/core'
 
 import { fourOhFourGif } from '../../config/theming/images'
-import styled from 'styled-components'
 
-const ImageBox = styled(Box)`
-    max-width: 100vw;
-    width: 500px;
-`
+const useStyles = makeStyles(theme => ({
+    Container: {
+        position: "absolute",
+        left: "50%",
+        top: "50%",
+        textAlign: "center",
+        transform: "translate(-50%, -50%)"
+    },
+    Image: {
+        maxWidth: "100vw",
+        width: "500px",
+        boxShadow: theme.shadows[6],
+        marginBottom: theme.spacing(2)
+    }
+}))
 
 export default function FourOhFourPage() {
+    const classes = useStyles()
+
     const [redirect, setRedirect] = useState(false)
 
     setTimeout(() => {
@@ -22,15 +33,15 @@ export default function FourOhFourPage() {
     return (
         <>
             {redirect ? <Redirect to="/" /> : ""}
-            <Box position="absolute" left="50%" top="50%" textAlign="center" style={{ transform: "translate(-50%, -50%)" }}>
-                <ImageBox component="img" mb={2} boxShadow={2} src={fourOhFourGif} />
+            <div className={classes.Container}>
+                <img src={fourOhFourGif} className={classes.Image} alt="404gif" />
                 <Typography variant="h4">
                     Aradığınız sayfayı bulamadık, kaldırılmış olabilir.
                     </Typography>
                 <Typography variant="body1">
                     10 saniye içerisinde ana sayfaya yönlendirileceksiniz.
                     </Typography>
-            </Box>
+            </div>
         </>
     )
 }

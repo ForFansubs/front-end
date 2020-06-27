@@ -1,25 +1,32 @@
 import React from 'react'
 
 
-import Box from '@material-ui/core/Box'
-import Typography from '@material-ui/core/Typography'
+import { Box, Typography, makeStyles } from '@material-ui/core'
 import WarningIcon from '@material-ui/icons/Warning'
 import red from '@material-ui/core/colors/red'
-import styled from 'styled-components'
 
-const ContentEpisodesError = styled(Box)`
-    border-left: ${red.A200} 4px solid;
-    display: flex;
-    align-items: center;
-    svg {
-        margin-right: 5px
+const useStyles = makeStyles(theme => ({
+    Container: {
+        borderLeft: `${red.A200} 4px solid`,
+        display: "flex",
+        alignItems: "center",
+        boxShadow: theme.shadows[2],
+        padding: theme.spacing(1),
+        marginBottom: theme.spacing(1),
+        width: "100%",
+        backgroundColor: props => props.bgcolor || theme.palette.background.paper,
+        '& svg': {
+            marginRight: 5
+        }
     }
-`
+}))
 
 export default function ErrorBox(props) {
+    const classes = useStyles()
+
     return (
-        <ContentEpisodesError boxShadow={2} p={1} mb={1} bgcolor="background.level2">
+        <Box className={classes.Container} bgcolor={props.bgcolor || ""}>
             <WarningIcon /><Typography variant="subtitle2">{props.children}</Typography>
-        </ContentEpisodesError>
+        </Box>
     )
 }
