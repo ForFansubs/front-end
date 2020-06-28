@@ -6,7 +6,7 @@
 </p>
 
 
-[React](https://github.com/facebook/react) ve [ReactN](https://github.com/CharlesStover/reactn) paketleri başta olmak üzere [Material-UI](https://github.com/mui-org/material-ui) ve [styled-components](https://github.com/styled-components/styled-components) kullanarak hazırlandı. (v1'deki hataları olabildiğince tekrarlamamaya ve özellik eklenebilir bir kod çıkarmaya çalıştım, umarım oldu.)
+[React](https://github.com/facebook/react), [ReactN](https://github.com/CharlesStover/reactn) ve [Material-UI](https://github.com/mui-org/material-ui) kullanarak hazırlandı.
 
 ## Yükleme Talimatları
 
