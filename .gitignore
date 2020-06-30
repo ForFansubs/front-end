@@ -13,6 +13,7 @@
 /public/*.json
 /public/*.ico
 ecosystem.config.js
+/src/pages/extra-pages/pages/*/
 
 # testing
 /coverage
