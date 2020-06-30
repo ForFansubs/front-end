@@ -1,4 +1,4 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
 import merge from 'lodash-es/merge'
 
 import darkTheme from './dark/index'
@@ -80,7 +80,15 @@ const general = {
         defaultMarginMobile: "80px 12px 24px",
         defaultMarginOverride: "-32px -56px -24px",
         defaultMarginMobileOverride: "-24px -12px -24px",
-        defaultBorderRadius: 4
+        defaultBorderRadius: 4,
+        MuiToolbar: {
+            gutters: {
+                ['@media (min-width:600px)']: {
+                    paddingLeft: 29
+                }
+            }
+        }
+
     },
     transitions: {
         duration: {
@@ -97,7 +105,7 @@ export default function getTheme(type) {
     switch (type) {
         case type: {
             const theme = merge(general, type === "dark" ? darkTheme : lightTheme)
-            return createMuiTheme(theme)
+            return responsiveFontSizes(createMuiTheme(theme))
         }
         default:
             return false

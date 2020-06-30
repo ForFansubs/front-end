@@ -210,8 +210,8 @@ export default function MangaEpisodePage(props) {
                                             className={classes.MainPageImage}
                                             src={mangaPageImage(mangaData.manga_slug, activeEpisodeData.episode_number, activeEpisodeData.pages[(activePageNumber - 1)].filename)}
                                             alt={`${mangaData.manga_name} ${activeEpisodeData.episode_number}. Bölüm ${activePageNumber}. Sayfa`}
-                                            onLoad={image => {
-                                                handleCenteringPage(image)
+                                            onLoad={_ => {
+                                                handleCenteringPage()
                                             }} />
                                         <div className={classes.ImageOverlayContainer}>
                                             <div

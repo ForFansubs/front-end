@@ -11,6 +11,7 @@ import InitialLoading from './components/app/pre-screens'
 import SSSPage from './pages/sss/index'
 import FourOhFourPage from './components/404/404'
 import EkipAlimlariPage from './pages/ekip-alimlari/index'
+import ExtraPagesList from './pages/extra-pages/index'
 
 const IndexPage = lazy(() => import('./pages/index/index'))
 const SearchPage = lazy(() => import('./pages/ara/index'))
@@ -48,6 +49,9 @@ export default function App() {
                   <Route path="/sss" exact component={SSSPage} />
                   <Route path="/ekip-alimlari" exact component={EkipAlimlariPage} />
                   <Route path="/kullanici/kayit-tamamla/:hash" exact component={CompleteRegistrationPage} />
+                  {ExtraPagesList.length ? ExtraPagesList.map(({ PageUrl, PageComponent }) => (
+                    <Route path={PageUrl} exact component={PageComponent} />
+                  )) : ""}
                   <Route component={FourOhFourPage} />
                 </Switch>
               </Suspense>

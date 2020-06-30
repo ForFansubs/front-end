@@ -1,7 +1,7 @@
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
     //eslint-disable-next-line
-    name = name.replace(/[\[\]]/g, '\\$&');
+    name = name.replace(/[\[\]]/g, '\\$&'); // lgtm [js/incomplete-sanitization]
     var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
         results = regex.exec(url);
     if (!results) return null;

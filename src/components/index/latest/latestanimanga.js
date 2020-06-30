@@ -121,7 +121,7 @@ const useStyles = makeStyles(theme => ({
 
 export const LoadingDivAniManga = (key) => {
     return (
-        <Grid key={key} item xs={6} sm={3} md={2} lg={2} xl={1}>
+        <Grid key={key} item xs={4} sm={3} md={2} lg={2} xl={1}>
             <Skeleton width="100%" style={{ paddingBottom: "140%" }} variant="rect" />
         </Grid>
     )

@@ -5,12 +5,9 @@ import Metatags from '../../components/helmet/index'
 import TextField from '@material-ui/core/TextField'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import AwesomeDebouncePromise from 'awesome-debounce-promise';
-import LazyLoad from 'react-lazyload';
 
 import axios from '../../config/axios/axios'
 import { getGenresList, getFullSearchList } from '../../config/api-routes'
-
-import { useTheme } from '@material-ui/styles';
 
 import filter from 'lodash-es/filter'
 import find from 'lodash-es/find'
@@ -57,7 +54,6 @@ const searchGenresAPI = async (data, genres) => {
 const searchGenresAPIDebounced = AwesomeDebouncePromise(searchGenresAPI, 500);
 
 export default function SearchPage(props) {
-    const theme = useTheme()
     const classes = useStyles()
 
     const [offset, setOffset] = useState(1)
@@ -316,7 +312,7 @@ export default function SearchPage(props) {
                                 {genreMappedData}
                             </Grid>
                             :
-                            loadingGenre
+                            loadingGenre // lgtm [js/trivial-conditional]
                                 ?
                                 <Box
                                     mt={1}

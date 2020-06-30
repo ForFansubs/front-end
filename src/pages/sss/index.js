@@ -16,7 +16,7 @@ export default function SSSPage() {
     return (
         <>
             {/*Eğer SSS sayfası kapatılmışsa, gelen istekleri ana sayfaya yönlendir*/}
-            {process.env.REACT_APP_SSS_PAGE === true ? "" : <Redirect to="/" />}
+            {process.env.REACT_APP_SSS_PAGE === "true" ? "" : <Redirect to="/" />}
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <Box bgcolor="background.paper" boxShadow={2} p={1} textAlign="center">

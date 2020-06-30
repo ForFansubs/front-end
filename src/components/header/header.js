@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { useGlobal, useDispatch } from 'reactn'
+import { useGlobal, useDispatch, useEffect } from 'reactn'
 import Footer from '../footer/footer'
 
 import clsx from 'clsx'
@@ -19,6 +19,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import { indexPage, searchPage, faqPage, recPage, adminPage } from '../../config/front-routes'
 import { fullLogo, fullLogoGif, fullLogoDark, fullLogoDarkGif } from '../../config/theming/images'
+import ExtraPagesList from '../../pages/extra-pages/index'
 import SecondMenuItems from '../../config/drawer_items'
 
 const drawerWidth = 260;
@@ -37,7 +38,7 @@ const useStyles = makeStyles(theme => ({
         marginLeft: drawerWidth,
         width: 0,
         [theme.breakpoints.up('sm')]: {
-            width: `calc(100% - ${drawerWidth}px)`,
+            width: `100%`,
         }
     },
     menuButton: {
@@ -70,7 +71,7 @@ const useStyles = makeStyles(theme => ({
         flexGrow: 1
     },
     logo: {
-        height: "40px"
+        height: "46px"
     },
     ListItem: {
         width: "100vw",
@@ -198,7 +199,7 @@ export default function MiniDrawer() {
     const profileMenu = Boolean(anchorEl);
 
     const [open, setOpen] = React.useState(false);
-    const [menuItems] = React.useState([
+    const [menuItems, setMenuItems] = React.useState([
         {
             text: "Ana sayfa",
             shortText: "Ana Sayfa",
@@ -217,7 +218,7 @@ export default function MiniDrawer() {
             text: "Sıkça Sorulan Sorular",
             shortText: "SSS",
             link: faqPage,
-            show: process.env.REACT_APP_SSS_PAGE === true ? true : false,
+            show: process.env.REACT_APP_SSS_PAGE === "true" ? true : false,
             icon: <InfoIcon />
         },
         {
@@ -227,6 +228,29 @@ export default function MiniDrawer() {
             icon: <h2>EA</h2>
         }
     ])
+
+    useEffect(() => {
+        if (ExtraPagesList.length) {
+            const newMenus = []
+
+            ExtraPagesList.map(({ PageUrl, PageTitle, PageShortTitle, PageIcon }) => {
+                newMenus.push({
+                    text: PageTitle,
+                    shortText: PageShortTitle ? PageShortTitle : "",
+                    link: PageUrl,
+                    icon: PageIcon ? PageIcon : "",
+                    show: true
+                })
+            })
+
+            setMenuItems(state => [
+                ...state, ...newMenus
+            ])
+        }
+    }, [])
+
+    console.log(menuItems)
+
     const [menuItems2] = React.useState(SecondMenuItems)
 
     function handleMenu(event) {
@@ -247,8 +271,8 @@ export default function MiniDrawer() {
         setShowModal(type)
     }
 
-    const handleDrawerOpen = () => {
-        setOpen(true);
+    const handleDrawerState = () => {
+        setOpen(state => !state);
     };
 
     const handleDrawerClose = () => {
@@ -265,7 +289,7 @@ export default function MiniDrawer() {
                 </div>
                 <Divider />
                 <List>
-                    {menuItems.map((item, index) => item.show ?
+                    {menuItems.map(item => item.show ?
                         (
                             <NavLink exact to={item.link} onClick={handleDrawerClose} activeClassName={classes.Active} key={item.text}>
                                 <ListItem className={classes.ListItem} button>
@@ -285,7 +309,7 @@ export default function MiniDrawer() {
                     menuItems2.length ?
                         <>
                             <List>
-                                {menuItems2.map((item, index) => (
+                                {menuItems2.map(item => (
                                     <a href={item.link} target="_blank" rel="noopener noreferrer" className={classes.secondary} key={item.title}>
                                         <ListItem className={classes.ListItem} button style={{ backgroundColor: "inherit" }}>
                                             <Box className={classes.iconContainer}>
@@ -324,17 +348,15 @@ export default function MiniDrawer() {
                 <Toolbar>
                     <IconButton
                         color="inherit"
-                        aria-label="Open drawer"
-                        onClick={handleDrawerOpen}
+                        aria-label="Open/close drawer"
+                        onClick={handleDrawerState}
                         edge="start"
-                        className={clsx(classes.menuButton, {
-                            [classes.hide]: open,
-                        })}
+                        className={classes.menuButton}
                     >
                         <MenuIcon />
                     </IconButton>
                     <div className={classes.logoContainer}>
-                        <Link to={indexPage}>
+                        <Link to={indexPage} style={{ display: "flex" }}>
                             {
                                 process.env.REACT_APP_HEADER_LOGO_TYPE === "gif" && fullLogoGif !== null && fullLogoDarkGif !== null ?
                                     <img title="Site logo" loading="lazy" className={classes.logo} src={usertheme === "dark" ? fullLogoGif : fullLogoDarkGif} alt="Site Logo" />

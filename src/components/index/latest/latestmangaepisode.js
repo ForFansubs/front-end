@@ -1,7 +1,7 @@
 import React from 'react'
 import propTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { episodePage, mangaEpisodePage } from '../../../config/front-routes'
+import { mangaEpisodePage } from '../../../config/front-routes'
 
 import { Grid, Typography, makeStyles } from '@material-ui/core'
 import { grey } from '@material-ui/core/colors'
