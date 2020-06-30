@@ -9,8 +9,6 @@ import AwesomeDebouncePromise from 'awesome-debounce-promise';
 import axios from '../../config/axios/axios'
 import { getGenresList, getFullSearchList } from '../../config/api-routes'
 
-import { useTheme } from '@material-ui/styles';
-
 import filter from 'lodash-es/filter'
 import find from 'lodash-es/find'
 import slice from 'lodash-es/slice'
