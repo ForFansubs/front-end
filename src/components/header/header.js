@@ -249,8 +249,6 @@ export default function MiniDrawer() {
         }
     }, [])
 
-    console.log(menuItems)
-
     const [menuItems2] = React.useState(SecondMenuItems)
 
     function handleMenu(event) {
