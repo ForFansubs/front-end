@@ -218,7 +218,7 @@ export default function MiniDrawer() {
             text: "Sıkça Sorulan Sorular",
             shortText: "SSS",
             link: faqPage,
-            show: process.env.REACT_APP_SSS_PAGE === true ? true : false,
+            show: process.env.REACT_APP_SSS_PAGE === "true" ? true : false,
             icon: <InfoIcon />
         },
         {
@@ -230,8 +230,6 @@ export default function MiniDrawer() {
     ])
 
     useEffect(() => {
-        console.log(ExtraPagesList)
-
         if (ExtraPagesList.length) {
             const newMenus = []
 

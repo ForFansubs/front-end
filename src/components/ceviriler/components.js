@@ -67,7 +67,6 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     BackgroundImageOverlay: {
-        background: theme.palette.background.default,
         //eslint-disable-next-line
         background: `linear-gradient(90deg, ${theme.palette.background.default} 0%, ${theme.palette.background.default} 35%, ${fade(theme.palette.background.default, 0)} 50%)`,
         position: "absolute",

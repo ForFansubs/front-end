@@ -63,7 +63,6 @@ const useStyles = makeStyles(theme => ({
     },
     LogoContainer: {
         maxWidth: 400,
-        maxHeight: 200,
         width: "100%"
     },
     GenresContainer: {
