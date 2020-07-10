@@ -78,17 +78,17 @@ export default function IndexPage(props) {
                 latestAnimesWindow.push(LoadingDivAniManga(i + "loadingani"))
                 latestMangasWindow.push(LoadingDivAniManga(i + "loadingman"))
             }
-            for (let k = 0; k < 12; k++) {
+            for (let k = 0; k < 13; k++) {
                 latestEpisodesWindow.push(LoadingDivEpisode(k + "loadingepi"))
                 latestMangaEpisodesWindow.push(LoadingDivMangaEpisode(k + "loadingepi"))
             }
         }
         else {
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0; i < 12; i++) {
                 latestAnimesWindow.push(LoadingDivAniManga(i + "loadingani"))
                 latestMangasWindow.push(LoadingDivAniManga(i + "loadingman"))
             }
-            for (let i = 0; i < 9; i++) {
+            for (let i = 0; i < 13; i++) {
                 latestEpisodesWindow.push(LoadingDivEpisode(i + "loadingepi"))
                 latestMangaEpisodesWindow.push(LoadingDivMangaEpisode(i + "loadingepi"))
             }
