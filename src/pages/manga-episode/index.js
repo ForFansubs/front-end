@@ -38,7 +38,6 @@ export default function MangaEpisodePage(props) {
     })
     const [activePageNumber, setActivePageNumber] = useState(1)
     const [settings] = useGlobal('settings')
-    const [mobile] = useGlobal('mobile')
     const setSettings = useDispatch('setSettings')
 
     const NavigatorRef = useRef()

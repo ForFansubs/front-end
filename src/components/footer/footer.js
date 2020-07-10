@@ -1,7 +1,7 @@
 import React from 'react'
 import { useGlobal } from 'reactn'
 
-import { Box, makeStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 
 import FooterItems from '../../config/footer_items'
