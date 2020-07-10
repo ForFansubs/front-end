@@ -26,6 +26,44 @@ const useStyles = makeStyles(theme => ({
     },
     IndexHeader: {
         marginBottom: theme.spacing(2)
+    },
+    EpisodeContainer: {
+        display: "grid",
+        gridTemplateColumns: "repeat(8, 1fr)",
+        gridTemplateRows: "repeat(2, 1fr)",
+        gap: `${theme.spacing(2)}px`,
+        gridTemplateAreas: `"Title Title Title . . . . ." ". . . . . . . ."`,
+    },
+    Title: {
+        gridArea: "Title"
+    },
+    [theme.breakpoints.down("md")]: {
+        EpisodeContainer: {
+            display: "grid",
+            gridTemplateColumns: "repeat(5, 1fr)",
+            gridTemplateRows: "repeat(1, 1fr)",
+            gap: `${theme.spacing(2)}px`,
+            gridTemplateAreas: `"Title Title . . ." ". . . . ."`,
+        },
+        Title: {
+            "& h2": {
+                fontSize: "3em"
+            }
+        }
+    },
+    [theme.breakpoints.down("xs")]: {
+        EpisodeContainer: {
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gridTemplateRows: "repeat(2, 1fr)",
+            gap: `${theme.spacing(2)}px`,
+            gridTemplateAreas: `"Title Title ." ". . ."`,
+        },
+        Title: {
+            "& h2": {
+                fontSize: "3em"
+            }
+        }
     }
 }))
 

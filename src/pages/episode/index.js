@@ -8,7 +8,7 @@ import ReactGA from 'react-ga'
 import find from 'lodash-es/find'
 import Loading from '../../components/progress/index'
 
-import { getEpisodePageInfo, getEpisodeInfo } from '../../config/api-routes'
+import { getEpisodePageInfo, getEpisodeInfo, contentCover } from '../../config/api-routes'
 import { episodePage, animePage } from '../../config/front-routes'
 
 import {
@@ -26,6 +26,7 @@ import { Grid, Box, Button, Typography } from '@material-ui/core'
 import { format } from 'date-fns'
 import Dotdotdot from 'react-dotdotdot'
 import MotdContainer from '../../components/motd'
+import { CoverPlaceholder } from '../../config/theming/images'
 
 export default function EpisodePage(props) {
     const classes = useStyles()
@@ -52,6 +53,7 @@ export default function EpisodePage(props) {
     const [loading, setLoading] = useState(true)
     const [episodeLoading, setEpisodeLoading] = useState(false)
     const [iframeLoading, setIframeLoading] = useState(false)
+    const [coverArtError, setCoverArtError] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -298,7 +300,20 @@ export default function EpisodePage(props) {
                             <Box>
                                 <Grid container className={classes.MetadataContainer} alignItems="center">
                                     <Grid item xs={3} md={4}>
-                                        <img src={animeData.cover_art} alt={`${animeData.name} cover_art`} />
+                                        <img
+                                            title={`${animeData.name} cover_art`}
+                                            loading="lazy"
+                                            alt={`${animeData.name} cover_art`}
+                                            src={contentCover("anime", animeData.slug)}
+                                            onError={(img) => {
+                                                if (coverArtError) {
+                                                    img.target.src = CoverPlaceholder
+                                                    return null
+                                                }
+                                                img.target.src = animeData.cover_art
+                                                setCoverArtError(true)
+                                            }}
+                                        />
                                     </Grid>
                                     <Grid item xs={9} md={8}>
                                         <Box p={2}>

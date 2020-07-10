@@ -171,21 +171,17 @@ export default function IndexPage(props) {
                 : ""}
             {latestEpisodesWindow.length ?
                 <section className={classes.ContainerDiv}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} md={4} lg={4} className={classes.TitleContainer}>
+                    <div className={classes.EpisodeContainer}>
+                        <div className={classes.Title}>
                             <Typography variant={mobile ? "h2" : "h1"} component="h2" noWrap>
                                 En Yeni
                             </Typography>
                             <Typography variant={mobile ? "h2" : "h1"} component="h2">
                                 Bölümler
                             </Typography>
-                        </Grid>
-                        <Grid item xs={12} md={8} lg={8}>
-                            <Grid container spacing={2} direction="row" justify="center" alignItems="stretch">
-                                {latestEpisodesWindow}
-                            </Grid>
-                        </Grid>
-                    </Grid>
+                        </div>
+                        {latestEpisodesWindow}
+                    </div>
                 </section>
                 : ""}
             {latestMangasWindow.length ?
@@ -200,21 +196,17 @@ export default function IndexPage(props) {
                 : ""}
             {latestMangaEpisodesWindow.length ?
                 <section className={classes.ContainerDiv}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} md={3} lg={4} className={classes.TitleContainer}>
+                    <div className={classes.EpisodeContainer}>
+                        <div className={classes.Title}>
                             <Typography variant={mobile ? "h2" : "h1"} component="h2" noWrap>
                                 En Yeni
-                            </Typography>
+                        </Typography>
                             <Typography variant={mobile ? "h2" : "h1"} component="h2">
                                 Bölümler
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} md={9} lg={8}>
-                            <Grid container spacing={2} direction="row" justify="center" alignItems="stretch">
-                                {latestMangaEpisodesWindow}
-                            </Grid>
-                        </Grid>
-                    </Grid>
+                        </Typography>
+                        </div>
+                        {latestMangaEpisodesWindow}
+                    </div>
                 </section>
                 : ""}
         </>

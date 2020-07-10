@@ -8,7 +8,9 @@ import FooterItems from '../../config/footer_items'
 
 const useStyles = makeStyles(theme => ({
     FooterInnerDiv: {
-        padding: `${theme.spacing(2)}px`
+        padding: `${theme.spacing(2)}px`,
+        display: "flex",
+        flexWrap: "wrap"
     },
     FooterAuthor: {
         color: theme.palette.grey["A200"],
@@ -28,20 +30,20 @@ export default function Footer() {
     return (
         <>
             <footer>
-                <Box className={classes.FooterInnerDiv}>
-                    <Typography variant="h6">
-                        {FooterItems.length !== 0 ?
-                            FooterItems.map((item, index) => {
-                                return (
-                                    <a key={item.title} href={item.link} rel="noopener noreferrer" target="_blank" className={classes.FooterItem}>
+                <div className={classes.FooterInnerDiv}>
+                    {FooterItems.length !== 0 ?
+                        FooterItems.map((item, index) => {
+                            return (
+                                <a key={item.title} href={item.link} rel="noopener noreferrer" target="_blank" className={classes.FooterItem}>
+                                    <Typography variant="h6">
                                         {item.title}
-                                    </a>
-                                )
-                            })
-                            :
-                            ""
-                        }
-                    </Typography>
+                                    </Typography>
+                                </a>
+                            )
+                        })
+                        :
+                        ""
+                    }
                     <Typography variant="subtitle1" className={classes.FooterAuthor}>
                         <a href="https://forfansubs.github.io/" rel="noopener noreferrer" target="_blank">
                             ForFansubs v{settings.version}
@@ -53,7 +55,7 @@ export default function Footer() {
                             aybertocarlos &copy; {(new Date()).getFullYear()}
                         </a>
                     </Typography>
-                </Box>
+                </div>
             </footer>
         </>
     )

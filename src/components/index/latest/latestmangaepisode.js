@@ -51,31 +51,29 @@ export default function LatestMangaEpisode(props) {
 
     return (
         <>
-            <Grid item xs={4} sm={3} md={2} lg={2} xl={2}>
-                <Link to={mangaEpisodePage(manga_slug, episode_number)}>
-                    <Grid container className={classes.Container}>
-                        <Grid item xs={12} className={classes.Image}>
-                            <img
-                                src={contentCover("manga", manga_slug)}
-                                onError={img => {
-                                    img.target.onerror = null
-                                    if (imageError) return img.target.src = CoverPlaceholder
-                                    img.target.src = manga_cover
-                                    setImageError(true)
-                                }}
-                                alt={`${manga_name} Poster Resmi`} />
-                        </Grid>
-                        <Grid item xs={12} className={classes.Metadata}>
-                            <Typography variant="body2">
-                                {episode_number}. Bölüm{episode_name ? `: ${episode_name}` : ""}
-                            </Typography>
-                            <Typography variant="subtitle2">
-                                {formattedDate} - {created_by}
-                            </Typography>
-                        </Grid>
+            <Link to={mangaEpisodePage(manga_slug, episode_number)}>
+                <Grid container className={classes.Container}>
+                    <Grid item xs={12} className={classes.Image}>
+                        <img
+                            src={contentCover("manga", manga_slug)}
+                            onError={img => {
+                                img.target.onerror = null
+                                if (imageError) return img.target.src = CoverPlaceholder
+                                img.target.src = manga_cover
+                                setImageError(true)
+                            }}
+                            alt={`${manga_name} Poster Resmi`} />
                     </Grid>
-                </Link>
-            </Grid>
+                    <Grid item xs={12} className={classes.Metadata}>
+                        <Typography variant="body2">
+                            {episode_number}. Bölüm{episode_name ? `: ${episode_name}` : ""}
+                        </Typography>
+                        <Typography variant="subtitle2">
+                            {formattedDate} - {created_by}
+                        </Typography>
+                    </Grid>
+                </Grid>
+            </Link>
         </>
     )
 }
