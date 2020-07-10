@@ -38,9 +38,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export const LoadingDivMangaEpisode = (key) =>
-    <Grid key={key} item xs={4} sm={3} md={2} lg={2} xl={2}>
-        <Skeleton width="100%" style={{ paddingBottom: "140%" }} variant="rect" />
-    </Grid>
+    <Skeleton width="100%" style={{ paddingBottom: "140%" }} variant="rect" />
 
 export default function LatestMangaEpisode(props) {
     const classes = useStyles()
