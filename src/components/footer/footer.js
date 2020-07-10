@@ -7,8 +7,10 @@ import Typography from '@material-ui/core/Typography'
 import FooterItems from '../../config/footer_items'
 
 const useStyles = makeStyles(theme => ({
-    FooterInnerDiv: {
+    FooterDiv: {
         padding: `${theme.spacing(2)}px`,
+    },
+    FooterInnerDiv: {
         display: "flex",
         flexWrap: "wrap"
     },
@@ -30,20 +32,22 @@ export default function Footer() {
     return (
         <>
             <footer>
-                <div className={classes.FooterInnerDiv}>
-                    {FooterItems.length !== 0 ?
-                        FooterItems.map((item, index) => {
-                            return (
-                                <a key={item.title} href={item.link} rel="noopener noreferrer" target="_blank" className={classes.FooterItem}>
-                                    <Typography variant="h6">
-                                        {item.title}
-                                    </Typography>
-                                </a>
-                            )
-                        })
-                        :
-                        ""
-                    }
+                <div className={classes.FooterDiv}>
+                    <div className={classes.FooterInnerDiv}>
+                        {FooterItems.length !== 0 ?
+                            FooterItems.map((item, index) => {
+                                return (
+                                    <a key={item.title} href={item.link} rel="noopener noreferrer" target="_blank" className={classes.FooterItem}>
+                                        <Typography variant="h6">
+                                            {item.title}
+                                        </Typography>
+                                    </a>
+                                )
+                            })
+                            :
+                            ""
+                        }
+                    </div>
                     <Typography variant="subtitle1" className={classes.FooterAuthor}>
                         <a href="https://forfansubs.github.io/" rel="noopener noreferrer" target="_blank">
                             ForFansubs v{settings.version}
