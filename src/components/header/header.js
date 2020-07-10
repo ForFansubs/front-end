@@ -134,7 +134,9 @@ const useStyles = makeStyles(theme => ({
         },
         '& $iconContainer': {
             alignItems: "initial",
-            width: `${theme.spacing(6)}px`
+            width: `${theme.spacing(6)}px`,
+            maxWidth: `${theme.spacing(6)}px`,
+            minWidth: `${theme.spacing(6)}px`
         },
         [theme.breakpoints.up('sm')]: {
             width: drawerWidth,
