@@ -18,7 +18,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import { indexPage, searchPage, faqPage, recPage, adminPage } from '../../config/front-routes'
-import { fullLogo, fullLogoGif, fullLogoDark, fullLogoDarkGif } from '../../config/theming/images'
+import { fullLogo, fullLogoDark } from '../../config/theming/images'
 import ExtraPagesList from '../../pages/extra-pages/index'
 import SecondMenuItems from '../../config/drawer_items'
 
@@ -357,12 +357,7 @@ export default function MiniDrawer() {
                     </IconButton>
                     <div className={classes.logoContainer}>
                         <Link to={indexPage} style={{ display: "flex" }}>
-                            {
-                                process.env.REACT_APP_HEADER_LOGO_TYPE === "gif" && fullLogoGif !== null && fullLogoDarkGif !== null ?
-                                    <img title="Site logo" loading="lazy" className={classes.logo} src={usertheme === "dark" ? fullLogoGif : fullLogoDarkGif} alt="Site Logo" />
-                                    :
-                                    <img title="Site logo" loading="lazy" className={classes.logo} src={usertheme === "dark" ? fullLogo : fullLogoDark} alt="Site Logo" />
-                            }
+                            <img title="Site logo" loading="lazy" className={classes.logo} src={usertheme === "dark" ? fullLogo : fullLogoDark} alt="Site Logo" />
                         </Link>
                     </div>
                     <div className={classes.RightBox}>
