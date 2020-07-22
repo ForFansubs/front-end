@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
     EpisodeContainer: {
         display: "grid",
         gridTemplateColumns: "repeat(8, 1fr)",
-        gridTemplateRows: "repeat(2, 1fr)",
+        gridTemplateRows: "repeat(1, 1fr)",
         gap: `${theme.spacing(2)}px`,
         gridTemplateAreas: `"Title Title Title . . . . ." ". . . . . . . ."`,
     },

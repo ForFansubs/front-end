@@ -6,8 +6,6 @@ import bluray from '../../static/bluraylogo.png'
 var logo = null
 var fullLogo = null
 var fullLogoDark = null
-var fullLogoGif = null
-var fullLogoDarkGif = null
 var HeaderPlaceholder = null
 var CoverPlaceholder = null
 
@@ -35,8 +33,8 @@ try {
 // GIF logosunun dosyalarını dene. Varsa içeri al, birisi yoksa hata ver ve header'da statik logoyu göster. (/components/header/header.js)
 if (process.env.REACT_APP_HEADER_LOGO_TYPE === "gif") {
     try {
-        fullLogoGif = require('../../static/fullLogo.gif');
-        fullLogoDarkGif = require('../../static/fullLogo-dark.gif');
+        fullLogo = require('../../static/fullLogo.gif');
+        fullLogoDark = require('../../static/fullLogo-dark.gif');
     } catch (err) {
         console.warn('GIF logo bulunamadı.')
     }
@@ -51,4 +49,4 @@ else {
     }
 }
 
-export { logo, fullLogo, fullLogoGif, fullLogoDark, fullLogoDarkGif, fourOhFourGif, bluray, HeaderPlaceholder, CoverPlaceholder }
+export { logo, fullLogo, fullLogoDark, fourOhFourGif, bluray, HeaderPlaceholder, CoverPlaceholder }
