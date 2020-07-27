@@ -3,7 +3,7 @@ const searchPage = `/ara`
 const faqPage = `/sss`
 const recPage = `/ekip-alimlari`
 
-const adminPage = process.env.NODE_ENV === "development" ? `http://192.168.1.100:3001/admin/` : `/admin/`
+const adminPage = process.env.NODE_ENV === "development" ? `${process.env.REACT_APP_DEV_ADMIN_URL || "http://localhost:3001"}/admin/` : `/admin/`
 
 const animePage = (slug) => `/ceviriler/anime/${slug}`
 const mangaPage = (slug) => `/ceviriler/manga/${slug}`
