@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { useGlobal, useDispatch, useEffect } from 'reactn'
+import { useTranslation } from "react-i18next";
 import Footer from '../footer/footer'
 
+import { useStyles } from './styles'
 import clsx from 'clsx'
 import useTheme from '@material-ui/styles/useTheme'
 import { Drawer, AppBar, Toolbar, List, Divider, ListItem, ListItemIcon, ListItemText, Typography, MenuItem, Menu, makeStyles, Box } from '@material-ui/core'
@@ -22,172 +24,8 @@ import { fullLogo, fullLogoDark } from '../../config/theming/images'
 import ExtraPagesList from '../../pages/extra-pages/index'
 import SecondMenuItems from '../../config/drawer_items'
 
-const drawerWidth = 260;
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        overflowX: "hidden",
-        [theme.breakpoints.up('sm')]: {
-            overflowX: "initial",
-        }
-    },
-    appBar: {
-        zIndex: theme.zIndex.drawer + 1
-    },
-    appBarShift: {
-        marginLeft: drawerWidth,
-        width: 0,
-        [theme.breakpoints.up('sm')]: {
-            width: `100%`,
-        }
-    },
-    menuButton: {
-        [theme.breakpoints.down('sm')]: {
-            marginRight: 10,
-        },
-        marginRight: 36,
-    },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-        whiteSpace: 'nowrap'
-    },
-    SidePanel: {
-        backgroundColor: theme.palette.background.level1
-    },
-    toolbar: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        padding: '0 8px',
-        ...theme.mixins.toolbar,
-    },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-    },
-    logoContainer: {
-        display: "flex",
-        flexGrow: 1
-    },
-    logo: {
-        height: "46px"
-    },
-    ListItem: {
-        width: "100vw",
-        [theme.breakpoints.up('sm')]: {
-            width: drawerWidth,
-        },
-        transition: "none",
-        '&:hover': {
-            backgroundColor: theme.palette.background.paper
-        }
-    },
-    ListItemText: {
-        fontSize: ".8rem!important"
-    },
-    ListItemIcon: {
-        display: "contents",
-        color: theme.palette.grey["500"],
-        '& svg': {
-            color: theme.palette.grey["500"]
-        },
-    },
-    iconContainer: {
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        width: theme.spacing(10) + 1,
-    },
-    shortText: {
-        display: "none",
-        whiteSpace: "pre-wrap",
-        textAlign: "center",
-        fontSize: "0.7rem",
-        color: theme.palette.grey["500"]
-    },
-    Active: {
-        backgroundColor: theme.palette.background.paper,
-        '& $shortText': {
-            color: theme.palette.text.primary
-        },
-        '& $ListItemIcon': {
-            color: theme.palette.text.primary,
-            '& svg': {
-                color: theme.palette.text.primary
-            }
-        }
-    },
-    RightBox: {
-        display: "flex"
-    },
-    secondary: {
-        '&:hover': {
-            backgroundColor: theme.palette.background.paper
-        }
-    },
-    drawerOpen: {
-        width: "100vw",
-        '& $ListItemText': {
-            whiteSpace: "pre-wrap"
-        },
-        '& $iconContainer': {
-            alignItems: "initial",
-            width: `${theme.spacing(6)}px`,
-            maxWidth: `${theme.spacing(6)}px`,
-            minWidth: `${theme.spacing(6)}px`
-        },
-        [theme.breakpoints.up('sm')]: {
-            width: drawerWidth,
-        },
-        overflowX: "hidden",
-        '& $Active': {
-            '& $ListItem': {
-                backgroundColor: theme.palette.background.paper
-            }
-        }
-    },
-    drawerClose: {
-        '& $ListItem': {
-            padding: `${theme.spacing(1)}px 0`
-        },
-        '& $iconContainer': {
-            padding: `${theme.spacing(1)}px ${theme.spacing(0)}px`
-        },
-        '& $shortText': {
-            display: "block"
-        },
-        '& $ListItemText': {
-            display: "none"
-        },
-        overflowX: 'hidden',
-        width: 0,
-        [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(10) + 1,
-        },
-        [theme.breakpoints.down('xs')]: {
-            borderRight: 0
-        }
-    },
-    list: {
-        width: 250,
-    },
-    fullList: {
-        width: 'auto',
-    },
-    snsButton: {
-        margin: "16px"
-    },
-    hide: {
-        display: "none"
-    },
-    footerDisplay: {
-        display: "block"
-    }
-}))
-
 export default function MiniDrawer() {
+    const { t } = useTranslation('components');
     const classes = useStyles();
     const theme = useTheme();
     // eslint-disable-next-line
@@ -203,31 +41,32 @@ export default function MiniDrawer() {
     const [open, setOpen] = React.useState(false);
     const [menuItems, setMenuItems] = React.useState([
         {
-            text: "Ana sayfa",
-            shortText: "Ana Sayfa",
+            text: t('header.index.default'),
+            shortText: t('header.index.short'),
             link: indexPage,
             show: true,
             icon: <HomeIcon />
         },
         {
-            text: "İçerik ara",
-            shortText: "Ara",
+            text: t('header.search.default'),
+            shortText: t('header.search.short'),
             link: searchPage,
             show: true,
             icon: <SearchIcon />
         },
         {
-            text: "Sıkça Sorulan Sorular",
-            shortText: "SSS",
+            text: t('header.faq.default'),
+            shortText: t('header.faq.short'),
             link: faqPage,
             show: process.env.REACT_APP_SSS_PAGE === "true" ? true : false,
             icon: <InfoIcon />
         },
         {
-            text: "Ekip Alımları",
+            text: t('header.recruitment.default'),
+            shortText: t('header.recruitment.short'),
             link: recPage,
             show: true,
-            icon: <h2>EA</h2>
+            icon: <h2>{t('header.recruitment.logo')}</h2>
         }
     ])
 

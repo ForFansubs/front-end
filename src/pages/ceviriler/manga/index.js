@@ -2,19 +2,18 @@ import React, { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import ReactGA from 'react-ga';
 import Metatags from '../../../components/helmet/index'
-
-import Loading from '../../../components/progress/index'
+import { useTranslation } from 'react-i18next';
 
 import axios from '../../../config/axios/axios'
 
 import { MangaPage } from '../../../components/ceviriler/components'
-
 import { mangaPage } from '../../../config/front-routes'
 import { getMangaIndex } from '../../../config/api-routes'
 
-
+import Loading from '../../../components/progress/index'
 
 export default function (props) {
+    const { t } = useTranslation('pages')
     const [manga, setManga] = useState({})
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
@@ -57,11 +56,14 @@ export default function (props) {
     }
 
     if (!loading) {
-        const title = `${process.env.REACT_APP_SITENAME} ${manga.name} Türkçe ${manga.mos_link ? "Oku" : ""} ${manga.download_link ? "İndir" : ""}`
-        const desc = `${manga.name} Türkçe Oku & İndir - ${manga.synopsis}`
         return (
             <>
-                <Metatags title={title} desc={desc} url={mangaPage(manga.slug)} content="books.book" image={manga.cover_art} />
+                <Metatags
+                    title={t('manga.metadata.title', { site_name: process.env.REACT_APP_SITENAME, manga_name: manga.name })}
+                    desc={t('manga.metadata.description', { site_name: process.env.REACT_APP_SITENAME, manga_name: manga.name, manga_synopsis: manga.synopsis })}
+                    url={mangaPage(manga.slug)}
+                    content="video.tv_show"
+                    image={manga.cover_art} />
                 <MangaPage {...manga} />
             </>
         )

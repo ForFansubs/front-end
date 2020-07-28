@@ -28,6 +28,12 @@ const useStyles = makeStyles(theme => ({
         overflowY: "auto",
         "-webkit-transform": "translateZ(0)",
         transform: "translateZ(0)",
+        '&::-webkit-scrollbar-track': {
+            marginTop: 64,
+            [theme.breakpoints.down('xs')]: {
+                marginTop: 56
+            }
+        },
         [theme.breakpoints.down('sm')]: {
             overflowY: "scroll",
             scrollbarWidth: "none", /* Firefox */
@@ -47,11 +53,7 @@ const useStyles = makeStyles(theme => ({
         },
         '*::-webkit-scrollbar-track': {
             '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)',
-            backgroundColor: theme.palette.background.paper,
-            marginTop: 64,
-            [theme.breakpoints.down('xs')]: {
-                marginTop: 56
-            }
+            backgroundColor: theme.palette.background.paper
         },
         '*::-webkit-scrollbar-thumb': {
             backgroundColor: theme.palette.primary.main

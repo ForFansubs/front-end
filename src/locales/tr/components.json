@@ -1,0 +1,21 @@
+{
+    "header": {
+        "index": {
+            "default": "Ana sayfa",
+            "short": "Ana sayfa"
+        },
+        "search": {
+            "default": "İçerik ara",
+            "short": "Ara"
+        },
+        "faq": {
+            "default": "Sıkça Sorulan Sorular",
+            "short": "SSS"
+        },
+        "recruitment": {
+            "default": "Ekip Alımları",
+            "short": "Ekip Alımları",
+            "logo": "EA"
+        }
+    }
+}

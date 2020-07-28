@@ -32,10 +32,7 @@ const useStyles = makeStyles(theme => ({
         gridTemplateColumns: "repeat(8, 1fr)",
         gridTemplateRows: "repeat(1, 1fr)",
         gap: `${theme.spacing(2)}px`,
-        gridTemplateAreas: `"Title Title Title . . . . ." ". . . . . . . ."`,
-    },
-    Title: {
-        gridArea: "Title"
+        gridTemplateAreas: `". . . . . . . ." ". . . . . . . ."`,
     },
     [theme.breakpoints.down("md")]: {
         EpisodeContainer: {
@@ -43,7 +40,7 @@ const useStyles = makeStyles(theme => ({
             gridTemplateColumns: "repeat(5, 1fr)",
             gridTemplateRows: "repeat(1, 1fr)",
             gap: `${theme.spacing(2)}px`,
-            gridTemplateAreas: `"Title Title . . ." ". . . . ."`,
+            gridTemplateAreas: `". . . . ."`,
         },
         Title: {
             "& h2": {
@@ -55,9 +52,9 @@ const useStyles = makeStyles(theme => ({
         EpisodeContainer: {
             display: "grid",
             gridTemplateColumns: "repeat(3, 1fr)",
-            gridTemplateRows: "repeat(2, 1fr)",
+            gridTemplateRows: "repeat(1, 1fr)",
             gap: `${theme.spacing(2)}px`,
-            gridTemplateAreas: `"Title Title ." ". . ."`,
+            gridTemplateAreas: `". . ."`,
         },
         Title: {
             "& h2": {

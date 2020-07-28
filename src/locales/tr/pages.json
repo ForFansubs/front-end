@@ -1,0 +1,53 @@
+{
+    "index": {
+        "batch_links": {
+            "default": "Toplu Linkler",
+            "description": "Sisteme eklenen toplu linkleri sırasıyla burada bulabilirsiniz"
+        },
+        "newest_anime": {
+            "default": "Animeler",
+            "description": ""
+        },
+        "newest_manga": {
+            "default": "Mangalar",
+            "description": ""
+        },
+        "newest_anime_episodes": {
+            "default": "En Yeni Bölümler",
+            "description": ""
+        },
+        "newest_manga_episodes": {
+            "default": "En Yeni Bölümler",
+            "description": ""
+        }
+    },
+    "search": {
+        "warnings": {
+            "blu_ray_notification": "Üstü mavi çizgili olanlar Blu-ray içeriklerdir.",
+            "performance_problem": "Sayfanın performans sorunu vardır. Donma yaşarsanız şimdilik 🤷",
+            "not_found": "Gösterilecek bir şey bulunamadı.",
+            "end_of_list": "Liste sonu"
+        },
+        "metadata": {
+            "title": "{{site_name}} Anime & Manga Ara Türkçe İzle & Oku",
+            "description": "{{site_name}} Anime ve Manga arama motoru. Türlere göre anime ve manga arayabilir, konularına göz atabilirsiniz."
+        }
+    },
+    "anime": {
+        "metadata": {
+            "title": "{{site_name}} {{anime_name}} Türkçe İzle & İndir",
+            "description": "{{anime_name}} Türkçe İzle & İndir - {{anime_synopsis}} - {{site_name}}"
+        }
+    },
+    "manga": {
+        "metadata": {
+            "title": "{{site_name}} {{manga_name}} Türkçe Oku & İndir",
+            "description": "{{manga_name}} Türkçe İzle & İndir - {{manga_synopsis}} - {{site_name}}"
+        }
+    },
+    "recruitment": {
+        "metadata": {
+            "title": "Ekip Alımları - {{site_name}}"
+        }
+    }
+}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import Metatags from '../../../components/helmet/index'
 import ReactGA from 'react-ga';
+import { useTranslation } from 'react-i18next';
 
 import axios from '../../../config/axios/axios'
 
@@ -12,6 +13,7 @@ import { getAnimeIndex } from '../../../config/api-routes'
 import Loading from '../../../components/progress/index'
 
 export default function (props) {
+    const { t } = useTranslation('pages')
     const [anime, setAnime] = useState({})
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
@@ -65,11 +67,14 @@ export default function (props) {
     }
 
     if (!loading) {
-        const title = `${process.env.REACT_APP_SITENAME} ${anime.name} Türkçe ${anime.episodes.length !== 0 ? "İzle ve İndir" : ""}`
-        const desc = `${anime.name} Türkçe İzle & İndir - ${anime.synopsis}`
         return (
             <>
-                <Metatags title={title} desc={desc} url={animePage(anime.slug)} content="video.tv_show" image={anime.cover_art} />
+                <Metatags
+                    title={t('anime.metadata.title', { site_name: process.env.REACT_APP_SITENAME, anime_name: anime.name })}
+                    desc={t('anime.metadata.description', { site_name: process.env.REACT_APP_SITENAME, anime_name: anime.name, anime_synopsis: anime.synopsis })}
+                    url={animePage(anime.slug)}
+                    content="video.tv_show"
+                    image={anime.cover_art} />
                 <AnimePage {...anime} />
             </>
         )

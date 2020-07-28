@@ -1,5 +1,5 @@
-import React from 'react'
-import { useState } from 'reactn'
+import React, { useState } from 'react'
+import { useGlobal } from 'reactn'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { Link } from 'react-router-dom'
@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
         left: 0,
         right: 0,
         width: "35%",
-        backgroundColor: fade(theme.palette.background.default, 0.6),
+        backgroundColor: fade(theme.palette.background.default, 0.7),
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -63,7 +63,16 @@ const useStyles = makeStyles(theme => ({
     },
     LogoContainer: {
         maxWidth: 400,
-        width: "100%"
+        width: "100%",
+        [theme.breakpoints.down('sm')]: {
+            maxWidth: 300
+        }
+    },
+    SynopsisContainer: {
+        display: "block",
+        [theme.breakpoints.down('sm')]: {
+            display: "none"
+        }
     },
     GenresContainer: {
         display: "flex",
@@ -111,7 +120,7 @@ export function FeaturedLoading() {
 }
 
 export default function Featured(props) {
-    const { name, slug, genres, display } = props
+    const { name, slug, genres, display, synopsis } = props
     const classes = useStyles(props)
     const [logoError, setLogoError] = useState(false)
 
@@ -130,7 +139,7 @@ export default function Featured(props) {
                     <div className={classes.InfoContainer}>
                         {logoError ?
                             <Typography variant="h2">
-                                <Dotdotdot clamp={2}>
+                                <Dotdotdot clamp={2} useNativeClamp>
                                     {name.toUpperCase()}
                                 </Dotdotdot>
                             </Typography>
@@ -142,6 +151,13 @@ export default function Featured(props) {
                                 }}
                                 alt=""
                                 title={`${name} logo`} />}
+                        <div className={classes.SynopsisContainer}>
+                            <Typography variant="body1">
+                                <Dotdotdot clamp={4} useNativeClamp>
+                                    {synopsis.toUpperCase()}
+                                </Dotdotdot>
+                            </Typography>
+                        </div>
                         <Typography variant="h6" component="ul" className={classes.GenreList}>
                             {genres.split(',').map(genre => <li key={name + genre} className={classes.GenreItem}>{genre}</li>)}
                         </Typography>

@@ -14,7 +14,14 @@ import getTheme from './config/theming/index'
 
 import App from './App'
 import * as serviceWorker from './serviceWorker'
+import { I18nextProvider } from "react-i18next";
+import i18next from "i18next";
 import ToastNotification, { payload } from './components/toastify/toast';
+
+// Import locale files
+import common_tr from './locales/tr/common.json'
+import pages_tr from './locales/tr/pages.json'
+import components_tr from './locales/tr/components.json'
 
 //Initiate program & define version
 addReactNDevTools()
@@ -58,7 +65,8 @@ setGlobal({
     },
     settings: {
         ...settings,
-        readingStyle: settings.readingStyle ? settings.readingStyle : "pagebypage"
+        readingStyle: settings.readingStyle ? settings.readingStyle : "pagebypage",
+        language: settings.language ? settings.language : "tr"
     },
     motd: motd,
     showModal: "",
@@ -173,6 +181,19 @@ if (!settings.theme) {
 
 localStorage.setItem("app-settings", JSON.stringify(settings))
 
+i18next.init({
+    interpolation: { escapeValue: false },
+    lng: process.env.REACT_APP_DEFAULT_LANG || "tr",
+    supportedLngs: ["tr", "en"],
+    resources: {
+        tr: {
+            common: common_tr,
+            pages: pages_tr,
+            components: components_tr
+        }
+    }
+});
+
 function Mount() {
     const [theme] = useGlobal('theme')
     const themeObject = getTheme(theme)
@@ -182,7 +203,9 @@ function Mount() {
     return (
         <ThemeProvider theme={themeObject}>
             <CssBaseline />
-            <App />
+            <I18nextProvider i18n={i18next}>
+                <App />
+            </I18nextProvider>
         </ThemeProvider>
     )
 }
