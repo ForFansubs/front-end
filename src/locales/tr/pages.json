@@ -53,11 +53,40 @@
     "episode": {
         "warnings": {
             "links_not_found": "Link bulunamadı.",
-            "please_select_episode": "Lütfen bölüm seçin."
+            "please_select_episode": "Lütfen bölüm seçin.",
+            "no_episode_data": "Bölüm bulunamadı."
         },
         "metadata": {
             "title": "{{anime_name}} {{episode_title}} Türkçe İzle - {{site_name}} Anime",
             "description": "{{anime_name}} {{episode_title}} Türkçe İzle ve İndir - {{site_name}} Anime İzle"
+        },
+        "credits": "Emektar",
+        "added_at": "Eklenme tarihi"
+    },
+    "complete_registration": {
+        "warnings": {
+            "loading": "Kaydınız tamamlanıyor...",
+            "successful": "Kayıt başarıyla tamamlandı.",
+            "error": "İşleminizi tamamlarken bir sorunla karşılaştık.",
+            "link_expired": "Bu linkin süresi dolmuş. Yenisini istemek için lütfen aşağıdaki butona basın.",
+            "resend_confirmation_email": "Linki tekrar yolla",
+            "resend_confirmation_email_successful": "Yeni link mailinize gönderildi."
         }
+    },
+    "manga_episode": {
+        "warnings": {
+            "select_the_episode_you_wish_to_read": "Okumak istediğiniz bölümü seçin",
+            "please_select_episode": "Lütfen bölüm seçin.",
+            "no_episode_data": "Bölüm bulunamadı."
+        },
+        "metadata": {
+            "title_plural": "{{manga_name}} Türkçe Oku - {{site_name}} Manga",
+            "title": "{{manga_name}} {{episode_number}}. Bölüm Türkçe Oku - {{site_name}} Manga",
+            "description_plural": "{{manga_name}} Türkçe Oku ve İndir - {{site_name}} Manga Oku",
+            "description": "{{manga_name}} {{episode_number}}. Bölüm Türkçe Oku ve İndir - {{site_name}} Manga Oku"
+        },
+        "img_alt": "{{manga_name}} {{episode_number}}. Bölüm {{page_number}}. Sayfa",
+        "previous_page": "Önceki Sayfa",
+        "next_page": "Sonraki Sayfa"
     }
 }

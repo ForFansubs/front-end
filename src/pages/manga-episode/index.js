@@ -16,8 +16,11 @@ import MotdContainer from '../../components/motd'
 import { mangaEpisodePage, mangaPage } from '../../config/front-routes'
 import Loading from '../../components/progress'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { cursorNext, cursorPrevious } from '../../config/theming/images'
 
 export default function MangaEpisodePage(props) {
+    const { t } = useTranslation(['pages', 'common'])
     const classes = useStyles()
     const [loading, setLoading] = useState(true)
     const [mangaData, setMangaData] = useState({
@@ -129,13 +132,27 @@ export default function MangaEpisodePage(props) {
     }
 
     if (!loading && episodeData.length !== 0) {
-
-        const title = `${mangaData.manga_name} ${activeEpisodeData.episode_number ? `${activeEpisodeData.episode_number}. Bölüm` : ""} Türkçe Oku - ${process.env.REACT_APP_SITENAME} Manga`
-        const desc = `${mangaData.manga_name} ${activeEpisodeData.episode_number ? `${activeEpisodeData.episode_number}. Bölüm` : ""} Türkçe Oku ve İndir - ${process.env.REACT_APP_SITENAME} Manga Oku`
-
         return (
             <>
-                <Metatags title={title} desc={desc} url={process.env.REACT_APP_SITEURL + mangaEpisodePage(props.match.params.slug, mangaData.slug)} content="books.book" image={mangaData.manga_cover} />
+                <Metatags title={
+                    t('manga_episode.metadata.title',
+                        {
+                            manga_name: mangaData.manga_name,
+                            episode_number: activeEpisodeData.episode_number,
+                            site_name: process.env.REACT_APP_SITENAME,
+                            count: Boolean(activeEpisodeData.episode_number) ? 1 : 2
+                        })}
+                    desc={
+                        t('manga_episode.metadata.description',
+                            {
+                                manga_name: mangaData.manga_name,
+                                episode_number: activeEpisodeData.episode_number,
+                                site_name: process.env.REACT_APP_SITENAME,
+                                count: Boolean(activeEpisodeData.episode_number) ? 1 : 2
+                            })}
+                    url={process.env.REACT_APP_SITEURL + mangaEpisodePage(props.match.params.slug, mangaData.slug)}
+                    content="books.book"
+                    image={mangaData.manga_cover} />
                 <Grid container spacing={2} justify="center" className={classes.Container}>
                     <Grid item xs={12}>
                         <MotdContainer {...props} content_type="manga-episode" content_id={activeEpisodeData.id} />
@@ -143,7 +160,7 @@ export default function MangaEpisodePage(props) {
                     <Grid item xs={12}>
                         <Box className={classes.Navigator} ref={NavigatorRef}>
                             <FormControl fullWidth>
-                                <InputLabel htmlFor="episode-selector">Okumak istediğiniz bölümü seçin</InputLabel>
+                                <InputLabel htmlFor="episode-selector">{t('manga_episode.warnings.select_the_episode_you_wish_to_read')}</InputLabel>
                                 <Select
                                     fullWidth
                                     value={`${activeEpisodeData.episode_number}`}
@@ -153,7 +170,7 @@ export default function MangaEpisodePage(props) {
                                         id: "episode-selector"
                                     }}
                                 >
-                                    {episodeData.map(d => <MenuItem key={d.episode_number} value={`${d.episode_number}`}>{d.episode_number}. Bölüm: {d.episode_name}</MenuItem>)}
+                                    {episodeData.map(d => <MenuItem key={d.episode_number} value={`${d.episode_number}`}>{t('common:episode.episode_title', { episode_number: d.episode_number })}{d.episode_name ? `: ${d.episode_name}` : ""}</MenuItem>)}
                                 </Select>
                             </FormControl>
                             {settings.readingStyle === "pagebypage" ?
@@ -182,9 +199,9 @@ export default function MangaEpisodePage(props) {
                                     variant="outlined"
                                     onClick={handleReadingStyleChangeButton}>
                                     {settings.readingStyle === "pagebypage" ?
-                                        <><BurstMode />Webtoon</>
+                                        <><BurstMode />{t('common:buttons.webtoon')}</>
                                         :
-                                        <><Image />Sayfa Sayfa</>
+                                        <><Image />{t('common:buttons.pagebypage')}</>
                                     }
                                 </Button>
                                 <Link to={mangaPage(mangaData.manga_slug)}>
@@ -192,7 +209,7 @@ export default function MangaEpisodePage(props) {
                                         className={classes.ToManga}
                                         variant="outlined"
                                     >
-                                        Mangaya git
+                                        {t('common:buttons.goto_manga')}
                                     </Button>
                                 </Link>
                             </div>
@@ -207,20 +224,22 @@ export default function MangaEpisodePage(props) {
                                         <img
                                             className={classes.MainPageImage}
                                             src={mangaPageImage(mangaData.manga_slug, activeEpisodeData.episode_number, activeEpisodeData.pages[(activePageNumber - 1)].filename)}
-                                            alt={`${mangaData.manga_name} ${activeEpisodeData.episode_number}. Bölüm ${activePageNumber}. Sayfa`}
+                                            alt={t('manga_episode.img_alt', { manga_name: mangaData.manga_name, episode_number: activeEpisodeData.episode_number, page_number: activePageNumber })}
                                             onLoad={_ => {
                                                 handleCenteringPage()
                                             }} />
                                         <div className={classes.ImageOverlayContainer}>
                                             <div
                                                 className={classes.ImageOverlay}
+                                                style={{ cursor: `url(${cursorPrevious}), crosshair` }}
                                                 onClick={handleNavigateBeforeButton}
-                                                title="Önceki Sayfa"
+                                                title={t('manga_episode.previous_page')}
                                             />
                                             <div
                                                 className={classes.ImageOverlay}
+                                                style={{ cursor: `url(${cursorNext}), crosshair` }}
                                                 onClick={handleNavigateNextButton}
-                                                title="Sonraki Sayfa" />
+                                                title={t('manga_episode.next_page')} />
                                         </div>
                                     </>
                                     :
@@ -233,14 +252,14 @@ export default function MangaEpisodePage(props) {
                                                 width="900px"
                                                 height="1270px"
                                                 src={mangaPageImage(mangaData.manga_slug, activeEpisodeData.episode_number, page.filename)}
-                                                alt={`${mangaData.manga_name} ${activeEpisodeData.episode_number}. Bölüm ${index + 1}. Sayfa`} />
+                                                alt={t('manga_episode.img_alt', { manga_name: mangaData.manga_name, episode_number: activeEpisodeData.episode_number, page_number: index + 1 })} />
                                         ))}
                                     </div>
                                 :
                                 <ContentWarning
                                     {...defaultBoxProps}
                                     p={1}>
-                                    Lütfen bölüm seçiniz.
+                                    {t('manga_episode.warnings.please_select_episode')}
                                 </ContentWarning>
                             }
                         </div>
@@ -263,7 +282,7 @@ export default function MangaEpisodePage(props) {
         return (
             <>
                 <Grid container>
-                    <Typography variant="h1">Bölüm bulunamadı.</Typography>
+                    <Typography variant="h1">{t('manga_episode.warnings.no_episode_data')}</Typography>
                 </Grid>
             </>
         )

@@ -70,8 +70,17 @@ export default function (props) {
         return (
             <>
                 <Metatags
-                    title={t('anime.metadata.title', { site_name: process.env.REACT_APP_SITENAME, anime_name: anime.name })}
-                    desc={t('anime.metadata.description', { site_name: process.env.REACT_APP_SITENAME, anime_name: anime.name, anime_synopsis: anime.synopsis })}
+                    title={t('anime.metadata.title',
+                        {
+                            site_name: process.env.REACT_APP_SITENAME,
+                            anime_name: anime.name
+                        })}
+                    desc={t('anime.metadata.description',
+                        {
+                            site_name: process.env.REACT_APP_SITENAME,
+                            anime_name: anime.name,
+                            anime_synopsis: anime.synopsis
+                        })}
                     url={animePage(anime.slug)}
                     content="video.tv_show"
                     image={anime.cover_art} />

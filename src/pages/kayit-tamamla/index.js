@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import axios from '../../config/axios/axios'
 import { getRegisterDone, getRegisterRefresh } from '../../config/api-routes'
 import { Typography, Button } from '@material-ui/core'
+import { useTranslation } from 'react-i18next'
 
 export default function KayitTamamla(props) {
+    const { t } = useTranslation('pages')
     const [refresh, setRefresh] = useState(false)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
@@ -66,22 +68,23 @@ export default function KayitTamamla(props) {
         <>
             <Typography variant="h3">
                 {!loading && !refresh && !error ?
-                    "Kayıt başarıyla tamamlandı." :
+                    t('registration_complete.warnings.successful') :
                     !loading && refresh && !error ?
                         getNewHash ?
                             <>
-                                Yeni link mailinize gönderildi.
+                                {t('complete_registration.warnings.resend_confirmation_email_successful')}
                             </>
                             :
                             <>
-                                Bu linkin süresi dolmuş. Yenisini istemek için lütfen aşağıdaki butona basın.
+                                {t('complete_registration.warnings.link_expired')}
                                 <Button variant="outlined" onClick={handleHashRefresh}>
-                                    Linki tekrar yolla
+                                    {t('complete_registration.warnings.resend_confirmation_email')}
                                 </Button>
                             </> :
                         !loading && error ?
-                            "İşleminizi tamamlarken bir sorunla karşılaştık." :
-                            "Kaydınız tamamlanıyor..."}
+                            t('complete_registration.warnings.error') :
+                            t('complete_registration.warnings.loading')
+                }
             </Typography>
         </>
     )

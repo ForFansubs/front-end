@@ -129,7 +129,8 @@ export default function EpisodePage(props) {
             episode_number: null,
             special_type: "",
             slug: "",
-            title: ""
+            title: "",
+            created_time: null
         })
         setActiveLink("")
         setWatchLinks([])
@@ -308,15 +309,15 @@ export default function EpisodePage(props) {
                                             </Typography>
                                             {activeEpisode.credits ?
                                                 <div>
-                                                    <Typography variant={mobile ? "body2" : "body1"} component="span"><b>Emektar: </b></Typography>
-                                                    <Typography variant={mobile ? "body2" : "body1"} component="span">{activeEpisode.credits}</Typography>
+                                                    <Typography variant="body1" component="span"><b>{t('episode.credits')}: </b></Typography>
+                                                    <Typography variant="body1" component="span">{activeEpisode.credits}</Typography>
                                                 </div>
                                                 :
                                                 ""
                                             }
                                             {activeEpisode.created_time ?
                                                 <div>
-                                                    <Typography variant={mobile ? "body2" : "body1"} component="span"><b>Eklenme Tarihi: </b></Typography>
+                                                    <Typography variant={mobile ? "body2" : "body1"} component="span"><b>{t('episode.added_at')}: </b></Typography>
                                                     <Typography variant={mobile ? "body2" : "body1"} component="span">{format(new Date(activeEpisode.created_time), "dd.MM.yyyy")}</Typography>
                                                 </div>
                                                 :
@@ -331,7 +332,7 @@ export default function EpisodePage(props) {
                         <Box>
                             <Link to={animePage(props.match.params.slug)}>
                                 <Button variant="contained" fullWidth>
-                                    Animeye git
+                                    {t('common:buttons.goto_anime')}
                                 </Button>
                             </Link>
                         </Box>
@@ -354,7 +355,7 @@ export default function EpisodePage(props) {
         return (
             <>
                 <Grid container>
-                    <Typography variant="h1">Bölüm bulunamadı.</Typography>
+                    <Typography variant="h1">{t('episode.warnings.no_episode_data')}</Typography>
                 </Grid>
             </>
         )

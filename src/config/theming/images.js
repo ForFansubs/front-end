@@ -1,6 +1,7 @@
 import fourOhFourGif from '../../static/404.gif'
-
 import bluray from '../../static/bluraylogo.png'
+import cursorPrevious from '../../static/cursor-previous.png'
+import cursorNext from '../../static/cursor-next.png'
 
 // Değişken görselleri tanımla.
 var logo = null
@@ -49,4 +50,4 @@ else {
     }
 }
 
-export { logo, fullLogo, fullLogoDark, fourOhFourGif, bluray, HeaderPlaceholder, CoverPlaceholder }
+export { fourOhFourGif, bluray, cursorPrevious, cursorNext, logo, fullLogo, fullLogoDark, HeaderPlaceholder, CoverPlaceholder }

@@ -105,7 +105,11 @@ const defaultBoxProps = {
 function EpisodeButton(props) {
     const classes = useStyles()
 
+    const { activeEpisode } = props
+
     let { slug, title, data } = EpisodeTitleParser(props.anime_name, props.episode_number, props.special_type)
+
+    console.log(props)
 
     return (
         <Button
@@ -113,7 +117,7 @@ function EpisodeButton(props) {
             fullWidth
             variant="outlined"
             onClick={() => props.handleEpisodeClick(slug, title, data, props.credits, props.created_time, props.id)}
-            color={props.special_type === props.activeEpisode.special_type && props.episode_number === props.activeEpisode.episode_number ? "secondary" : "default"}
+            color={props.special_type === activeEpisode.special_type && props.episode_number === activeEpisode.episode_number ? "secondary" : "default"}
             key={props.id}>
             {title}
         </Button>

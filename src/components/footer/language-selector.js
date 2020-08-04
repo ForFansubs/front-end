@@ -31,17 +31,16 @@ export default function LanguageSelector() {
     const setSettings = useDispatch('setSettings')
 
     const handleChange = (event) => {
-        console.log(event.target.value)
-
         setSettings("language", event.target.value || 'eng')
+        setOpen(true)
     };
 
     const handleClickOpen = () => {
-        setOpen(true);
+        setOpen(true)
     };
 
     const handleClose = () => {
-        setOpen(false);
+        setOpen(false)
     };
 
     return (

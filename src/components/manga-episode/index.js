@@ -68,8 +68,7 @@ const useStyles = makeStyles(theme => ({
         bottom: 0
     },
     ImageOverlay: {
-        width: "50%",
-        cursor: "pointer"
+        width: "50%"
     }
 }))
 
