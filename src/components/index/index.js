@@ -29,18 +29,18 @@ const useStyles = makeStyles(theme => ({
     },
     EpisodeContainer: {
         display: "grid",
-        gridTemplateColumns: "repeat(8, 1fr)",
+        gridTemplateColumns: "repeat(9, 1fr)",
         gridTemplateRows: "repeat(1, 1fr)",
         gap: `${theme.spacing(2)}px`,
-        gridTemplateAreas: `". . . . . . . ." ". . . . . . . ."`,
+        gridTemplateAreas: `". . . . . . . . ." ". . . . . . . . ."`,
     },
     [theme.breakpoints.down("md")]: {
         EpisodeContainer: {
             display: "grid",
-            gridTemplateColumns: "repeat(5, 1fr)",
+            gridTemplateColumns: "repeat(6, 1fr)",
             gridTemplateRows: "repeat(1, 1fr)",
             gap: `${theme.spacing(2)}px`,
-            gridTemplateAreas: `". . . . ."`,
+            gridTemplateAreas: `". . . . . ."`,
         },
         Title: {
             "& h2": {

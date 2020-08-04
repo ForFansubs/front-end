@@ -2,9 +2,9 @@
 import './config/polyfills'
 import React, { setGlobal, addReducer, useGlobal } from 'reactn'
 import ReactDOM from 'react-dom'
-import addReactNDevTools from 'reactn-devtools'
 import { indexURL } from './config/api-routes'
 import axios from './config/axios/axios'
+import i18next from './config/i18n'
 
 import './index.scss'
 
@@ -14,17 +14,8 @@ import getTheme from './config/theming/index'
 
 import App from './App'
 import * as serviceWorker from './serviceWorker'
-import { I18nextProvider } from "react-i18next";
-import i18next from "i18next";
 import ToastNotification, { payload } from './components/toastify/toast';
-
-// Import locale files
-import common_tr from './locales/tr/common.json'
-import pages_tr from './locales/tr/pages.json'
-import components_tr from './locales/tr/components.json'
-
-//Initiate program & define version
-addReactNDevTools()
+import { I18nextProvider } from 'react-i18next'
 
 //Try reading localStorage before using it
 try {
@@ -54,6 +45,13 @@ const settings = localStorage.getItem("app-settings") ? JSON.parse(localStorage.
 const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
 const motd = JSON.parse(localStorage.getItem("motd")) ? JSON.parse(localStorage.getItem("motd")) : []
 
+//Change non-nullable keys with defaults
+settings.theme = settings.theme ? settings.theme : window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+settings.readingStyle = settings.readingStyle ? settings.readingStyle : "pagebypage"
+settings.language = settings.language ? settings.language : (navigator.language || navigator.userLanguage) || process.env.REACT_APP_DEFAULT_LANG
+settings.version = settings.version ? settings.version : "null"
+settings["release-name"] = settings["release-name"] ? settings["release-name"] : "null"
+
 //Set global variables & reducers via reactn package
 setGlobal({
     user: user ? user : {
@@ -64,9 +62,7 @@ setGlobal({
         success: false
     },
     settings: {
-        ...settings,
-        readingStyle: settings.readingStyle ? settings.readingStyle : "pagebypage",
-        language: settings.language ? settings.language : "tr"
+        ...settings
     },
     motd: motd,
     showModal: "",
@@ -96,14 +92,16 @@ addReducer('checkMobile', (global, dispatch, navigator) => {
 
 addReducer('setOnline', (global, dispatch, data) => {
     if (!data) return ({ online: false })
-    else return ({
-        online: true,
-        settings: {
-            ...global.settings,
+    else {
+        dispatch.setVersions({
             version: data.version,
             "release-name": data["release-name"]
         }
-    })
+        )
+        return ({
+            online: true
+        })
+    }
 })
 
 addReducer('loginHandler', (global, dispatch, userData) => {
@@ -153,6 +151,20 @@ addReducer('setTheme', (global, dispatch, type) => {
 addReducer('setSettings', (global, dispatch, key, value) => {
     const settings = global.settings
     settings[key] = value
+
+    if (key === "language") {
+        i18next.changeLanguage(value)
+    }
+
+    localStorage.setItem('app-settings', JSON.stringify(settings))
+    return ({ settings: settings })
+})
+
+addReducer('setVersions', (global, dispatch, versions) => {
+    var settings = global.settings
+
+    settings = { ...settings, ...versions }
+
     localStorage.setItem('app-settings', JSON.stringify(settings))
     return ({ settings: settings })
 })
@@ -161,7 +173,6 @@ addReducer('setMotd', (global, dispatch, motd_id) => {
     const motd = global.motd
     motd.push(motd_id)
     localStorage.setItem('motd', JSON.stringify(motd))
-    console.log(motd)
     return ({ motd: motd })
 })
 
@@ -175,24 +186,7 @@ addReducer('checkAdmin', (global, dispatch, token) => {
         .catch(_ => dispatch.setAdmin(false))
 })
 
-if (!settings.theme) {
-    settings.theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
-}
-
 localStorage.setItem("app-settings", JSON.stringify(settings))
-
-i18next.init({
-    interpolation: { escapeValue: false },
-    lng: process.env.REACT_APP_DEFAULT_LANG || "tr",
-    supportedLngs: ["tr", "en"],
-    resources: {
-        tr: {
-            common: common_tr,
-            pages: pages_tr,
-            components: components_tr
-        }
-    }
-});
 
 function Mount() {
     const [theme] = useGlobal('theme')

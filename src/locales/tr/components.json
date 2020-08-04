@@ -17,5 +17,14 @@
             "short": "Ekip Alımları",
             "logo": "EA"
         }
+    },
+    "footer": {
+        "release_name": "Yayın ismi",
+        "language": "Dil",
+        "change_language": "Dili değiştir",
+        "select_the_language_you_wish_to_use": "Kullanmak istediğiniz dili seçin"
+    },
+    "disqus": {
+        "open_comments": "Yorumları aç"
     }
 }

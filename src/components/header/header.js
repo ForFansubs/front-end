@@ -26,6 +26,7 @@ import SecondMenuItems from '../../config/drawer_items'
 
 export default function MiniDrawer() {
     const { t } = useTranslation('components');
+    const [settings] = useGlobal('settings')
     const classes = useStyles();
     const theme = useTheme();
     // eslint-disable-next-line
@@ -39,36 +40,40 @@ export default function MiniDrawer() {
     const profileMenu = Boolean(anchorEl);
 
     const [open, setOpen] = React.useState(false);
-    const [menuItems, setMenuItems] = React.useState([
-        {
-            text: t('header.index.default'),
-            shortText: t('header.index.short'),
-            link: indexPage,
-            show: true,
-            icon: <HomeIcon />
-        },
-        {
-            text: t('header.search.default'),
-            shortText: t('header.search.short'),
-            link: searchPage,
-            show: true,
-            icon: <SearchIcon />
-        },
-        {
-            text: t('header.faq.default'),
-            shortText: t('header.faq.short'),
-            link: faqPage,
-            show: process.env.REACT_APP_SSS_PAGE === "true" ? true : false,
-            icon: <InfoIcon />
-        },
-        {
-            text: t('header.recruitment.default'),
-            shortText: t('header.recruitment.short'),
-            link: recPage,
-            show: true,
-            icon: <h2>{t('header.recruitment.logo')}</h2>
-        }
-    ])
+    const [menuItems, setMenuItems] = React.useState([])
+
+    useEffect(() => {
+        setMenuItems([
+            {
+                text: t('header.index.default'),
+                shortText: t('header.index.short'),
+                link: indexPage,
+                show: true,
+                icon: <HomeIcon />
+            },
+            {
+                text: t('header.search.default'),
+                shortText: t('header.search.short'),
+                link: searchPage,
+                show: true,
+                icon: <SearchIcon />
+            },
+            {
+                text: t('header.faq.default'),
+                shortText: t('header.faq.short'),
+                link: faqPage,
+                show: process.env.REACT_APP_SSS_PAGE === "true" ? true : false,
+                icon: <InfoIcon />
+            },
+            {
+                text: t('header.recruitment.default'),
+                shortText: t('header.recruitment.short'),
+                link: recPage,
+                show: true,
+                icon: <h2>{t('header.recruitment.logo')}</h2>
+            }
+        ])
+    }, [settings.language])
 
     useEffect(() => {
         if (ExtraPagesList.length) {

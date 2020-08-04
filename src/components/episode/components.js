@@ -1,4 +1,7 @@
-import { makeStyles } from '@material-ui/core'
+import React from 'react'
+import { Button, makeStyles } from '@material-ui/core'
+import { useTranslation } from 'react-i18next'
+import EpisodeTitleParser from '../../config/episode-title-parser'
 
 const useStyles = makeStyles(theme => ({
     Container: {
@@ -95,27 +98,30 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-function EpisodeListParser(episodenumber, specialtype) {
-    if (specialtype && specialtype !== "toplu") {
-        return {
-            title: `${specialtype.toUpperCase()} ${episodenumber}`,
-            slug: `${specialtype}${episodenumber}`,
-            data: `${specialtype}-${episodenumber}`
-        }
-    }
-    else return {
-        title: `${episodenumber}. Bölüm`,
-        slug: `bolum${episodenumber}`,
-        data: `bolum-${episodenumber}`
-    }
-}
-
 const defaultBoxProps = {
     boxShadow: 2, bgcolor: "background.paper"
 }
 
+function EpisodeButton(props) {
+    const classes = useStyles()
+
+    let { slug, title, data } = EpisodeTitleParser(props.anime_name, props.episode_number, props.special_type)
+
+    return (
+        <Button
+            className={classes.EpisodeButtons}
+            fullWidth
+            variant="outlined"
+            onClick={() => props.handleEpisodeClick(slug, title, data, props.credits, props.created_time, props.id)}
+            color={props.special_type === props.activeEpisode.special_type && props.episode_number === props.activeEpisode.episode_number ? "secondary" : "default"}
+            key={props.id}>
+            {title}
+        </Button>
+    )
+}
+
 export {
     useStyles,
-    EpisodeListParser,
+    EpisodeButton,
     defaultBoxProps
 }

@@ -3,8 +3,10 @@ import Disqus from 'disqus-react';
 
 import { Box, Button } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
+import { useTranslation } from 'react-i18next';
 
 export default function DisqusBox(props) {
+    const { t } = useTranslation('components')
     const [comments, setComments] = useState(false)
     const { config, withButton } = props
 
@@ -19,17 +21,12 @@ export default function DisqusBox(props) {
             <>
                 {comments ?
                     <>
-                        <Box boxShadow={2} p={2} mb={2} bgcolor="background.level1" textAlign="center">
-                            <Typography variant="h5">Yorum Kuralları</Typography>
-                            <Typography variant="body1">Küfür etmek yasaktır.</Typography>
-                            <Typography variant="body1">Spoiler vermek yasaktır.</Typography>
-                        </Box>
                         <Disqus.DiscussionEmbed shortname={process.env.REACT_APP_DISQUS_SHORTNAME} config={config} />
                     </>
                     :
                     <Box textAlign="center">
                         <Button variant="outlined" onClick={() => setComments(true)}>
-                            <Typography variant="h6">Yorumları aç</Typography>
+                            <Typography variant="h6">{t('disqus.open_comments')}</Typography>
                         </Button>
                     </Box>
                 }
@@ -39,11 +36,6 @@ export default function DisqusBox(props) {
     else {
         return (
             <>
-                <Box boxShadow={2} p={2} mb={2} bgcolor="background.level1" textAlign="center">
-                    <Typography variant="h5">Yorum Kuralları</Typography>
-                    <Typography variant="body1">Küfür etmek yasaktır.</Typography>
-                    <Typography variant="body1">Spoiler vermek yasaktır.</Typography>
-                </Box>
                 <Disqus.DiscussionEmbed shortname={process.env.REACT_APP_DISQUS_SHORTNAME} config={config} />
             </>
         )

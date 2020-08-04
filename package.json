@@ -17,6 +17,7 @@
     "cron": "^1.8.2",
     "date-fns": "^2.14.0",
     "disqus-react": "^1.0.8",
+    "flag-icon-css": "^3.5.0",
     "i18next": "^19.6.3",
     "lodash": "^4.17.15",
     "lodash-es": "^4.17.15",

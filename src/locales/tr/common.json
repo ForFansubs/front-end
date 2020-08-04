@@ -3,7 +3,14 @@
         "anime": "Anime",
         "anime_prular": "Animeler",
         "manga": "Manga",
-        "manga_prular": "Mangalar"
+        "manga_prular": "Mangalar",
+        "language": "Dil",
+        "ok": "Tamam",
+        "change": "Değiştir",
+        "cancel": "İptal Et"
+    },
+    "episode": {
+        "episode_title": "{{episode_number}}. Bölüm"
     },
     "metadata": {}
 }

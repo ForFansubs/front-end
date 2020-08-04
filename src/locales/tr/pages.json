@@ -35,19 +35,29 @@
     },
     "anime": {
         "metadata": {
-            "title": "{{site_name}} {{anime_name}} Türkçe İzle & İndir",
+            "title": "{{anime_name}} Türkçe İzle & İndir - {{site_name}}",
             "description": "{{anime_name}} Türkçe İzle & İndir - {{anime_synopsis}} - {{site_name}}"
         }
     },
     "manga": {
         "metadata": {
-            "title": "{{site_name}} {{manga_name}} Türkçe Oku & İndir",
-            "description": "{{manga_name}} Türkçe İzle & İndir - {{manga_synopsis}} - {{site_name}}"
+            "title": "{{manga_name}} Türkçe Oku & İndir - {{site_name}}",
+            "description": "{{manga_name}} Türkçe Oku & İndir - {{manga_synopsis}} - {{site_name}}"
         }
     },
     "recruitment": {
         "metadata": {
             "title": "Ekip Alımları - {{site_name}}"
+        }
+    },
+    "episode": {
+        "warnings": {
+            "links_not_found": "Link bulunamadı.",
+            "please_select_episode": "Lütfen bölüm seçin."
+        },
+        "metadata": {
+            "title": "{{anime_name}} {{episode_title}} Türkçe İzle - {{site_name}} Anime",
+            "description": "{{anime_name}} {{episode_title}} Türkçe İzle ve İndir - {{site_name}} Anime İzle"
         }
     }
 }

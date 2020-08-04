@@ -7,7 +7,7 @@ import { Grid, Typography, makeStyles } from '@material-ui/core'
 import { grey } from '@material-ui/core/colors'
 
 import Format from '../../date-fns/format'
-import episodeTitleParser from '../../../config/episode-title-parser'
+import EpisodeTitleParser from '../../../config/episode-title-parser'
 import { CoverPlaceholder } from '../../../config/theming/images'
 import { contentCover } from '../../../config/api-routes'
 import { useState } from 'reactn'
@@ -47,7 +47,7 @@ export default function LatestEpisode(props) {
     const { anime_name, episode_number, special_type, cover_art, created_by } = props
     const [imageError, setImageError] = useState(false)
 
-    const episodeInfo = episodeTitleParser(anime_name, episode_number, special_type)
+    const episodeInfo = EpisodeTitleParser(anime_name, episode_number, special_type)
 
     const formattedDate = Format(new Date(props.created_time)).toUpperCase()
 
