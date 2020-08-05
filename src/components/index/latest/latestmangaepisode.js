@@ -11,6 +11,7 @@ import { CoverPlaceholder } from '../../../config/theming/images'
 import { contentCover } from '../../../config/api-routes'
 import { useState } from 'reactn'
 import { Skeleton } from '@material-ui/lab'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
     Container: {
@@ -41,6 +42,7 @@ export const LoadingDivMangaEpisode = (key) =>
     <Skeleton width="100%" style={{ paddingBottom: "140%" }} variant="rect" />
 
 export default function LatestMangaEpisode(props) {
+    const { t } = useTranslation('common')
     const classes = useStyles()
     const { manga_name, manga_cover, manga_slug, episode_number, episode_name, created_by, created_time } = props
     const [imageError, setImageError] = useState(false)
@@ -60,11 +62,11 @@ export default function LatestMangaEpisode(props) {
                                 img.target.src = manga_cover
                                 setImageError(true)
                             }}
-                            alt={`${manga_name} Poster Resmi`} />
+                            alt={`${manga_name} Cover Art`} />
                     </Grid>
                     <Grid item xs={12} className={classes.Metadata}>
                         <Typography variant="body2">
-                            {episode_number}. Bölüm{episode_name ? `: ${episode_name}` : ""}
+                            {t('episode.episode_title', { episode_number: episode_number })}{episode_name ? `: ${episode_name}` : ""}
                         </Typography>
                         <Typography variant="subtitle2">
                             {formattedDate} - {created_by}

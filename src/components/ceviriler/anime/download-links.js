@@ -7,6 +7,7 @@ import { getEpisodeDownloadLinks } from '../../../config/api-routes'
 import { Typography } from '@material-ui/core';
 import WarningBox from '../../warningerrorbox/warning';
 import { Skeleton } from '@material-ui/lab';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
     Container: {
@@ -67,6 +68,8 @@ export default function DownloadLink(props) {
     }
 
     function DownloadLinkContainer() {
+        const { t } = useTranslation('components')
+
         if (!loading && data.length !== 0)
             return (
                 data.map((d, i) => (
@@ -86,7 +89,7 @@ export default function DownloadLink(props) {
             )
 
         else if (!loading && data.length === 0)
-            return <WarningBox bgcolor="background.level1">Link bulunamadı.</WarningBox>
+            return <WarningBox bgcolor="background.level1">{t('translations.warnings.not_found_download_links')}</WarningBox>
 
         else return (
             <div>

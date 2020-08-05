@@ -9,8 +9,8 @@ import components_tr from '../locales/tr/components.json'
 i18next
     .use(initReactI18next)
     .init({
-        debug: true,
-        logging: true,
+        debug: process.env.NODE_ENV === "development" ? true : false,
+        logging: process.env.NODE_ENV === "development" ? true : false,
         interpolation: { escapeValue: true },
         lng: JSON.parse(localStorage.getItem('app-settings')).language,
         supportedLngs: ["tr", "en"],

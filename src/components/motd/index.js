@@ -5,6 +5,7 @@ import { Close as CloseIcon } from '@material-ui/icons'
 import axios from '../../config/axios/axios'
 import Markdown from '../markdown/markdown'
 import { getMotdInfo } from '../../config/api-routes'
+import { useTranslation } from 'react-i18next'
 
 
 const useStyles = makeStyles(theme => ({
@@ -26,6 +27,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function MotdContainer(props) {
+    const { t } = useTranslation('components')
     const classes = useStyles()
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
@@ -68,7 +70,7 @@ export default function MotdContainer(props) {
                         :
                         ""}
                     <Markdown>
-                        {d.subtitle ? d.subtitle : "**Bir sorun var? (Bu bir sistem mesajıdır.)**"}
+                        {d.subtitle ? d.subtitle : t('motd.warnings.error')}
                     </Markdown>
                     {d.can_user_dismiss ?
                         <Button onClick={() => setMotd(d.id)} size="small" className={classes.CloseButton}>
@@ -77,6 +79,7 @@ export default function MotdContainer(props) {
                         : ""}
                 </div>
             )
+            return null
         })
     }
 

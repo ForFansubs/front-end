@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom'
 import { Typography, makeStyles } from '@material-ui/core'
 
 import { fourOhFourGif } from '../../config/theming/images'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
     Container: {
@@ -22,6 +23,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function FourOhFourPage() {
+    const { t } = useTranslation('components')
     const classes = useStyles()
 
     const [redirect, setRedirect] = useState(false)
@@ -36,11 +38,11 @@ export default function FourOhFourPage() {
             <div className={classes.Container}>
                 <img src={fourOhFourGif} className={classes.Image} alt="404gif" />
                 <Typography variant="h4">
-                    Aradığınız sayfayı bulamadık, kaldırılmış olabilir.
-                    </Typography>
+                    {t('404.header_text')}
+                </Typography>
                 <Typography variant="body1">
-                    10 saniye içerisinde ana sayfaya yönlendirileceksiniz.
-                    </Typography>
+                    {t('404.subtitle_text')}
+                </Typography>
             </div>
         </>
     )

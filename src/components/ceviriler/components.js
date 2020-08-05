@@ -8,10 +8,12 @@ import { bluray, CoverPlaceholder } from "../../config/theming/images"
 import { getAnimeWatchIndex, mangaEpisodePage } from "../../config/front-routes"
 import { contentHeader, contentLogo, contentCover } from "../../config/api-routes"
 
-import { format } from "date-fns"
 import WarningBox from "../warningerrorbox/warning"
 import DownloadLink from "./anime/download-links"
 import MotdContainer from "../motd"
+import EpisodeTitleParser from "../../config/episode-title-parser"
+import { useTranslation } from "react-i18next"
+import Format from "../date-fns/format"
 
 const useStyles = makeStyles((theme) => ({
     Container: {
@@ -159,16 +161,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-function episodeParser(episodenumber, specialtype) {
-    if (specialtype === "toplu")
-        return `TOPLU LİNK ${episodenumber === "0" ? "" : episodenumber}`
-
-    if (specialtype && specialtype !== "toplu") {
-        return `${specialtype.toUpperCase()} ${episodenumber}`
-    } else return `${episodenumber}. Bölüm`
-}
-
 function AdultModal(props) {
+    const { t } = useTranslation('components')
     const classes = useStyles()
     const { open, handleClose } = props
 
@@ -185,20 +179,18 @@ function AdultModal(props) {
         <Modal
             className={classes.Modal}
             open={open}
-            aria-labelledby="+18 İçerik"
-            aria-describedby="+18 içeriğe ulaşmak üzeresiniz..."
         >
             <div className={classes.ModalContainer}>
                 <Typography variant="body1" gutterBottom>
-                    +18 ögelere sahip bir içeriğe ulaşmak istediniz, devam etmek istiyor musunuz?
+                    {t('translations.warnings.+18.header_text')}
                 </Typography>
                 <Link to="/">
                     <Button variant="outlined" style={{ marginRight: 8 }}>
-                        Ana sayfaya dön
+                        {t('translations.buttons.+18.no')}
                     </Button>
                 </Link>
                 <Button variant="outlined" style={{ color: "red" }} onClick={handleClose}>
-                    Evet
+                    {t('translations.buttons.+18.yes')}
                 </Button>
             </div>
         </Modal>
@@ -206,25 +198,27 @@ function AdultModal(props) {
 }
 
 function MetadataContainer(props) {
-    const { title, titleM, list } = props
+    const { t } = useTranslation('components')
+    const { title, list } = props
 
     return (
         <Box mr={1}>
             <Typography variant="body1" component="span">
-                <b>{list.length > 1 ? `${titleM}: ` : `${title}: `}</b>
+                <b>{title}: </b>
             </Typography>
             {list.length !== 0 ? (
                 <Typography variant="body1" component="span">
                     {list.join(", ")}
                 </Typography>
             ) : (
-                    <Typography variant="body1">${title} bulunamadı.</Typography>
+                    <Typography variant="body1">{t('translations.warnings.content_metadata.not_found', { title: title })}</Typography>
                 )}
         </Box>
     )
 }
 
 function AnimePage(props) {
+    const { t } = useTranslation(['components', 'common'])
     const {
         id,
         name,
@@ -253,7 +247,7 @@ function AnimePage(props) {
         data.can_user_download && data.special_type === "toplu" ? (
             <DownloadLink
                 key={data.id}
-                title={episodeParser(data.episode_number, data.special_type)}
+                title={EpisodeTitleParser(data.anime_name, data.episode_number, data.special_type).title}
                 animeslug={slug}
                 episodeid={data.id}
             />
@@ -264,7 +258,7 @@ function AnimePage(props) {
         data.can_user_download && data.special_type !== "toplu" ? (
             <DownloadLink
                 key={data.id}
-                title={episodeParser(data.episode_number, data.special_type)}
+                title={EpisodeTitleParser(data.anime_name, data.episode_number, data.special_type).title}
                 animeslug={slug}
                 episodeid={data.id}
             />
@@ -323,34 +317,29 @@ function AnimePage(props) {
                                     variant="body1"
                                     className={classes.SynopsisContainer}
                                 >
-                                    {synopsis ? synopsis : "Konu bulunamadı."}
+                                    {synopsis ? synopsis : t('common:warnings.not_found_synopsis')}
                                 </Typography>
                             </Box>
                             <Box display="flex" flexWrap="wrap">
                                 <MetadataContainer
-                                    title="Çevirmen"
-                                    titleM="Çevirmenler"
+                                    title={t('common:ns.translator', { count: translators.length })}
                                     list={translators}
                                 />
                                 <MetadataContainer
-                                    title="Encoder"
-                                    titleM="Encoderlar"
+                                    title={t('common:ns.encoder', { count: encoders.length })}
                                     list={encoders}
                                 />
                             </Box>
                             <Box display="flex" flexWrap="wrap">
                                 <MetadataContainer
-                                    title="Stüdyo"
-                                    titleM="Stüdyolar"
+                                    title={t('common:ns.studio', { count: studios.length })}
                                     list={studios}
                                 />
                                 <MetadataContainer
-                                    title="Çıkış Tarihi"
-                                    titleM=""
+                                    title={t('common:ns.release_date')}
                                     list={[
-                                        format(
-                                            new Date(release_date),
-                                            "dd.MM.yyyy"
+                                        Format(
+                                            new Date(release_date)
                                         ),
                                     ]}
                                 />
@@ -363,7 +352,7 @@ function AnimePage(props) {
                                             size="large"
                                             className={classes.ContentButton}
                                         >
-                                            İzle
+                                            {t('common:ns.watch')}
                                         </Button>
                                     </Link>
                                 ) : null}
@@ -378,7 +367,7 @@ function AnimePage(props) {
                                             size="large"
                                             className={classes.ContentButton}
                                         >
-                                            MyAnimeList Konusu
+                                            {t('common:ns.mal_page')}
                                         </Button>
                                     </a>
                                 ) : null}
@@ -425,22 +414,19 @@ function AnimePage(props) {
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={4}>
                             <MetadataContainer
-                                title="Tür"
-                                titleM="Türler"
+                                title={t('common:ns.genre', { count: genres.length })}
                                 list={genres}
                             />
                         </Grid>
                         <Grid item xs={12} md={4}>
                             <MetadataContainer
-                                title="Seri Durumu"
-                                titleM="Seri Durumu"
-                                list={[series_status, `${episode_count} Bölüm`]}
+                                title={t('common:ns.series_status')}
+                                list={episode_count ? [series_status, t('translations.anime.series_status', { episode_count: episode_count })] : [series_status]}
                             />
                         </Grid>
                         <Grid item xs={12} md={4}>
                             <MetadataContainer
-                                title="Çeviri Durumu"
-                                titleM=""
+                                title={t('common:ns.trans_status')}
                                 list={[trans_status]}
                             />
                         </Grid>
@@ -451,7 +437,7 @@ function AnimePage(props) {
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <Typography variant="h4" gutterBottom>
-                                    İndirme Linkleri
+                                    {t('translations.anime.download_links')}
                                 </Typography>
                                 <ul>
                                     {batchLinks.length !== 0 ? (
@@ -471,7 +457,7 @@ function AnimePage(props) {
                                         downloadLinks
                                     ) : batchLinks.length !== 0 ? null : (
                                         <WarningBox>
-                                            İndirme linki bulunamadı.
+                                            {t('translations.warnings.anime.not_found_download_links')}
                                         </WarningBox>
                                     )}
                                 </ul>
@@ -499,6 +485,7 @@ function AnimePage(props) {
 }
 
 function MangaPage(props) {
+    const { t } = useTranslation(['components', 'common'])
     const { id, name, slug, cover_art, translators, editors, authors, release_date, genres, mal_link, synopsis, mos_link, download_link, series_status, trans_status, episode_count } = props
     const classes = useStyles(props)
     const [headerError, setHeaderError] = useState(false)
@@ -544,34 +531,29 @@ function MangaPage(props) {
                                     variant="body1"
                                     className={classes.SynopsisContainer}
                                 >
-                                    {synopsis ? synopsis : "Konu bulunamadı."}
+                                    {synopsis ? synopsis : t('common:warnings.not_found_synopsis')}
                                 </Typography>
                             </Box>
                             <Box display="flex" flexWrap="wrap">
                                 <MetadataContainer
-                                    title="Çevirmen"
-                                    titleM="Çevirmenler"
+                                    title={t('common:ns.translator', { count: translators.length })}
                                     list={translators}
                                 />
                                 <MetadataContainer
-                                    title="Editör"
-                                    titleM="Editörler"
+                                    title={t('common:ns.editor', { count: editors.length })}
                                     list={editors}
                                 />
                             </Box>
                             <Box display="flex" flexWrap="wrap">
                                 <MetadataContainer
-                                    title="Yazar"
-                                    titleM="Yazarlar"
+                                    title={t('common:ns.author', { count: authors.length })}
                                     list={authors}
                                 />
                                 <MetadataContainer
-                                    title="Çıkış Tarihi"
-                                    titleM=""
+                                    title={t('common:ns.release_date')}
                                     list={[
-                                        format(
-                                            new Date(release_date),
-                                            "dd.MM.yyyy"
+                                        Format(
+                                            new Date(release_date)
                                         ),
                                     ]}
                                 />
@@ -588,7 +570,7 @@ function MangaPage(props) {
                                             size="large"
                                             className={classes.ContentButton}
                                         >
-                                            İndir
+                                            {t('common:ns.download')}
                                         </Button>
                                     </a>
                                 ) : null}
@@ -603,7 +585,7 @@ function MangaPage(props) {
                                             size="large"
                                             className={classes.ContentButton}
                                         >
-                                            Oku
+                                            {t('common:ns.read')}
                                         </Button>
                                     </a>
                                 )
@@ -615,8 +597,8 @@ function MangaPage(props) {
                                                 size="large"
                                                 className={classes.ContentButton}
                                             >
-                                                Oku
-                                    </Button>
+                                                {t('common:ns.read')}
+                                            </Button>
                                         </Link>
                                         :
                                         ""
@@ -632,7 +614,7 @@ function MangaPage(props) {
                                             size="large"
                                             className={classes.ContentButton}
                                         >
-                                            MyAnimeList Konusu
+                                            {t('common:ns.mal_page')}
                                         </Button>
                                     </a>
                                 ) : null}
@@ -679,22 +661,19 @@ function MangaPage(props) {
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={4}>
                             <MetadataContainer
-                                title="Tür"
-                                titleM="Türler"
+                                title={t('common:ns.genre', { count: genres.length })}
                                 list={genres}
                             />
                         </Grid>
                         <Grid item xs={12} md={4}>
                             <MetadataContainer
-                                title="Seri Durumu"
-                                titleM="Seri Durumu"
+                                title={t('common:ns.series_status')}
                                 list={[series_status]}
                             />
                         </Grid>
                         <Grid item xs={12} md={4}>
                             <MetadataContainer
-                                title="Çeviri Durumu"
-                                titleM=""
+                                title={t('common:ns.trans_status')}
                                 list={[trans_status]}
                             />
                         </Grid>
@@ -721,4 +700,4 @@ function MangaPage(props) {
     )
 }
 
-export { AnimePage, MangaPage, episodeParser }
+export { AnimePage, MangaPage }

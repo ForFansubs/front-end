@@ -1,5 +1,8 @@
 import format from 'date-fns/format'
+import { useTranslation } from 'react-i18next'
 
 export default function Format(time) {
-    return format(time, "dd.MM.yyyy")
+    const { t } = useTranslation('common')
+
+    return format(time, t('date_format'))
 }

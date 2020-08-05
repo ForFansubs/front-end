@@ -29,8 +29,8 @@
             "end_of_list": "Liste sonu"
         },
         "metadata": {
-            "title": "{{site_name}} Anime & Manga Ara Türkçe İzle & Oku",
-            "description": "{{site_name}} Anime ve Manga arama motoru. Türlere göre anime ve manga arayabilir, konularına göz atabilirsiniz."
+            "title": "Anime & Manga Ara Türkçe İzle & Oku - {{site_name}}",
+            "description": "Anime ve Manga arama motoru. Türlere göre anime ve manga arayabilir, konularına göz atabilirsiniz. - {{site_name}}"
         }
     },
     "anime": {
@@ -48,6 +48,10 @@
     "recruitment": {
         "metadata": {
             "title": "Ekip Alımları - {{site_name}}"
+        },
+        "buttons": {
+            "not_recruiting": "Alımlar kapalı",
+            "apply_for_recruiting": "Başvuru için tıklayın"
         }
     },
     "episode": {
@@ -88,5 +92,8 @@
         "img_alt": "{{manga_name}} {{episode_number}}. Bölüm {{page_number}}. Sayfa",
         "previous_page": "Önceki Sayfa",
         "next_page": "Sonraki Sayfa"
+    },
+    "faq": {
+        "header_text": "Sıkça Sorulan Sorular"
     }
 }

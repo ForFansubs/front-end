@@ -7,6 +7,7 @@ import ToastNotification from '../toastify/toast'
 
 import axios from '../../config/axios/axios'
 import { loginRoute } from '../../config/api-routes';
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
     ModalContainer: {
@@ -39,6 +40,7 @@ const errContainerModel = {
 }
 
 export default function LoginModal() {
+    const { t } = useTranslation('')
     const classes = useStyles()
 
     const setUser = useDispatch('loginHandler')
@@ -67,7 +69,7 @@ export default function LoginModal() {
                 setErrContainer(errContainerModel)
             })
             .catch(err => {
-                console.log(err.response)
+                console.log(err)
                 const errors = err.response ? err.response.data : ""
                 const payload = {
                     container: "login-error",

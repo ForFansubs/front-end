@@ -257,16 +257,16 @@ export default function MiniDrawer() {
                                     isAdmin ?
                                         <>
                                             <a href={adminPage} target="_blank" rel="noopener noreferrer">
-                                                <MenuItem>Admin paneli</MenuItem>
+                                                <MenuItem>{t('common:ns.admin_panel')}</MenuItem>
                                             </a>
-                                            <MenuItem onClick={handleLogoutButton}>Çıkış yap</MenuItem>
+                                            <MenuItem onClick={handleLogoutButton}>{t('common:ns.logout')}</MenuItem>
                                         </>
                                         :
-                                        <MenuItem onClick={handleLogoutButton}>Çıkış yap</MenuItem>
+                                        <MenuItem onClick={handleLogoutButton}>{t('common:ns.logout')}</MenuItem>
                                     :
                                     <>
-                                        <MenuItem onClick={() => handleLoginRegisterButtons("login")}>Giriş yap</MenuItem>
-                                        <MenuItem onClick={() => handleLoginRegisterButtons("register")}>Kayıt ol</MenuItem>
+                                        <MenuItem onClick={() => handleLoginRegisterButtons("login")}>{t('common:ns.login')}</MenuItem>
+                                        <MenuItem onClick={() => handleLoginRegisterButtons("register")}>{t('common:ns.register')}</MenuItem>
                                     </>
                                 }
                             </div>

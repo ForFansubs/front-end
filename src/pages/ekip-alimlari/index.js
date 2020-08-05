@@ -42,8 +42,8 @@ export default function EkipAlimlariPage() {
                                 </Typography>
                                 <Button variant="outlined" href={b.link} target="_blank" fullWidth disabled={b.is_active === 0 ? true : false}>{
                                     b.is_active === 0 ?
-                                        "Alımlar kapalı" :
-                                        b.button_text ? b.button_text : "Başvuru için tıklayın"
+                                        t('recruitment.not_recruiting') :
+                                        b.button_text ? b.button_text : t('recruitment.apply_for_recruiting')
                                 }</Button>
                             </Box>
                         </Box>

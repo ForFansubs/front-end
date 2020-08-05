@@ -8,8 +8,10 @@ import Typography from '@material-ui/core/Typography'
 import SSS_TEXT from '../../config/sss_page_text'
 import Markdown from '../../components/markdown/markdown'
 import { Redirect } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function SSSPage() {
+    const { t } = useTranslation('pages')
     document.title = `SSS - ${process.env.REACT_APP_SITENAME}`
     ReactGA.pageview(window.location.pathname)
 
@@ -20,7 +22,7 @@ export default function SSSPage() {
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <Box bgcolor="background.paper" boxShadow={2} p={1} textAlign="center">
-                        <Typography variant="h2">Sıkça Sorulan Sorular</Typography>
+                        <Typography variant="h2">{t('faq.header_text')}</Typography>
                     </Box>
                 </Grid>
                 <Grid item xs={12}>

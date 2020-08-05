@@ -7,7 +7,36 @@
         "language": "Dil",
         "ok": "Tamam",
         "change": "Değiştir",
-        "cancel": "İptal Et"
+        "cancel": "İptal Et",
+        "translator": "Çevirmen",
+        "translator_plural": "Çevirmenler",
+        "encoder": "Encoder",
+        "encoder_plural": "Encoderlar",
+        "editor": "Editör",
+        "editor_plural": "Editörler",
+        "studio": "Stüdyo",
+        "studio_plural": "Stüdyolar",
+        "author": "Yazar",
+        "author_plural": "Yazarlar",
+        "release_date": "Çıkış tarihi",
+        "genre": "Tür",
+        "genre_plural": "Türler",
+        "series_status": "Seri Durumu",
+        "trans_status": "Çeviri Durumu",
+        "watch": "İzle",
+        "download": "İndir",
+        "read": "Oku",
+        "mal_page": "MyAnimeList Konusu",
+        "admin_panel": "Yönetim paneli",
+        "logout": "Çıkış yap",
+        "register": "Kayıt ol",
+        "login": "Giriş yap",
+        "dont_have_account": "Hesabın yok mu?",
+        "have_account": "Hesabın var mı?"
+    },
+    "warnings": {
+        "not_found_synopsis": "Konu bulunamadı.",
+        "not_found_premiered": "Çıkış dönemi bulunamadı."
     },
     "buttons": {
         "goto_anime": "Animeye git",
@@ -18,5 +47,6 @@
     "episode": {
         "episode_title": "{{episode_number}}. Bölüm"
     },
-    "metadata": {}
+    "metadata": {},
+    "date_format": "dd.MM.yyyy"
 }

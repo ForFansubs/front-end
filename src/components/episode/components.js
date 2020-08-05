@@ -104,12 +104,8 @@ const defaultBoxProps = {
 
 function EpisodeButton(props) {
     const classes = useStyles()
-
     const { activeEpisode } = props
-
     let { slug, title, data } = EpisodeTitleParser(props.anime_name, props.episode_number, props.special_type)
-
-    console.log(props)
 
     return (
         <Button

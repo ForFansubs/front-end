@@ -8,6 +8,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import { fullLogo, fullLogoDark } from '../../config/theming/images'
 
 import { makeStyles } from '@material-ui/core'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
     LogoContainer: {
@@ -21,6 +22,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function InitialLoading(props) {
+    const { t } = useTranslation('components')
     const { error } = props
     const [usertheme] = useGlobal('theme')
     const theme = useStyles()
@@ -31,10 +33,10 @@ export default function InitialLoading(props) {
             {error ?
                 <>
                     <Typography variant="h4">
-                        Sunucuyla bağlantı kuramadık :(
+                        {t('pre_screens.connection_error.header_text')}
                     </Typography>
                     <Typography variant="body1">
-                        Lütfen daha sonra tekrar deneyin...
+                        {t('pre_screens.connection_error.subtitle_text')}
                     </Typography>
 
                 </>

@@ -113,7 +113,7 @@ export default function LatestAniManga(props) {
                                 img.target.src = cover_art
                                 setImageError(true)
                             }}
-                            alt={`${name} Poster Resmi`} />
+                            alt={`${name} cover_art`} />
                     </Grid>
                     {mobile ?
                         <Grid item xs={12} className={classes.Title}>

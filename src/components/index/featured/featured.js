@@ -152,11 +152,11 @@ export default function Featured(props) {
                                 alt=""
                                 title={`${name} logo`} />}
                         <div className={classes.SynopsisContainer}>
-                            <Typography variant="body1">
-                                <Dotdotdot clamp={4} useNativeClamp>
+                            <Dotdotdot clamp={4} useNativeClamp>
+                                <Typography variant="body1">
                                     {synopsis.toUpperCase()}
-                                </Dotdotdot>
-                            </Typography>
+                                </Typography>
+                            </Dotdotdot>
                         </div>
                         <Typography variant="h6" component="ul" className={classes.GenreList}>
                             {genres.split(',').map(genre => <li key={name + genre} className={classes.GenreItem}>{genre}</li>)}

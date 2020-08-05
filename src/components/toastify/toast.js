@@ -5,6 +5,7 @@ import './toast.css';
 
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
+import i18next from '../../config/i18n'
 
 function Message(props) {
     const { message, overridemessage, onClick } = props
@@ -45,15 +46,15 @@ export default function ToastNotification(payload) {
 
     switch (container) {
         case "login-success":
-            return toast.success(({ closeToast }) => <Message type="success" onClick={onClickFunction || closeToast} message="Başarıyla giriş yaptınız!" overridemessage={message} />, config)
+            return toast.success(({ closeToast }) => <Message type="success" onClick={onClickFunction || closeToast} message={i18next.t('components:toastify.messages.login-success')} overridemessage={message} />, config)
         case "login-error":
-            return toast.success(({ closeToast }) => <Message type="error" onClick={onClickFunction || closeToast} message="İsteğinizi gerçekleştirirken bir sorunla karşılaştık." overridemessage={message} />, config)
+            return toast.success(({ closeToast }) => <Message type="error" onClick={onClickFunction || closeToast} message={i18next.t('components:toastify.messages.login-error')} overridemessage={message} />, config)
         case "register-success":
-            return toast.success(({ closeToast }) => <Message type="success" onClick={onClickFunction || closeToast} message="Başarıyla kayıt oldunuz! Lütfen emailinizi doğrulayın." overridemessage={message} />, config)
+            return toast.success(({ closeToast }) => <Message type="success" onClick={onClickFunction || closeToast} message={i18next.t('components:toastify.messages.register-success')} overridemessage={message} />, config)
         case "register-error":
-            return toast.success(({ closeToast }) => <Message type="error" onClick={onClickFunction || closeToast} message="Kaydınızı oluştururken bir sorunla karşılaştık." overridemessage={message} />, config)
+            return toast.success(({ closeToast }) => <Message type="error" onClick={onClickFunction || closeToast} message={i18next.t('components:toastify.messages.register-error')} overridemessage={message} />, config)
         case "logout-success":
-            return toast.success(({ closeToast }) => <Message type="success" onClick={onClickFunction || closeToast} message="Başarıyla çıkış yaptınız!" overridemessage={message} />, config)
+            return toast.success(({ closeToast }) => <Message type="success" onClick={onClickFunction || closeToast} message={i18next.t('components:toastify.messages.logout-success')} overridemessage={message} />, config)
         case "notification-success":
             return toast.success(({ closeToast }) => <Message type="success" onClick={onClickFunction || closeToast} overridemessage={message} />, config)
         default:

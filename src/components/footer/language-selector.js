@@ -13,13 +13,37 @@ import Select from '@material-ui/core/Select'
 import { makeStyles } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
 
-const useStyles = makeStyles((theme) => ({
+// Import country flags
+import countryFlagTR from 'flag-icon-css/flags/4x3/tr.svg'
+import countryFlagEN from 'flag-icon-css/flags/4x3/us.svg'
+
+const useStyles = makeStyles(theme => ({
     container: {
         display: 'flex',
         flexWrap: 'wrap'
     },
     formControl: {
         width: "100%"
+    },
+    MenuItem: {
+        display: "flex",
+        alignItems: "center",
+        "& img": {
+            marginRight: theme.spacing(1)
+        }
+    },
+    selectMenu: {
+        display: "flex",
+        alignItems: "center",
+        "& img": {
+            marginRight: theme.spacing(1)
+        }
+    },
+    dialogTitleRoot: {
+        padding: `${theme.spacing(2)}px ${theme.spacing(3)}px 0`
+    },
+    actionsSpacing: {
+        padding: `${theme.spacing(2)}px ${theme.spacing(3)}px`
     }
 }));
 
@@ -47,7 +71,7 @@ export default function LanguageSelector() {
         <>
             <Button onClick={handleClickOpen}>{t('footer.change_language')}</Button>
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>{t('footer.select_the_language_you_wish_to_use')}</DialogTitle>
+                <DialogTitle classes={{ root: classes.dialogTitleRoot }}>{t('footer.select_the_language_you_wish_to_use')}</DialogTitle>
                 <DialogContent>
                     <form className={classes.container}>
                         <FormControl className={classes.formControl}>
@@ -56,19 +80,20 @@ export default function LanguageSelector() {
                                 fullWidth
                                 value={settings.language}
                                 onChange={handleChange}
+                                classes={{ selectMenu: classes.selectMenu }}
                                 input={<Input id="language_selector" />}
                             >
-                                <MenuItem value={"tr"}>Türkçe</MenuItem>
-                                <MenuItem value={"en"}>English</MenuItem>
+                                <MenuItem value={"tr"} className={classes.MenuItem}><img src={countryFlagTR} height="21px" /> Türkçe</MenuItem>
+                                <MenuItem value={"en"} className={classes.MenuItem}><img src={countryFlagEN} height="21px" /> English</MenuItem>
                             </Select>
                         </FormControl>
                     </form>
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} color="primary">
+                <DialogActions classes={{ spacing: classes.actionsSpacing }}>
+                    <Button variant="outlined" onClick={handleClose} color="primary">
                         {t('common:ns.cancel')}
                     </Button>
-                    <Button onClick={handleClose} color="primary">
+                    <Button variant="outlined" onClick={handleClose} color="primary">
                         {t('common:ns.change')}
                     </Button>
                 </DialogActions>
