@@ -421,7 +421,7 @@ function AnimePage(props) {
                         <Grid item xs={12} md={4}>
                             <MetadataContainer
                                 title={t('common:ns.series_status')}
-                                list={episode_count ? [series_status, t('translations.anime.series_status', { episode_count: episode_count })] : [series_status]}
+                                list={episode_count ? [series_status, t('translations.anime.series_status', { episode_count: episode_count, count: episode_count })] : [series_status]}
                             />
                         </Grid>
                         <Grid item xs={12} md={4}>

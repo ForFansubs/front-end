@@ -7,6 +7,7 @@ import ToastNotification from '../toastify/toast'
 
 import axios from '../../config/axios/axios'
 import { registerRoute } from '../../config/api-routes';
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
     ModalContainer: {
@@ -41,6 +42,7 @@ const errContainerModel = {
 }
 
 export default function RegisterModal() {
+    const { t } = useTranslation(['components', 'common'])
     const classes = useStyles()
 
     const [showModal, setShowModal] = useGlobal('showModal')
@@ -110,7 +112,7 @@ export default function RegisterModal() {
                             id="email"
                             error={errContainer.email ? true : false}
                             helperText={errContainer.email ? errContainer.email : ""}
-                            label="E-mail"
+                            label={t('common:ns.email')}
                             value={userInfo.email}
                             onChange={handleChange('email')}
                             margin="normal"
@@ -122,7 +124,7 @@ export default function RegisterModal() {
                             id="username"
                             error={errContainer.username ? true : false}
                             helperText={errContainer.username ? errContainer.username : ""}
-                            label="Kullanıcı adı"
+                            label={t('common:ns.username')}
                             value={userInfo.username}
                             onChange={handleChange('username')}
                             margin="normal"
@@ -134,7 +136,7 @@ export default function RegisterModal() {
                             id="password"
                             error={errContainer.password ? true : false}
                             helperText={errContainer.password ? errContainer.password : ""}
-                            label="Şifre"
+                            label={t('common:ns.password')}
                             value={userInfo.password}
                             onChange={handleChange('password')}
                             margin="normal"
@@ -147,7 +149,7 @@ export default function RegisterModal() {
                             id="password2"
                             error={errContainer.password2 ? true : false}
                             helperText={errContainer.password2 ? errContainer.password2 : ""}
-                            label="Şifre tekrar"
+                            label={t('common:ns.password_again')}
                             value={userInfo.password2}
                             onChange={handleChange('password2')}
                             margin="normal"
@@ -157,8 +159,8 @@ export default function RegisterModal() {
                             autoFocus
                             fullWidth />
                         <Box mt={2}>
-                            <Button variant="outlined" className={classes.FormButton} type="submit">Kayıt ol</Button>
-                            <Button variant="outlined" className={classes.FormButton} onClick={() => setShowModal("login")}>Hesabın var mı?</Button>
+                            <Button variant="outlined" className={classes.FormButton} type="submit">{t('common:ns.register')}</Button>
+                            <Button variant="outlined" className={classes.FormButton} onClick={() => setShowModal("login")}>{t('common:ns.have_account')}</Button>
                         </Box>
                     </form>
                 </Box>

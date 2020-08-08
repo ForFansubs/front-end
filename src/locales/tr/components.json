@@ -57,6 +57,7 @@
         },
         "anime": {
             "series_status": "{{episode_count}} Bölüm",
+            "series_status_plural": "{{episode_count}} Bölüm",
             "download_links": "İndirme Linkleri"
         }
     },

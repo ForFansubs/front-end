@@ -40,7 +40,7 @@ const errContainerModel = {
 }
 
 export default function LoginModal() {
-    const { t } = useTranslation('')
+    const { t } = useTranslation(['components', 'common'])
     const classes = useStyles()
 
     const setUser = useDispatch('loginHandler')
@@ -102,10 +102,10 @@ export default function LoginModal() {
                     <Typography variant="h4">Giriş yap</Typography>
                     <form autoComplete="off" onSubmit={event => handleSubmitForm(event)}>
                         <TextField
-                            id="name"
+                            id="username"
                             error={errContainer.name ? true : false}
                             helperText={errContainer.name ? errContainer.name : ""}
-                            label="Kullanıcı adı"
+                            label={t('common:ns.username')}
                             value={userInfo.name}
                             onChange={handleChange('name')}
                             margin="normal"
@@ -115,7 +115,7 @@ export default function LoginModal() {
                             fullWidth />
                         <TextField
                             id="password"
-                            label="Şifre"
+                            label={t('common:ns.password')}
                             value={userInfo.password}
                             helperText={errContainer.password ? errContainer.password : ""}
                             onChange={handleChange('password')}
@@ -126,8 +126,8 @@ export default function LoginModal() {
                             autoFocus
                             fullWidth />
                         <Box mt={2}>
-                            <Button variant="outlined" type="submit" className={classes.FormButton}>Giriş yap</Button>
-                            <Button variant="outlined" onClick={() => setShowModal("register")} className={classes.FormButton}>Hesabın yok mu?</Button>
+                            <Button variant="outlined" type="submit" className={classes.FormButton}>{t('common:ns.login')}</Button>
+                            <Button variant="outlined" onClick={() => setShowModal("register")} className={classes.FormButton}>{t('common:ns.dont_have_account')}</Button>
                         </Box>
                     </form>
                 </Box>

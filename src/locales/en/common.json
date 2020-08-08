@@ -1,0 +1,55 @@
+{
+    "ns": {
+        "anime": "Anime",
+        "anime_plural": "Anime",
+        "manga": "Manga",
+        "manga_plural": "Manga",
+        "language": "Language",
+        "change": "Change",
+        "cancel": "Cancel",
+        "translator": "Translator",
+        "translator_plural": "Translators",
+        "encoder": "Encoder",
+        "encoder_plural": "Encoders",
+        "editor": "Editor",
+        "editor_plural": "Editors",
+        "studio": "Studio",
+        "studio_plural": "Studios",
+        "author": "Author",
+        "author_plural": "Authors",
+        "release_date": "Release date",
+        "genre": "Genre",
+        "genre_plural": "Genres",
+        "series_status": "Series Status",
+        "trans_status": "Translation Status",
+        "watch": "Watch",
+        "download": "Download",
+        "read": "Read",
+        "mal_page": "MyAnimeList Page",
+        "admin_panel": "Admin Panel",
+        "username": "Username",
+        "email": "Email",
+        "password": "Password",
+        "password_again": "Password again",
+        "logout": "Log out",
+        "register": "Register",
+        "login": "Log in",
+        "dont_have_account": "Don't have an account?",
+        "have_account": "Have an account?"
+    },
+    "warnings": {
+        "not_found_synopsis": "We couldn't find the synopsis.",
+        "not_found_premiered": "We couldn't find the release date."
+    },
+    "buttons": {
+        "goto_anime": "Go to anime",
+        "goto_manga": "Go to manga",
+        "webtoon": "Webtoon",
+        "pagebypage": "Page by page"
+    },
+    "episode": {
+        "episode_title": "Episode {{episode_number}}"
+    },
+    "metadata": {},
+    "date_format": "MM.dd.yyyy"
+}

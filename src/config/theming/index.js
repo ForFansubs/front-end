@@ -1,10 +1,17 @@
 import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
+import { enUS, trTR } from '@material-ui/core/locale';
+import i18next from '../i18n'
 import merge from 'lodash-es/merge'
 
 import darkTheme from './dark/index'
 import lightTheme from './light/index'
 
 const generalBorderRadius = 2
+
+const languageMap = {
+    "en": enUS,
+    "tr": trTR
+}
 
 const general = {
     breakpoints: {
@@ -105,7 +112,7 @@ export default function getTheme(type) {
     switch (type) {
         case type: {
             const theme = merge(general, type === "dark" ? darkTheme : lightTheme)
-            return responsiveFontSizes(createMuiTheme(theme))
+            return responsiveFontSizes(createMuiTheme(theme, languageMap[i18next.language]))
         }
         default:
             return false
