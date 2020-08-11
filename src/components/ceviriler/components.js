@@ -486,7 +486,7 @@ function AnimePage(props) {
 
 function MangaPage(props) {
     const { t } = useTranslation(['components', 'common'])
-    const { id, name, slug, cover_art, translators, editors, authors, release_date, genres, mal_link, synopsis, mos_link, download_link, series_status, trans_status, episode_count } = props
+    const { id, name, slug, cover_art, translators, editors, authors, release_date, genres, mal_link, synopsis, reader_link, download_link, series_status, trans_status, episode_count } = props
     const classes = useStyles(props)
     const [headerError, setHeaderError] = useState(false)
     const [coverArtError, setCoverArtError] = useState(false)
@@ -574,9 +574,9 @@ function MangaPage(props) {
                                         </Button>
                                     </a>
                                 ) : null}
-                                {mos_link ? (
+                                {reader_link ? (
                                     <a
-                                        href={mos_link}
+                                        href={reader_link}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
