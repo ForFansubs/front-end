@@ -195,32 +195,36 @@ function Mount() {
     window.theme = themeObject
 
     return (
-        <ThemeProvider theme={themeObject}>
-            <CssBaseline />
-            <I18nextProvider i18n={i18next}>
-                <App />
-            </I18nextProvider>
-        </ThemeProvider>
+        <React.StrictMode>
+            <ThemeProvider theme={themeObject}>
+                <CssBaseline />
+                <I18nextProvider i18n={i18next}>
+                    <App />
+                </I18nextProvider>
+            </ThemeProvider>
+        </React.StrictMode>
     )
 }
 
 ReactDOM.render(<Mount />, document.getElementById('app-mount'))
 
-serviceWorker.register({
-    onUpdate: function onUpdateHandler(registration) {
-        const waitingServiceWorker = registration.waiting
+if (process.env.REACT_APP_USE_SERVICE_WORKER === "true") {
+    serviceWorker.register({
+        onUpdate: function onUpdateHandler(registration) {
+            const waitingServiceWorker = registration.waiting
 
-        const payload = {
-            container: "notification-success",
-            type: "success",
-            autoClose: false,
-            onClickFunction: () => {
-                waitingServiceWorker.postMessage({ type: "SKIP_WAITING" })
-                window.location.reload()
-            },
-            message: "Uygulamanın yeni bir sürümü var. Güncellemek için bu bildirime basın."
+            const payload = {
+                container: "notification-success",
+                type: "success",
+                autoClose: false,
+                onClickFunction: () => {
+                    waitingServiceWorker.postMessage({ type: "SKIP_WAITING" })
+                    window.location.reload()
+                },
+                message: "Uygulamanın yeni bir sürümü var. Güncellemek için bu bildirime basın."
+            }
+
+            ToastNotification(payload)
         }
-
-        ToastNotification(payload)
-    }
-})
+    })
+}
