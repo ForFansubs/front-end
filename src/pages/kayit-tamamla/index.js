@@ -68,7 +68,7 @@ export default function KayitTamamla(props) {
         <>
             <Typography variant="h3">
                 {!loading && !refresh && !error ?
-                    t('registration_complete.warnings.successful') :
+                    t('complete_registration.warnings.successful') :
                     !loading && refresh && !error ?
                         getNewHash ?
                             <>
