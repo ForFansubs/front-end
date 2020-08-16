@@ -9510,13 +9510,6 @@ react@^16.13.1:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
 
-reactn-devtools@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/reactn-devtools/-/reactn-devtools-1.1.0.tgz#b253bfeb99fac6848e93fd1d1be796a87d3e381a"
-  integrity sha512-kTY+ogE5iWifBIff/HFGnsWjIHOUCQq+VydPoPpm6vczCaHWI7l5wcDxUw8/UlwGlnFTV/sUseTghnrvi8/lLw==
-  dependencies:
-    redux-devtools-extension "^2.13.8"
-
 reactn@^2.2.7:
   version "2.2.7"
   resolved "https://registry.yarnpkg.com/reactn/-/reactn-2.2.7.tgz#4d9a94ab0d8a540062666408e4bf1fae6892cecc"
@@ -9634,11 +9627,6 @@ redent@^1.0.0:
   dependencies:
     indent-string "^2.1.0"
     strip-indent "^1.0.1"
-
-redux-devtools-extension@^2.13.8:
-  version "2.13.8"
-  resolved "https://registry.yarnpkg.com/redux-devtools-extension/-/redux-devtools-extension-2.13.8.tgz#37b982688626e5e4993ff87220c9bbb7cd2d96e1"
-  integrity sha512-8qlpooP2QqPtZHQZRhx3x3OP5skEV1py/zUdMY28WNAocbafxdG2tRD1MWE7sp8obGMNYuLWanhhQ7EQvT1FBg==
 
 redux@^4.0.5:
   version "4.0.5"
