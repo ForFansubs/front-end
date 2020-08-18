@@ -115,13 +115,11 @@ export default function LatestAniManga(props) {
                             }}
                             alt={`${name} cover_art`} />
                     </Grid>
-                    {mobile ?
-                        <Grid item xs={12} className={classes.Title}>
-                            <Dotdotdot clamp={2} useNativeClamp>
-                                {name}
-                            </Dotdotdot>
-                        </Grid>
-                        : ""}
+                    <Grid item xs={12} className={classes.Title}>
+                        <Dotdotdot clamp={2} useNativeClamp>
+                            {name}
+                        </Dotdotdot>
+                    </Grid>
                 </Link>
                 {mobile ? "" :
                     <div>

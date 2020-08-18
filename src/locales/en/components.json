@@ -32,7 +32,7 @@
     },
     "pre_screens": {
         "connection_error": {
-            "header_text": "We couldn't connect to out services :(",
+            "header_text": "We couldn't connect to our services :(",
             "subtitle_text": "Please try again later..."
         }
     },

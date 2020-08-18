@@ -1,4 +1,4 @@
-import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
+import { unstable_createMuiStrictModeTheme, responsiveFontSizes } from '@material-ui/core/styles';
 import { enUS, trTR } from '@material-ui/core/locale';
 import i18next from '../i18n'
 import merge from 'lodash-es/merge'
@@ -31,7 +31,7 @@ const general = {
         },
     },
     typography: {
-        fontFamily: `'Roboto', sans-serif`,
+        fontFamily: `'Source Sans Pro', sans-serif`,
         h1: {
 
             fontWeight: "bold",
@@ -112,7 +112,7 @@ export default function getTheme(type) {
     switch (type) {
         case type: {
             const theme = merge(general, type === "dark" ? darkTheme : lightTheme)
-            return responsiveFontSizes(createMuiTheme(theme, languageMap[i18next.language]))
+            return responsiveFontSizes(unstable_createMuiStrictModeTheme(theme, languageMap[i18next.language]))
         }
         default:
             return false

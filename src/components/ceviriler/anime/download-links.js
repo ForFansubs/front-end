@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     Button: {
         marginRight: theme.spacing(1),
         marginBottom: theme.spacing(1),
-        boxShadow: theme.shadows[6]
+        boxShadow: theme.shadows[2]
     },
     LinkContainer: {
         backgroundColor: theme.palette.background.level1,
@@ -89,7 +89,7 @@ export default function DownloadLink(props) {
             )
 
         else if (!loading && data.length === 0)
-            return <WarningBox bgcolor="background.level1">{t('translations.warnings.not_found_download_links')}</WarningBox>
+            return <WarningBox bgcolor="background.level1">{t('translations.warnings.anime.not_found_download_links')}</WarningBox>
 
         else return (
             <div>

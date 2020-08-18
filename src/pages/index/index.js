@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import axios from '../../config/axios/axios'
 import { getIndexEpisodes, getIndexFeaturedAnime, getIndexBatchEpisodes } from '../../config/api-routes'
 
-import { Grid, Typography } from '@material-ui/core'
+import { Divider, Grid, Typography } from '@material-ui/core'
 import { useStyles } from '../../components/index/index'
 import LatestAniManga, { LoadingDivAniManga } from '../../components/index/latest/latestanimanga'
 import LatestEpisode, { LoadingDivEpisode } from '../../components/index/latest/latestepisode';
@@ -75,25 +75,13 @@ export default function IndexPage(props) {
     }, [mobile])
 
     if (latestLoading) {
-        if (!mobile) {
-            for (let i = 0; i < 24; i++) {
-                latestAnimesWindow.push(LoadingDivAniManga(i + "loadingani"))
-                latestMangasWindow.push(LoadingDivAniManga(i + "loadingman"))
-            }
-            for (let k = 0; k < 13; k++) {
-                latestEpisodesWindow.push(LoadingDivEpisode(k + "loadingepi"))
-                latestMangaEpisodesWindow.push(LoadingDivMangaEpisode(k + "loadingepi"))
-            }
+        for (let i = 0; i < 24; i++) {
+            latestAnimesWindow.push(LoadingDivAniManga(i + "loadingani"))
+            latestMangasWindow.push(LoadingDivAniManga(i + "loadingman"))
         }
-        else {
-            for (let i = 0; i < 12; i++) {
-                latestAnimesWindow.push(LoadingDivAniManga(i + "loadingani"))
-                latestMangasWindow.push(LoadingDivAniManga(i + "loadingman"))
-            }
-            for (let i = 0; i < 13; i++) {
-                latestEpisodesWindow.push(LoadingDivEpisode(i + "loadingepi"))
-                latestMangaEpisodesWindow.push(LoadingDivMangaEpisode(i + "loadingepi"))
-            }
+        for (let k = 0; k < 18; k++) {
+            latestEpisodesWindow.push(LoadingDivEpisode(k + "loadingepi"))
+            latestMangaEpisodesWindow.push(LoadingDivMangaEpisode(k + "loadingepi"))
         }
     }
 
@@ -125,7 +113,7 @@ export default function IndexPage(props) {
 
 
     return (
-        <>
+        <div className={classes.MainDiv}>
             <Metatags />
             <MotdContainer {...props} />
             <section className={classes.ContainerDiv}>
@@ -147,20 +135,12 @@ export default function IndexPage(props) {
                     </section>
                     : ""
             }
+            <Divider />
             {
-                latestAnimesWindow.length ?
-                    <section className={classes.ContainerDiv}>
-                        <Typography variant="h2" component="h2" gutterBottom>
-                            {t('index.newest_anime.default')}
-                        </Typography>
-                        {t('index.newest_anime.description') ?
-                            <Typography variant="subtitle1" gutterBottom>
-                                {t('index.newest_anime.description')}
-                            </Typography> : ""}
-                        <Grid container spacing={2} direction="row" justify="center">
-                            {latestAnimesWindow}
-                        </Grid>
-                    </section>
+                latestEpisodesWindow.length || latestAnimesWindow.length ?
+                    <Typography variant="h2" component="h2">
+                        {t('index.newest_anime.default')}
+                    </Typography>
                     : ""
             }
             {
@@ -175,20 +155,26 @@ export default function IndexPage(props) {
                     </section>
                     : ""
             }
+            <Divider />
             {
-                latestMangasWindow.length ?
+                latestAnimesWindow.length ?
                     <section className={classes.ContainerDiv}>
-                        <Typography variant="h2" component="h2" gutterBottom>
-                            {t('index.newest_manga.default')}
-                        </Typography>
-                        {t('index.newest_manga.description') ?
+                        {t('index.newest_anime.description') ?
                             <Typography variant="subtitle1" gutterBottom>
-                                {t('index.newest_manga.description')}
+                                {t('index.newest_anime.description')}
                             </Typography> : ""}
-                        <Grid container spacing={2} direction="row" justify="center" alignItems="stretch">
-                            {latestMangasWindow}
+                        <Grid container spacing={2} direction="row" justify="center">
+                            {latestAnimesWindow}
                         </Grid>
                     </section>
+                    : ""
+            }
+            <Divider />
+            {
+                latestMangaEpisodesWindow.length || latestMangasWindow.length ?
+                    <Typography variant="h2" component="h2" >
+                        {t('index.newest_manga.default')}
+                    </Typography>
                     : ""
             }
             {
@@ -203,6 +189,20 @@ export default function IndexPage(props) {
                     </section>
                     : ""
             }
-        </>
+            <Divider />
+            {
+                latestMangasWindow.length ?
+                    <section className={classes.ContainerDiv}>
+                        {t('index.newest_manga.description') ?
+                            <Typography variant="subtitle1" gutterBottom>
+                                {t('index.newest_manga.description')}
+                            </Typography> : ""}
+                        <Grid container spacing={2} direction="row" justify="center" alignItems="stretch">
+                            {latestMangasWindow}
+                        </Grid>
+                    </section>
+                    : ""
+            }
+        </div>
     )
 }
