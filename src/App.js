@@ -20,6 +20,7 @@ const MangaPage = lazy(() => import('./pages/ceviriler/manga/index'))
 const EpisodePage = lazy(() => import('./pages/episode/index'))
 const MangaEpisodePage = lazy(() => import('./pages/manga-episode/index'))
 const CompleteRegistrationPage = lazy(() => import('./pages/kayit-tamamla/index'))
+const TakvimPage = lazy(() => import('./pages/takvim/index'))
 
 export default function App() {
   const getOnline = useDispatch('getOnline')
@@ -53,6 +54,7 @@ export default function App() {
                   <Route path="/sss" exact component={SSSPage} />
                   <Route path="/ekip-alimlari" exact component={EkipAlimlariPage} />
                   <Route path="/kullanici/kayit-tamamla/:hash" exact component={CompleteRegistrationPage} />
+                  <Route path="/takvim" exact component={TakvimPage} />
                   {ExtraPagesList.length ? ExtraPagesList.map(({ PageUrl, PageComponent }) => (
                     <Route path={PageUrl} exact component={PageComponent} />
                   )) : ""}

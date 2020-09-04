@@ -8,6 +8,10 @@
             "default": "İçerik ara",
             "short": "Ara"
         },
+        "calendar": {
+            "default": "Takvim",
+            "short": "Takvim"
+        },
         "faq": {
             "default": "Sıkça Sorulan Sorular",
             "short": "SSS"

@@ -1,9 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;700;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;700;900&display=swap");
 
-h1,h2,h3,h4,h5,h6,li {
-  margin-block-start: 0;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li {
+    margin-block-start: 0;
     margin-block-end: 0;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
@@ -11,60 +17,70 @@ h1,h2,h3,h4,h5,h6,li {
     -webkit-margin-after: 0em;
 }
 
-p{
-  margin-block-start: 0;
+p {
+    margin-block-start: 0;
     margin-block-end: 0;
 }
 
 html {
-  position: relative;
+    position: relative;
     min-height: 100%;
 }
 
 body {
-  width: 100%;
-  height: 100%;
-  overscroll-behavior-y: none;
+    width: 100%;
+    height: 100%;
+    overscroll-behavior-y: none;
     overflow: hidden;
     position: fixed;
     width: 100%;
     height: 100%;
-  margin: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 #app-mount {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
 }
 
 ul {
-  display: block;
-  list-style-type: none;
-  margin-block-start: 0;
-  margin-block-end: 0;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
-  padding-inline-start: 0;
-  padding: 0;
-  -webkit-margin-before: 0;
-  -webkit-margin-after: 0;
+    display: block;
+    list-style-type: none;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 0;
+    padding: 0;
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
 }
 
 a {
-  text-decoration: none;
-  color: inherit;
+    text-decoration: none;
+    color: inherit;
 }
 
 iframe {
-  border-width: 0px;
-  border-style: inset;
-  border-color: initial;
-  border-image: initial;
+    border-width: 0px;
+    border-style: inset;
+    border-color: initial;
+    border-image: initial;
+}
+
+.unselectable {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
 }

@@ -1,18 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import propTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { episodePage } from '../../../config/front-routes'
 
 import { Grid, Typography, makeStyles } from '@material-ui/core'
 import { grey } from '@material-ui/core/colors'
-
+import { Skeleton } from '@material-ui/lab'
+import Dotdotdot from 'react-dotdotdot'
 import Format from '../../date-fns/format'
 import EpisodeTitleParser from '../../../config/episode-title-parser'
 import { CoverPlaceholder } from '../../../config/theming/images'
+
+import { episodePage } from '../../../config/front-routes'
 import { contentCover } from '../../../config/api-routes'
-import { useState } from 'reactn'
-import { Skeleton } from '@material-ui/lab'
-import Dotdotdot from 'react-dotdotdot'
 
 const useStyles = makeStyles(theme => ({
     Container: {

@@ -8,6 +8,10 @@
             "default": "Search",
             "short": "Search"
         },
+        "calendar": {
+            "default": "Calendar",
+            "short": "Calendar"
+        },
         "faq": {
             "default": "Frequently Asked Questions",
             "short": "FAQ"

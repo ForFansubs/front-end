@@ -10,6 +10,7 @@ import useTheme from '@material-ui/styles/useTheme'
 import { Drawer, AppBar, Toolbar, List, Divider, ListItem, ListItemIcon, ListItemText, Typography, MenuItem, Menu, makeStyles, Box } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
+import CalendarIcon from '@material-ui/icons/CalendarToday';
 import InfoIcon from '@material-ui/icons/Info';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoonIcon from '@material-ui/icons/NightsStay'
@@ -19,7 +20,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
-import { indexPage, searchPage, faqPage, recPage, adminPage } from '../../config/front-routes'
+import { indexPage, searchPage, faqPage, recPage, adminPage, calendarPage } from '../../config/front-routes'
 import { fullLogo, fullLogoDark } from '../../config/theming/images'
 import ExtraPagesList from '../../pages/extra-pages/index'
 import SecondMenuItems from '../../config/drawer_items'
@@ -57,6 +58,13 @@ export default function MiniDrawer() {
                 link: searchPage,
                 show: true,
                 icon: <SearchIcon />
+            },
+            {
+                text: t('header.calendar.default'),
+                shortText: t('header.calendar.short'),
+                link: calendarPage,
+                show: true,
+                icon: <CalendarIcon />
             },
             {
                 text: t('header.faq.default'),
