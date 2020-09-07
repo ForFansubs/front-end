@@ -51,6 +51,9 @@
             },
             "anime": {
                 "not_found_download_links": "İndirme linki bulunamadı."
+            },
+            "youtube_pv": {
+                "not_found": "Youtube linki bulunmadı."
             }
         },
         "buttons": {
@@ -62,7 +65,11 @@
         "anime": {
             "series_status": "{{episode_count}} Bölüm",
             "series_status_plural": "{{episode_count}} Bölüm",
-            "download_links": "İndirme Linkleri"
+            "download_links": "İndirme Linkleri",
+            "stats": "Bilgiler"
+        },
+        "jikan_errors": {
+            "couldnt_reach_data": "İstenilen dataya ulaşamadık."
         }
     },
     "motd": {

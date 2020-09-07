@@ -36,6 +36,9 @@ const contentLogo = (type, slug) => `/api/resimler/${type}/${slug}-logo?type=log
 
 const mangaPageImage = (slug, episode_number, filename) => `/api/resimler/manga/${slug}/oku/${episode_number}/${filename}`
 
+const jikanAPI = ({ contentType, contentId, extraPath }) => `${process.env.REACT_APP_JIKAN_INSTANCE_URL || "https://api.jikan.moe/v3/"}${contentType}/${contentId}${extraPath ? `/${extraPath}` : ""}`
+const youtubeEmbedLink = ({ videoId }) => `https://www.youtube.com/embed/${videoId}`
+
 export {
     indexURL,
     isAdmin,
@@ -59,5 +62,7 @@ export {
     contentCover,
     contentHeader,
     contentLogo,
-    mangaPageImage
+    mangaPageImage,
+    jikanAPI,
+    youtubeEmbedLink
 }

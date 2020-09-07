@@ -20,7 +20,7 @@ export default function (props) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await axios(
+            const res = await axios.get(
                 getAnimeIndex(props.match.params.slug)
             ).catch(res => res)
 

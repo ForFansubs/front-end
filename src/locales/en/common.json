@@ -26,6 +26,8 @@
         "download": "Download",
         "read": "Read",
         "mal_page": "MyAnimeList Page",
+        "score_distribution": "Score Distribution",
+        "status_distribution": "Status Distribution",
         "admin_panel": "Admin Panel",
         "username": "Username",
         "email": "Email",
@@ -35,7 +37,15 @@
         "register": "Register",
         "login": "Log in",
         "dont_have_account": "Don't have an account?",
-        "have_account": "Have an account?"
+        "have_account": "Have an account?",
+        "completed": "Completed",
+        "dropped": "Dropped",
+        "on_hold": "On Hold",
+        "plan_to_watch": "Plan to Watch",
+        "watching": "Watching",
+        "youtube_preview": "Youtube PV",
+        "characters": "Characters",
+        "staff": "Staff"
     },
     "warnings": {
         "not_found_synopsis": "We couldn't find the synopsis.",

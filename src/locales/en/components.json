@@ -50,6 +50,9 @@
             },
             "anime": {
                 "not_found_download_links": "We couldn't find any download links."
+            },
+            "youtube_pv": {
+                "not_found": "Couldn't find Youtube link."
             }
         },
         "buttons": {
@@ -61,7 +64,11 @@
         "anime": {
             "series_status": "{{episode_count}} Episode",
             "series_status_plural": "{{episode_count}} Episodes",
-            "download_links": "Download links"
+            "download_links": "Download links",
+            "stats": "Information"
+        },
+        "jikan_errors": {
+            "couldnt_reach_data": "Couldn't reach the data requested."
         }
     },
     "motd": {
