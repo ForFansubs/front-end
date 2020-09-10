@@ -96,7 +96,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function AnimeContainer(props) {
-    const { t } = useTranslation('common')
+    const { t } = props
     const { slug, name, synopsis, genres, premiered, cover_art } = props.data
     const [imageError, setImageError] = useState(false)
     const classes = useStyles(props.data)
@@ -107,7 +107,7 @@ function AnimeContainer(props) {
                 <Box p={0} boxShadow={6}>
                     <Box className={classes.ContentPremieredContainer} p={1}>
                         <Typography variant="h6">
-                            {premiered || t('warnings.not_found_premiered')}
+                            {premiered || t('components:search.warnings.not_found_premiered')}
                         </Typography>
                     </Box>
                     <div className={classes.ContentInPlacer}>
@@ -138,7 +138,7 @@ function AnimeContainer(props) {
                                 className={classes.ContentSynopsis}
                                 bgcolor={props.scrollbg}
                             >
-                                {synopsis || t('warnings.not_found_synopsis')}
+                                {synopsis || t('components:search.warnings.not_found_synopsis')}
                             </Typography>
                         </Box>
                     </div>
@@ -147,7 +147,7 @@ function AnimeContainer(props) {
                             {genres.map(g =>
                                 <li key={g + slug}>
                                     <Typography variant="h6">
-                                        {g}
+                                        {t(`genres:${g}`)}
                                     </Typography>
                                 </li>)
                             }

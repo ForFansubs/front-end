@@ -40,6 +40,12 @@
             "subtitle_text": "Please try again later..."
         }
     },
+    "search": {
+        "warnings": {
+            "not_found_synopsis": "We couldn't find the synopsis.",
+            "not_found_premiered": "We couldn't find the release date."
+        }
+    },
     "translations": {
         "warnings": {
             "+18": {
@@ -65,7 +71,7 @@
             "series_status": "{{episode_count}} Episode",
             "series_status_plural": "{{episode_count}} Episodes",
             "download_links": "Download links",
-            "stats": "Information"
+            "stats": "Information [MyAnimeList]"
         },
         "jikan_errors": {
             "couldnt_reach_data": "Couldn't reach the data requested."

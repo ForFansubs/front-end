@@ -14,7 +14,13 @@ export default function DisqusBox(props) {
         setComments(false)
     }, [config])
 
-    // if (process.env.NODE_ENV === "development") return ("")
+    if (process.env.NODE_ENV === "development") return (
+        <>
+            <Typography variant="h2" align="center">
+                YORUM KISMI
+            </Typography>
+        </>
+    )
 
     if (withButton) {
         return (

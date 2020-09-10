@@ -56,7 +56,7 @@ const searchGenresAPIDebounced = AwesomeDebouncePromise(searchGenresAPI, 500);
 
 export default function SearchPage(props) {
     const classes = useStyles()
-    const { t } = useTranslation(['pages', 'common']);
+    const { t } = useTranslation(['pages', 'components', 'common', 'genres']);
 
     const [offset, setOffset] = useState(1)
     const [data, setData] = useState([])
@@ -205,13 +205,13 @@ export default function SearchPage(props) {
     if (!loadingData) {
         if (data.length !== 0 && type === "anime") {
             mappedData = data.map(d =>
-                <AnimeContainer key={d.slug} data={{ ...d }} />
+                <AnimeContainer key={d.slug} t={t} data={{ ...d }} />
             )
         }
 
         else if (data.length !== 0 && type === "manga") {
             mappedData = data.map(d =>
-                <MangaContainer key={d.slug} data={{ ...d }} />
+                <MangaContainer key={d.slug} t={t} data={{ ...d }} />
             )
         }
 

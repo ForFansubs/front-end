@@ -42,14 +42,19 @@
         "dropped": "Dropped",
         "on_hold": "On Hold",
         "plan_to_watch": "Plan to Watch",
+        "plan_to_read": "Plan to Read",
         "watching": "Watching",
+        "reading": "Reading",
+        "currently_airing": "Currently Airing",
+        "finished_airing": "Finished Airing",
+        "not_aired_yet": "Not Aired Yet",
+        "postponed": "Postponed",
+        "canceled": "Canceled",
         "youtube_preview": "Youtube PV",
         "characters": "Characters",
-        "staff": "Staff"
-    },
-    "warnings": {
-        "not_found_synopsis": "We couldn't find the synopsis.",
-        "not_found_premiered": "We couldn't find the release date."
+        "staff": "Staff",
+        "show_more": "show more",
+        "show_less": "show less"
     },
     "buttons": {
         "goto_anime": "Go to anime",

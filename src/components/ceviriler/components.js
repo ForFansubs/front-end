@@ -270,6 +270,10 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between"
+    },
+    CharactersStaffBoxShowMore: {
+        textAlign: "right",
+        marginBottom: theme.spacing(2)
     }
 }))
 
@@ -533,6 +537,7 @@ function AnimePage(props) {
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={4}>
                             <MetadataContainer
+                                type="genres"
                                 title={t('common:ns.genre', { count: genres.length })}
                                 list={genres}
                             />
@@ -540,13 +545,13 @@ function AnimePage(props) {
                         <Grid item xs={12} md={4}>
                             <MetadataContainer
                                 title={t('common:ns.series_status')}
-                                list={episode_count ? [series_status, t('translations.anime.series_status', { episode_count: episode_count, count: episode_count })] : [series_status]}
+                                list={episode_count ? [t(`common:ns.${series_status}`), t('translations.anime.series_status', { episode_count: episode_count, count: episode_count })] : [t(`common:ns.${series_status}`)]}
                             />
                         </Grid>
                         <Grid item xs={12} md={4}>
                             <MetadataContainer
                                 title={t('common:ns.trans_status')}
-                                list={[trans_status]}
+                                list={[t(`common:ns.${trans_status}`)]}
                             />
                         </Grid>
                     </Grid>
@@ -587,7 +592,7 @@ function AnimePage(props) {
                 </Box>
                 {/* Jikan Stats */}
                 <Box className={classes.JikanStatsContainer}>
-                    <Typography variant="h4" gutterBottom>
+                    <Typography variant="h4">
                         {t('translations.anime.stats')}
                     </Typography>
                     <Grid container spacing={2}>
@@ -608,6 +613,7 @@ function AnimePage(props) {
                         </Grid>
                     </Grid>
                 </Box>
+                <Divider />
                 {/* Disqus Box */}
                 <Box className={classes.BottomStuff}>
                     {process.env.REACT_APP_DISQUS_SHORTNAME ? (
@@ -638,6 +644,67 @@ function MangaPage(props) {
     const [coverArtError, setCoverArtError] = useState(false)
     const [logoError, setLogoError] = useState(false)
     const [adultModal, setAdultModal] = useState(props.adult_modal)
+
+    // Jikan States
+    const [jikanScoreStatusDataLoading, setJikanScoreStatusDataLoading] = useState(true)
+    const [jikanCharacterStaffDataLoading, setJikanCharacterStaffDataLoading] = useState(true)
+    const [jikanScoreData, setJikanScoreData] = useState([])
+    const [jikanStatusData, setJikanStatusData] = useState({})
+    const [jikanCharactersData, setJikanCharactersData] = useState([])
+    const [jikanStaffData, setJikanStaffData] = useState([])
+
+    useEffect(() => {
+        async function getJikanStatusData() {
+            const tempData = []
+            try {
+                const res = await axios.get(jikanAPI({ contentType: "manga", contentId: mal_link.split("/")[4], extraPath: "stats" }))
+
+                if (res.status === 200) {
+                    for (const score in res.data.scores) {
+                        tempData.push({
+                            score: score,
+                            "votesColor": getVoteColor(score),
+                            ...res.data.scores[score]
+                        })
+                    }
+
+                    setJikanScoreData(tempData)
+                    setJikanStatusData({
+                        completed: res.data.completed,
+                        reading: res.data.reading,
+                        dropped: res.data.dropped,
+                        on_hold: res.data.on_hold,
+                        plan_to_read: res.data.plan_to_read,
+                    })
+                    setJikanScoreStatusDataLoading(false)
+                }
+                else {
+                    setJikanScoreStatusDataLoading(false)
+                }
+            } catch (err) {
+                setJikanScoreStatusDataLoading(false)
+            }
+        }
+
+        async function getJikanCharactersData() {
+            try {
+                const res = await axios.get(jikanAPI({ contentType: "manga", contentId: mal_link.split("/")[4], extraPath: "characters" }))
+
+                if (res.status === 200) {
+                    setJikanCharactersData(res.data.characters)
+                    setJikanCharacterStaffDataLoading(false)
+                }
+                else {
+                    setJikanCharacterStaffDataLoading(false)
+                }
+            } catch (err) {
+                setJikanCharacterStaffDataLoading(false)
+            }
+        }
+
+        getJikanStatusData()
+        getJikanCharactersData()
+    }, [])
 
     function handleClose() {
         return setAdultModal(state => (!state))
@@ -807,6 +874,7 @@ function MangaPage(props) {
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={4}>
                             <MetadataContainer
+                                type="genres"
                                 title={t('common:ns.genre', { count: genres.length })}
                                 list={genres}
                             />
@@ -814,17 +882,35 @@ function MangaPage(props) {
                         <Grid item xs={12} md={4}>
                             <MetadataContainer
                                 title={t('common:ns.series_status')}
-                                list={[series_status]}
+                                list={[t(`common:ns.${series_status}`)]}
                             />
                         </Grid>
                         <Grid item xs={12} md={4}>
                             <MetadataContainer
                                 title={t('common:ns.trans_status')}
-                                list={[trans_status]}
+                                list={[t(`common:ns.${trans_status}`)]}
                             />
                         </Grid>
                     </Grid>
                 </Box>
+                {/* Jikan Stats */}
+                <Box className={classes.JikanStatsContainer}>
+                    <Typography variant="h4">
+                        {t('translations.anime.stats')}
+                    </Typography>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} md={12} lg={6} xl={4}>
+                            <JikanStatsScoresChart data={jikanScoreData} loading={jikanScoreStatusDataLoading} />
+                        </Grid>
+                        <Grid item xs={12} md={12} lg={6} xl={4}>
+                            <JikanStatsStatusChart data={jikanStatusData} loading={jikanScoreStatusDataLoading} />
+                        </Grid>
+                        <Grid item xs={12} md={12} lg={6} xl={4}>
+                            <CharactersStaffBox data={jikanCharactersData} type="characters" loading={jikanCharacterStaffDataLoading} />
+                        </Grid>
+                    </Grid>
+                </Box>
+                <Divider />
                 <div className={classes.BottomStuff}>
                     {process.env.REACT_APP_DISQUS_SHORTNAME ? (
                         <>
@@ -847,8 +933,19 @@ function MangaPage(props) {
 }
 
 function MetadataContainer(props) {
-    const { t } = useTranslation('components')
-    const { title, list } = props
+    const { t } = useTranslation(["components", "genres"])
+    const { title, list, type } = props
+
+    function getRenderBox() {
+        switch (type) {
+            case "genres": {
+                return list.map((l, i) => `${t(`genres:${l}`)}${list.length - 1 !== i ? ", " : ""}`)
+            }
+            default: {
+                return list.join(", ")
+            }
+        }
+    }
 
     return (
         <Box mr={1}>
@@ -857,7 +954,7 @@ function MetadataContainer(props) {
             </Typography>
             {list.length !== 0 ? (
                 <Typography variant="body1" component="span">
-                    {list.join(", ")}
+                    {getRenderBox()}
                 </Typography>
             ) : (
                     <Typography variant="body1">{t('translations.warnings.content_metadata.not_found', { title: title })}</Typography>
@@ -926,7 +1023,7 @@ function JikanStatsScoresChart(props) {
 }
 
 function JikanStatsStatusChart(props) {
-    const { t } = useTranslation("common")
+    const { t } = useTranslation(["common", "components"])
     const classes = useStyles()
     const { data, loading } = props
 
@@ -1014,22 +1111,31 @@ function PVBox(props) {
 function CharactersStaffBox(props) {
     const { t } = useTranslation("common")
     const classes = useStyles()
+    const [open, setOpen] = useState(false)
+    const [currentData, setCurrentData] = useState([])
 
     let { data, type, loading } = props
 
-    data = Slice(data, 0, 12)
+    useEffect(() => {
+        if (!open) setCurrentData(Slice(data, 0, 6))
+        else setCurrentData(data)
+    }, [open, data])
+
+    function handleOpenButton() {
+        setOpen(state => !state)
+    }
 
     return (
         <>
             <Typography variant="body1" align="left" gutterBottom><b>{t(`ns.${type}`)}</b></Typography>
-            {data.length ?
+            {currentData.length ?
                 <>
                     <div className={classes.CharactersStaffBoxList}>
-                        {data.map(d => {
+                        {currentData.map(d => {
                             const va = Find(d.voice_actors, { language: "Japanese" })
                             return (
-                                <div key={d.url} className={`${classes.CharactersStaffBoxItem} ${type === "characters" ? `${classes.CharactersStaffBoxCharacter}` : `${classes.CharactersStaffBoxStaff}`}`}>
-                                    <div className={`${classes.CharactersStaffBoxItemCharacter} ${type === "characters" ? "chr" : `${classes.CharactersStaffBoxStaffOverride} stff`}`}>
+                                <div key={d.url} className={`${classes.CharactersStaffBoxItem} ${type === "characters" ? `${classes.CharactersStaffBoxCharacter}` : `${classes.CharactersStaffBoxStaff}`} `}>
+                                    <div className={`${classes.CharactersStaffBoxItemCharacter} ${type === "characters" ? "chr" : `${classes.CharactersStaffBoxStaffOverride} stff`} `}>
                                         <a href={d.url} target="_blank" rel="noopener noreferrer" >
                                             <div style={{ backgroundImage: `url(${d.image_url})` }} className={classes.CharactersStaffBoxItemImage} />
                                         </a>
@@ -1049,13 +1155,13 @@ function CharactersStaffBox(props) {
                                             {d.positions ?
                                                 <Typography variant="subtitle2">
                                                     <a href={d.url} target="_blank" rel="noopener noreferrer">
-                                                        {d.positions ? d.positions.map((p, i) => d.positions.length - 1 !== i ? `${p}, ` : `${p}`) : ""}
+                                                        {d.positions ? d.positions.map((p, i) => d.positions.length - 1 !== i ? `${p}, ` : `${p} `) : ""}
                                                     </a>
                                                 </Typography>
                                                 : ""}
                                         </div>
                                     </div>
-                                    {type === "characters" && va ?
+                                    {type === "characters" && va && open ?
                                         <div className={`${classes.CharactersStaffBoxItemStaff} stff`}>
                                             <div className={classes.CharactersStaffBoxItemText}>
                                                 <Typography variant="subtitle2">
@@ -1073,6 +1179,13 @@ function CharactersStaffBox(props) {
                             )
                         })}
                     </div>
+                    {data.length > 6 ?
+                        <div className={classes.CharactersStaffBoxShowMore}>
+                            <Button variant="outlined" size="small" onClick={handleOpenButton}>
+                                {open ? t("ns.show_less") : t("ns.show_more")}
+                            </Button>
+                        </div>
+                        : ""}
                     <Typography variant="subtitle2" align="right">
                         <a href="https://jikan.moe/" target="_blank" rel="noopener noreferrer">jikan API</a>
                     </Typography>
@@ -1143,14 +1256,20 @@ function getStatusColor({ value }) {
         case "plan_to_watch": {
             return blue[hue]
         }
+        case "plan_to_read": {
+            return blue[hue]
+        }
         case "on_hold": {
             return grey[hue]
         }
         case "watching": {
-            return red[400]
+            return red[hue]
+        }
+        case "reading": {
+            return red[hue]
         }
         default: {
-            return red[hue]
+            return red[900]
         }
     }
 }

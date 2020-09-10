@@ -41,6 +41,12 @@
             "subtitle_text": "Lütfen daha sonra tekrar deneyin..."
         }
     },
+    "search": {
+        "warnings": {
+            "not_found_synopsis": "Konu bulunamadı.",
+            "not_found_premiered": "Çıkış dönemi bulunamadı."
+        }
+    },
     "translations": {
         "warnings": {
             "+18": {
@@ -66,7 +72,7 @@
             "series_status": "{{episode_count}} Bölüm",
             "series_status_plural": "{{episode_count}} Bölüm",
             "download_links": "İndirme Linkleri",
-            "stats": "Bilgiler"
+            "stats": "Bilgiler [MyAnimeList]"
         },
         "jikan_errors": {
             "couldnt_reach_data": "İstenilen dataya ulaşamadık."

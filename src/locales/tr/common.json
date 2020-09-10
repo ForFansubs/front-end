@@ -42,14 +42,19 @@
         "dropped": "Bıraktı",
         "on_hold": "Askıda",
         "plan_to_watch": "İzleyecek",
+        "plan_to_read": "Okuyacak",
         "watching": "İzliyor",
+        "reading": "Okuyor",
+        "currently_airing": "Devam ediyor",
+        "finished_airing": "Tamamlandı",
+        "not_aired_yet": "Daha yayınlanmadı",
+        "postponed": "Ertelendi",
+        "canceled": "İptal edildi",
         "youtube_preview": "Tanıtım Filmi",
         "characters": "Karakterler",
-        "staff": "Kadro"
-    },
-    "warnings": {
-        "not_found_synopsis": "Konu bulunamadı.",
-        "not_found_premiered": "Çıkış dönemi bulunamadı."
+        "staff": "Kadro",
+        "show_more": "daha fazla göster",
+        "show_less": "daha az göster"
     },
     "buttons": {
         "goto_anime": "Animeye git",
