@@ -134,7 +134,7 @@ export default function Featured(props) {
                         <img src={contentHeader("anime", slug)} onError={img => {
                             img.target.onerror = null
                             img.target.src = HeaderPlaceholder
-                        }} alt={name + " toplu"} />
+                        }} alt="" />
                     </div>
                     <div className={classes.InfoContainer}>
                         {logoError ?
@@ -158,7 +158,7 @@ export default function Featured(props) {
                                 </Typography>
                             </Dotdotdot>
                         </div>
-                        <Typography variant="h6" component="ul" className={classes.GenreList}>
+                        <Typography variant="body2" component="ul" className={classes.GenreList}>
                             {genres.split(',').map(genre => <li key={name + genre} className={classes.GenreItem}>{genre}</li>)}
                         </Typography>
                     </div>

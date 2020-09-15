@@ -12,7 +12,7 @@ const theme = {
             main: '#90caf9'
         },
         secondary: {
-            main: 'rgb(255,127,80)'
+            main: '#ff7f50'
         },
         background: {
             default: "#121212",

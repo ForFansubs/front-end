@@ -78,7 +78,7 @@ export default (props) => {
                                 <img src={contentHeader("anime", anime_slug)} onError={img => {
                                     img.target.onerror = null
                                     img.target.src = HeaderPlaceholder
-                                }} alt={anime_name} />
+                                }} alt="" />
                             </div>
                             <div className={classes.Text}>
                                 <Dotdotdot clamp={1} useNativeClamp>

@@ -20,7 +20,7 @@ const MangaPage = lazy(() => import('./pages/ceviriler/manga/index'))
 const EpisodePage = lazy(() => import('./pages/episode/index'))
 const MangaEpisodePage = lazy(() => import('./pages/manga-episode/index'))
 const CompleteRegistrationPage = lazy(() => import('./pages/kayit-tamamla/index'))
-const TakvimPage = lazy(() => import('./pages/takvim/index'))
+const TakvimPage = lazy(() => import('./pages/calendar/index'))
 
 export default function App() {
   const getOnline = useDispatch('getOnline')

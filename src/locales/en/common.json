@@ -63,8 +63,11 @@
         "pagebypage": "Page by page"
     },
     "episode": {
-        "episode_title": "Episode {{episode_number}}"
+        "episode_title": "Episode {{episode_number}}",
+        "episode_title_batch": "BATCH LINK",
+        "episode_title_batch_episode_number": "BATCH LINK for {{episode_number}}"
     },
     "metadata": {},
-    "date_format": "MM.dd.yyyy"
+    "date_format": "MM.dd.yyyy",
+    "calendar_date_format": "MM.dd"
 }

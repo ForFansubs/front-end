@@ -113,7 +113,7 @@ export default function LatestAniManga(props) {
                                 img.target.src = cover_art
                                 setImageError(true)
                             }}
-                            alt={`${name} cover_art`} />
+                            alt="" />
                     </Grid>
                     <Grid item xs={12} className={classes.Title}>
                         <Dotdotdot clamp={2} useNativeClamp>

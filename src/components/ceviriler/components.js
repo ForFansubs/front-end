@@ -22,6 +22,7 @@ import EpisodeTitleParser from "../../config/episode-title-parser"
 import Format from "../date-fns/format"
 import axios from "../../config/axios/axios"
 import Loading from "../progress"
+import Dotdotdot from "react-dotdotdot"
 
 const useStyles = makeStyles((theme) => ({
     Container: {
@@ -329,11 +330,11 @@ function AnimePage(props) {
 
                     setJikanScoreData(tempData)
                     setJikanStatusData({
-                        completed: res.data.completed,
-                        watching: res.data.watching,
-                        dropped: res.data.dropped,
-                        on_hold: res.data.on_hold,
-                        plan_to_watch: res.data.plan_to_watch,
+                        completed: res.data.completed || 0,
+                        watching: res.data.watching || 0,
+                        dropped: res.data.dropped || 0,
+                        on_hold: res.data.on_hold || 0,
+                        plan_to_watch: res.data.plan_to_watch || 0,
                     })
                     setJikanScoreStatusDataLoading(false)
                 }
@@ -409,10 +410,9 @@ function AnimePage(props) {
                                     {premiered ? premiered : null}
                                     {version === "bd" ? (
                                         <img
-                                            title="bd-logo"
                                             loading="lazy"
                                             src={bluray}
-                                            alt="bd-logo"
+                                            alt=""
                                             style={{ height: "1rem" }}
                                         />
                                     ) : null}
@@ -424,9 +424,8 @@ function AnimePage(props) {
                                 ) : (
                                         <Box className={classes.LogoImage}>
                                             <img
-                                                title={name + " logoimage"}
                                                 loading="lazy"
-                                                alt={name + " logoimage"}
+                                                alt=""
                                                 src={contentLogo("anime", slug)}
                                                 onError={(img) => {
                                                     setLogoError(true)
@@ -500,9 +499,8 @@ function AnimePage(props) {
                     <div className={classes.BackgroundImage}>
                         {headerError ? (
                             <img
-                                title={name + " cover_art"}
                                 loading="lazy"
-                                alt={name + " cover_art"}
+                                alt=""
                                 src={contentCover("anime", slug)}
                                 className={clsx(classes.CoverArtContainer, {
                                     [classes.FallbackCoverArt]: headerError,
@@ -518,9 +516,8 @@ function AnimePage(props) {
                             />
                         ) : null}
                         <img
-                            title={name + " headerimage"}
                             loading="lazy"
-                            alt={name + " headerimage"}
+                            alt=""
                             src={contentHeader("anime", slug)}
                             className={clsx({
                                 [classes.FallbackBackgroundImage]: headerError,
@@ -670,11 +667,11 @@ function MangaPage(props) {
 
                     setJikanScoreData(tempData)
                     setJikanStatusData({
-                        completed: res.data.completed,
-                        reading: res.data.reading,
-                        dropped: res.data.dropped,
-                        on_hold: res.data.on_hold,
-                        plan_to_read: res.data.plan_to_read,
+                        completed: res.data.completed || 0,
+                        reading: res.data.reading || 0,
+                        dropped: res.data.dropped || 0,
+                        on_hold: res.data.on_hold || 0,
+                        plan_to_read: res.data.plan_to_read || 0,
                     })
                     setJikanScoreStatusDataLoading(false)
                 }
@@ -728,9 +725,8 @@ function MangaPage(props) {
                                 ) : (
                                         <Box className={classes.LogoImage}>
                                             <img
-                                                title={name + " logoimage"}
                                                 loading="lazy"
-                                                alt={name + " logoimage"}
+                                                alt=""
                                                 src={contentLogo("manga", slug)}
                                                 onError={(img) => {
                                                     setLogoError(true)
@@ -837,9 +833,8 @@ function MangaPage(props) {
                     <Box className={classes.BackgroundImage}>
                         {headerError ? (
                             <img
-                                title={name + " cover_art"}
                                 loading="lazy"
-                                alt={name + " cover_art"}
+                                alt=""
                                 src={contentCover("manga", slug)}
                                 className={clsx(classes.CoverArtContainer, {
                                     [classes.FallbackCoverArt]: headerError,
@@ -855,9 +850,8 @@ function MangaPage(props) {
                             />
                         ) : null}
                         <img
-                            title={name + " headerimage"}
                             loading="lazy"
-                            alt={name + " headerimage"}
+                            alt=""
                             src={contentHeader("manga", slug)}
                             className={clsx({
                                 [classes.FallbackBackgroundImage]: headerError,
@@ -1142,13 +1136,17 @@ function CharactersStaffBox(props) {
                                         <div className={classes.CharactersStaffBoxItemText}>
                                             <Typography variant="subtitle2">
                                                 <a href={d.url} target="_blank" rel="noopener noreferrer">
-                                                    {d.name.replace(",", "")}
+                                                    <Dotdotdot clamp={3} useNativeClamp>
+                                                        {d.name.replace(",", "")}
+                                                    </Dotdotdot>
                                                 </a>
                                             </Typography>
                                             {d.role ?
                                                 <Typography variant="subtitle2">
                                                     <a href={d.url} target="_blank" rel="noopener noreferrer">
-                                                        {d.role}
+                                                        <Dotdotdot clamp={3} useNativeClamp>
+                                                            {d.role}
+                                                        </Dotdotdot>
                                                     </a>
                                                 </Typography> : ""
                                             }
@@ -1202,6 +1200,42 @@ function CharactersStaffBox(props) {
                         </Typography>
                     </div>}
         </>
+    )
+}
+
+function AdultModal(props) {
+    const { t } = useTranslation('components')
+    const classes = useStyles()
+    const { open, handleClose } = props
+
+    useEffect(() => {
+        if (open)
+            document.getElementById("scroll-node").style.filter = "blur(50px)"
+        else document.getElementById("scroll-node").style.removeProperty('filter')
+        return function cleanup() {
+            document.getElementById("scroll-node").style.removeProperty('filter')
+        }
+    })
+
+    return (
+        <Modal
+            className={classes.Modal}
+            open={open}
+        >
+            <div className={classes.ModalContainer}>
+                <Typography variant="body1" gutterBottom>
+                    {t('translations.warnings.+18.header_text')}
+                </Typography>
+                <Link to="/">
+                    <Button variant="outlined" style={{ marginRight: 8 }}>
+                        {t('translations.buttons.+18.no')}
+                    </Button>
+                </Link>
+                <Button variant="outlined" style={{ color: "red" }} onClick={handleClose}>
+                    {t('translations.buttons.+18.yes')}
+                </Button>
+            </div>
+        </Modal>
     )
 }
 
@@ -1272,42 +1306,6 @@ function getStatusColor({ value }) {
             return red[900]
         }
     }
-}
-
-function AdultModal(props) {
-    const { t } = useTranslation('components')
-    const classes = useStyles()
-    const { open, handleClose } = props
-
-    useEffect(() => {
-        if (open)
-            document.getElementById("scroll-node").style.filter = "blur(50px)"
-        else document.getElementById("scroll-node").style.removeProperty('filter')
-        return function cleanup() {
-            document.getElementById("scroll-node").style.removeProperty('filter')
-        }
-    })
-
-    return (
-        <Modal
-            className={classes.Modal}
-            open={open}
-        >
-            <div className={classes.ModalContainer}>
-                <Typography variant="body1" gutterBottom>
-                    {t('translations.warnings.+18.header_text')}
-                </Typography>
-                <Link to="/">
-                    <Button variant="outlined" style={{ marginRight: 8 }}>
-                        {t('translations.buttons.+18.no')}
-                    </Button>
-                </Link>
-                <Button variant="outlined" style={{ color: "red" }} onClick={handleClose}>
-                    {t('translations.buttons.+18.yes')}
-                </Button>
-            </div>
-        </Modal>
-    )
 }
 
 export { AnimePage, MangaPage, JikanStatsScoresChart }

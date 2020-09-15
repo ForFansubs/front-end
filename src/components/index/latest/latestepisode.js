@@ -63,7 +63,7 @@ export default function LatestEpisode(props) {
                                 img.target.src = cover_art
                                 setImageError(true)
                             }}
-                            alt={`${anime_name} ${episodeInfo.title} Cover Art`} />
+                            alt="" />
                     </Grid>
                     <Grid item xs={12} className={classes.Metadata}>
                         <Dotdotdot clamp={2} useNativeClamp>

@@ -62,7 +62,7 @@ export default function LatestMangaEpisode(props) {
                                 img.target.src = manga_cover
                                 setImageError(true)
                             }}
-                            alt={`${manga_name} Cover Art`} />
+                            alt="" />
                     </Grid>
                     <Grid item xs={12} className={classes.Metadata}>
                         <Typography variant="body2">

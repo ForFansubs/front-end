@@ -95,5 +95,11 @@
     },
     "faq": {
         "header_text": "Frequently Asked Questions"
+    },
+    "calendar": {
+        "metadata": {
+            "title": "{{site_name}} Calendar",
+            "description": "You can find the latest airing anime and when we're going to release them. - {{site_name}} Calendar"
+        }
     }
 }

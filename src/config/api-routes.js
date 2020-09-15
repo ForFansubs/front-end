@@ -23,6 +23,7 @@ const getMotdInfo = (props) => {
     }
     return `/motd${params ? `?${params}` : ""}`
 }
+const getCalendarData = `/takvim/`
 const getRegisterDone = `/kullanici/kayit-tamamla`
 const getRegisterRefresh = `/kullanici/kayit-tamamla/yenile`
 
@@ -55,6 +56,7 @@ export {
     getMangaEpisodePageInfo,
     getEpisodeInfo,
     getMotdInfo,
+    getCalendarData,
     getRegisterDone,
     getRegisterRefresh,
     loginRoute,

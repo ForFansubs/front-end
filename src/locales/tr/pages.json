@@ -95,5 +95,11 @@
     },
     "faq": {
         "header_text": "Sıkça Sorulan Sorular"
+    },
+    "calendar": {
+        "metadata": {
+            "title": "{{site_name}} Takvim",
+            "description": "Grubumuzun güncel olarak çevirdiği tüm animelerin hangi gün geleceğini buradan kontrol edebilirsiniz. - {{site_name}} Takvim"
+        }
     }
 }
