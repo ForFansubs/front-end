@@ -13,7 +13,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import CalendarIcon from '@material-ui/icons/CalendarToday';
 import InfoIcon from '@material-ui/icons/Info';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MoonIcon from '@material-ui/icons/NightsStay'
+import MoonIcon from '@material-ui/icons/Brightness2'
 import SunIcon from '@material-ui/icons/WbSunny'
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';

@@ -35,6 +35,10 @@ const useStyles = makeStyles(theme => ({
         color: theme.palette.type === "dark" ? "inherit" : grey[700],
         '& *': {
             fontFamily: "'Overpass', sans-serif"
+        },
+        "& .MuiTypography-body1": {
+            fontSize: "0.875rem",
+            fontWeight: "bold"
         }
     },
     PopperContainer: {
@@ -48,7 +52,10 @@ const useStyles = makeStyles(theme => ({
         minWidth: 350,
         minHeight: 200,
         maxHeight: 275,
-        overflow: "hidden"
+        overflow: "hidden",
+        "& h2": {
+            fontSize: "1rem"
+        }
     },
     GenresContainer: {
         marginTop: -4,
@@ -116,9 +123,11 @@ export default function LatestAniManga(props) {
                             alt="" />
                     </Grid>
                     <Grid item xs={12} className={classes.Title}>
-                        <Dotdotdot clamp={2} useNativeClamp>
-                            {name}
-                        </Dotdotdot>
+                        <Typography variant="body1">
+                            <Dotdotdot clamp={2} useNativeClamp>
+                                {name}
+                            </Dotdotdot>
+                        </Typography>
                     </Grid>
                 </Link>
                 {mobile ? "" :
@@ -141,25 +150,25 @@ export default function LatestAniManga(props) {
                             }}
                             transition>
                             {({ TransitionProps }) =>
-                                (
-                                    <Fade {...TransitionProps} timeout={100} exit={false}>
-                                        <div>
-                                            <div className={classes.InfoBox}>
-                                                <Typography variant="body1" component="p">
-                                                    <b>{name}{release_date ? ` - ${new Date(release_date).getFullYear()}` : ""}{version === "bd" ? ` - (Blu-ray)` : ""}</b>
+                            (
+                                <Fade {...TransitionProps} timeout={100} exit={false}>
+                                    <div>
+                                        <div className={classes.InfoBox}>
+                                            <Typography variant="body1" component="h2">
+                                                <b>{name}{release_date ? ` - ${new Date(release_date).getFullYear()}` : ""}{version === "bd" ? ` - (Blu-ray)` : ""}</b>
+                                            </Typography>
+                                            <Typography variant="body1" component="div" className={classes.GenresContainer}>
+                                                {genres}
+                                            </Typography>
+                                            <Dotdotdot clamp={7} useNativeClamp>
+                                                <Typography variant="subtitle1" component="p">
+                                                    {synopsis}
                                                 </Typography>
-                                                <Typography variant="body1" component="div" className={classes.GenresContainer}>
-                                                    {genres}
-                                                </Typography>
-                                                <Dotdotdot clamp={7} useNativeClamp>
-                                                    <Typography variant="subtitle1" component="p">
-                                                        {synopsis}
-                                                    </Typography>
-                                                </Dotdotdot>
-                                            </div>
+                                            </Dotdotdot>
                                         </div>
-                                    </Fade>
-                                )
+                                    </div>
+                                </Fade>
+                            )
                             }
                         </Popper>
                     </div>}

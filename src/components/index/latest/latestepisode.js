@@ -29,11 +29,17 @@ const useStyles = makeStyles(theme => ({
             height: "100%"
         }
     },
+    Title: {
+        fontSize: "0.875rem"
+    },
     Metadata: {
         padding: `${theme.spacing(1)}px 0`,
         color: theme.palette.type === "dark" ? "inherit" : grey[700],
         '& *': {
             fontFamily: "'Overpass', sans-serif"
+        },
+        "& .MuiTypography-body1": {
+            fontWeight: "bold"
         }
     }
 }))
@@ -67,7 +73,7 @@ export default function LatestEpisode(props) {
                     </Grid>
                     <Grid item xs={12} className={classes.Metadata}>
                         <Dotdotdot clamp={2} useNativeClamp>
-                            <Typography variant="body2">
+                            <Typography variant="body1" className={classes.Title}>
                                 {episodeInfo.title}
                             </Typography>
                         </Dotdotdot>
