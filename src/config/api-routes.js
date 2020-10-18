@@ -34,6 +34,7 @@ const registerRoute = "/kullanici/kayit"
 const contentCover = (type, slug, size) => `/api/resimler/${type}/${slug}-cover${size ? `?size=${size}` : ""}`
 const contentHeader = (type, slug, size) => `/api/resimler/${type}/${slug}-header${size ? `?size=${size}` : ""}`
 const contentLogo = (type, slug) => `/api/resimler/${type}/${slug}-logo?type=logo`
+const contentMetadata = (type, slug) => `/api/resimler/metadata/${type}/${slug}`
 
 const mangaPageImage = (slug, episode_number, filename) => `/api/resimler/manga/${slug}/oku/${episode_number}/${filename}`
 
@@ -64,6 +65,7 @@ export {
     contentCover,
     contentHeader,
     contentLogo,
+    contentMetadata,
     mangaPageImage,
     jikanAPI,
     youtubeEmbedLink

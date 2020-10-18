@@ -8,7 +8,7 @@ import axios from '../../../config/axios/axios'
 
 import { MangaPage } from '../../../components/ceviriler/components'
 import { mangaPage } from '../../../config/front-routes'
-import { getMangaIndex } from '../../../config/api-routes'
+import { contentMetadata, getMangaIndex } from '../../../config/api-routes'
 
 import Loading from '../../../components/progress/index'
 
@@ -63,7 +63,8 @@ export default function (props) {
                     desc={t('manga.metadata.description', { site_name: process.env.REACT_APP_SITENAME, manga_name: manga.name, manga_synopsis: manga.synopsis })}
                     url={mangaPage(manga.slug)}
                     content="video.tv_show"
-                    image={manga.cover_art} />
+                    image={process.env.REACT_APP_SITEURL + contentMetadata("manga", manga.slug)}
+                    twitter_card={"summary_large_image"} />
                 <MangaPage {...manga} />
             </>
         )

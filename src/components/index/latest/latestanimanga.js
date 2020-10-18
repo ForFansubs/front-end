@@ -13,10 +13,7 @@ import { contentCover } from '../../../config/api-routes';
 
 const useStyles = makeStyles(theme => ({
     Container: {
-        position: "relative",
-        '& *': {
-            fontFamily: "'Overpass', sans-serif"
-        }
+        position: "relative"
     },
     Image: {
         position: "relative",
@@ -33,9 +30,6 @@ const useStyles = makeStyles(theme => ({
     Title: {
         marginTop: theme.spacing(1),
         color: theme.palette.type === "dark" ? "inherit" : grey[700],
-        '& *': {
-            fontFamily: "'Overpass', sans-serif"
-        },
         "& .MuiTypography-body1": {
             fontSize: "0.875rem",
             fontWeight: "bold"
@@ -54,6 +48,7 @@ const useStyles = makeStyles(theme => ({
         maxHeight: 275,
         overflow: "hidden",
         "& h2": {
+            fontFamily: "'Overpass', sans-serif",
             fontSize: "1rem"
         }
     },

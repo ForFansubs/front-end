@@ -8,7 +8,7 @@ import axios from '../../../config/axios/axios'
 
 import { AnimePage } from '../../../components/ceviriler/components'
 import { animePage } from '../../../config/front-routes'
-import { getAnimeIndex } from '../../../config/api-routes'
+import { contentMetadata, getAnimeIndex } from '../../../config/api-routes'
 
 import Loading from '../../../components/progress/index'
 
@@ -83,7 +83,8 @@ export default function (props) {
                         })}
                     url={animePage(anime.slug)}
                     content="video.tv_show"
-                    image={anime.cover_art} />
+                    image={process.env.REACT_APP_SITEURL + contentMetadata("anime", anime.slug)}
+                    twitter_card={"summary_large_image"} />
                 <AnimePage {...anime} />
             </>
         )
