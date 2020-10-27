@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { useGlobal } from 'reactn'
 import ReactGA from 'react-ga';
-import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next';
 
 import axios from '../../config/axios/axios'
 import { getIndexEpisodes, getIndexFeaturedAnime, getIndexBatchEpisodes } from '../../config/api-routes'
 
-import { Divider, Grid, Typography } from '@material-ui/core'
-import { useStyles } from '../../components/index/index'
+import { Grid, Typography } from '@material-ui/core'
+import { IndexDivider, useStyles } from '../../components/index/index'
 import LatestAniManga, { LoadingDivAniManga } from '../../components/index/latest/latestanimanga'
 import LatestEpisode, { LoadingDivEpisode } from '../../components/index/latest/latestepisode';
 import FeaturedContainer from '../../components/index/featured/FeaturedContainer'
 import LatestBatchLinks from '../../components/index/latest/latestbatchlinks';
-import { logoRoute } from '../../config/front-routes';
 import LatestMangaEpisode, { LoadingDivMangaEpisode } from '../../components/index/latest/latestmangaepisode';
 import MotdContainer from '../../components/motd';
 import Metatags from '../../components/helmet/index'
@@ -135,7 +133,7 @@ export default function IndexPage(props) {
                     </section>
                     : ""
             }
-            <Divider />
+            <IndexDivider />
             {
                 latestEpisodesWindow.length || latestAnimesWindow.length ?
                     <Typography variant="h2" component="h2">
@@ -155,7 +153,7 @@ export default function IndexPage(props) {
                     </section>
                     : ""
             }
-            <Divider />
+            <IndexDivider />
             {
                 latestAnimesWindow.length ?
                     <section className={classes.ContainerDiv}>
@@ -169,7 +167,7 @@ export default function IndexPage(props) {
                     </section>
                     : ""
             }
-            <Divider />
+            <IndexDivider />
             {
                 latestMangaEpisodesWindow.length || latestMangasWindow.length ?
                     <Typography variant="h2" component="h2" >
@@ -189,7 +187,7 @@ export default function IndexPage(props) {
                     </section>
                     : ""
             }
-            <Divider />
+            <IndexDivider />
             {
                 latestMangasWindow.length ?
                     <section className={classes.ContainerDiv}>

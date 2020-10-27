@@ -1,5 +1,5 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core'
+import { Divider, makeStyles } from '@material-ui/core'
 import { grey } from '@material-ui/core/colors'
 
 
@@ -23,13 +23,9 @@ const useStyles = makeStyles(theme => ({
         }
     },
     MainDiv: {
-        '& .MuiDivider-root': {
-            marginBottom: theme.spacing(4)
-        },
         color: theme.palette.type === "dark" ? "inherit" : grey[700]
     },
     ContainerDiv: {
-        marginBottom: theme.spacing(4)
     },
     IndexHeader: {
         marginBottom: theme.spacing(2)
@@ -54,6 +50,9 @@ const useStyles = makeStyles(theme => ({
                 fontSize: "3em"
             }
         }
+    },
+    IndexDivider: {
+        margin: theme.spacing(4, 0)
     },
     [theme.breakpoints.down("xs")]: {
         EpisodeContainer: {
@@ -81,4 +80,14 @@ function TitleContainer(props) {
     )
 }
 
-export { useStyles, TitleContainer }
+function IndexDivider() {
+    const classes = useStyles()
+
+    return (
+        <div className={classes.IndexDivider}>
+            <Divider />
+        </div>
+    )
+}
+
+export { useStyles, TitleContainer, IndexDivider }

@@ -28,7 +28,6 @@ const motd = JSON.parse(localStorage.getItem("motd")) ? JSON.parse(localStorage.
 //Change non-nullable keys with defaults
 settings.theme = settings.theme ? settings.theme : window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
 settings.readingStyle = settings.readingStyle ? settings.readingStyle : "pagebypage"
-settings.language = settings.language ? settings.language : (navigator.language || navigator.userLanguage) || process.env.REACT_APP_DEFAULT_LANG
 settings.version = settings.version ? settings.version : "null"
 settings["release-name"] = settings["release-name"] ? settings["release-name"] : "null"
 

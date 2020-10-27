@@ -3,7 +3,7 @@ import { useGlobal } from 'reactn'
 import { Link } from 'react-router-dom'
 import { animePage, mangaPage } from '../../../config/front-routes'
 
-import { Grid, makeStyles, Popper, Fade } from '@material-ui/core';
+import { Grid, makeStyles, Popper, Fade, Divider } from '@material-ui/core';
 import { grey } from '@material-ui/core/colors'
 import Typography from '@material-ui/core/Typography'
 import { CoverPlaceholder } from '../../../config/theming/images';
@@ -31,6 +31,7 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(1),
         color: theme.palette.type === "dark" ? "inherit" : grey[700],
         "& .MuiTypography-body1": {
+            fontFamily: "'Overpass', sans-serif",
             fontSize: "0.875rem",
             fontWeight: "bold"
         }
@@ -50,18 +51,23 @@ const useStyles = makeStyles(theme => ({
         "& h2": {
             fontFamily: "'Overpass', sans-serif",
             fontSize: "1rem"
-        }
+        },
     },
     GenresContainer: {
-        marginTop: -4,
+        marginBottom: theme.spacing(1),
         '& span': {
             display: "inline-block",
-            padding: "4px 4px 0",
+            padding: "0 4px",
             margin: "0 4px 4px 0",
             backgroundColor: theme.palette.primary.main,
             color: theme.palette.primary.contrastText
         }
+    },
+    SynopsisContainer: {
+        fontSize: "0.875rem",
+        marginTop: theme.spacing(1)
     }
+
 }))
 
 export const LoadingDivAniManga = (key) => {
@@ -149,14 +155,17 @@ export default function LatestAniManga(props) {
                                 <Fade {...TransitionProps} timeout={100} exit={false}>
                                     <div>
                                         <div className={classes.InfoBox}>
-                                            <Typography variant="body1" component="h2">
-                                                <b>{name}{release_date ? ` - ${new Date(release_date).getFullYear()}` : ""}{version === "bd" ? ` - (Blu-ray)` : ""}</b>
-                                            </Typography>
+                                            <Dotdotdot clamp={2} useNativeClamp>
+                                                <Typography variant="body1" component="h2">
+                                                    <b>{name}{release_date ? ` - ${new Date(release_date).getFullYear()}` : ""}{version === "bd" ? ` - (Blu-ray)` : ""}</b>
+                                                </Typography>
+                                            </Dotdotdot>
                                             <Typography variant="body1" component="div" className={classes.GenresContainer}>
                                                 {genres}
                                             </Typography>
+                                            <Divider />
                                             <Dotdotdot clamp={7} useNativeClamp>
-                                                <Typography variant="subtitle1" component="p">
+                                                <Typography variant="subtitle1" component="p" className={classes.SynopsisContainer}>
                                                     {synopsis}
                                                 </Typography>
                                             </Dotdotdot>

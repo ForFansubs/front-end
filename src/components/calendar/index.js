@@ -12,24 +12,34 @@ import getDay from 'date-fns/getDay'
 import parseISO from 'date-fns/parseISO'
 
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
+import { animePage } from '../../config/front-routes'
 
 const useStyles = makeStyles(theme => ({
     CalendarDays: {
         display: "flex",
         marginBottom: theme.spacing(2),
-        overflow: "auto",
+        overflowX: "auto",
+        overflowY: "hidden",
         "& .MuiButton-root": {
             borderRadius: 0
         }
     },
     CalendarDaysItem: {
         display: "flex",
+        cursor: "pointer",
+        padding: theme.spacing(0, 2),
+        "&:first-child": {
+            padding: theme.spacing(0, 2, 0, 0)
+        },
+        "&:last-child": {
+            padding: theme.spacing(0, 0, 0, 2)
+        },
         [theme.breakpoints.down('sm')]: {
             marginBottom: theme.spacing(1)
         }
     },
     CalendarDaysButton: {
-        padding: theme.spacing(0, 2),
         "& span": {
             fontWeight: "400"
         }
@@ -112,11 +122,10 @@ function CalendarDays(props) {
                 {
                     dayList.map((item, index) => {
                         const date = addDays(firstDayOfWeek, index)
-
                         return (
                             <React.Fragment key={date}>
                                 <div className={classes.CalendarDaysItem}>
-                                    <Button onClick={() => setSelectedDay(item)}>
+                                    <div onClick={() => setSelectedDay(item)}>
                                         <div className={clsx(classes.CalendarDaysButton, {
                                             [classes.CalendarDaysSameDay]: selectedDay === item
                                         })}>
@@ -127,11 +136,11 @@ function CalendarDays(props) {
                                                 {t(`${item}`)}
                                             </Typography>
                                         </div>
-                                    </Button>
-                                    {index !== dayList.length - 1
-                                        ? <Divider orientation="vertical" flexItem />
-                                        : ""}
+                                    </div>
                                 </div>
+                                {index !== dayList.length - 1
+                                    ? <Divider orientation="vertical" flexItem />
+                                    : ""}
                             </React.Fragment>
                         )
                     })
@@ -160,7 +169,7 @@ function CalendarDayPanel(props) {
 
 function CalendarItem(props) {
     const { t } = useTranslation('common')
-    const { name, episodes, cover_art, release_date, time, classes } = props
+    const { name, episodes, cover_art, release_date, time, slug, classes } = props
 
     return (
         <>
@@ -175,18 +184,22 @@ function CalendarItem(props) {
 
                 </div>
                 <div className={classes.CalendarItemContainer}>
-                    <div className={classes.CalendarItemCoverArt} style={{ backgroundImage: `url("${cover_art || CoverPlaceholder}")` }} />
+                    <Link to={animePage(slug)}>
+                        <div className={classes.CalendarItemCoverArt} style={{ backgroundImage: `url("${cover_art || CoverPlaceholder}")` }} />
+                    </Link>
                     <div className={classes.CalendarItemText}>
-                        <Typography variant="h5" component="h2" gutterBottom>
+                        <Link to={animePage(slug)}>
                             <Dotdotdot clamp={2} useNativeClamp>
-                                {name || ""}
+                                <Typography variant="h5" component="h2" gutterBottom>
+                                    {name || ""}
+                                </Typography>
                             </Dotdotdot>
-                        </Typography>
-                        <Typography variant="h4" component="span">
-                            <Dotdotdot clamp={1} useNativeClamp>
+                        </Link>
+                        <Dotdotdot clamp={1} useNativeClamp>
+                            <Typography variant="h4" component="span">
                                 {episodes.length ? t('episode.episode_title', { episode_number: Number(episodes[0].episode_number) + 1 }) : t('episode.episode_title', { episode_number: 1 })}
-                            </Dotdotdot>
-                        </Typography>
+                            </Typography>
+                        </Dotdotdot>
                         {isFuture(new Date(release_date)) ?
                             <Typography variant="body1" component="span">
                                 {t('ns.release_date')}: {format(new Date(release_date), t('date_format'))}

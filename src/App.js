@@ -25,17 +25,12 @@ const TakvimPage = lazy(() => import('./pages/calendar/index'))
 export default function App() {
   const getOnline = useDispatch('getOnline')
   const checkMobile = useDispatch('checkMobile')
-  const [settings] = useGlobal('settings')
   const [online] = useGlobal('online')
   ReactGA.initialize(process.env.REACT_APP_GA_USER_ID);
   useEffect(() => {
     getOnline()
     checkMobile(navigator.userAgent || navigator.vendor || window.opera)
   }, [getOnline, checkMobile])
-
-  useEffect(() => {
-    document.documentElement.setAttribute('lang', settings.language)
-  }, [settings.language])
 
   if (online === true)
     return (

@@ -1,10 +1,12 @@
 // Importing polyfills at the top
 import './config/polyfills'
-import React, { setGlobal, addReducer, useGlobal } from 'reactn'
+import { setGlobal, addReducer, useGlobal } from 'reactn'
+import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
 import { indexURL } from './config/api-routes'
 import axios from './config/axios/axios'
 import { settings, user, motd } from './config/localStorage'
+import './config/i18n'
 import i18next from './config/i18n'
 
 import './index.scss'
@@ -16,7 +18,8 @@ import getTheme from './config/theming/index'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 import ToastNotification, { payload } from './components/toastify/toast';
-import { I18nextProvider } from 'react-i18next'
+import { Suspense, useEffect } from 'react'
+import { initNewLanguage } from './config/initNewLanguage'
 
 //Set global variables & reducers via reactn package
 setGlobal({
@@ -119,7 +122,8 @@ addReducer('setSettings', (global, dispatch, key, value) => {
     settings[key] = value
 
     if (key === "language") {
-        i18next.changeLanguage(value)
+        initNewLanguage(value)
+        return i18next.changeLanguage(value)
     }
 
     localStorage.setItem('app-settings', JSON.stringify(settings))
@@ -158,17 +162,21 @@ function Mount() {
     const [theme] = useGlobal('theme')
     const themeObject = getTheme(theme)
 
+    useEffect(() => {
+        initNewLanguage(localStorage.getItem('i18nextLng') || "en")
+    }, [])
+
     window.theme = themeObject
 
     return (
-        <React.StrictMode>
+        <StrictMode>
             <ThemeProvider theme={themeObject}>
                 <CssBaseline />
-                <I18nextProvider i18n={i18next}>
+                <Suspense fallback={<></>}>
                     <App />
-                </I18nextProvider>
+                </Suspense>
             </ThemeProvider>
-        </React.StrictMode>
+        </StrictMode>
     )
 }
 
