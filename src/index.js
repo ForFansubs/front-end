@@ -16,7 +16,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import getTheme from './config/theming/index'
 
 import App from './App'
-import * as serviceWorker from './serviceWorker'
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import reportWebVitals from './reportWebVitals';
 import ToastNotification, { payload } from './components/toastify/toast';
 import { Suspense, useEffect } from 'react'
 import { initNewLanguage } from './config/initNewLanguage'
@@ -182,8 +183,16 @@ function Mount() {
 
 ReactDOM.render(<Mount />, document.getElementById('app-mount'))
 
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals(console.log);
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://cra.link/PWA
 if (process.env.REACT_APP_USE_SERVICE_WORKER === "true") {
-    serviceWorker.register({
+    serviceWorkerRegistration.register({
         onUpdate: function onUpdateHandler(registration) {
             const waitingServiceWorker = registration.waiting
 

@@ -11,6 +11,9 @@ function getLoadPath([ns]) {
         case "genres": {
             return '/locales/common/{{lng}}/{{ns}}.json'
         }
+        case "common": {
+            return '/locales/common/{{lng}}/{{ns}}.json'
+        }
         default: {
             return '/locales/front-end/{{lng}}/{{ns}}.json'
         }
