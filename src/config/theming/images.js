@@ -12,21 +12,21 @@ var CoverPlaceholder = null
 
 // Tam logonun dosyasını dene. Varsa içeri al.
 try {
-    logo = require('../../static/logo.png');
+    logo = require('../../static/logo.png').default;
 } catch (err) {
     console.error('Tam logo bulunamadı.')
 }
 
 // Tam logonun dosyasını dene. Varsa içeri al.
 try {
-    HeaderPlaceholder = require('../../static/HeaderPlaceholder.png');
+    HeaderPlaceholder = require('../../static/HeaderPlaceholder.png').default;
 } catch (err) {
     console.error('Tam logo bulunamadı.')
 }
 
 // Tam logonun dosyasını dene. Varsa içeri al.
 try {
-    CoverPlaceholder = require('../../static/CoverPlaceholder.png');
+    CoverPlaceholder = require('../../static/CoverPlaceholder.png').default;
 } catch (err) {
     console.error('Tam logo bulunamadı.')
 }
@@ -34,8 +34,8 @@ try {
 // GIF logosunun dosyalarını dene. Varsa içeri al, birisi yoksa hata ver ve header'da statik logoyu göster. (/components/header/header.js)
 if (process.env.REACT_APP_HEADER_LOGO_TYPE === "gif") {
     try {
-        fullLogo = require('../../static/fullLogo.gif');
-        fullLogoDark = require('../../static/fullLogo-dark.gif');
+        fullLogo = require('../../static/fullLogo.gif').default;
+        fullLogoDark = require('../../static/fullLogo-dark.gif').default;
     } catch (err) {
         console.warn('GIF logo bulunamadı.')
     }
@@ -43,8 +43,8 @@ if (process.env.REACT_APP_HEADER_LOGO_TYPE === "gif") {
 else {
     // Header logosunun dosyalarını dene. Varsa içeri al, birisi yoksa hata ver.
     try {
-        fullLogo = require('../../static/fullLogo.png');
-        fullLogoDark = require('../../static/fullLogo-dark.png');
+        fullLogo = require('../../static/fullLogo.png').default;
+        fullLogoDark = require('../../static/fullLogo-dark.png').default;
     } catch (err) {
         console.error('Header logosu bulunamadı.')
     }

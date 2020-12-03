@@ -25,7 +25,6 @@ export default function IndexPage(props) {
     let latestMangasWindow = []
     let latestEpisodesWindow = []
     let latestMangaEpisodesWindow = []
-    let featuredAnimeWindow = []
     let batchEpisodesWindow = []
 
     const [latestAnimes, setLatestAnimes] = useState([])
@@ -100,7 +99,6 @@ export default function IndexPage(props) {
     }
 
     //Öne çıkarılmışlar yükleniyor...
-    featuredAnimeWindow = <FeaturedContainer list={featuredAnimes} loading={featuredLoading} />
 
     //Handle latest batch episodes
     batchEpisodesWindow = batchEpisodes.map(episode => <LatestBatchLinks
@@ -115,7 +113,7 @@ export default function IndexPage(props) {
             <Metatags />
             <MotdContainer {...props} />
             <section className={classes.ContainerDiv}>
-                {featuredAnimeWindow}
+                <FeaturedContainer list={featuredAnimes} loading={featuredLoading} />
             </section>
             {
                 batchEpisodesWindow.length ?

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Swipeable } from 'react-swipeable'
+import { useSwipeable } from 'react-swipeable';
+
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import ReactInterval from 'react-interval';
@@ -9,9 +10,15 @@ import Featured, { FeaturedLoading } from './featured'
 import { makeStyles, Box, fade } from '@material-ui/core'
 import { NavigateBefore, NavigateNext } from '@material-ui/icons'
 
+export const Swipeable = ({ children, ...props }) => {
+    const handlers = useSwipeable(props);
+    return (<div {...handlers}>{children}</div>);
+}
+
 const useStyles = makeStyles(theme => ({
     FeaturedContainer: {
-        position: "relative"
+        position: "relative",
+        marginBottom: theme.spacing(4)
     },
     FeaturedComponent: {
         boxShadow: theme.shadows[6],

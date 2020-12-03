@@ -12,6 +12,7 @@
         "@material-ui/icons": "^4.9.1",
         "@material-ui/lab": "^4.0.0-alpha.56",
         "@nivo/bar": "^0.65.1",
+        "@nivo/core": "^0.66.0",
         "awesome-debounce-promise": "^2.1.0",
         "axios": "^0.21.0",
         "core-js": "^3.7.0",
@@ -23,7 +24,7 @@
         "i18next-http-backend": "^1.0.21",
         "lodash-es": "^4.17.15",
         "markdown-to-jsx": "^7.1.0",
-        "node-sass": "^5.0.0",
+        "node-sass": "4.14.1",
         "react": "^17.0.1",
         "react-app-polyfill": "^2.0.0",
         "react-dom": "^17.0.1",
@@ -39,7 +40,8 @@
         "react-swipeable": "^6.0.0",
         "react-toastify": "^6.1.0",
         "reactn": "^2.2.7",
-        "redux": "^4.0.5"
+        "redux": "^4.0.5",
+        "web-vitals": "^1.0.1"
     },
     "resolutions": {
         "minimist": "^1.2.3"
