@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { useGlobal, useDispatch } from 'reactn'
+import { useEffect, useState, useRef, useContext } from 'react'
 import Metatags from '../../components/helmet/index'
 import ReactGA from 'react-ga'
 import axios from '../../config/axios/axios'
@@ -18,6 +17,7 @@ import Loading from '../../components/progress'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { cursorNext, cursorPrevious } from '../../config/theming/images'
+import SettingsContext from '../../contexts/settings.context'
 
 export default function MangaEpisodePage(props) {
     const { t } = useTranslation(['pages', 'common'])
@@ -40,8 +40,7 @@ export default function MangaEpisodePage(props) {
         pages: []
     })
     const [activePageNumber, setActivePageNumber] = useState(1)
-    const [settings] = useGlobal('settings')
-    const setSettings = useDispatch('setSettings')
+    const [settings, setSettings] = useContext(SettingsContext)
 
     const NavigatorRef = useRef()
 
@@ -119,8 +118,8 @@ export default function MangaEpisodePage(props) {
 
     function handleReadingStyleChangeButton() {
         // İki tür var. "pagebypage" ve "webtoon"
-        if (settings.readingStyle === "pagebypage") setSettings("readingStyle", "webtoon")
-        else setSettings("readingStyle", "pagebypage")
+        if (settings.readingStyle === "pagebypage") setSettings(state => ({ ...state, readingStyle: "webtoon" }))
+        else setSettings(state => ({ ...state, readingStyle: "pagebypage" }))
     }
 
     function handleCenteringPage() {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Disqus from 'disqus-react';
 
 import { Box, Button } from '@material-ui/core'

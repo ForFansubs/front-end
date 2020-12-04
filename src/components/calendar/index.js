@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect, Fragment } from 'react'
 import { Button, Divider, makeStyles, Typography } from '@material-ui/core'
 import { CoverPlaceholder } from '../../config/theming/images'
 import Dotdotdot from 'react-dotdotdot'
@@ -123,7 +123,7 @@ function CalendarDays(props) {
                     dayList.map((item, index) => {
                         const date = addDays(firstDayOfWeek, index)
                         return (
-                            <React.Fragment key={date}>
+                            <Fragment key={date}>
                                 <div className={classes.CalendarDaysItem}>
                                     <div onClick={() => setSelectedDay(item)}>
                                         <div className={clsx(classes.CalendarDaysButton, {
@@ -141,7 +141,7 @@ function CalendarDays(props) {
                                 {index !== dayList.length - 1
                                     ? <Divider orientation="vertical" flexItem />
                                     : ""}
-                            </React.Fragment>
+                            </Fragment>
                         )
                     })
                 }

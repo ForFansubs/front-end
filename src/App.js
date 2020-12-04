@@ -1,5 +1,4 @@
-import React, { useEffect, lazy, Suspense } from 'react';
-import { useDispatch, useGlobal } from 'reactn'
+import React, { useEffect, lazy, Suspense, useContext } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async'
 import Wrapper from './components/hoc/wrapper'
@@ -12,6 +11,9 @@ import SSSPage from './pages/sss/index'
 import FourOhFourPage from './components/404/404'
 import EkipAlimlariPage from './pages/ekip-alimlari/index'
 import ExtraPagesList from './pages/extra-pages/index'
+import SiteStatusContext from './contexts/site_status.context';
+import LoginPage from './pages/user/logIn'
+import RegisterPage from './pages/user/register'
 
 const IndexPage = lazy(() => import('./pages/index/index'))
 const SearchPage = lazy(() => import('./pages/ara/index'))
@@ -23,22 +25,22 @@ const CompleteRegistrationPage = lazy(() => import('./pages/kayit-tamamla/index'
 const TakvimPage = lazy(() => import('./pages/calendar/index'))
 
 export default function App() {
-  const getOnline = useDispatch('getOnline')
-  const checkMobile = useDispatch('checkMobile')
-  const [online] = useGlobal('online')
+  const [siteStatus] = useContext(SiteStatusContext)
+
   ReactGA.initialize(process.env.REACT_APP_GA_USER_ID);
   useEffect(() => {
-    getOnline()
-    checkMobile(navigator.userAgent || navigator.vendor || window.opera)
-  }, [getOnline, checkMobile])
+  }, [])
 
-  if (online === true)
+  if (siteStatus.status === true)
     return (
       <>
         <Router>
-          <Wrapper>
-            <HelmetProvider>
-              <Suspense fallback={<Loading />}>
+
+          <HelmetProvider>
+            <Suspense fallback={<Loading />}>
+              <Route exact path="/giris-yap" component={LoginPage} />
+              <Route exact path="/kayit-ol" component={RegisterPage} />
+              <Wrapper>
                 <Switch>
                   <Route path="/" exact component={IndexPage} />
                   <Route path="/ceviriler/anime/:slug/izle/:episodeInfo?" exact component={EpisodePage} />
@@ -53,16 +55,16 @@ export default function App() {
                   {ExtraPagesList.length ? ExtraPagesList.map(({ PageUrl, PageComponent }) => (
                     <Route path={PageUrl} exact component={PageComponent} />
                   )) : ""}
-                  <Route component={FourOhFourPage} />
+                  <Route exact component={FourOhFourPage} />
                 </Switch>
-              </Suspense>
-            </HelmetProvider>
-          </Wrapper>
+              </Wrapper>
+            </Suspense>
+          </HelmetProvider>
         </Router>
       </>
     );
 
-  else if (online === false) return (
+  else if (!siteStatus.loading && !siteStatus.status) return (
     <InitialLoading error={true} />
   )
 

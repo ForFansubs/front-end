@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { useGlobal, useDispatch } from 'reactn'
+import { useContext, useEffect, useState } from 'react'
 import { Typography, makeStyles, Button } from '@material-ui/core'
 import { Close as CloseIcon } from '@material-ui/icons'
 import axios from '../../config/axios/axios'
 import Markdown from '../markdown/markdown'
 import { getMotdInfo } from '../../config/api-routes'
 import { useTranslation } from 'react-i18next'
+import MotdContext from '../../contexts/motd.context'
 
 
 const useStyles = makeStyles(theme => ({
@@ -31,8 +31,7 @@ export default function MotdContainer(props) {
     const classes = useStyles()
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
-    const [closedMotd] = useGlobal('motd')
-    const setMotd = useDispatch('setMotd')
+    const [motd, setMotd] = useContext(MotdContext)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -60,7 +59,7 @@ export default function MotdContainer(props) {
 
     if (!loading && data.length !== 0) {
         data.map(d => {
-            if (closedMotd.indexOf(d.id) !== -1) return
+            if (motd.indexOf(d.id) !== -1) return
             MotdList.push(
                 <div className={classes.MotdContainer} key={d.id}>
                     {d.title ?
@@ -73,7 +72,7 @@ export default function MotdContainer(props) {
                         {d.subtitle ? d.subtitle : t('motd.warnings.error')}
                     </Markdown>
                     {d.can_user_dismiss ?
-                        <Button onClick={() => setMotd(d.id)} size="small" className={classes.CloseButton}>
+                        <Button onClick={() => setMotd(state => ([...state, d.id]))} size="small" className={classes.CloseButton}>
                             <CloseIcon fontSize="small" />
                         </Button>
                         : ""}

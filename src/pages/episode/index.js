@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import { useGlobal } from 'reactn'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import ReactGA from 'react-ga'
 import { useTranslation } from 'react-i18next';
@@ -29,7 +28,6 @@ import { CoverPlaceholder } from '../../config/theming/images'
 export default function EpisodePage(props) {
     const classes = useStyles()
     const { t } = useTranslation('pages')
-    const [mobile] = useGlobal("mobile")
 
     const [animeData, setAnimeData] = useState({
         name: "",
@@ -304,7 +302,7 @@ export default function EpisodePage(props) {
                                     </Grid>
                                     <Grid item xs={9} md={8}>
                                         <Box p={2}>
-                                            <Typography variant={mobile ? "h5" : "h4"} component="h1">
+                                            <Typography variant="h4" component="h1">
                                                 <Dotdotdot clamp={2}>{animeData.name}</Dotdotdot>
                                             </Typography>
                                             {activeEpisode.credits ?
@@ -317,8 +315,8 @@ export default function EpisodePage(props) {
                                             }
                                             {activeEpisode.created_time ?
                                                 <div>
-                                                    <Typography variant={mobile ? "body2" : "body1"} component="span"><b>{t('episode.added_at')}: </b></Typography>
-                                                    <Typography variant={mobile ? "body2" : "body1"} component="span">{format(new Date(activeEpisode.created_time), "dd.MM.yyyy")}</Typography>
+                                                    <Typography variant="body1" component="span"><b>{t('episode.added_at')}: </b></Typography>
+                                                    <Typography variant="body1" component="span">{format(new Date(activeEpisode.created_time), "dd.MM.yyyy")}</Typography>
                                                 </div>
                                                 :
                                                 ""

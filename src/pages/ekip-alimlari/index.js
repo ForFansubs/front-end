@@ -1,4 +1,3 @@
-import React from 'react'
 import ReactGA from 'react-ga';
 import { useTranslation } from 'react-i18next';
 

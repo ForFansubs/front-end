@@ -1,4 +1,6 @@
 const indexPage = `/`
+const registerPage = "/kayit-ol"
+const loginPage = "/giris-yap"
 const searchPage = `/ara`
 const calendarPage = `/takvim`
 const faqPage = `/sss`
@@ -16,4 +18,4 @@ const mangaEpisodePage = (slug, episode_number, page_number) => {
 
 const logoRoute = "/logo.png"
 
-export { indexPage, searchPage, calendarPage, faqPage, recPage, adminPage, animePage, getAnimeWatchIndex, mangaPage, episodePage, mangaEpisodePage, logoRoute }
+export { indexPage, registerPage, loginPage, searchPage, calendarPage, faqPage, recPage, adminPage, animePage, getAnimeWatchIndex, mangaPage, episodePage, mangaEpisodePage, logoRoute }

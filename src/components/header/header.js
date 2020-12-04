@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { useGlobal, useDispatch, useEffect } from 'reactn'
 import { useTranslation } from "react-i18next";
 import Footer from '../footer/footer'
 
@@ -24,24 +23,21 @@ import { indexPage, searchPage, faqPage, recPage, adminPage, calendarPage } from
 import { fullLogo, fullLogoDark } from '../../config/theming/images'
 import ExtraPagesList from '../../pages/extra-pages/index'
 import SecondMenuItems from '../../config/drawer_items'
+import UserContext from '../../contexts/user.context';
+import SettingsContext from '../../contexts/settings.context';
 
 export default function MiniDrawer() {
     const { t } = useTranslation('components');
-    const [settings] = useGlobal('settings')
     const classes = useStyles();
     const theme = useTheme();
+    const [user, setUser] = useContext(UserContext)
+    const [settings, setSettings] = useContext(SettingsContext)
     // eslint-disable-next-line
-    const [, setShowModal] = useGlobal('showModal')
-    const [userInfo] = useGlobal('user')
-    const [usertheme] = useGlobal('theme')
-    const [isAdmin] = useGlobal('isAdmin')
-    const logoutHandler = useDispatch("logoutHandler")
-    const setUserTheme = useDispatch('setTheme')
     const [anchorEl, setAnchorEl] = useState(null)
     const profileMenu = Boolean(anchorEl);
 
-    const [open, setOpen] = React.useState(false);
-    const [menuItems, setMenuItems] = React.useState([])
+    const [open, setOpen] = useState(false);
+    const [menuItems, setMenuItems] = useState([])
 
     useEffect(() => {
         setMenuItems([
@@ -103,7 +99,7 @@ export default function MiniDrawer() {
         }
     }, [])
 
-    const [menuItems2] = React.useState(SecondMenuItems)
+    const [menuItems2] = useState(SecondMenuItems)
 
     function handleMenu(event) {
         setAnchorEl(event.currentTarget);
@@ -114,13 +110,12 @@ export default function MiniDrawer() {
     }
 
     function handleLogoutButton() {
-        logoutHandler();
+        setUser({})
         setAnchorEl(null);
     }
 
     function handleLoginRegisterButtons(type) {
         setAnchorEl(null)
-        setShowModal(type)
     }
 
     const handleDrawerState = () => {
@@ -209,29 +204,29 @@ export default function MiniDrawer() {
                     </IconButton>
                     <div className={classes.logoContainer}>
                         <Link to={indexPage} style={{ display: "flex" }}>
-                            <img title="Site logo" loading="lazy" className={classes.logo} src={usertheme === "dark" ? fullLogo : fullLogoDark} alt="Site Logo" />
+                            <img title="Site logo" loading="lazy" className={classes.logo} src={settings.theme === "dark" ? fullLogo : fullLogoDark} alt="Site Logo" />
                         </Link>
                     </div>
                     <div className={classes.RightBox}>
                         {
-                            usertheme === "dark"
+                            settings.theme === "dark"
                                 ?
-                                <IconButton onClick={() => setUserTheme("light")}><SunIcon style={{ height: "25px" }} /></IconButton>
+                                <IconButton onClick={() => setSettings(state => ({ ...state, theme: "light" }))}><SunIcon style={{ height: "25px" }} /></IconButton>
                                 :
-                                <IconButton onClick={() => setUserTheme("dark")}><MoonIcon style={{ height: "25px" }} /></IconButton>
+                                <IconButton onClick={() => setSettings(state => ({ ...state, theme: "dark" }))}><MoonIcon style={{ height: "25px" }} /></IconButton>
                         }
-                        {userInfo.success ?
+                        {user.token ?
                             <IconButton
-                                aria-label={userInfo.username}
+                                aria-label={user.username}
                                 aria-controls="menu-appbar"
                                 aria-haspopup="true"
                                 onClick={handleMenu}
                                 color="default"
                             >
-                                {userInfo.avatar ?
-                                    <img title={`${userInfo.username} avatar`} loading="lazy" src={userInfo.avatar} style={{ height: "24px" }} alt={`${userInfo.username} avatar`} aria-labelledby={`${userInfo.username} avatar`} />
+                                {user.avatar ?
+                                    <img title={`${user.username} avatar`} loading="lazy" src={user.avatar} style={{ height: "24px" }} alt={`${user.username} avatar`} aria-labelledby={`${user.username} avatar`} />
                                     :
-                                    <AccountCircle title={`${userInfo.username} avatar`} alt={`${userInfo.username} avatar`} aria-labelledby={`${userInfo.username} avatar`} />}
+                                    <AccountCircle title={`${user.username} avatar`} alt={`${user.username} avatar`} aria-labelledby={`${user.username} avatar`} />}
                             </IconButton>
                             :
                             <IconButton
@@ -260,9 +255,9 @@ export default function MiniDrawer() {
                             onClose={handleClose}
                         >
                             <div>
-                                {userInfo.success
+                                {user.token
                                     ?
-                                    isAdmin ?
+                                    user.admin ?
                                         <>
                                             <a href={adminPage} target="_blank" rel="noopener noreferrer">
                                                 <MenuItem>{t('common:ns.admin_panel')}</MenuItem>

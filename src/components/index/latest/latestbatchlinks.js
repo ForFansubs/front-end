@@ -1,5 +1,3 @@
-import React from 'react'
-
 import Dotdotdot from 'react-dotdotdot'
 import { Link } from 'react-router-dom'
 import { Typography, Grid, makeStyles, fade } from '@material-ui/core'

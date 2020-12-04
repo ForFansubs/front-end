@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import { Grid, Typography, Box, makeStyles } from '@material-ui/core'
 import { red, blue } from '@material-ui/core/colors'

@@ -1,8 +1,7 @@
-import React from 'react'
 import { Helmet } from 'react-helmet-async'
 import { logoRoute } from '../../config/front-routes'
 
-export default function (props) {
+export default function HelmetContainer(props) {
     const { title, desc, url, type } = props
 
     return (

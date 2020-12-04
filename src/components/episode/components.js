@@ -1,6 +1,4 @@
-import React from 'react'
 import { Button, makeStyles } from '@material-ui/core'
-import { useTranslation } from 'react-i18next'
 import EpisodeTitleParser from '../../config/episode-title-parser'
 
 const useStyles = makeStyles(theme => ({

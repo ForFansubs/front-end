@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { useGlobal, useDispatch } from 'reactn'
+import { useContext, useState } from 'react'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
@@ -16,6 +15,8 @@ import { useTranslation } from 'react-i18next'
 // Import country flags
 import countryFlagTR from 'flag-icon-css/flags/4x3/tr.svg'
 import countryFlagEN from 'flag-icon-css/flags/4x3/us.svg'
+import SettingsContext from '../../contexts/settings.context'
+import i18next from 'i18next'
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -51,12 +52,14 @@ export default function LanguageSelector() {
     const { t } = useTranslation(['components', 'common'])
     const classes = useStyles()
     const [open, setOpen] = useState(false)
-    const [settings] = useGlobal('settings')
-    const setSettings = useDispatch('setSettings')
+    const [settings, setSettings] = useContext(SettingsContext)
 
     const handleChange = (event) => {
-        setSettings("language", event.target.value || 'eng')
-        setOpen(true)
+        i18next.changeLanguage(event.target.value || 'eng', (err) => {
+            if (err) return console.log(err)
+            setSettings(state => ({ ...state, language: event.target.value || 'eng' }))
+            setOpen(true)
+        })
     };
 
     const handleClickOpen = () => {

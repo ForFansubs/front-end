@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 
 import { useTranslation } from "react-i18next"
@@ -21,7 +21,7 @@ import DownloadLink from "./anime/download-links"
 import MotdContainer from "../motd"
 import EpisodeTitleParser from "../../config/episode-title-parser"
 import Format from "../date-fns/format"
-import axios from "../../config/axios/axios"
+import axios from 'axios'
 import Loading from "../progress"
 import Dotdotdot from "react-dotdotdot"
 

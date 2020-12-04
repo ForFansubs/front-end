@@ -1,5 +1,4 @@
-import React, { useState, useRef } from 'react'
-import { useGlobal } from 'reactn'
+import { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { animePage, mangaPage } from '../../../config/front-routes'
 
@@ -85,8 +84,6 @@ export default function LatestAniManga(props) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [imageError, setImageError] = useState(false)
     const refEl = useRef()
-    const [mobile] = useGlobal("mobile")
-
 
     const genres = props.genres.split(',').map((d, i) => i < 5 ? (
         <Typography key={props.name + d} variant="subtitle2" component="span">
@@ -131,26 +128,25 @@ export default function LatestAniManga(props) {
                         </Typography>
                     </Grid>
                 </Link>
-                {mobile ? "" :
-                    <div>
-                        <Popper
-                            id={open ? name : undefined}
-                            open={open}
-                            anchorEl={anchorEl}
-                            placement="right"
-                            className={classes.PopperContainer}
-                            disablePortal={true}
-                            modifiers={{
-                                flip: {
-                                    enabled: true,
-                                },
-                                preventOverflow: {
-                                    enabled: true,
-                                    boundariesElement: 'scrollParent',
-                                }
-                            }}
-                            transition>
-                            {({ TransitionProps }) =>
+                <div>
+                    <Popper
+                        id={open ? name : undefined}
+                        open={open}
+                        anchorEl={anchorEl}
+                        placement="right"
+                        className={classes.PopperContainer}
+                        disablePortal={true}
+                        modifiers={{
+                            flip: {
+                                enabled: true,
+                            },
+                            preventOverflow: {
+                                enabled: true,
+                                boundariesElement: 'scrollParent',
+                            }
+                        }}
+                        transition>
+                        {({ TransitionProps }) =>
                             (
                                 <Fade {...TransitionProps} timeout={100} exit={false}>
                                     <div>
@@ -173,9 +169,9 @@ export default function LatestAniManga(props) {
                                     </div>
                                 </Fade>
                             )
-                            }
-                        </Popper>
-                    </div>}
+                        }
+                    </Popper>
+                </div>
             </Grid>
         </>
     )

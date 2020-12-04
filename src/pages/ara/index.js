@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import ReactGA from 'react-ga';
 import Metatags from '../../components/helmet/index'
 

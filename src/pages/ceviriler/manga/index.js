@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import ReactGA from 'react-ga';
 import Metatags from '../../../components/helmet/index'
@@ -12,7 +12,7 @@ import { contentMetadata, getMangaIndex } from '../../../config/api-routes'
 
 import Loading from '../../../components/progress/index'
 
-export default function (props) {
+export default function Manga(props) {
     const { t } = useTranslation('pages')
     const [manga, setManga] = useState({})
     const [loading, setLoading] = useState(true)

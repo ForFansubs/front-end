@@ -1,5 +1,4 @@
-import React from 'react'
-import { useGlobal } from 'reactn'
+import { useContext } from 'react'
 
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core'
@@ -7,6 +6,7 @@ import Typography from '@material-ui/core/Typography'
 
 import FooterItems from '../../config/footer_items'
 import LanguageSelector from './language-selector';
+import SettingsContext from '../../contexts/settings.context';
 
 const useStyles = makeStyles(theme => ({
     FooterDiv: {
@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 export default function Footer() {
     const { t } = useTranslation('components')
     const classes = useStyles()
-    const [settings] = useGlobal('settings')
+    const [settings] = useContext(SettingsContext)
 
     return (
         <>

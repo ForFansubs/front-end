@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from '../../config/axios/axios'
 import { getRegisterDone, getRegisterRefresh } from '../../config/api-routes'
 import { Typography, Button } from '@material-ui/core'

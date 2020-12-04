@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 import propTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { mangaEpisodePage } from '../../../config/front-routes'
@@ -9,7 +9,6 @@ import { grey } from '@material-ui/core/colors'
 import Format from '../../date-fns/format'
 import { CoverPlaceholder } from '../../../config/theming/images'
 import { contentCover } from '../../../config/api-routes'
-import { useState } from 'reactn'
 import { Skeleton } from '@material-ui/lab'
 import { useTranslation } from 'react-i18next'
 

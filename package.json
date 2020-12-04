@@ -32,6 +32,7 @@
         "react-ga": "^3.3.0",
         "react-helmet-async": "^1.0.7",
         "react-i18next": "^11.7.3",
+        "react-icons": "^4.1.0",
         "react-infinite-scroll-component": "^5.1.0",
         "react-interval": "^2.1.1",
         "react-lazyload": "^3.1.0",
@@ -39,8 +40,6 @@
         "react-scripts": "4.0.1",
         "react-swipeable": "^6.0.0",
         "react-toastify": "^6.1.0",
-        "reactn": "^2.2.7",
-        "redux": "^4.0.5",
         "web-vitals": "^1.0.1"
     },
     "resolutions": {

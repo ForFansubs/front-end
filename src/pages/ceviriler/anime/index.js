@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import Metatags from '../../../components/helmet/index'
 import ReactGA from 'react-ga';
@@ -12,7 +12,7 @@ import { contentMetadata, getAnimeIndex } from '../../../config/api-routes'
 
 import Loading from '../../../components/progress/index'
 
-export default function (props) {
+export default function Anime(props) {
     const { t } = useTranslation('pages')
     const [anime, setAnime] = useState({})
     const [loading, setLoading] = useState(true)

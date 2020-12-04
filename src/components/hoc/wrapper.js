@@ -1,9 +1,4 @@
-import React from 'react'
-
 import Header from '../header/header'
-
-import Login from '../user/login'
-import Register from '../user/register'
 
 import { ToastContainer, Slide } from 'react-toastify';
 import { makeStyles } from '@material-ui/core'
@@ -62,15 +57,13 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-export default function (props) {
+export default function HOC(props) {
     const classes = useStyles()
 
     return (
         <>
             <div className={classes.OutsideContainer}>
                 <Header />
-                <Login />
-                <Register />
                 <div className={classes.ScrollNode} id="scroll-node">
                     <div className={classes.PaddingDiv}>
                         <section className={classes.MainContainer}>

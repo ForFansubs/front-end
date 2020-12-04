@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import axios from '../../../config/axios/axios'
 
 import { Button, Popper, Box, Fade, makeStyles, ClickAwayListener } from '@material-ui/core'
@@ -36,7 +36,7 @@ export default function DownloadLink(props) {
     const [loading, setLoading] = useState(true)
     const [data, setData] = useState([])
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null)
 
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popper' : undefined;

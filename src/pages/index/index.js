@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { useGlobal } from 'reactn'
+import { useEffect, useState } from 'react'
 import ReactGA from 'react-ga';
 import { useTranslation } from 'react-i18next';
 
@@ -37,7 +36,6 @@ export default function IndexPage(props) {
     const [latestLoading, setLatestLoading] = useState(true)
     const [featuredLoading, setFeaturedLoading] = useState(true)
     const [batchLoading, setBatchLoading] = useState(true)
-    const [mobile] = useGlobal('mobile')
 
     //Handle data fetch
     useEffect(() => {
@@ -69,7 +67,7 @@ export default function IndexPage(props) {
                 console.log("Toplu linkleri yüklerken bir sorunla karşılaştık.")
             })
         ReactGA.pageview(window.location.pathname)
-    }, [mobile])
+    }, [])
 
     if (latestLoading) {
         for (let i = 0; i < 24; i++) {
