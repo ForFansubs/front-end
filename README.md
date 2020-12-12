@@ -6,7 +6,7 @@
 </p>
 
 
-[React](https://github.com/facebook/react), [ReactN](https://github.com/CharlesStover/reactn) ve [Material-UI](https://github.com/mui-org/material-ui) kullanarak hazırlandı.
+[React](https://github.com/facebook/react) ve [Material-UI](https://github.com/mui-org/material-ui) kullanarak hazırlandı.
 
 ## Yükleme Talimatları
 

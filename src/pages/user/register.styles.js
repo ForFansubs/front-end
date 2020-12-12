@@ -1,15 +1,16 @@
 import { makeStyles } from "@material-ui/core";
+import { LoginRegister } from "../../config/theming/images";
 
 export default makeStyles(theme => ({
     MainContainer: {
         height: '100vh',
     },
     Image: {
-        backgroundImage: 'url(https://picsum.photos/1920/1080)',
+        backgroundImage: `url(${LoginRegister})`,
         backgroundRepeat: 'no-repeat',
         backgroundColor: theme.palette.background.paper,
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundPosition: 'left center',
     },
     RightContainer: {
         backgroundColor: theme.palette.background.paper,

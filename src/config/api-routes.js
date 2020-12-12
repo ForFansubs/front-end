@@ -3,6 +3,7 @@ const indexURL = "/"
 const isAdmin = "/kullanici/adminpage"
 const getIndexEpisodes = "/latest-works"
 const getIndexFeaturedAnime = "/featured-anime"
+const getIndexFeaturedManga = "/featured-manga"
 const getIndexBatchEpisodes = "/latest-batch-episodes"
 const getAnimeIndex = (slug) => `/anime/${slug}`
 const getMangaIndex = (slug) => `/manga/${slug}`
@@ -46,6 +47,7 @@ export {
     isAdmin,
     getIndexEpisodes,
     getIndexFeaturedAnime,
+    getIndexFeaturedManga,
     getIndexBatchEpisodes,
     getAnimeIndex,
     getMangaIndex,

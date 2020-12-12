@@ -4,13 +4,12 @@ import ReactGA from 'react-ga';
 import Metatags from '../../../components/helmet/index'
 import { useTranslation } from 'react-i18next';
 
-import axios from '../../../config/axios/axios'
-
 import { MangaPage } from '../../../components/ceviriler/components'
 import { mangaPage } from '../../../config/front-routes'
 import { contentMetadata, getMangaIndex } from '../../../config/api-routes'
 
 import Loading from '../../../components/progress/index'
+import getDataFromAPI from '../../../helpers/getDataFromAPI';
 
 export default function Manga(props) {
     const { t } = useTranslation('pages')
@@ -20,9 +19,7 @@ export default function Manga(props) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await axios(
-                getMangaIndex(props.match.params.slug),
-            ).catch(res => res)
+            const res = await getDataFromAPI({ route: getMangaIndex(props.match.params.slug) }).catch(res => res)
 
             if (res.status === 200) {
                 if (res.data.translators)

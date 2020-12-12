@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import AwesomeDebouncePromise from 'awesome-debounce-promise';
 
-import axios from '../../config/axios/axios'
+import getDataFromAPI from '../../helpers/getDataFromAPI'
 import { getGenresList, getFullSearchList } from '../../config/api-routes'
 
 import filter from 'lodash-es/filter'
@@ -77,8 +77,8 @@ export default function SearchPage(props) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const searchList = await axios.get(getFullSearchList(type))
-            const genres = await axios.get(getGenresList)
+            const searchList = await getDataFromAPI({ route: getFullSearchList(type) })
+            const genres = await getDataFromAPI({ route: getGenresList })
             const initialData = slice(searchList.data, 0, 24)
 
             if (searchList.data.length === 0 || searchList.status !== 200) {
@@ -129,7 +129,7 @@ export default function SearchPage(props) {
         })
 
         const fetchData = async () => {
-            const searchList = await axios.get(getFullSearchList(newType))
+            const searchList = await getDataFromAPI({ route: getFullSearchList(newType) })
             const initialData = slice(searchList.data, 0, 24)
 
             if (searchList.data.length === 0 || searchList.status !== 200) {

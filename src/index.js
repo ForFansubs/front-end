@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom'
 import App from './App'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+import { SnackbarProvider, useSnackbar } from 'notistack';
 
 import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -54,7 +55,7 @@ function Mount() {
         }).catch(_ => {
             setSiteStatus({ loading: false, status: false })
         })
-    }, [])
+    }, [user.token])
 
     useEffect(() => {
         initNewLanguage(localStorage.getItem('i18nextLng') || "en")
@@ -69,12 +70,14 @@ function Mount() {
                 <SettingsContext.Provider value={[settings, setSettings]}>
                     <UserContext.Provider value={[user, setUser]}>
                         <MotdContext.Provider value={[motd, setMotd]}>
-                            <ThemeProvider theme={themeObject}>
-                                <CssBaseline />
-                                <Suspense fallback={<></>}>
-                                    <App />
-                                </Suspense>
-                            </ThemeProvider>
+                            <SnackbarProvider maxSnack={3}>
+                                <ThemeProvider theme={themeObject}>
+                                    <CssBaseline />
+                                    <Suspense fallback={<></>}>
+                                        <App />
+                                    </Suspense>
+                                </ThemeProvider>
+                            </SnackbarProvider>
                         </MotdContext.Provider>
                     </UserContext.Provider>
                 </SettingsContext.Provider>

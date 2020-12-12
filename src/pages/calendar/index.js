@@ -4,13 +4,13 @@ import { useTranslation } from 'react-i18next';
 
 import Metatags from '../../components/helmet/index'
 import { CalendarDayPanel, CalendarDays } from '../../components/calendar'
-import axios from '../../config/axios/axios';
 import { getCalendarData } from '../../config/api-routes';
 import { CircularProgress } from '@material-ui/core';
 
 import startOfWeek from 'date-fns/startOfWeek'
 import getDay from 'date-fns/getDay'
 import { calendarPage } from '../../config/front-routes';
+import getDataFromAPI from '../../helpers/getDataFromAPI';
 
 const dayList = [1, 2, 3, 4, 5, 6, 0]
 
@@ -26,9 +26,7 @@ export default function CalendarPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get(
-                    getCalendarData
-                ).catch(res => res)
+                const res = await getDataFromAPI({ route: getCalendarData }).catch(res => res)
 
                 if (res.status === 200) {
                     setCalendarRawData(res.data)

@@ -34,7 +34,7 @@ i18next
         debug: process.env.NODE_ENV === "development" ? true : false,
         logging: process.env.NODE_ENV === "development" ? true : false,
         interpolation: { escapeValue: false },
-        supportedLngs: ["en", "tr"],
+        supportedLngs: ["tr", "en"],
         fallbackLng: "en",
     })
 

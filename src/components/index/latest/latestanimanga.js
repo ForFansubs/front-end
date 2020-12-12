@@ -121,11 +121,11 @@ export default function LatestAniManga(props) {
                             alt="" />
                     </Grid>
                     <Grid item xs={12} className={classes.Title}>
-                        <Typography variant="body1">
-                            <Dotdotdot clamp={2} useNativeClamp>
+                        <Dotdotdot clamp={2} useNativeClamp>
+                            <Typography variant="body1">
                                 {name}
-                            </Dotdotdot>
-                        </Typography>
+                            </Typography>
+                        </Dotdotdot>
                     </Grid>
                 </Link>
                 <div>

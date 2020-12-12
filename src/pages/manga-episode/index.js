@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef, useContext } from 'react'
 import Metatags from '../../components/helmet/index'
 import ReactGA from 'react-ga'
-import axios from '../../config/axios/axios'
 import Find from 'lodash-es/find'
 
 import { useStyles, defaultBoxProps } from '../../components/manga-episode/index'
@@ -18,6 +17,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { cursorNext, cursorPrevious } from '../../config/theming/images'
 import SettingsContext from '../../contexts/settings.context'
+import getDataFromAPI from '../../helpers/getDataFromAPI'
 
 export default function MangaEpisodePage(props) {
     const { t } = useTranslation(['pages', 'common'])
@@ -55,7 +55,7 @@ export default function MangaEpisodePage(props) {
             })
 
             try {
-                pageInfo = await axios.get(getMangaEpisodePageInfo(slug))
+                pageInfo = await getDataFromAPI({ route: getMangaEpisodePageInfo(slug) })
             } catch (err) {
                 return setLoading(false)
             }

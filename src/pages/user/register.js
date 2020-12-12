@@ -22,7 +22,7 @@ export default function LoginPage() {
 
     const [userData, setUserData] = useState({ username: "", email: "", password: "", password2: "" })
     const [registerLoading, setRegisterLoading] = useState(false)
-    const [registerError, setRegisterError] = useState(null)
+    const [registerError, setRegisterError] = useState({})
 
     function _handleInputChange(event) {
         setUserData(state => ({ ...state, [event.target.id]: event.target.value }))
@@ -30,6 +30,7 @@ export default function LoginPage() {
 
     function _handleSubmit(event) {
         event.preventDefault()
+        setRegisterError({})
         setRegisterLoading(true)
         postDataToAPI({ route: registerRoute, data: userData })
             .then(res => {
@@ -38,7 +39,6 @@ export default function LoginPage() {
                     setRegisterError(res.data)
                 }
             }).catch(err => {
-                console.log(err.response)
                 setRegisterError(err.response.data)
                 setRegisterLoading(false)
             })
@@ -58,7 +58,7 @@ export default function LoginPage() {
                         <VscLock />
                     </Avatar>
                     <Typography variant="h3" component="h1">
-                        {t('user.register.title')}
+                        {process.env.REACT_APP_SITE_NAME} {t('user.register.title')}
                     </Typography>
                     <form className={classes.FormContainer} noValidate onSubmit={_handleSubmit}>
                         <TextField
@@ -67,7 +67,7 @@ export default function LoginPage() {
                             required
                             fullWidth
                             id="username"
-                            label={t('user.register.inputs.username')}
+                            label={t('user.common.inputs.username')}
                             name="username"
                             autoComplete="username"
                             autoFocus
@@ -106,7 +106,7 @@ export default function LoginPage() {
                             required
                             fullWidth
                             name="repeat_password"
-                            label={t('user.register.inputs.repeat_password')}
+                            label={t('user.common.inputs.repeat_password')}
                             type="password"
                             id="password2"
                             autoComplete="password"

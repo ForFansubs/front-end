@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid'
 import { Link, Redirect } from 'react-router-dom'
 import { indexPage, registerPage } from '../../config/front-routes'
 import postDataToAPI from '../../helpers/postDataToAPI'
+import { useSnackbar } from 'notistack';
 
 import { VscLock } from 'react-icons/vsc'
 import { MdArrowBack } from 'react-icons/md'
@@ -20,11 +21,12 @@ import { useTranslation } from 'react-i18next'
 export default function LoginPage() {
     const { t } = useTranslation('pages')
     const classes = useStyles();
+    const { enqueueSnackbar } = useSnackbar()
     const [user, setUser] = useContext(UserContext)
 
-    const [userData, setUserData] = useState({ email: "", password: "" })
+    const [userData, setUserData] = useState({ username: "", password: "" })
     const [loginLoading, setLoginLoading] = useState(false)
-    const [loginError, setLoginError] = useState(null)
+    const [loginError, setLoginError] = useState({})
 
     function _handleInputChange(event) {
         setUserData(state => ({ ...state, [event.target.id]: event.target.value }))
@@ -33,14 +35,22 @@ export default function LoginPage() {
     function _handleSubmit(event) {
         event.preventDefault()
         setLoginLoading(true)
+        setLoginError({})
         postDataToAPI({ route: loginRoute, data: userData })
             .then(res => {
                 if (res.status === 200) {
                     setUser({ username: res.data.username, token: res.data.token, exp: res.data.exp, admin: res.data.admin })
+                    enqueueSnackbar('Başarıyla giriş yapıldı', {
+                        variant: 'success',
+                        anchorOrigin: {
+                            vertical: 'bottom',
+                            horizontal: 'center'
+                        },
+                        autoHideDuration: 3500
+                    });
                     setLoginLoading(false)
                 }
             }).catch(err => {
-                console.log(err.response)
                 setLoginError(err.response.data)
                 setLoginLoading(false)
             })
@@ -61,7 +71,7 @@ export default function LoginPage() {
                         <VscLock />
                     </Avatar>
                     <Typography variant="h3" component="h1">
-                        {t('user.login.title')}
+                        {process.env.REACT_APP_SITE_NAME} {t('user.login.title')}
                     </Typography>
                     <form className={classes.FormContainer} noValidate onSubmit={_handleSubmit}>
                         <TextField
@@ -69,13 +79,15 @@ export default function LoginPage() {
                             margin="normal"
                             required
                             fullWidth
-                            id="email"
-                            label={t('user.common.inputs.email')}
-                            name="email"
-                            autoComplete="email"
+                            id="username"
+                            label={t('user.common.inputs.username')}
+                            error={loginError.username ? true : false}
+                            helperText={loginError.username ? loginError.username : ""}
+                            name="username"
+                            autoComplete="username"
                             autoFocus
                             onChange={_handleInputChange}
-                            value={userData.email}
+                            value={userData.username}
                         />
                         <TextField
                             variant="outlined"
@@ -83,7 +95,9 @@ export default function LoginPage() {
                             required
                             fullWidth
                             name="password"
-                            label={t('user.common.inputs.email')}
+                            label={t('user.common.inputs.password')}
+                            error={loginError.password ? true : false}
+                            helperText={loginError.password ? loginError.password : ""}
                             type="password"
                             id="password"
                             autoComplete="password"

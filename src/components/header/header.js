@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { useTranslation } from "react-i18next";
+import { useSnackbar } from 'notistack'
 import Footer from '../footer/footer'
 
 import { useStyles } from './styles'
 import clsx from 'clsx'
 import useTheme from '@material-ui/styles/useTheme'
-import { Drawer, AppBar, Toolbar, List, Divider, ListItem, ListItemIcon, ListItemText, Typography, MenuItem, Menu, makeStyles, Box } from '@material-ui/core'
+import { Drawer, AppBar, Toolbar, List, Divider, ListItem, ListItemIcon, ListItemText, Typography, MenuItem, Menu, Box } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import CalendarIcon from '@material-ui/icons/CalendarToday';
@@ -19,7 +20,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
-import { indexPage, searchPage, faqPage, recPage, adminPage, calendarPage } from '../../config/front-routes'
+import { indexPage, searchPage, faqPage, recPage, adminPage, calendarPage, loginPage, registerPage } from '../../config/front-routes'
 import { fullLogo, fullLogoDark } from '../../config/theming/images'
 import ExtraPagesList from '../../pages/extra-pages/index'
 import SecondMenuItems from '../../config/drawer_items'
@@ -28,6 +29,7 @@ import SettingsContext from '../../contexts/settings.context';
 
 export default function MiniDrawer() {
     const { t } = useTranslation('components');
+    const { enqueueSnackbar } = useSnackbar()
     const classes = useStyles();
     const theme = useTheme();
     const [user, setUser] = useContext(UserContext)
@@ -111,11 +113,15 @@ export default function MiniDrawer() {
 
     function handleLogoutButton() {
         setUser({})
+        enqueueSnackbar('Başarıyla çıkış yapıldı', {
+            variant: 'success',
+            anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'center'
+            },
+            autoHideDuration: 3500
+        })
         setAnchorEl(null);
-    }
-
-    function handleLoginRegisterButtons(type) {
-        setAnchorEl(null)
     }
 
     const handleDrawerState = () => {
@@ -268,8 +274,12 @@ export default function MiniDrawer() {
                                         <MenuItem onClick={handleLogoutButton}>{t('common:ns.logout')}</MenuItem>
                                     :
                                     <>
-                                        <MenuItem onClick={() => handleLoginRegisterButtons("login")}>{t('common:ns.login')}</MenuItem>
-                                        <MenuItem onClick={() => handleLoginRegisterButtons("register")}>{t('common:ns.register')}</MenuItem>
+                                        <Link to={loginPage}>
+                                            <MenuItem>{t('common:ns.login')}</MenuItem>
+                                        </Link>
+                                        <Link to={registerPage}>
+                                            <MenuItem>{t('common:ns.register')}</MenuItem>
+                                        </Link>
                                     </>
                                 }
                             </div>

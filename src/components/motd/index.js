@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react'
 import { Typography, makeStyles, Button } from '@material-ui/core'
 import { Close as CloseIcon } from '@material-ui/icons'
-import axios from '../../config/axios/axios'
 import Markdown from '../markdown/markdown'
 import { getMotdInfo } from '../../config/api-routes'
+import getDataFromAPI from '../../helpers/getDataFromAPI'
 import { useTranslation } from 'react-i18next'
 import MotdContext from '../../contexts/motd.context'
 
@@ -35,12 +35,12 @@ export default function MotdContainer(props) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await axios(
-                getMotdInfo({
+            const res = await getDataFromAPI({
+                route: getMotdInfo({
                     content_id: props.content_id ? props.content_id : null,
                     content_type: props.content_type ? props.content_type : null
-                }),
-            ).catch(res => res)
+                })
+            }).catch(res => res)
 
             if (res.status === 200) {
                 setData(res.data)

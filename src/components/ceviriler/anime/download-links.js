@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import axios from '../../../config/axios/axios'
 
 import { Button, Popper, Box, Fade, makeStyles, ClickAwayListener } from '@material-ui/core'
 
 import { getEpisodeDownloadLinks } from '../../../config/api-routes'
+import postDataToAPI from '../../../helpers/postDataToAPI'
 import { Typography } from '@material-ui/core';
 import WarningBox from '../../warningerrorbox/warning';
 import { Skeleton } from '@material-ui/lab';
@@ -59,7 +59,7 @@ export default function DownloadLink(props) {
                 episode_id: props.episodeid
             }
 
-            const res = await axios.post(getEpisodeDownloadLinks(props.animeslug), postData)
+            const res = await postDataToAPI({ route: getEpisodeDownloadLinks(props.animeslug), data: postData })
 
             setData(res.data)
             setLoading(false)

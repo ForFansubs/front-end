@@ -35,29 +35,30 @@ export default function App() {
     return (
       <>
         <Router>
-
           <HelmetProvider>
             <Suspense fallback={<Loading />}>
-              <Route exact path="/giris-yap" component={LoginPage} />
-              <Route exact path="/kayit-ol" component={RegisterPage} />
-              <Wrapper>
-                <Switch>
-                  <Route path="/" exact component={IndexPage} />
-                  <Route path="/ceviriler/anime/:slug/izle/:episodeInfo?" exact component={EpisodePage} />
-                  <Route path="/ceviriler/anime/:slug" exact component={AnimePage} />
-                  <Route path="/ceviriler/manga/:slug/oku/:episode_number?/:page_number?" exact component={MangaEpisodePage} />
-                  <Route path="/ceviriler/manga/:slug" exact component={MangaPage} />
-                  <Route path="/ara/:type?/:offset?" component={SearchPage} />
-                  <Route path="/sss" exact component={SSSPage} />
-                  <Route path="/ekip-alimlari" exact component={EkipAlimlariPage} />
-                  <Route path="/kullanici/kayit-tamamla/:hash" exact component={CompleteRegistrationPage} />
-                  <Route path="/takvim" exact component={TakvimPage} />
-                  {ExtraPagesList.length ? ExtraPagesList.map(({ PageUrl, PageComponent }) => (
-                    <Route path={PageUrl} exact component={PageComponent} />
-                  )) : ""}
-                  <Route exact component={FourOhFourPage} />
-                </Switch>
-              </Wrapper>
+              <Switch>
+                <Route exact path="/giris-yap" component={LoginPage} />
+                <Route exact path="/kayit-ol" component={RegisterPage} />
+                <Wrapper>
+                  <Switch>
+                    <Route path="/" exact component={IndexPage} />
+                    <Route path="/ceviriler/anime/:slug/izle/:episodeInfo?" exact component={EpisodePage} />
+                    <Route path="/ceviriler/anime/:slug" exact component={AnimePage} />
+                    <Route path="/ceviriler/manga/:slug/oku/:episode_number?/:page_number?" exact component={MangaEpisodePage} />
+                    <Route path="/ceviriler/manga/:slug" exact component={MangaPage} />
+                    <Route path="/ara/:type?/:offset?" component={SearchPage} />
+                    <Route path="/sss" exact component={SSSPage} />
+                    <Route path="/ekip-alimlari" exact component={EkipAlimlariPage} />
+                    <Route path="/kullanici/kayit-tamamla/:hash" exact component={CompleteRegistrationPage} />
+                    <Route path="/takvim" exact component={TakvimPage} />
+                    {ExtraPagesList.length ? ExtraPagesList.map(({ PageUrl, PageComponent }) => (
+                      <Route path={PageUrl} exact component={PageComponent} />
+                    )) : ""}
+                    <Route component={FourOhFourPage} />
+                  </Switch>
+                </Wrapper>
+              </Switch>
             </Suspense>
           </HelmetProvider>
         </Router>

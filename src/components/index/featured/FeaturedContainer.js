@@ -9,6 +9,8 @@ import ReactInterval from 'react-interval';
 import Featured, { FeaturedLoading } from './featured'
 import { makeStyles, Box, fade } from '@material-ui/core'
 import { NavigateBefore, NavigateNext } from '@material-ui/icons'
+import { Alert } from '@material-ui/lab';
+import { useTranslation } from 'react-i18next';
 
 export const Swipeable = ({ children, ...props }) => {
     const handlers = useSwipeable(props);
@@ -82,7 +84,8 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function FeaturedContainer(props) {
-    const { loading } = props
+    const { t } = useTranslation('components')
+    const { loading, contentType } = props
     const [list, setList] = useState([])
     const [active, setActive] = useState(0)
     const [isAutoScrollActive, setIsAutoScrollActive] = useState(true)
@@ -107,6 +110,14 @@ export default function FeaturedContainer(props) {
         setTimeout(() => {
             setIsAutoScrollActive(true)
         }, 200)
+    }
+
+    if (!list.length && !loading) {
+        return (
+            <Alert severity="error">
+                {t('featured.errors.error', { contentType })}
+            </Alert>
+        )
     }
 
     return (
@@ -137,7 +148,7 @@ export default function FeaturedContainer(props) {
                                     </div>
                                 </div>
                                 {list.map((l, i) => (
-                                    <Featured key={i + " featured"} {...l} index={i} display={i === active} />
+                                    <Featured key={i + " featured"} {...l} contentType={contentType} index={i} display={i === active} />
                                 ))}
                             </div>
                         </Swipeable>
@@ -164,5 +175,6 @@ export default function FeaturedContainer(props) {
 
 FeaturedContainer.propTypes = {
     list: PropTypes.array.isRequired,
-    loading: PropTypes.bool.isRequired
+    loading: PropTypes.bool.isRequired,
+    contentType: PropTypes.string.isRequired
 }

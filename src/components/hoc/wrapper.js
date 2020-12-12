@@ -1,6 +1,5 @@
 import Header from '../header/header'
 
-import { ToastContainer, Slide } from 'react-toastify';
 import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
@@ -71,7 +70,6 @@ export default function HOC(props) {
                         </section>
                     </div>
                 </div>
-                <ToastContainer transition={Slide} />
             </div>
         </>
     )

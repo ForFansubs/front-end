@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 
 import find from 'lodash-es/find'
 import Loading from '../../components/progress/index'
-import axios from '../../config/axios/axios'
 import Metatags from '../../components/helmet/index'
 
 import { getEpisodePageInfo, getEpisodeInfo, contentCover } from '../../config/api-routes'
@@ -24,6 +23,8 @@ import { format } from 'date-fns'
 import Dotdotdot from 'react-dotdotdot'
 import MotdContainer from '../../components/motd'
 import { CoverPlaceholder } from '../../config/theming/images'
+import getDataFromAPI from '../../helpers/getDataFromAPI';
+import postDataToAPI from '../../helpers/postDataToAPI';
 
 export default function EpisodePage(props) {
     const classes = useStyles()
@@ -55,7 +56,7 @@ export default function EpisodePage(props) {
         const fetchData = async () => {
             const { slug, episodeInfo } = props.match.params
 
-            const pageInfo = await axios.get(getEpisodePageInfo(slug))
+            const pageInfo = await getDataFromAPI({ route: getEpisodePageInfo(slug) })
 
             if (pageInfo.data.length === 0 || pageInfo.status !== 200) {
                 return setLoading(false)
@@ -143,7 +144,7 @@ export default function EpisodePage(props) {
         }
 
         const fetchData = async () => {
-            const episodeInfo = await axios.post(getEpisodeInfo, data)
+            const episodeInfo = await postDataToAPI({ route: getEpisodeInfo, data: data })
 
             if (episodeInfo.data.length === 0 || episodeInfo.status !== 200) {
                 return setEpisodeLoading(false)

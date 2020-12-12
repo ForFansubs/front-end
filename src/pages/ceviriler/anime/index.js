@@ -4,13 +4,12 @@ import Metatags from '../../../components/helmet/index'
 import ReactGA from 'react-ga';
 import { useTranslation } from 'react-i18next';
 
-import axios from '../../../config/axios/axios'
-
 import { AnimePage } from '../../../components/ceviriler/components'
 import { animePage } from '../../../config/front-routes'
 import { contentMetadata, getAnimeIndex } from '../../../config/api-routes'
 
 import Loading from '../../../components/progress/index'
+import getDataFromAPI from '../../../helpers/getDataFromAPI';
 
 export default function Anime(props) {
     const { t } = useTranslation('pages')
@@ -20,9 +19,7 @@ export default function Anime(props) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await axios.get(
-                getAnimeIndex(props.match.params.slug)
-            ).catch(res => res)
+            const res = await getDataFromAPI({ route: getAnimeIndex(props.match.params.slug) }).catch(res => res)
 
             if (res.status === 200) {
                 if (res.data.translators)

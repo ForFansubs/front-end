@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import axios from '../../config/axios/axios'
 import { getRegisterDone, getRegisterRefresh } from '../../config/api-routes'
 import { Typography, Button } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
+import postDataToAPI from '../../helpers/postDataToAPI'
 
 export default function KayitTamamla(props) {
     const { t } = useTranslation('pages')
@@ -15,11 +15,7 @@ export default function KayitTamamla(props) {
         const hash = props.match.params.hash
 
         const fetchData = async () => {
-            const body = {
-                hash: hash
-            }
-
-            const res = await axios.post(getRegisterDone, body).catch(res => res)
+            const res = await postDataToAPI({ route: getRegisterDone, data: { hash } }).catch(res => res)
 
             if (res.status === 200) {
                 switch (res.data.success) {
@@ -49,11 +45,7 @@ export default function KayitTamamla(props) {
     }, [])
 
     async function handleHashRefresh() {
-        const body = {
-            old_hash: props.match.params.hash
-        }
-
-        const res = await axios.post(getRegisterRefresh, body).catch(res => res)
+        const res = await postDataToAPI({ route: getRegisterRefresh, data: { old_hash: props.match.params.hash } }).catch(res => res)
 
         if (res.status === 200) {
             setGetNewHash(true)

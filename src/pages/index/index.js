@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react'
 import ReactGA from 'react-ga';
 import { useTranslation } from 'react-i18next';
 
-import axios from '../../config/axios/axios'
-import { getIndexEpisodes, getIndexFeaturedAnime, getIndexBatchEpisodes } from '../../config/api-routes'
+import { getIndexEpisodes, getIndexFeaturedAnime, getIndexFeaturedManga, getIndexBatchEpisodes } from '../../config/api-routes'
 
 import { Grid, Typography } from '@material-ui/core'
 import { IndexDivider, useStyles } from '../../components/index/index'
@@ -14,6 +13,7 @@ import LatestBatchLinks from '../../components/index/latest/latestbatchlinks';
 import LatestMangaEpisode, { LoadingDivMangaEpisode } from '../../components/index/latest/latestmangaepisode';
 import MotdContainer from '../../components/motd';
 import Metatags from '../../components/helmet/index'
+import getDataFromAPI from '../../helpers/getDataFromAPI';
 
 
 export default function IndexPage(props) {
@@ -31,15 +31,17 @@ export default function IndexPage(props) {
     const [latestEpisodes, setLatestEpisodes] = useState([])
     const [latestMangaEpisodes, setLatestMangaEpisodes] = useState([])
     const [featuredAnimes, setFeaturedAnimes] = useState([])
+    const [featuredMangas, setFeaturedMangas] = useState([])
     const [batchEpisodes, setBatchEpisodes] = useState([])
 
     const [latestLoading, setLatestLoading] = useState(true)
     const [featuredLoading, setFeaturedLoading] = useState(true)
+    const [featuredMangaLoading, setFeaturedMangaLoading] = useState(true)
     const [batchLoading, setBatchLoading] = useState(true)
 
     //Handle data fetch
     useEffect(() => {
-        axios.get(getIndexEpisodes)
+        getDataFromAPI({ route: getIndexEpisodes })
             .then(res => {
                 setLatestAnimes(res.data.animes)
                 setLatestMangas(res.data.mangas)
@@ -48,22 +50,34 @@ export default function IndexPage(props) {
                 setLatestLoading(false)
             })
             .catch(_ => {
+                setLatestLoading(false)
                 console.log("Son konular yüklenirken bir sorunla karşılaştık.")
             })
-        axios.get(getIndexFeaturedAnime)
+        getDataFromAPI({ route: getIndexFeaturedAnime })
             .then(res => {
                 setFeaturedAnimes(res.data)
                 setFeaturedLoading(false)
             })
             .catch(_ => {
+                setFeaturedLoading(false)
                 console.log("Öne çıkarılmış animeleri yüklerken bir sorunla karşılaştık.")
             })
-        axios.get(getIndexBatchEpisodes)
+        getDataFromAPI({ route: getIndexFeaturedManga })
+            .then(res => {
+                setFeaturedMangas(res.data)
+                setFeaturedMangaLoading(false)
+            })
+            .catch(_ => {
+                setFeaturedMangaLoading(false)
+                console.log("Öne çıkarılmış mangaları yüklerken bir sorunla karşılaştık.")
+            })
+        getDataFromAPI({ route: getIndexBatchEpisodes })
             .then(res => {
                 setBatchEpisodes(res.data)
                 setBatchLoading(false)
             })
             .catch(_ => {
+                setBatchLoading(false)
                 console.log("Toplu linkleri yüklerken bir sorunla karşılaştık.")
             })
         ReactGA.pageview(window.location.pathname)
@@ -111,7 +125,7 @@ export default function IndexPage(props) {
             <Metatags />
             <MotdContainer {...props} />
             <section className={classes.ContainerDiv}>
-                <FeaturedContainer list={featuredAnimes} loading={featuredLoading} />
+                <FeaturedContainer list={featuredAnimes} contentType="anime" loading={featuredLoading} />
             </section>
             {
                 batchEpisodesWindow.length ?
@@ -163,6 +177,10 @@ export default function IndexPage(props) {
                     </section>
                     : ""
             }
+            <IndexDivider />
+            <section className={classes.ContainerDiv}>
+                <FeaturedContainer list={featuredMangas} contentType="manga" loading={featuredMangaLoading} />
+            </section>
             <IndexDivider />
             {
                 latestMangaEpisodesWindow.length || latestMangasWindow.length ?

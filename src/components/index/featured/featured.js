@@ -2,7 +2,7 @@ import { useState } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { Link } from 'react-router-dom'
-import { animePage } from '../../../config/front-routes'
+import { animePage, mangaPage } from '../../../config/front-routes'
 import { contentHeader, contentLogo } from '../../../config/api-routes'
 
 import { HeaderPlaceholder } from '../../../config/theming/images'
@@ -119,18 +119,18 @@ export function FeaturedLoading() {
 }
 
 export default function Featured(props) {
-    const { name, slug, genres, display, synopsis } = props
+    const { name, slug, genres, display, synopsis, contentType } = props
     const classes = useStyles(props)
     const [logoError, setLogoError] = useState(false)
 
     return (
         <>
-            <Link to={animePage(slug)}>
+            <Link to={contentType === "anime" ? animePage(slug) : mangaPage(slug)}>
                 <div className={clsx(classes.Container, {
                     [classes.ContainerActive]: display,
                 })}>
                     <div className={classes.ImageContainer}>
-                        <img src={contentHeader("anime", slug)} onError={img => {
+                        <img src={contentHeader(contentType, slug)} onError={img => {
                             img.target.onerror = null
                             img.target.src = HeaderPlaceholder
                         }} alt="" />
@@ -175,5 +175,6 @@ Featured.propTypes = {
     genres: PropTypes.string.isRequired,
     version: PropTypes.string.isRequired,
     index: PropTypes.number.isRequired,
-    display: PropTypes.bool.isRequired
+    display: PropTypes.bool.isRequired,
+    contentType: PropTypes.string.isRequired
 }
