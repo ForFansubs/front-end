@@ -182,6 +182,19 @@ function AnimePage(props) {
                                             ></img>
                                         </Box>
                                     )}
+                                <div className={classes.MobileCoverArt}>
+                                    <img
+                                        src={contentCover("anime", slug)}
+                                        onError={(img) => {
+                                            if (coverArtError) {
+                                                img.target.src = CoverPlaceholder
+                                                return null
+                                            }
+                                            img.target.src = cover_art
+                                            setCoverArtError(true)
+                                        }}
+                                        alt="" />
+                                </div>
                                 <Typography
                                     variant="body1"
                                     className={classes.SynopsisContainer}
@@ -483,6 +496,19 @@ function MangaPage(props) {
                                             ></img>
                                         </Box>
                                     )}
+                                <div className={classes.MobileCoverArt}>
+                                    <img
+                                        src={contentCover("manga", slug)}
+                                        onError={(img) => {
+                                            if (coverArtError) {
+                                                img.target.src = CoverPlaceholder
+                                                return null
+                                            }
+                                            img.target.src = cover_art
+                                            setCoverArtError(true)
+                                        }}
+                                        alt="" />
+                                </div>
                                 <Typography
                                     variant="body1"
                                     className={classes.SynopsisContainer}

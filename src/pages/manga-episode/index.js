@@ -172,26 +172,6 @@ export default function MangaEpisodePage(props) {
                                     {episodeData.map(d => <MenuItem key={d.episode_number} value={`${d.episode_number}`}>{t('common:episode.episode_title', { episode_number: d.episode_number })}{d.episode_name ? `: ${d.episode_name}` : ""}</MenuItem>)}
                                 </Select>
                             </FormControl>
-                            {settings.readingStyle === "pagebypage" ?
-                                <>
-                                    <Button
-                                        size="large"
-                                        className={classes.NavigateBefore}
-                                        variant="outlined"
-                                        onClick={handleNavigateBeforeButton}
-                                        disabled={activePageNumber !== 1 && activeEpisodeData.episode_number ? false : true}>
-                                        <NavigateBefore />
-                                    </Button>
-                                    <Button
-                                        size="large"
-                                        className={classes.NavigateNext}
-                                        variant="outlined"
-                                        onClick={handleNavigateNextButton}
-                                        disabled={activePageNumber !== activeEpisodeData.pages.length && activeEpisodeData.episode_number ? false : true}>
-                                        <NavigateNext />
-                                    </Button>
-                                </>
-                                : ""}
                             <div className={classes.ReadingStyleButtonContainer}>
                                 <Button
                                     className={classes.PagebyPage}
@@ -228,17 +208,17 @@ export default function MangaEpisodePage(props) {
                                                 handleCenteringPage()
                                             }} />
                                         <div className={classes.ImageOverlayContainer}>
-                                            <div
+                                            {activePageNumber !== 1 && activeEpisodeData.episode_number ? <div
                                                 className={classes.ImageOverlay}
                                                 style={{ cursor: `url(${cursorPrevious}), crosshair` }}
                                                 onClick={handleNavigateBeforeButton}
                                                 title={t('manga_episode.previous_page')}
-                                            />
-                                            <div
+                                            /> : ""}
+                                            {activePageNumber !== activeEpisodeData.pages.length && activeEpisodeData.episode_number ? <div
                                                 className={classes.ImageOverlay}
                                                 style={{ cursor: `url(${cursorNext}), crosshair` }}
                                                 onClick={handleNavigateNextButton}
-                                                title={t('manga_episode.next_page')} />
+                                                title={t('manga_episode.next_page')} /> : ""}
                                         </div>
                                     </>
                                     :

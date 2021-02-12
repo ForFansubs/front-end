@@ -31,7 +31,10 @@ const useStyles = makeStyles(theme => ({
         }
     },
     PaginationButtonContainer: {
-        zIndex: 3
+        zIndex: 3,
+        [theme.breakpoints.down('sm')]: {
+            display: "none"
+        }
     },
     PaginationButton: {
         display: "flex",

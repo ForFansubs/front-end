@@ -56,7 +56,6 @@ const useStyles = makeStyles(theme => ({
             lineHeight: "3.6rem"
         },
         [theme.breakpoints.down('sm')]: {
-            backgroundColor: "transparent",
             width: "100%"
         }
     },

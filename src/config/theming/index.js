@@ -31,7 +31,7 @@ const general = {
         },
     },
     typography: {
-        fontFamily: `'Poppins', sans-serif`,
+        fontFamily: "'Source Sans Pro', sans-serif",
         h1: {
 
             fontWeight: "bold",

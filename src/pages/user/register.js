@@ -20,7 +20,7 @@ export default function LoginPage() {
     const { t } = useTranslation('pages')
     const classes = useStyles();
 
-    const [userData, setUserData] = useState({ username: "", email: "", password: "", password2: "" })
+    const [userData, setUserData] = useState({ username: "", email: "", password: "", repeat_password: "" })
     const [registerLoading, setRegisterLoading] = useState(false)
     const [registerError, setRegisterError] = useState({})
 
@@ -68,6 +68,7 @@ export default function LoginPage() {
                             fullWidth
                             id="username"
                             label={t('user.common.inputs.username')}
+                            helperText={registerError.username ? registerError.username : ""}
                             name="username"
                             autoComplete="username"
                             autoFocus
@@ -81,6 +82,7 @@ export default function LoginPage() {
                             fullWidth
                             id="email"
                             label={t('user.common.inputs.email')}
+                            helperText={registerError.email ? registerError.email : ""}
                             name="email"
                             autoComplete="email"
                             autoFocus
@@ -93,7 +95,8 @@ export default function LoginPage() {
                             required
                             fullWidth
                             name="password"
-                            label={t('user.common.inputs.email')}
+                            label={t('user.common.inputs.password')}
+                            helperText={registerError.password ? registerError.password : ""}
                             type="password"
                             id="password"
                             autoComplete="password"
@@ -107,11 +110,12 @@ export default function LoginPage() {
                             fullWidth
                             name="repeat_password"
                             label={t('user.common.inputs.repeat_password')}
+                            helperText={registerError.repeat_password ? registerError.repeat_password : ""}
                             type="password"
-                            id="password2"
+                            id="repeat_password"
                             autoComplete="password"
                             onChange={_handleInputChange}
-                            value={userData.password2}
+                            value={userData.repeat_password}
                         />
                         <Button
                             type="submit"

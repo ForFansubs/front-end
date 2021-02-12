@@ -102,6 +102,17 @@ export default makeStyles((theme) => ({
             }
         }
     },
+    MobileCoverArt: {
+        display: "none",
+        margin: theme.spacing(2, 0),
+        "& img": {
+            boxShadow: theme.shadows[6]
+        },
+        [theme.breakpoints.down("sm")]: {
+            display: "flex",
+            justifyContent: "center"
+        }
+    },
     AnimeContainer: {
         position: "relative",
         zIndex: 2,
@@ -149,11 +160,11 @@ export default makeStyles((theme) => ({
     },
     JikanStatsScoresChart: {
         padding: theme.spacing(0, 2, 2, 2),
-        boxShadow: theme.shadows[6],
+        boxShadow: theme.shadows[2],
         backgroundColor: theme.palette.background.paper,
         "& text": {
             y: "-10px!important",
-            fill: `${theme.palette.getContrastText(theme.palette.background.default)}!important`
+            fill: `${theme.palette.getContrastText(theme.palette.background.paper)}!important`
         },
         "&:hover": {
             "& $JikanStatsScoresChartText": {
@@ -166,14 +177,18 @@ export default makeStyles((theme) => ({
     },
     JikanStatsStatusChart: {
         padding: theme.spacing(2),
-        boxShadow: theme.shadows[6],
+        boxShadow: theme.shadows[2],
         backgroundColor: theme.palette.background.paper
     },
     JikanStatsStatusChartList: {
-        display: "grid",
-        gridAutoFlow: "column",
-        justifyContent: "space-around",
-        margin: theme.spacing(1, 0)
+        display: "flex",
+        flexWrap: "wrap",
+        gap: `${theme.spacing(1)}px`,
+        [theme.breakpoints.up('sm')]: {
+            display: "grid",
+            gridAutoFlow: "column",
+            justifyContent: "space-around"
+        }
     },
     JikanStatsStatusChartItem: {
         textAlign: "center"
@@ -182,14 +197,9 @@ export default makeStyles((theme) => ({
         width: "100%",
         padding: theme.spacing(0.5, 2)
     },
-    YoutubePreview: {
-        boxShadow: theme.shadows[6],
-        backgroundColor: theme.palette.background.paper,
-        display: "flex"
-    },
     JikanDataErrorBox: {
         height: 250,
-        boxShadow: theme.shadows[6],
+        boxShadow: theme.shadows[2],
         backgroundColor: theme.palette.background.paper,
         display: "flex",
         flexDirection: "column",
@@ -203,17 +213,23 @@ export default makeStyles((theme) => ({
         display: "grid",
         gridGap: theme.spacing(2),
         gridTemplateColumns: "repeat(3,1fr)",
-        marginBottom: theme.spacing(1)
+        marginBottom: theme.spacing(1),
+        [theme.breakpoints.down('md')]: {
+            gridTemplateColumns: "repeat(2,1fr)"
+        },
+        [theme.breakpoints.down('sm')]: {
+            gridTemplateColumns: "repeat(1,1fr)"
+        }
     },
     CharactersStaffBoxItem: {
         display: "inline-grid",
         height: theme.spacing(10),
-        boxShadow: theme.shadows[6],
+        boxShadow: theme.shadows[2],
         backgroundColor: theme.palette.background.paper
     },
     CharactersStaffBoxCharacter: {
-        gridTemplateColumns: "50% 50%",
-        gridTemplateAreas: "'chr stff'"
+        gridTemplateColumns: "100%",
+        gridTemplateAreas: "chr"
     },
     CharactersStaffBoxStaff: {
         gridTemplateColumns: "100%",
@@ -227,7 +243,7 @@ export default makeStyles((theme) => ({
     },
     CharactersStaffBoxItemCharacter: {
         display: "inline-grid",
-        gridTemplateColumns: "50% 50%",
+        gridTemplateColumns: "25% 75%",
         "& $CharactersStaffBoxItemText": {
             padding: theme.spacing(1, 0, 1, 1)
         }
@@ -251,5 +267,10 @@ export default makeStyles((theme) => ({
     CharactersStaffBoxShowMore: {
         textAlign: "right",
         marginBottom: theme.spacing(2)
+    },
+    YoutubePreview: {
+        boxShadow: theme.shadows[6],
+        backgroundColor: theme.palette.background.paper,
+        display: "flex"
     }
 }))
