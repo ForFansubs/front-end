@@ -1,42 +1,33 @@
 ---
-name: Hata raporu
-about: Yaşadığınız hataları bize iletin.
-title: "[HATA]"
-labels: hata
+name: Bug report
+about: Write down any bugs that you faced.
+title: "[BUG]"
+labels: bug
 assignees: ayberktandogan
 
 ---
 
-# Hata raporu
+# Bug report
 
-## Sistem Bilgisi
-- Kullandığınız işletim sistemi (Dağıtım ismi ve versiyonu)
-- front-end versiyonu (Lütfen hangi sürümü kullandığınızı yazın.)
+## OS Details
+- OS name and build version
+- `front-end` version
 
-## Aşağıdakileri doğruluyorum:
-- [ ] Kodda kendi değiştirdiğim bir şey yüzünden aldığım bir hata değil.
-- [ ] front-end'in son versiyonunu kullanıyorum.
-- [x] Üstteki kutucuklar yandaki gibi gözüküyor. (işiniz bittiğinde bu satırı silin lütfen...)
+## I'm confirming these before submitting:
+- [ ] This is not caused because of something that I changed.
+- [ ] I'm using the latest version of `front-end`.
+- [x] Box above looks like this. (please delete this line when you're done...)
 <!--
-  Eğer yukardaki iki kutucuk işaretli değilse, sorun ilgilenilmeden kapatılacak.
-  Lütfen kutucukları sadece "x" harfiyle doldurun. Başka bir işaret koyarsanız düzgün işaretlenmeyecektir.
-  Lütfen bir konuya bir hata yazın. Birden fazla hatayı tek bir yere sıkıştırmaya çalışmayın.
+  If the box is not ticked, issue will be closed without any notice.
+  One bug for one issue. Please open another issue if you faced multiple bugs.
 -->
 
-## Sorunlar
+## Problems
 
 <!--
- * Ne yapmaya çalışıyorsunuz?
- * Ne olmasını istiyorsunuz?
- * Ne oluyor? ("Hiçbir şey" doğru bir cevap değil.)
+ * What are you trying to do?
+ * What do you want to happen?
+ * What really happens? (Nothing is never a good answer.)
 -->
 
-Sorunları buraya yazın.
-
-## Tekrarlanabilirlik
-
-<!--
- * Temiz bir yüklemeden sonra, yaşadığınız soruna nasıl ulaşabiliriz?
--->
-
-Tekrarlama adımlarını buraya yazın.
+List all your details here.
