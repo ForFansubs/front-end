@@ -18,7 +18,7 @@ assignees: ayberktandogan
 
 ## I'm confirming these before submitting:
 - [ ] I know that a feature like this doesn't exist in current build.
-- [x] Box on above looks like this. (please delete this line when you're done...)
+- [x] Box above looks like this. (please delete this line when you're done...)
 <!--
   If the box is not ticked, issue will be closed without any notice.
 -->
