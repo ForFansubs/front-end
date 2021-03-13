@@ -118,26 +118,6 @@ export default function MiniDrawer() {
         ]);
     }, [settings.language]);
 
-    useEffect(() => {
-        if (ExtraPagesList.length) {
-            const newMenus = [];
-
-            ExtraPagesList.map(
-                ({ PageUrl, PageTitle, PageShortTitle, PageIcon }) => {
-                    newMenus.push({
-                        text: PageTitle,
-                        shortText: PageShortTitle ? PageShortTitle : "",
-                        link: PageUrl,
-                        icon: PageIcon ? PageIcon : "",
-                        show: true,
-                    });
-                }
-            );
-
-            setMenuItems((state) => [...state, ...newMenus]);
-        }
-    }, []);
-
     const [menuItems2] = useState(SecondMenuItems);
 
     function handleMenu(event) {

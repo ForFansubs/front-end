@@ -33,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
             marginRight: theme.spacing(1),
         },
     },
+    LanguageButton: {
+        marginBottom: theme.spacing(2),
+    },
     selectMenu: {
         display: "flex",
         alignItems: "center",
@@ -75,7 +78,10 @@ export default function LanguageSelector() {
 
     return (
         <>
-            <Button onClick={handleClickOpen}>
+            <Button
+                onClick={handleClickOpen}
+                className={classes.LanguageButton}
+            >
                 {t("footer.change_language")}
             </Button>
             <Dialog open={open} onClose={handleClose}>
