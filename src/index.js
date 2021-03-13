@@ -121,20 +121,8 @@ if (process.env.REACT_APP_USE_SERVICE_WORKER === "true") {
     serviceWorkerRegistration.register({
         onUpdate: function onUpdateHandler(registration) {
             const waitingServiceWorker = registration.waiting;
-
-            const payload = {
-                container: "notification-success",
-                type: "success",
-                autoClose: false,
-                onClickFunction: () => {
-                    waitingServiceWorker.postMessage({ type: "SKIP_WAITING" });
-                    window.location.reload();
-                },
-                message:
-                    "Uygulamanın yeni bir sürümü var. Güncellemek için bu bildirime basın.",
-            };
-
-            //ToastNotification(payload)
+            waitingServiceWorker.postMessage({ type: "SKIP_WAITING" });
+            window.location.reload();
         },
     });
 }
