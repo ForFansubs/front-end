@@ -24,7 +24,6 @@
         "i18next-http-backend": "^1.0.21",
         "lodash-es": "^4.17.15",
         "markdown-to-jsx": "^7.1.0",
-        "node-sass": "4.14.1",
         "notistack": "^1.0.2",
         "react": "^17.0.1",
         "react-app-polyfill": "^2.0.0",
@@ -41,6 +40,7 @@
         "react-router-dom": "^5.2.0",
         "react-scripts": "4.0.1",
         "react-swipeable": "^6.0.0",
+        "sass": "^1.32.8",
         "web-vitals": "^1.0.1"
     },
     "resolutions": {
