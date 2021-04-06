@@ -1,4 +1,4 @@
-import { makeStyles, fade } from '@material-ui/core'
+import { makeStyles, fade } from "@material-ui/core";
 
 export default makeStyles((theme) => ({
     Container: {
@@ -12,7 +12,7 @@ export default makeStyles((theme) => ({
 
         [theme.breakpoints.down("sm")]: {
             margin: theme.overrides.defaultMarginMobileOverride,
-            marginBottom: 0
+            marginBottom: 0,
         },
     },
     MetadataContainer: {
@@ -27,11 +27,11 @@ export default makeStyles((theme) => ({
         [theme.breakpoints.down("sm")]: {
             margin: theme.overrides.defaultMarginMobileOverride,
             marginTop: 0,
-            marginBottom: 0
-        }
+            marginBottom: 0,
+        },
     },
     JikanStatsContainer: {
-        margin: theme.spacing(2, 0, 3)
+        margin: theme.spacing(2, 0, 3),
     },
     BackgroundImage: {
         position: "absolute",
@@ -58,14 +58,19 @@ export default makeStyles((theme) => ({
     },
     BackgroundImageOverlay: {
         //eslint-disable-next-line
-        background: `linear-gradient(90deg, ${theme.palette.background.default} 0%, ${theme.palette.background.default} 35%, ${fade(theme.palette.background.default, 0)} 50%)`,
+        background: `linear-gradient(90deg, ${
+            theme.palette.background.default
+        } 0%, ${theme.palette.background.default} 35%, ${fade(
+            theme.palette.background.default,
+            0
+        )} 50%)`,
         position: "absolute",
         top: 0,
         bottom: 0,
         left: 0,
         right: 0,
         [theme.breakpoints.down("xs")]: {
-            background: theme.palette.background.default
+            background: theme.palette.background.default,
         },
     },
     FallbackBackgroundImage: {
@@ -90,45 +95,48 @@ export default makeStyles((theme) => ({
         zIndex: 2,
         boxShadow: theme.shadows[6],
         height: "auto!important",
-        [theme.breakpoints.down('sm')]: {
-            display: "none"
-        }
+        [theme.breakpoints.down("sm")]: {
+            display: "none",
+        },
     },
     LogoImage: {
         "& img": {
             width: 400,
-            [theme.breakpoints.down('sm')]: {
-                width: "100%"
-            }
-        }
+            [theme.breakpoints.down("sm")]: {
+                width: "100%",
+            },
+        },
     },
     MobileCoverArt: {
         display: "none",
         margin: theme.spacing(2, 0),
         "& img": {
-            boxShadow: theme.shadows[6]
+            boxShadow: theme.shadows[6],
         },
         [theme.breakpoints.down("sm")]: {
             display: "flex",
-            justifyContent: "center"
-        }
+            justifyContent: "center",
+        },
     },
     AnimeContainer: {
         position: "relative",
         zIndex: 2,
         padding: theme.spacing(7),
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down("sm")]: {
             padding: theme.spacing(3),
-        }
+        },
     },
     PremieredContainer: {
-        color: theme.palette.type === "dark" ? theme.palette.grey["400"] : theme.palette.text.primary,
+        color:
+            theme.palette.type === "dark"
+                ? theme.palette.grey["400"]
+                : theme.palette.text.primary,
     },
     TextContainer: {
         width: "45%",
-        [theme.breakpoints.down('sm')]: {
-            width: "100%"
-        }
+        [theme.breakpoints.down("sm")]: {
+            width: "100%",
+        },
     },
     SynopsisContainer: {
         whiteSpace: "pre-wrap",
@@ -136,10 +144,10 @@ export default makeStyles((theme) => ({
     ContentButton: {
         marginRight: theme.spacing(2),
         marginTop: theme.spacing(2),
-        boxShadow: theme.shadows[6]
+        boxShadow: theme.shadows[6],
     },
     BottomStuff: {
-        margin: theme.spacing(2, 0)
+        margin: theme.spacing(2, 0),
     },
     DownloadLinkDivider: {
         marginBottom: theme.spacing(1),
@@ -148,15 +156,15 @@ export default makeStyles((theme) => ({
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
-        position: 'absolute',
+        position: "absolute",
         width: 600,
         backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
+        border: "2px solid #000",
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
-        [theme.breakpoints.down('sm')]: {
-            width: "100%"
-        }
+        [theme.breakpoints.down("sm")]: {
+            width: "100%",
+        },
     },
     JikanStatsScoresChart: {
         padding: theme.spacing(0, 2, 2, 2),
@@ -164,38 +172,40 @@ export default makeStyles((theme) => ({
         backgroundColor: theme.palette.background.paper,
         "& text": {
             y: "-10px!important",
-            fill: `${theme.palette.getContrastText(theme.palette.background.paper)}!important`
+            fill: `${theme.palette.getContrastText(
+                theme.palette.background.paper
+            )}!important`,
         },
         "&:hover": {
             "& $JikanStatsScoresChartText": {
-                display: "block"
-            }
-        }
+                display: "block",
+            },
+        },
     },
     JikanStatsScoresChartText: {
-        display: "none"
+        display: "none",
     },
     JikanStatsStatusChart: {
         padding: theme.spacing(2),
         boxShadow: theme.shadows[2],
-        backgroundColor: theme.palette.background.paper
+        backgroundColor: theme.palette.background.paper,
     },
     JikanStatsStatusChartList: {
         display: "flex",
         flexWrap: "wrap",
         gap: `${theme.spacing(1)}px`,
-        [theme.breakpoints.up('sm')]: {
+        [theme.breakpoints.up("sm")]: {
             display: "grid",
             gridAutoFlow: "column",
-            justifyContent: "space-around"
-        }
+            justifyContent: "space-around",
+        },
     },
     JikanStatsStatusChartItem: {
-        textAlign: "center"
+        textAlign: "center",
     },
     JikanStatsStatusChartItemHeaderText: {
         width: "100%",
-        padding: theme.spacing(0.5, 2)
+        padding: theme.spacing(0.5, 2),
     },
     JikanDataErrorBox: {
         height: 250,
@@ -206,55 +216,54 @@ export default makeStyles((theme) => ({
         justifyContent: "center",
         alignItems: "center",
         "& svg": {
-            fontSize: "3rem"
-        }
+            fontSize: "3rem",
+        },
     },
     CharactersStaffBoxList: {
         display: "grid",
         gridGap: theme.spacing(2),
         gridTemplateColumns: "repeat(3,1fr)",
         marginBottom: theme.spacing(1),
-        [theme.breakpoints.down('md')]: {
-            gridTemplateColumns: "repeat(2,1fr)"
+        [theme.breakpoints.down("md")]: {
+            gridTemplateColumns: "repeat(2,1fr)",
         },
-        [theme.breakpoints.down('sm')]: {
-            gridTemplateColumns: "repeat(1,1fr)"
-        }
+        [theme.breakpoints.down("sm")]: {
+            gridTemplateColumns: "repeat(1,1fr)",
+        },
     },
     CharactersStaffBoxItem: {
         display: "inline-grid",
         height: theme.spacing(10),
         boxShadow: theme.shadows[2],
-        backgroundColor: theme.palette.background.paper
+        backgroundColor: theme.palette.background.paper,
     },
     CharactersStaffBoxCharacter: {
-        gridTemplateColumns: "100%",
-        gridTemplateAreas: "chr"
+        gridTemplateColumns: (props) => (props.open ? "50% 50%" : "100%"),
     },
     CharactersStaffBoxStaff: {
         gridTemplateColumns: "100%",
-        gridTemplateAreas: "stff"
+        gridTemplateAreas: "stff",
     },
     CharactersStaffBoxItemImage: {
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         width: "100%",
-        height: "100%"
+        height: "100%",
     },
     CharactersStaffBoxItemCharacter: {
         display: "inline-grid",
-        gridTemplateColumns: "25% 75%",
+        gridTemplateColumns: (props) => (props.open ? "50% 50%" : "25% 75%"),
         "& $CharactersStaffBoxItemText": {
-            padding: theme.spacing(1, 0, 1, 1)
-        }
+            padding: theme.spacing(1, 0, 1, 1),
+        },
     },
     CharactersStaffBoxItemStaff: {
         textAlign: "right",
         display: "inline-grid",
         gridTemplateColumns: "50% 50%",
         "& $CharactersStaffBoxItemText": {
-            padding: theme.spacing(1, 1, 1, 0)
-        }
+            padding: theme.spacing(1, 1, 1, 0),
+        },
     },
     CharactersStaffBoxStaffOverride: {
         gridTemplateColumns: "25% 75%",
@@ -262,15 +271,15 @@ export default makeStyles((theme) => ({
     CharactersStaffBoxItemText: {
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
     },
     CharactersStaffBoxShowMore: {
         textAlign: "right",
-        marginBottom: theme.spacing(2)
+        marginBottom: theme.spacing(2),
     },
     YoutubePreview: {
         boxShadow: theme.shadows[6],
         backgroundColor: theme.palette.background.paper,
-        display: "flex"
-    }
-}))
+        display: "flex",
+    },
+}));
