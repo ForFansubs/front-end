@@ -17,7 +17,7 @@
     "cron": "^1.8.2",
     "date-fns": "^2.14.0",
     "disqus-react": "^1.0.8",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "lodash-es": "^4.17.15",
     "markdown-to-jsx": "^6.11.4",
     "node-sass": "^4.14.1",
