@@ -1,5 +1,6 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core'
+import { Divider, makeStyles } from '@material-ui/core'
+import { grey } from '@material-ui/core/colors'
 
 
 const useStyles = makeStyles(theme => ({
@@ -21,29 +22,28 @@ const useStyles = makeStyles(theme => ({
             }
         }
     },
+    MainDiv: {
+        color: theme.palette.type === "dark" ? "inherit" : grey[700]
+    },
     ContainerDiv: {
-        marginBottom: theme.spacing(5)
     },
     IndexHeader: {
         marginBottom: theme.spacing(2)
     },
     EpisodeContainer: {
         display: "grid",
-        gridTemplateColumns: "repeat(8, 1fr)",
+        gridTemplateColumns: "repeat(9, 1fr)",
         gridTemplateRows: "repeat(1, 1fr)",
         gap: `${theme.spacing(2)}px`,
-        gridTemplateAreas: `"Title Title Title . . . . ." ". . . . . . . ."`,
-    },
-    Title: {
-        gridArea: "Title"
+        gridTemplateAreas: `". . . . . . . . ." ". . . . . . . . ."`,
     },
     [theme.breakpoints.down("md")]: {
         EpisodeContainer: {
             display: "grid",
-            gridTemplateColumns: "repeat(5, 1fr)",
+            gridTemplateColumns: "repeat(6, 1fr)",
             gridTemplateRows: "repeat(1, 1fr)",
             gap: `${theme.spacing(2)}px`,
-            gridTemplateAreas: `"Title Title . . ." ". . . . ."`,
+            gridTemplateAreas: `". . . . . ."`,
         },
         Title: {
             "& h2": {
@@ -51,13 +51,16 @@ const useStyles = makeStyles(theme => ({
             }
         }
     },
+    IndexDivider: {
+        margin: theme.spacing(4, 0)
+    },
     [theme.breakpoints.down("xs")]: {
         EpisodeContainer: {
             display: "grid",
             gridTemplateColumns: "repeat(3, 1fr)",
-            gridTemplateRows: "repeat(2, 1fr)",
+            gridTemplateRows: "repeat(1, 1fr)",
             gap: `${theme.spacing(2)}px`,
-            gridTemplateAreas: `"Title Title ." ". . ."`,
+            gridTemplateAreas: `". . ."`,
         },
         Title: {
             "& h2": {
@@ -77,4 +80,14 @@ function TitleContainer(props) {
     )
 }
 
-export { useStyles, TitleContainer }
+function IndexDivider() {
+    const classes = useStyles()
+
+    return (
+        <div className={classes.IndexDivider}>
+            <Divider />
+        </div>
+    )
+}
+
+export { useStyles, TitleContainer, IndexDivider }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import ReactGA from 'react-ga';
 import Metatags from '../../components/helmet/index'
 
@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import AwesomeDebouncePromise from 'awesome-debounce-promise';
 
-import axios from '../../config/axios/axios'
+import getDataFromAPI from '../../helpers/getDataFromAPI'
 import { getGenresList, getFullSearchList } from '../../config/api-routes'
 
 import filter from 'lodash-es/filter'
@@ -23,6 +23,7 @@ import { Typography, Box, Grid, Button } from '@material-ui/core'
 import InfoIcon from '@material-ui/icons/Info'
 import WarningIcon from '@material-ui/icons/Warning'
 import CircularProgress from '../../components/progress/index'
+import { useTranslation } from 'react-i18next';
 
 const searchTextAPI = (data, text) => {
     if (text.length < 3) {
@@ -55,6 +56,7 @@ const searchGenresAPIDebounced = AwesomeDebouncePromise(searchGenresAPI, 500);
 
 export default function SearchPage(props) {
     const classes = useStyles()
+    const { t } = useTranslation(['pages', 'components', 'common', 'genres']);
 
     const [offset, setOffset] = useState(1)
     const [data, setData] = useState([])
@@ -75,8 +77,8 @@ export default function SearchPage(props) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const searchList = await axios.get(getFullSearchList(type))
-            const genres = await axios.get(getGenresList)
+            const searchList = await getDataFromAPI({ route: getFullSearchList(type) })
+            const genres = await getDataFromAPI({ route: getGenresList })
             const initialData = slice(searchList.data, 0, 24)
 
             if (searchList.data.length === 0 || searchList.status !== 200) {
@@ -127,7 +129,7 @@ export default function SearchPage(props) {
         })
 
         const fetchData = async () => {
-            const searchList = await axios.get(getFullSearchList(newType))
+            const searchList = await getDataFromAPI({ route: getFullSearchList(newType) })
             const initialData = slice(searchList.data, 0, 24)
 
             if (searchList.data.length === 0 || searchList.status !== 200) {
@@ -203,13 +205,13 @@ export default function SearchPage(props) {
     if (!loadingData) {
         if (data.length !== 0 && type === "anime") {
             mappedData = data.map(d =>
-                <AnimeContainer key={d.slug} data={{ ...d }} />
+                <AnimeContainer key={d.slug} t={t} data={{ ...d }} />
             )
         }
 
         else if (data.length !== 0 && type === "manga") {
             mappedData = data.map(d =>
-                <MangaContainer key={d.slug} data={{ ...d }} />
+                <MangaContainer key={d.slug} t={t} data={{ ...d }} />
             )
         }
 
@@ -248,12 +250,13 @@ export default function SearchPage(props) {
         )
     }
 
-    const title = `${process.env.REACT_APP_SITENAME} Anime & Manga Ara Türkçe İzle`
-    const desc = `${process.env.REACT_APP_SITENAME} Anime ve Manga arama motoru. Türlere göre anime ve manga arayabilir, konularına göz atabilirsiniz.`
-
     return (
         <>
-            <Metatags title={title} desc={desc} url="/ara" type="website" />
+            <Metatags
+                title={t('search.metadata.title', { site_name: process.env.REACT_APP_SITENAME })}
+                desc={t('search.metadata.description', { site_name: process.env.REACT_APP_SITENAME })}
+                url="/ara"
+                type="website" />
             <Grid container spacing={2}>
                 <Grid item xs={12} md={2}>
                     <Box justifyContent="space">
@@ -264,7 +267,7 @@ export default function SearchPage(props) {
                             color={type === "anime" ? "primary" : "default"}
                             onClick={() => handleTypeChange("anime")}
                             disabled={isSearching}>
-                            Anime
+                            {t('common:ns.anime')}
                         </Button>
                         <Button
                             fullWidth
@@ -273,7 +276,7 @@ export default function SearchPage(props) {
                             color={type === "manga" ? "primary" : "default"}
                             onClick={() => handleTypeChange("manga")}
                             disabled={isSearching}>
-                            Manga
+                            {t('common:ns.manga')}
                         </Button>
                     </Box>
                     <form autoComplete="off">
@@ -293,7 +296,7 @@ export default function SearchPage(props) {
                         <Box className={`${classes.ContentWarning} ${classes.DefaultBox}`} p={1} mb={1} boxShadow={1}>
                             <InfoIcon />
                             <Typography variant="subtitle2">
-                                Üstü mavi çizgili olanlar Blu-ray içeriklerdir.
+                                {t('search.warnings.blu_ray_notification')}
                             </Typography>
                         </Box>
                         :
@@ -302,7 +305,7 @@ export default function SearchPage(props) {
                         className={`${classes.ContentError} ${classes.DefaultBox}`} p={1} boxShadow={1}>
                         <WarningIcon />
                         <Typography variant="subtitle2">
-                            Sayfanın performans sorunu vardır. Donma yaşarsanız şimdilik <span role="img" aria-label="shrug-emoji">🤷</span>
+                            {t('search.warnings.performance_problem')}
                         </Typography>
                     </Box>
                     <Box mt={1}>
@@ -324,7 +327,7 @@ export default function SearchPage(props) {
                                 <Box p={1} className={`${classes.ContentWarning}`} boxShadow={6}>
                                     <WarningIcon />
                                     <Typography variant="subtitle2">
-                                        Gösterilecek bir şey bulunamadı.
+                                        {t('search.warnings.not_found')}
                                     </Typography>
                                 </Box>
                         }
@@ -340,7 +343,7 @@ export default function SearchPage(props) {
                             next={handleGetMore}
                             hasMore={hasData}
                             scrollThreshold={1}
-                            endMessage={<Typography variant="h6" style={{ padding: "8px", textAlign: "center" }}>Liste sonu.</Typography>}
+                            endMessage={<Typography variant="h6" style={{ padding: "8px", textAlign: "center" }}>{t('search.warnings.end_of_list')}</Typography>}
                             loader={<Box
                                 mt={1}
                                 p={1}
@@ -362,7 +365,7 @@ export default function SearchPage(props) {
                             <Box p={1} className={`${classes.ContentError} ${classes.DefaultBox}`} boxShadow={6}>
                                 <WarningIcon />
                                 <Typography variant="subtitle2">
-                                    Gösterilecek bir şey bulunamadı.
+                                    {t('search.warnings.not_found')}
                                 </Typography>
                             </Box>
                     }

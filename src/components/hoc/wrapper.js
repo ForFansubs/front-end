@@ -1,11 +1,5 @@
-import React from 'react'
-
 import Header from '../header/header'
 
-import Login from '../user/login'
-import Register from '../user/register'
-
-import { ToastContainer, Slide } from 'react-toastify';
 import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
@@ -28,6 +22,12 @@ const useStyles = makeStyles(theme => ({
         overflowY: "auto",
         "-webkit-transform": "translateZ(0)",
         transform: "translateZ(0)",
+        '&::-webkit-scrollbar-track': {
+            marginTop: 64,
+            [theme.breakpoints.down('xs')]: {
+                marginTop: 56
+            }
+        },
         [theme.breakpoints.down('sm')]: {
             overflowY: "scroll",
             scrollbarWidth: "none", /* Firefox */
@@ -47,11 +47,7 @@ const useStyles = makeStyles(theme => ({
         },
         '*::-webkit-scrollbar-track': {
             '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)',
-            backgroundColor: theme.palette.background.paper,
-            marginTop: 64,
-            [theme.breakpoints.down('xs')]: {
-                marginTop: 56
-            }
+            backgroundColor: theme.palette.background.paper
         },
         '*::-webkit-scrollbar-thumb': {
             backgroundColor: theme.palette.primary.main
@@ -60,15 +56,13 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-export default function (props) {
+export default function HOC(props) {
     const classes = useStyles()
 
     return (
         <>
             <div className={classes.OutsideContainer}>
                 <Header />
-                <Login />
-                <Register />
                 <div className={classes.ScrollNode} id="scroll-node">
                     <div className={classes.PaddingDiv}>
                         <section className={classes.MainContainer}>
@@ -76,7 +70,6 @@ export default function (props) {
                         </section>
                     </div>
                 </div>
-                <ToastContainer transition={Slide} />
             </div>
         </>
     )

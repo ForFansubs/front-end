@@ -1,21 +1,17 @@
-import React, { useState, useEffect } from 'react'
-import { useGlobal } from 'reactn'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import axios from '../../config/axios/axios'
-import Metatags from '../../components/helmet/index'
 import ReactGA from 'react-ga'
+import { useTranslation } from 'react-i18next';
 
 import find from 'lodash-es/find'
 import Loading from '../../components/progress/index'
+import Metatags from '../../components/helmet/index'
 
 import { getEpisodePageInfo, getEpisodeInfo, contentCover } from '../../config/api-routes'
 import { episodePage, animePage } from '../../config/front-routes'
 
-import {
-    useStyles,
-    EpisodeListParser,
-    defaultBoxProps,
-} from '../../components/episode/components'
+import { useStyles, EpisodeButton, defaultBoxProps } from '../../components/episode/components'
+import EpisodeTitleParser from '../../config/episode-title-parser'
 import ContentError from '../../components/warningerrorbox/error'
 import ContentWarning from '../../components/warningerrorbox/warning'
 import DisqusBox from '../../components/disqus/disqus'
@@ -27,11 +23,12 @@ import { format } from 'date-fns'
 import Dotdotdot from 'react-dotdotdot'
 import MotdContainer from '../../components/motd'
 import { CoverPlaceholder } from '../../config/theming/images'
+import getDataFromAPI from '../../helpers/getDataFromAPI';
+import postDataToAPI from '../../helpers/postDataToAPI';
 
 export default function EpisodePage(props) {
     const classes = useStyles()
-    let episodeDataMapped = "", watchLinksMapped = ""
-    const [mobile] = useGlobal("mobile")
+    const { t } = useTranslation('pages')
 
     const [animeData, setAnimeData] = useState({
         name: "",
@@ -59,7 +56,7 @@ export default function EpisodePage(props) {
         const fetchData = async () => {
             const { slug, episodeInfo } = props.match.params
 
-            const pageInfo = await axios.get(getEpisodePageInfo(slug))
+            const pageInfo = await getDataFromAPI({ route: getEpisodePageInfo(slug) })
 
             if (pageInfo.data.length === 0 || pageInfo.status !== 200) {
                 return setLoading(false)
@@ -80,7 +77,7 @@ export default function EpisodePage(props) {
                 let special_type = episodeInfo.replace(episode_number, '')
                 if (special_type === "bolum") special_type = ""
 
-                let { slug, title, data } = EpisodeListParser(episode_number, special_type)
+                let { slug, title, data } = EpisodeTitleParser("", episode_number, special_type)
                 const episode = find(pageInfo.data, { special_type, episode_number })
                 if (episode) {
                     const { credits, created_time, id } = episode
@@ -131,7 +128,8 @@ export default function EpisodePage(props) {
             episode_number: null,
             special_type: "",
             slug: "",
-            title: ""
+            title: "",
+            created_time: null
         })
         setActiveLink("")
         setWatchLinks([])
@@ -146,7 +144,7 @@ export default function EpisodePage(props) {
         }
 
         const fetchData = async () => {
-            const episodeInfo = await axios.post(getEpisodeInfo, data)
+            const episodeInfo = await postDataToAPI({ route: getEpisodeInfo, data: data })
 
             if (episodeInfo.data.length === 0 || episodeInfo.status !== 200) {
                 return setEpisodeLoading(false)
@@ -178,47 +176,20 @@ export default function EpisodePage(props) {
     }
 
     if (!loading && episodeData.length !== 0) {
-        const data_length = episodeData.length
-
-        episodeDataMapped = episodeData.map((e, i) => {
-            let { slug, title, data } = EpisodeListParser(e.episode_number, e.special_type)
-
-            return (
-                <Button
-                    className={classes.EpisodeButtons}
-                    last={data_length - 1 === i ? "true" : undefined}
-                    fullWidth
-                    variant="outlined"
-                    onClick={() => handleEpisodeClick(slug, title, data, e.credits, e.created_time, e.id)}
-                    color={e.special_type === activeEpisode.special_type && e.episode_number === activeEpisode.episode_number ? "secondary" : "default"}
-                    key={e.id}>
-                    {title}
-                </Button>
-            )
-        })
-
-        if (watchLinks.length !== 0) {
-            watchLinksMapped = watchLinks.map((w, i) => (
-                <Button
-                    className={classes.LinksButton}
-                    size="small"
-                    last={watchLinks.length - 1 === i ? "true" : undefined}
-                    variant="outlined"
-                    key={w.id + w.type}
-                    color={w.link === activeLink ? "secondary" : "default"}
-                    onClick={() => handleLinkClick(w.link)}
-                >
-                    {w.type.toUpperCase()}
-                </Button>
-            ))
-        }
-
-        const title = `${animeData.name} ${activeEpisode.title} Türkçe İzle - ${process.env.REACT_APP_SITENAME} Anime`
-        const desc = `${animeData.name} ${activeEpisode.title} Türkçe İzle ve İndir - ${process.env.REACT_APP_SITENAME} Anime İzle`
-
         return (
             <>
-                <Metatags title={title} desc={desc} url={process.env.REACT_APP_SITEURL + episodePage(props.match.params.slug, activeEpisode.slug)} content="video.tv_show" image={animeData.cover_art} />
+                <Metatags
+                    title={
+                        t('episode.metadata.title',
+                            { anime_name: animeData.name, episode_title: activeEpisode.title, site_name: process.env.REACT_APP_SITENAME })
+                    }
+                    desc={
+                        t('episode.metadata.description',
+                            { anime_name: animeData.name, episode_title: activeEpisode.title, site_name: process.env.REACT_APP_SITENAME })
+                    }
+                    url={process.env.REACT_APP_SITEURL + episodePage(props.match.params.slug, activeEpisode.slug)}
+                    content="video.tv_show"
+                    image={animeData.cover_art} />
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <MotdContainer {...props} content_type="episode" content_id={activeEpisode.id} />
@@ -230,7 +201,6 @@ export default function EpisodePage(props) {
                                 watchLinks.length !== 0
                                     ?
                                     <>
-                                        {/*TODO: Video ekranıyla link kutusunu bir dive al, ona background shadow ver.*/}
                                         {iframeLoading
                                             ?
                                             <Box className={classes.IframePlaceholder} bgcolor="common.black">
@@ -260,17 +230,17 @@ export default function EpisodePage(props) {
                                         <ContentError
                                             {...defaultBoxProps}
                                             p={1}>
-                                            Link bulunamadı.
+                                            {t('episode.warnings.links_not_found')}
                                         </ContentError>
                                 :
                                 <ContentWarning
                                     {...defaultBoxProps}
                                     p={1}>
-                                    Lütfen bölüm seçiniz.
+                                    {t('episode.warnings.please_select_episode')}
                                 </ContentWarning>
                             }
                         </Box>
-                        {watchLinksMapped.length !== 0
+                        {watchLinks.length !== 0
                             ?
                             <>
                                 <Box
@@ -279,7 +249,19 @@ export default function EpisodePage(props) {
                                     p={1}
                                     bgcolor="background.level1">
                                     <div className={classes.LinksButtonContainer}>
-                                        {watchLinksMapped}
+                                        {watchLinks.map((w, i) => (
+                                            <Button
+                                                className={classes.LinksButton}
+                                                size="small"
+                                                last={watchLinks.length - 1 === i ? "true" : undefined}
+                                                variant="outlined"
+                                                key={w.id + w.type}
+                                                color={w.link === activeLink ? "secondary" : "default"}
+                                                onClick={() => handleLinkClick(w.link)}
+                                            >
+                                                {w.type.toUpperCase()}
+                                            </Button>
+                                        ))}
                                     </div>
                                 </Box>
                             </>
@@ -289,9 +271,13 @@ export default function EpisodePage(props) {
                     </Grid>
                     <Grid item xs={12} md={3}>
                         <Box mb={2} className={classes.EpisodeContainer}>
-                            {episodeDataMapped.length !== 0
+                            {episodeData.length !== 0
                                 ?
-                                episodeDataMapped
+                                episodeData.map((e, i) => <EpisodeButton
+                                    key={e.id}
+                                    activeEpisode={activeEpisode}
+                                    handleEpisodeClick={handleEpisodeClick}
+                                    {...e} />)
                                 :
                                 ""
                             }
@@ -317,21 +303,21 @@ export default function EpisodePage(props) {
                                     </Grid>
                                     <Grid item xs={9} md={8}>
                                         <Box p={2}>
-                                            <Typography variant={mobile ? "h5" : "h4"} component="h1">
+                                            <Typography variant="h4" component="h1">
                                                 <Dotdotdot clamp={2}>{animeData.name}</Dotdotdot>
                                             </Typography>
                                             {activeEpisode.credits ?
                                                 <div>
-                                                    <Typography variant={mobile ? "body2" : "body1"} component="span"><b>Emektar: </b></Typography>
-                                                    <Typography variant={mobile ? "body2" : "body1"} component="span">{activeEpisode.credits}</Typography>
+                                                    <Typography variant="body1" component="span"><b>{t('episode.credits')}: </b></Typography>
+                                                    <Typography variant="body1" component="span">{activeEpisode.credits}</Typography>
                                                 </div>
                                                 :
                                                 ""
                                             }
                                             {activeEpisode.created_time ?
                                                 <div>
-                                                    <Typography variant={mobile ? "body2" : "body1"} component="span"><b>Eklenme Tarihi: </b></Typography>
-                                                    <Typography variant={mobile ? "body2" : "body1"} component="span">{format(new Date(activeEpisode.created_time), "dd.MM.yyyy")}</Typography>
+                                                    <Typography variant="body1" component="span"><b>{t('episode.added_at')}: </b></Typography>
+                                                    <Typography variant="body1" component="span">{format(new Date(activeEpisode.created_time), "dd.MM.yyyy")}</Typography>
                                                 </div>
                                                 :
                                                 ""
@@ -345,7 +331,7 @@ export default function EpisodePage(props) {
                         <Box>
                             <Link to={animePage(props.match.params.slug)}>
                                 <Button variant="contained" fullWidth>
-                                    Animeye git
+                                    {t('common:buttons.goto_anime')}
                                 </Button>
                             </Link>
                         </Box>
@@ -368,7 +354,7 @@ export default function EpisodePage(props) {
         return (
             <>
                 <Grid container>
-                    <Typography variant="h1">Bölüm bulunamadı.</Typography>
+                    <Typography variant="h1">{t('episode.warnings.no_episode_data')}</Typography>
                 </Grid>
             </>
         )

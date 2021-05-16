@@ -1,10 +1,12 @@
-import React from 'react'
-import { useGlobal } from 'reactn'
+import { useContext } from 'react'
 
+import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 
 import FooterItems from '../../config/footer_items'
+import LanguageSelector from './language-selector';
+import SettingsContext from '../../contexts/settings.context';
 
 const useStyles = makeStyles(theme => ({
     FooterDiv: {
@@ -26,13 +28,15 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function Footer() {
+    const { t } = useTranslation('components')
     const classes = useStyles()
-    const [settings] = useGlobal('settings')
+    const [settings] = useContext(SettingsContext)
 
     return (
         <>
             <footer>
                 <div className={classes.FooterDiv}>
+                    <LanguageSelector />
                     <div className={classes.FooterInnerDiv}>
                         {FooterItems.length !== 0 ?
                             FooterItems.map((item, index) => {
@@ -52,7 +56,7 @@ export default function Footer() {
                         <a href="https://forfansubs.github.io/" rel="noopener noreferrer" target="_blank">
                             ForFansubs v{settings.version}
                             <br />
-                            Release name: {settings["release-name"]}
+                            {t('footer.release_name')}: {settings["release-name"]}
                         </a>
                         <br />
                         <a href="https://aybertocarlos.github.io/" rel="noopener noreferrer" target="_blank">

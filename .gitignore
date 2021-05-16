@@ -38,3 +38,5 @@ src/static/fullLogo.gif
 /src/static/logo.png
 /src/static/fullLogo.png
 /src/static/fullLogo-dark.png
+
+.eslintcache

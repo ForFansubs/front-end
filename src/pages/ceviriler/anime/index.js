@@ -1,26 +1,25 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import Metatags from '../../../components/helmet/index'
 import ReactGA from 'react-ga';
-
-import axios from '../../../config/axios/axios'
+import { useTranslation } from 'react-i18next';
 
 import { AnimePage } from '../../../components/ceviriler/components'
 import { animePage } from '../../../config/front-routes'
-import { getAnimeIndex } from '../../../config/api-routes'
+import { contentMetadata, getAnimeIndex } from '../../../config/api-routes'
 
 import Loading from '../../../components/progress/index'
+import getDataFromAPI from '../../../helpers/getDataFromAPI';
 
-export default function (props) {
+export default function Anime(props) {
+    const { t } = useTranslation('pages')
     const [anime, setAnime] = useState({})
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await axios(
-                getAnimeIndex(props.match.params.slug)
-            ).catch(res => res)
+            const res = await getDataFromAPI({ route: getAnimeIndex(props.match.params.slug) }).catch(res => res)
 
             if (res.status === 200) {
                 if (res.data.translators)
@@ -65,11 +64,24 @@ export default function (props) {
     }
 
     if (!loading) {
-        const title = `${process.env.REACT_APP_SITENAME} ${anime.name} Türkçe ${anime.episodes.length !== 0 ? "İzle ve İndir" : ""}`
-        const desc = `${anime.name} Türkçe İzle & İndir - ${anime.synopsis}`
         return (
             <>
-                <Metatags title={title} desc={desc} url={animePage(anime.slug)} content="video.tv_show" image={anime.cover_art} />
+                <Metatags
+                    title={t('anime.metadata.title',
+                        {
+                            site_name: process.env.REACT_APP_SITENAME,
+                            anime_name: anime.name
+                        })}
+                    desc={t('anime.metadata.description',
+                        {
+                            site_name: process.env.REACT_APP_SITENAME,
+                            anime_name: anime.name,
+                            anime_synopsis: anime.synopsis
+                        })}
+                    url={animePage(anime.slug)}
+                    content="video.tv_show"
+                    image={process.env.REACT_APP_SITEURL + contentMetadata("anime", anime.slug)}
+                    twitter_card={"summary_large_image"} />
                 <AnimePage {...anime} />
             </>
         )

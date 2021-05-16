@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import { Grid, Typography, Box, makeStyles } from '@material-ui/core'
 import { red, blue } from '@material-ui/core/colors'
@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 import { animePage, mangaPage } from '../../config/front-routes'
 import { CoverPlaceholder } from '../../config/theming/images'
 import { contentCover } from '../../config/api-routes'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
     // ./pages/ara/index.js içerisinde kullanılan classlar
@@ -95,6 +96,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function AnimeContainer(props) {
+    const { t } = props
     const { slug, name, synopsis, genres, premiered, cover_art } = props.data
     const [imageError, setImageError] = useState(false)
     const classes = useStyles(props.data)
@@ -105,7 +107,7 @@ function AnimeContainer(props) {
                 <Box p={0} boxShadow={6}>
                     <Box className={classes.ContentPremieredContainer} p={1}>
                         <Typography variant="h6">
-                            {premiered || "Bilgi bulunamadı"}
+                            {premiered || t('components:search.warnings.not_found_premiered')}
                         </Typography>
                     </Box>
                     <div className={classes.ContentInPlacer}>
@@ -136,7 +138,7 @@ function AnimeContainer(props) {
                                 className={classes.ContentSynopsis}
                                 bgcolor={props.scrollbg}
                             >
-                                {synopsis || "Konu bulunamadı."}
+                                {synopsis || t('components:search.warnings.not_found_synopsis')}
                             </Typography>
                         </Box>
                     </div>
@@ -145,7 +147,7 @@ function AnimeContainer(props) {
                             {genres.map(g =>
                                 <li key={g + slug}>
                                     <Typography variant="h6">
-                                        {g}
+                                        {t(`genres:${g}`)}
                                     </Typography>
                                 </li>)
                             }
@@ -158,6 +160,7 @@ function AnimeContainer(props) {
 }
 
 function MangaContainer(props) {
+    const { t } = useTranslation('common')
     const { slug, name, synopsis, genres, cover_art } = props.data
     const [imageError, setImageError] = useState(false)
     const classes = useStyles(props.data)
@@ -193,7 +196,7 @@ function MangaContainer(props) {
                                 variant="subtitle1"
                                 className={classes.ContentSynopsis}
                             >
-                                {synopsis || "Konu bulunamadı."}
+                                {synopsis || t('warnings.not_found_synopsis')}
                             </Typography>
                         </Box>
                     </div>

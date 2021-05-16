@@ -1,5 +1,3 @@
-import React from 'react'
-
 import Dotdotdot from 'react-dotdotdot'
 import { Link } from 'react-router-dom'
 import { Typography, Grid, makeStyles, fade } from '@material-ui/core'
@@ -78,7 +76,7 @@ export default (props) => {
                                 <img src={contentHeader("anime", anime_slug)} onError={img => {
                                     img.target.onerror = null
                                     img.target.src = HeaderPlaceholder
-                                }} alt={anime_name + " toplu"} />
+                                }} alt="" />
                             </div>
                             <div className={classes.Text}>
                                 <Dotdotdot clamp={1} useNativeClamp>

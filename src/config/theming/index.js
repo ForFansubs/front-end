@@ -1,10 +1,17 @@
-import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
+import { unstable_createMuiStrictModeTheme, responsiveFontSizes } from '@material-ui/core/styles';
+import { enUS, trTR } from '@material-ui/core/locale';
+import i18next from '../i18n'
 import merge from 'lodash-es/merge'
 
 import darkTheme from './dark/index'
 import lightTheme from './light/index'
 
 const generalBorderRadius = 2
+
+const languageMap = {
+    "en": enUS,
+    "tr": trTR
+}
 
 const general = {
     breakpoints: {
@@ -24,11 +31,11 @@ const general = {
         },
     },
     typography: {
-        fontFamily: `'Roboto', sans-serif`,
+        fontFamily: "'Source Sans Pro', sans-serif",
         h1: {
 
             fontWeight: "bold",
-            fontSize: "4.8rem",
+            fontSize: "4.75rem",
             lineHeight: 1.2
         },
         h2: {
@@ -38,12 +45,12 @@ const general = {
         },
         h3: {
             fontWeight: "bold",
-            fontSize: "2.4rem",
+            fontSize: "2.5rem",
             lineHeight: 1.2
         },
         h4: {
             fontWeight: "bold",
-            fontSize: "1.7rem"
+            fontSize: "1.75rem"
         },
         h5: {
             fontWeight: "bold",
@@ -51,27 +58,28 @@ const general = {
         },
         h6: {
             fontWeight: "bold",
-            fontSize: ".8rem"
+            fontSize: ".75rem"
         },
         body1: {
+            fontSize: "1rem",
             fontFamily: "'Source Sans Pro', sans-serif"
         },
         body2: {
             fontFamily: "'Source Sans Pro', sans-serif",
-            fontSize: ".8rem",
+            fontSize: ".75rem",
             fontWeight: "bold",
             letterSpacing: "0.0075em",
             lineHeight: 1.6
         },
         subtitle1: {
             fontFamily: "'Source Sans Pro', sans-serif",
-            fontSize: "0.875rem",
+            fontSize: "1rem",
             lineHeight: 1.25,
             borderRadius: generalBorderRadius,
         },
         subtitle2: {
             fontFamily: "'Source Sans Pro', sans-serif",
-            fontSize: "0.675rem",
+            fontSize: "0.75rem",
             borderRadius: generalBorderRadius,
         }
     },
@@ -105,7 +113,7 @@ export default function getTheme(type) {
     switch (type) {
         case type: {
             const theme = merge(general, type === "dark" ? darkTheme : lightTheme)
-            return responsiveFontSizes(createMuiTheme(theme))
+            return responsiveFontSizes(unstable_createMuiStrictModeTheme(theme, languageMap[i18next.language]))
         }
         default:
             return false

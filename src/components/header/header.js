@@ -1,257 +1,124 @@
-import React, { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
-import { useGlobal, useDispatch, useEffect } from 'reactn'
-import Footer from '../footer/footer'
+import { useContext, useEffect, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useSnackbar } from "notistack";
+import Footer from "../footer/footer";
 
-import clsx from 'clsx'
-import useTheme from '@material-ui/styles/useTheme'
-import { Drawer, AppBar, Toolbar, List, Divider, ListItem, ListItemIcon, ListItemText, Typography, MenuItem, Menu, makeStyles, Box } from '@material-ui/core'
-import HomeIcon from '@material-ui/icons/Home';
-import SearchIcon from '@material-ui/icons/Search';
-import InfoIcon from '@material-ui/icons/Info';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MoonIcon from '@material-ui/icons/NightsStay'
-import SunIcon from '@material-ui/icons/WbSunny'
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import { useStyles } from "./styles";
+import clsx from "clsx";
+import useTheme from "@material-ui/styles/useTheme";
+import {
+    Drawer,
+    AppBar,
+    Toolbar,
+    List,
+    Divider,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    Typography,
+    MenuItem,
+    Menu,
+    Box,
+} from "@material-ui/core";
+import HomeIcon from "@material-ui/icons/Home";
+import SearchIcon from "@material-ui/icons/Search";
+import CalendarIcon from "@material-ui/icons/CalendarToday";
+import InfoIcon from "@material-ui/icons/Info";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import MoonIcon from "@material-ui/icons/Brightness2";
+import SunIcon from "@material-ui/icons/WbSunny";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
-import { indexPage, searchPage, faqPage, recPage, adminPage } from '../../config/front-routes'
-import { fullLogo, fullLogoDark } from '../../config/theming/images'
-import ExtraPagesList from '../../pages/extra-pages/index'
-import SecondMenuItems from '../../config/drawer_items'
-
-const drawerWidth = 260;
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        overflowX: "hidden",
-        [theme.breakpoints.up('sm')]: {
-            overflowX: "initial",
-        }
-    },
-    appBar: {
-        zIndex: theme.zIndex.drawer + 1
-    },
-    appBarShift: {
-        marginLeft: drawerWidth,
-        width: 0,
-        [theme.breakpoints.up('sm')]: {
-            width: `100%`,
-        }
-    },
-    menuButton: {
-        [theme.breakpoints.down('sm')]: {
-            marginRight: 10,
-        },
-        marginRight: 36,
-    },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-        whiteSpace: 'nowrap'
-    },
-    SidePanel: {
-        backgroundColor: theme.palette.background.level1
-    },
-    toolbar: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        padding: '0 8px',
-        ...theme.mixins.toolbar,
-    },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-    },
-    logoContainer: {
-        display: "flex",
-        flexGrow: 1
-    },
-    logo: {
-        height: "46px"
-    },
-    ListItem: {
-        width: "100vw",
-        [theme.breakpoints.up('sm')]: {
-            width: drawerWidth,
-        },
-        transition: "none",
-        '&:hover': {
-            backgroundColor: theme.palette.background.paper
-        }
-    },
-    ListItemText: {
-        fontSize: ".8rem!important"
-    },
-    ListItemIcon: {
-        display: "contents",
-        color: theme.palette.grey["500"],
-        '& svg': {
-            color: theme.palette.grey["500"]
-        },
-    },
-    iconContainer: {
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        width: theme.spacing(10) + 1,
-    },
-    shortText: {
-        display: "none",
-        whiteSpace: "pre-wrap",
-        textAlign: "center",
-        fontSize: "0.7rem",
-        color: theme.palette.grey["500"]
-    },
-    Active: {
-        backgroundColor: theme.palette.background.paper,
-        '& $shortText': {
-            color: theme.palette.text.primary
-        },
-        '& $ListItemIcon': {
-            color: theme.palette.text.primary,
-            '& svg': {
-                color: theme.palette.text.primary
-            }
-        }
-    },
-    RightBox: {
-        display: "flex"
-    },
-    secondary: {
-        '&:hover': {
-            backgroundColor: theme.palette.background.paper
-        }
-    },
-    drawerOpen: {
-        width: "100vw",
-        '& $ListItemText': {
-            whiteSpace: "pre-wrap"
-        },
-        '& $iconContainer': {
-            alignItems: "initial",
-            width: `${theme.spacing(6)}px`,
-            maxWidth: `${theme.spacing(6)}px`,
-            minWidth: `${theme.spacing(6)}px`
-        },
-        [theme.breakpoints.up('sm')]: {
-            width: drawerWidth,
-        },
-        overflowX: "hidden",
-        '& $Active': {
-            '& $ListItem': {
-                backgroundColor: theme.palette.background.paper
-            }
-        }
-    },
-    drawerClose: {
-        '& $ListItem': {
-            padding: `${theme.spacing(1)}px 0`
-        },
-        '& $iconContainer': {
-            padding: `${theme.spacing(1)}px ${theme.spacing(0)}px`
-        },
-        '& $shortText': {
-            display: "block"
-        },
-        '& $ListItemText': {
-            display: "none"
-        },
-        overflowX: 'hidden',
-        width: 0,
-        [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(10) + 1,
-        },
-        [theme.breakpoints.down('xs')]: {
-            borderRight: 0
-        }
-    },
-    list: {
-        width: 250,
-    },
-    fullList: {
-        width: 'auto',
-    },
-    snsButton: {
-        margin: "16px"
-    },
-    hide: {
-        display: "none"
-    },
-    footerDisplay: {
-        display: "block"
-    }
-}))
+import {
+    indexPage,
+    searchPage,
+    faqPage,
+    recPage,
+    adminPage,
+    calendarPage,
+    loginPage,
+    registerPage,
+} from "../../config/front-routes";
+import { fullLogo, fullLogoDark } from "../../config/theming/images";
+import ExtraPagesList from "../../pages/extra-pages/index";
+import SecondMenuItems from "../../config/drawer_items";
+import UserContext from "../../contexts/user.context";
+import SettingsContext from "../../contexts/settings.context";
 
 export default function MiniDrawer() {
+    const { t } = useTranslation("components");
+    const { enqueueSnackbar } = useSnackbar();
     const classes = useStyles();
     const theme = useTheme();
+    const [user, setUser] = useContext(UserContext);
+    const [settings, setSettings] = useContext(SettingsContext);
     // eslint-disable-next-line
-    const [, setShowModal] = useGlobal('showModal')
-    const [userInfo] = useGlobal('user')
-    const [usertheme] = useGlobal('theme')
-    const [isAdmin] = useGlobal('isAdmin')
-    const logoutHandler = useDispatch("logoutHandler")
-    const setUserTheme = useDispatch('setTheme')
-    const [anchorEl, setAnchorEl] = useState(null)
+    const [anchorEl, setAnchorEl] = useState(null);
     const profileMenu = Boolean(anchorEl);
 
-    const [open, setOpen] = React.useState(false);
-    const [menuItems, setMenuItems] = React.useState([
-        {
-            text: "Ana sayfa",
-            shortText: "Ana Sayfa",
-            link: indexPage,
-            show: true,
-            icon: <HomeIcon />
-        },
-        {
-            text: "İçerik ara",
-            shortText: "Ara",
-            link: searchPage,
-            show: true,
-            icon: <SearchIcon />
-        },
-        {
-            text: "Sıkça Sorulan Sorular",
-            shortText: "SSS",
-            link: faqPage,
-            show: process.env.REACT_APP_SSS_PAGE === "true" ? true : false,
-            icon: <InfoIcon />
-        },
-        {
-            text: "Ekip Alımları",
-            link: recPage,
-            show: true,
-            icon: <h2>EA</h2>
-        }
-    ])
+    const [open, setOpen] = useState(false);
+    const [menuItems, setMenuItems] = useState([]);
 
     useEffect(() => {
+        const newMenus = [];
         if (ExtraPagesList.length) {
-            const newMenus = []
-
-            ExtraPagesList.map(({ PageUrl, PageTitle, PageShortTitle, PageIcon }) => {
-                newMenus.push({
-                    text: PageTitle,
-                    shortText: PageShortTitle ? PageShortTitle : "",
-                    link: PageUrl,
-                    icon: PageIcon ? PageIcon : "",
-                    show: true
-                })
-            })
-
-            setMenuItems(state => [
-                ...state, ...newMenus
-            ])
+            ExtraPagesList.map(
+                ({ PageUrl, PageTitle, PageShortTitle, PageIcon }) => {
+                    newMenus.push({
+                        text: PageTitle,
+                        shortText: PageShortTitle ? PageShortTitle : "",
+                        link: PageUrl,
+                        icon: PageIcon ? PageIcon : "",
+                        show: true,
+                    });
+                }
+            );
         }
-    }, [])
+        setMenuItems([
+            {
+                text: t("header.index.default"),
+                shortText: t("header.index.short"),
+                link: indexPage,
+                show: true,
+                icon: <HomeIcon />,
+            },
+            {
+                text: t("header.search.default"),
+                shortText: t("header.search.short"),
+                link: searchPage,
+                show: true,
+                icon: <SearchIcon />,
+            },
+            {
+                text: t("header.calendar.default"),
+                shortText: t("header.calendar.short"),
+                link: calendarPage,
+                show: true,
+                icon: <CalendarIcon />,
+            },
+            {
+                text: t("header.faq.default"),
+                shortText: t("header.faq.short"),
+                link: faqPage,
+                show: process.env.REACT_APP_SSS_PAGE === "true" ? true : false,
+                icon: <InfoIcon />,
+            },
+            {
+                text: t("header.recruitment.default"),
+                shortText: t("header.recruitment.short"),
+                link: recPage,
+                show: true,
+                icon: <h2>{t("header.recruitment.logo")}</h2>,
+            },
+            ...newMenus,
+        ]);
+    }, [settings.language]);
 
-    const [menuItems2] = React.useState(SecondMenuItems)
+    const [menuItems2] = useState(SecondMenuItems);
 
     function handleMenu(event) {
         setAnchorEl(event.currentTarget);
@@ -262,17 +129,20 @@ export default function MiniDrawer() {
     }
 
     function handleLogoutButton() {
-        logoutHandler();
+        setUser({});
+        enqueueSnackbar("Başarıyla çıkış yapıldı", {
+            variant: "success",
+            anchorOrigin: {
+                vertical: "bottom",
+                horizontal: "center",
+            },
+            autoHideDuration: 3500,
+        });
         setAnchorEl(null);
     }
 
-    function handleLoginRegisterButtons(type) {
-        setAnchorEl(null)
-        setShowModal(type)
-    }
-
     const handleDrawerState = () => {
-        setOpen(state => !state);
+        setOpen((state) => !state);
     };
 
     const handleDrawerClose = () => {
@@ -284,154 +154,264 @@ export default function MiniDrawer() {
             <>
                 <div className={classes.toolbar}>
                     <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                        {theme.direction === "rtl" ? (
+                            <ChevronRightIcon />
+                        ) : (
+                            <ChevronLeftIcon />
+                        )}
                     </IconButton>
                 </div>
                 <Divider />
                 <List>
-                    {menuItems.map(item => item.show ?
-                        (
-                            <NavLink exact to={item.link} onClick={handleDrawerClose} activeClassName={classes.Active} key={item.text}>
+                    {menuItems.map((item) =>
+                        item.show ? (
+                            <NavLink
+                                exact
+                                to={item.link}
+                                onClick={handleDrawerClose}
+                                activeClassName={classes.Active}
+                                key={item.text}
+                            >
                                 <ListItem className={classes.ListItem} button>
                                     <Box className={classes.iconContainer}>
-                                        <ListItemIcon className={classes.ListItemIcon}>{item.icon}</ListItemIcon>
-                                        <Typography variant="subtitle2" className={classes.shortText}>{item.shortText || item.text}</Typography>
+                                        <ListItemIcon
+                                            className={classes.ListItemIcon}
+                                        >
+                                            {item.icon}
+                                        </ListItemIcon>
+                                        <Typography
+                                            variant='subtitle2'
+                                            className={classes.shortText}
+                                        >
+                                            {item.shortText || item.text}
+                                        </Typography>
                                     </Box>
-                                    <ListItemText className={classes.ListItemText}><Typography variant="body2">{item.text}</Typography></ListItemText>
+                                    <ListItemText
+                                        className={classes.ListItemText}
+                                    >
+                                        <Typography variant='body2'>
+                                            {item.text}
+                                        </Typography>
+                                    </ListItemText>
                                 </ListItem>
                             </NavLink>
+                        ) : (
+                            ""
                         )
-                        :
-                        "")}
+                    )}
                 </List>
                 <Divider />
-                {
-                    menuItems2.length ?
-                        <>
-                            <List>
-                                {menuItems2.map(item => (
-                                    <a href={item.link} target="_blank" rel="noopener noreferrer" className={classes.secondary} key={item.title}>
-                                        <ListItem className={classes.ListItem} button style={{ backgroundColor: "inherit" }}>
-                                            <Box className={classes.iconContainer}>
-                                                <ListItemIcon className={classes.ListItemIcon}>{item.icon}</ListItemIcon>
-                                                <Typography variant="subtitle2" className={classes.shortText}>{item.short_title}</Typography>
-                                            </Box>
-                                            <ListItemText className={classes.ListItemText}><Typography variant="body2">{item.title}</Typography></ListItemText>
-                                        </ListItem>
-                                    </a>
-                                ))}
-                            </List>
-                            <Divider />
-                        </>
-                        :
-                        ""
-                }
+                {menuItems2.length ? (
+                    <>
+                        <List>
+                            {menuItems2.map((item) => (
+                                <a
+                                    href={item.link}
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    className={classes.secondary}
+                                    key={item.title}
+                                >
+                                    <ListItem
+                                        className={classes.ListItem}
+                                        button
+                                        style={{ backgroundColor: "inherit" }}
+                                    >
+                                        <Box className={classes.iconContainer}>
+                                            <ListItemIcon
+                                                className={classes.ListItemIcon}
+                                            >
+                                                {item.icon}
+                                            </ListItemIcon>
+                                            <Typography
+                                                variant='subtitle2'
+                                                className={classes.shortText}
+                                            >
+                                                {item.short_title}
+                                            </Typography>
+                                        </Box>
+                                        <ListItemText
+                                            className={classes.ListItemText}
+                                        >
+                                            <Typography variant='body2'>
+                                                {item.title}
+                                            </Typography>
+                                        </ListItemText>
+                                    </ListItem>
+                                </a>
+                            ))}
+                        </List>
+                        <Divider />
+                    </>
+                ) : (
+                    ""
+                )}
 
-                <div className={clsx(classes.hide, {
-                    [classes.footerDisplay]: open,
-                })}>
+                <div
+                    className={clsx(classes.hide, {
+                        [classes.footerDisplay]: open,
+                    })}
+                >
                     <Footer />
                 </div>
             </>
-        )
+        );
     }
 
     return (
         <div className={classes.root}>
             <AppBar
-                color="default"
-                position="fixed"
+                color='default'
+                position='fixed'
                 className={clsx(classes.appBar, {
                     [classes.appBarShift]: open,
                 })}
             >
                 <Toolbar>
                     <IconButton
-                        color="inherit"
-                        aria-label="Open/close drawer"
+                        color='inherit'
+                        aria-label='Open/close drawer'
                         onClick={handleDrawerState}
-                        edge="start"
+                        edge='start'
                         className={classes.menuButton}
                     >
                         <MenuIcon />
                     </IconButton>
                     <div className={classes.logoContainer}>
                         <Link to={indexPage} style={{ display: "flex" }}>
-                            <img title="Site logo" loading="lazy" className={classes.logo} src={usertheme === "dark" ? fullLogo : fullLogoDark} alt="Site Logo" />
+                            <img
+                                title='Site logo'
+                                loading='lazy'
+                                className={classes.logo}
+                                src={
+                                    settings.theme === "dark"
+                                        ? fullLogo
+                                        : fullLogoDark
+                                }
+                                alt='Site Logo'
+                            />
                         </Link>
                     </div>
                     <div className={classes.RightBox}>
-                        {
-                            usertheme === "dark"
-                                ?
-                                <IconButton onClick={() => setUserTheme("light")}><SunIcon style={{ height: "25px" }} /></IconButton>
-                                :
-                                <IconButton onClick={() => setUserTheme("dark")}><MoonIcon style={{ height: "25px" }} /></IconButton>
-                        }
-                        {userInfo.success ?
+                        {settings.theme === "dark" ? (
                             <IconButton
-                                aria-label={userInfo.username}
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleMenu}
-                                color="default"
+                                onClick={() =>
+                                    setSettings((state) => ({
+                                        ...state,
+                                        theme: "light",
+                                    }))
+                                }
                             >
-                                {userInfo.avatar ?
-                                    <img title={`${userInfo.username} avatar`} loading="lazy" src={userInfo.avatar} style={{ height: "24px" }} alt={`${userInfo.username} avatar`} aria-labelledby={`${userInfo.username} avatar`} />
-                                    :
-                                    <AccountCircle title={`${userInfo.username} avatar`} alt={`${userInfo.username} avatar`} aria-labelledby={`${userInfo.username} avatar`} />}
+                                <SunIcon style={{ height: "25px" }} />
                             </IconButton>
-                            :
+                        ) : (
                             <IconButton
-                                aria-label="account menus"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
+                                onClick={() =>
+                                    setSettings((state) => ({
+                                        ...state,
+                                        theme: "dark",
+                                    }))
+                                }
+                            >
+                                <MoonIcon style={{ height: "25px" }} />
+                            </IconButton>
+                        )}
+                        {user.token ? (
+                            <IconButton
+                                aria-label={user.username}
+                                aria-controls='menu-appbar'
+                                aria-haspopup='true'
                                 onClick={handleMenu}
-                                color="default"
+                                color='default'
+                            >
+                                {user.avatar ? (
+                                    <img
+                                        title={`${user.username} avatar`}
+                                        loading='lazy'
+                                        src={user.avatar}
+                                        style={{ height: "24px" }}
+                                        alt={`${user.username} avatar`}
+                                        aria-labelledby={`${user.username} avatar`}
+                                    />
+                                ) : (
+                                    <AccountCircle
+                                        title={`${user.username} avatar`}
+                                        alt={`${user.username} avatar`}
+                                        aria-labelledby={`${user.username} avatar`}
+                                    />
+                                )}
+                            </IconButton>
+                        ) : (
+                            <IconButton
+                                aria-label='account menus'
+                                aria-controls='menu-appbar'
+                                aria-haspopup='true'
+                                onClick={handleMenu}
+                                color='default'
                             >
                                 <AccountCircle />
                             </IconButton>
-                        }
+                        )}
                         <Menu
-                            id="menu-appbar"
+                            id='menu-appbar'
                             anchorEl={anchorEl}
                             anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
+                                vertical: "top",
+                                horizontal: "right",
                             }}
                             keepMounted
                             transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
+                                vertical: "top",
+                                horizontal: "right",
                             }}
                             open={profileMenu}
                             onClose={handleClose}
                         >
                             <div>
-                                {userInfo.success
-                                    ?
-                                    isAdmin ?
+                                {user.token ? (
+                                    user.admin ? (
                                         <>
-                                            <a href={adminPage} target="_blank" rel="noopener noreferrer">
-                                                <MenuItem>Admin paneli</MenuItem>
+                                            <a
+                                                href={adminPage}
+                                                target='_blank'
+                                                rel='noopener noreferrer'
+                                            >
+                                                <MenuItem>
+                                                    {t("common:ns.admin_panel")}
+                                                </MenuItem>
                                             </a>
-                                            <MenuItem onClick={handleLogoutButton}>Çıkış yap</MenuItem>
+                                            <MenuItem
+                                                onClick={handleLogoutButton}
+                                            >
+                                                {t("common:ns.logout")}
+                                            </MenuItem>
                                         </>
-                                        :
-                                        <MenuItem onClick={handleLogoutButton}>Çıkış yap</MenuItem>
-                                    :
+                                    ) : (
+                                        <MenuItem onClick={handleLogoutButton}>
+                                            {t("common:ns.logout")}
+                                        </MenuItem>
+                                    )
+                                ) : (
                                     <>
-                                        <MenuItem onClick={() => handleLoginRegisterButtons("login")}>Giriş yap</MenuItem>
-                                        <MenuItem onClick={() => handleLoginRegisterButtons("register")}>Kayıt ol</MenuItem>
+                                        <Link to={loginPage}>
+                                            <MenuItem>
+                                                {t("common:ns.login")}
+                                            </MenuItem>
+                                        </Link>
+                                        <Link to={registerPage}>
+                                            <MenuItem>
+                                                {t("common:ns.register")}
+                                            </MenuItem>
+                                        </Link>
                                     </>
-                                }
+                                )}
                             </div>
                         </Menu>
                     </div>
                 </Toolbar>
             </AppBar>
             <Drawer
-                variant="permanent"
+                variant='permanent'
                 className={clsx(classes.drawer, {
                     [classes.drawerOpen]: open,
                     [classes.drawerClose]: !open,
@@ -445,6 +425,6 @@ export default function MiniDrawer() {
             >
                 <SidePanel />
             </Drawer>
-        </div >
+        </div>
     );
 }

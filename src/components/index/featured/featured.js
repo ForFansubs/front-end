@@ -1,9 +1,8 @@
-import React from 'react'
-import { useState } from 'reactn'
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { Link } from 'react-router-dom'
-import { animePage } from '../../../config/front-routes'
+import { animePage, mangaPage } from '../../../config/front-routes'
 import { contentHeader, contentLogo } from '../../../config/api-routes'
 
 import { HeaderPlaceholder } from '../../../config/theming/images'
@@ -47,7 +46,7 @@ const useStyles = makeStyles(theme => ({
         left: 0,
         right: 0,
         width: "35%",
-        backgroundColor: fade(theme.palette.background.default, 0.6),
+        backgroundColor: fade(theme.palette.background.default, 0.7),
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -57,13 +56,21 @@ const useStyles = makeStyles(theme => ({
             lineHeight: "3.6rem"
         },
         [theme.breakpoints.down('sm')]: {
-            backgroundColor: "transparent",
             width: "100%"
         }
     },
     LogoContainer: {
         maxWidth: 400,
-        width: "100%"
+        width: "100%",
+        [theme.breakpoints.down('sm')]: {
+            maxWidth: 300
+        }
+    },
+    SynopsisContainer: {
+        display: "block",
+        [theme.breakpoints.down('sm')]: {
+            display: "none"
+        }
     },
     GenresContainer: {
         display: "flex",
@@ -111,26 +118,26 @@ export function FeaturedLoading() {
 }
 
 export default function Featured(props) {
-    const { name, slug, genres, display } = props
+    const { name, slug, genres, display, synopsis, contentType } = props
     const classes = useStyles(props)
     const [logoError, setLogoError] = useState(false)
 
     return (
         <>
-            <Link to={animePage(slug)}>
+            <Link to={contentType === "anime" ? animePage(slug) : mangaPage(slug)}>
                 <div className={clsx(classes.Container, {
                     [classes.ContainerActive]: display,
                 })}>
                     <div className={classes.ImageContainer}>
-                        <img src={contentHeader("anime", slug)} onError={img => {
+                        <img src={contentHeader(contentType, slug)} onError={img => {
                             img.target.onerror = null
                             img.target.src = HeaderPlaceholder
-                        }} alt={name + " toplu"} />
+                        }} alt="" />
                     </div>
                     <div className={classes.InfoContainer}>
                         {logoError ?
                             <Typography variant="h2">
-                                <Dotdotdot clamp={2}>
+                                <Dotdotdot clamp={2} useNativeClamp>
                                     {name.toUpperCase()}
                                 </Dotdotdot>
                             </Typography>
@@ -142,7 +149,14 @@ export default function Featured(props) {
                                 }}
                                 alt=""
                                 title={`${name} logo`} />}
-                        <Typography variant="h6" component="ul" className={classes.GenreList}>
+                        <div className={classes.SynopsisContainer}>
+                            <Dotdotdot clamp={4} useNativeClamp>
+                                <Typography variant="body1">
+                                    {synopsis.toUpperCase()}
+                                </Typography>
+                            </Dotdotdot>
+                        </div>
+                        <Typography variant="body2" component="ul" className={classes.GenreList}>
                             {genres.split(',').map(genre => <li key={name + genre} className={classes.GenreItem}>{genre}</li>)}
                         </Typography>
                     </div>
@@ -160,5 +174,6 @@ Featured.propTypes = {
     genres: PropTypes.string.isRequired,
     version: PropTypes.string.isRequired,
     index: PropTypes.number.isRequired,
-    display: PropTypes.bool.isRequired
+    display: PropTypes.bool.isRequired,
+    contentType: PropTypes.string.isRequired
 }

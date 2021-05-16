@@ -1,5 +1,5 @@
-import React from 'react'
 import ReactGA from 'react-ga';
+import { useTranslation } from 'react-i18next';
 
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core';
 
 import boxes from '../../config/recruitment_panels'
+import Metatags from '../../components/helmet/index'
 
 const useStyles = makeStyles(theme => ({
     CardImage: {
@@ -20,11 +21,12 @@ const useStyles = makeStyles(theme => ({
 
 export default function EkipAlimlariPage() {
     const classes = useStyles()
-    document.title = `Ekip Alımları - ${process.env.REACT_APP_SITENAME}`
+    const { t } = useTranslation('pages')
     ReactGA.pageview(window.location.pathname)
 
     return (
         <>
+            <Metatags title={t('recruitment.metadata.title', { site_name: process.env.REACT_APP_SITENAME })} />
             <Grid container spacing={2}>
                 {boxes.map(b => (
                     <Grid item xs={12} md={4} key={b.image}>
@@ -39,8 +41,8 @@ export default function EkipAlimlariPage() {
                                 </Typography>
                                 <Button variant="outlined" href={b.link} target="_blank" fullWidth disabled={b.is_active === 0 ? true : false}>{
                                     b.is_active === 0 ?
-                                        "Alımlar kapalı" :
-                                        b.button_text ? b.button_text : "Başvuru için tıklayın"
+                                        t('recruitment.not_recruiting') :
+                                        b.button_text ? b.button_text : t('recruitment.apply_for_recruiting')
                                 }</Button>
                             </Box>
                         </Box>

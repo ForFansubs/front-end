@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
-import axios from '../../../config/axios/axios'
+import { useState } from 'react'
 
 import { Button, Popper, Box, Fade, makeStyles, ClickAwayListener } from '@material-ui/core'
 
 import { getEpisodeDownloadLinks } from '../../../config/api-routes'
+import postDataToAPI from '../../../helpers/postDataToAPI'
 import { Typography } from '@material-ui/core';
 import WarningBox from '../../warningerrorbox/warning';
 import { Skeleton } from '@material-ui/lab';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
     Container: {
@@ -16,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     Button: {
         marginRight: theme.spacing(1),
         marginBottom: theme.spacing(1),
-        boxShadow: theme.shadows[6]
+        boxShadow: theme.shadows[2]
     },
     LinkContainer: {
         backgroundColor: theme.palette.background.level1,
@@ -35,7 +36,7 @@ export default function DownloadLink(props) {
     const [loading, setLoading] = useState(true)
     const [data, setData] = useState([])
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null)
 
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popper' : undefined;
@@ -58,7 +59,7 @@ export default function DownloadLink(props) {
                 episode_id: props.episodeid
             }
 
-            const res = await axios.post(getEpisodeDownloadLinks(props.animeslug), postData)
+            const res = await postDataToAPI({ route: getEpisodeDownloadLinks(props.animeslug), data: postData })
 
             setData(res.data)
             setLoading(false)
@@ -67,6 +68,8 @@ export default function DownloadLink(props) {
     }
 
     function DownloadLinkContainer() {
+        const { t } = useTranslation('components')
+
         if (!loading && data.length !== 0)
             return (
                 data.map((d, i) => (
@@ -86,7 +89,7 @@ export default function DownloadLink(props) {
             )
 
         else if (!loading && data.length === 0)
-            return <WarningBox bgcolor="background.level1">Link bulunamadı.</WarningBox>
+            return <WarningBox bgcolor="background.level1">{t('translations.warnings.anime.not_found_download_links')}</WarningBox>
 
         else return (
             <div>

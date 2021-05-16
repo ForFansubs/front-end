@@ -1,18 +1,17 @@
-import React from 'react'
+import { useState } from 'react'
 import propTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { episodePage } from '../../../config/front-routes'
 
 import { Grid, Typography, makeStyles } from '@material-ui/core'
 import { grey } from '@material-ui/core/colors'
-
-import Format from '../../date-fns/format'
-import episodeTitleParser from '../../../config/episode-title-parser'
-import { CoverPlaceholder } from '../../../config/theming/images'
-import { contentCover } from '../../../config/api-routes'
-import { useState } from 'reactn'
 import { Skeleton } from '@material-ui/lab'
 import Dotdotdot from 'react-dotdotdot'
+import Format from '../../date-fns/format'
+import EpisodeTitleParser from '../../../config/episode-title-parser'
+import { CoverPlaceholder } from '../../../config/theming/images'
+
+import { episodePage } from '../../../config/front-routes'
+import { contentCover } from '../../../config/api-routes'
 
 const useStyles = makeStyles(theme => ({
     Container: {
@@ -30,11 +29,17 @@ const useStyles = makeStyles(theme => ({
             height: "100%"
         }
     },
+    Title: {
+        fontSize: "0.875rem"
+    },
     Metadata: {
         padding: `${theme.spacing(1)}px 0`,
         color: theme.palette.type === "dark" ? "inherit" : grey[700],
         '& *': {
             fontFamily: "'Overpass', sans-serif"
+        },
+        "& .MuiTypography-body1": {
+            fontWeight: "bold"
         }
     }
 }))
@@ -47,7 +52,7 @@ export default function LatestEpisode(props) {
     const { anime_name, episode_number, special_type, cover_art, created_by } = props
     const [imageError, setImageError] = useState(false)
 
-    const episodeInfo = episodeTitleParser(anime_name, episode_number, special_type)
+    const episodeInfo = EpisodeTitleParser(anime_name, episode_number, special_type)
 
     const formattedDate = Format(new Date(props.created_time)).toUpperCase()
 
@@ -64,11 +69,11 @@ export default function LatestEpisode(props) {
                                 img.target.src = cover_art
                                 setImageError(true)
                             }}
-                            alt={`${anime_name} ${episodeInfo.title} Poster Resmi`} />
+                            alt="" />
                     </Grid>
                     <Grid item xs={12} className={classes.Metadata}>
                         <Dotdotdot clamp={2} useNativeClamp>
-                            <Typography variant="body2">
+                            <Typography variant="body1" className={classes.Title}>
                                 {episodeInfo.title}
                             </Typography>
                         </Dotdotdot>
