@@ -60,8 +60,8 @@ export default function MangaEpisodePage(props) {
         episode_name: "",
         episode_number: "",
         pages: [],
-        idx: null,
     });
+    const [activeEpisodeId, setActiveEpisodeId] = useState(0);
     const [activePageNumber, setActivePageNumber] = useState(1);
     const [settings, setSettings] = useContext(SettingsContext);
 
@@ -103,10 +103,10 @@ export default function MangaEpisodePage(props) {
                     const idx = FindIndex(pageInfo.data, {
                         episode_number: episode_number,
                     });
+                    setActiveEpisodeId(idx);
                     setActiveEpisodeData((state) => ({
                         ...state,
                         ...newData,
-                        idx: idx,
                     }));
                     // Gelen sayfa numarası, var olan sayfalara uyuşuyor mu bak. Çok büyük
                     // ya da çok küçükse varolan değeri ata.
@@ -143,6 +143,7 @@ export default function MangaEpisodePage(props) {
 
     function handleChange(event) {
         setActivePageNumber(1);
+        setActiveEpisodeId(event.target.value);
         setActiveEpisodeData((state) => ({
             ...state,
             ...episodeData[event.target.value],
@@ -387,7 +388,7 @@ export default function MangaEpisodePage(props) {
                                         </InputLabel>
                                         <Select
                                             fullWidth
-                                            value={`${activeEpisodeData.episode_number}`}
+                                            value={activeEpisodeId}
                                             onChange={handleChange}
                                             inputProps={{
                                                 name: "episode",
@@ -395,10 +396,7 @@ export default function MangaEpisodePage(props) {
                                             }}
                                         >
                                             {episodeData.map((d, idx) => (
-                                                <MenuItem
-                                                    key={d.episode_number}
-                                                    value={idx}
-                                                >
+                                                <MenuItem key={idx} value={idx}>
                                                     {t(
                                                         "common:episode.episode_title",
                                                         {
