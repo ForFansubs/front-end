@@ -40,3 +40,5 @@ src/static/fullLogo.gif
 /src/static/fullLogo-dark.png
 
 .eslintcache
+
+yarn.lock

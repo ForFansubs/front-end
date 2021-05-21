@@ -16,9 +16,12 @@ import { loginRoute, registerRoute } from "../../config/api-routes";
 import { Typography } from "@material-ui/core";
 import Loading from "../../components/progress";
 import { useTranslation } from "react-i18next";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { Alert } from "@material-ui/lab";
 
 export default function LoginPage(props) {
     const { t } = useTranslation("pages");
+    const { executeRecaptcha } = useGoogleReCaptcha();
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
 
@@ -38,11 +41,15 @@ export default function LoginPage(props) {
         }));
     }
 
-    function _handleSubmit(event) {
+    async function _handleSubmit(event) {
         event.preventDefault();
         setRegisterError({});
         setRegisterLoading(true);
-        postDataToAPI({ route: registerRoute, data: userData })
+        const token = await executeRecaptcha("register_page");
+        postDataToAPI({
+            route: registerRoute,
+            data: { ...userData, recaptcha_response: token },
+        })
             .then((res) => {
                 if (res.status === 200) {
                     setRegisterLoading(false);
@@ -182,11 +189,17 @@ export default function LoginPage(props) {
                             </Grid>
                         </Grid>
                     </form>
-                    <div className={classes.CopyrightContainer}>
-                        <Typography variant='body1'>
-                            {process.env.REACT_APP_SITE_NAME}
-                        </Typography>
-                    </div>
+                    <Alert severity='info' className={classes.GoogleTerms}>
+                        This site is protected by reCAPTCHA and the Google{" "}
+                        <a href='https://policies.google.com/privacy'>
+                            Privacy Policy
+                        </a>{" "}
+                        and{" "}
+                        <a href='https://policies.google.com/terms'>
+                            Terms of Service
+                        </a>{" "}
+                        apply.
+                    </Alert>
                 </div>
             </Grid>
         </Grid>

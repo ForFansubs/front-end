@@ -47,4 +47,8 @@ export default makeStyles((theme) => ({
     CopyrightContainer: {
         margin: theme.spacing(4, 0),
     },
+    GoogleTerms: {
+        marginTop: theme.spacing(2),
+        width: "100%",
+    },
 }));
