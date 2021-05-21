@@ -61,7 +61,7 @@ export default function MangaEpisodePage(props) {
         episode_number: "",
         pages: [],
     });
-    const [activeEpisodeId, setActiveEpisodeId] = useState(0);
+    const [activeEpisodeId, setActiveEpisodeId] = useState(null);
     const [activePageNumber, setActivePageNumber] = useState(1);
     const [settings, setSettings] = useContext(SettingsContext);
 
