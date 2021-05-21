@@ -1,42 +1,42 @@
-import { useState } from 'react'
-import PropTypes from 'prop-types'
-import clsx from 'clsx'
-import { Link } from 'react-router-dom'
-import { animePage, mangaPage } from '../../../config/front-routes'
-import { contentHeader, contentLogo } from '../../../config/api-routes'
+import { useState } from "react";
+import PropTypes from "prop-types";
+import clsx from "clsx";
+import { Link } from "react-router-dom";
+import { animePage, mangaPage } from "../../../config/front-routes";
+import { contentHeader, contentLogo } from "../../../config/api-routes";
 
-import { HeaderPlaceholder } from '../../../config/theming/images'
+import { HeaderPlaceholder } from "../../../config/theming/images";
 
-import { makeStyles, Typography, fade } from '@material-ui/core'
-import { Skeleton } from '@material-ui/lab'
-import Dotdotdot from 'react-dotdotdot'
+import { makeStyles, Typography, fade } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
+import Dotdotdot from "react-dotdotdot";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
     Container: {
         position: "relative",
-        display: "none"
+        display: "none",
     },
     ContainerActive: {
-        display: "block"
+        display: "block",
     },
     ImageContainer: {
         position: "relative",
         paddingBottom: "35%",
         overflow: "hidden",
-        '& img': {
+        "& img": {
             position: "absolute",
             objectFit: "cover",
             width: "100%",
-            height: "100%"
+            height: "100%",
         },
         [theme.breakpoints.down("sm")]: {
             paddingBottom: "80%",
 
-            '& img': {
+            "& img": {
                 height: "100%",
-                marginTop: 0
-            }
-        }
+                marginTop: 0,
+            },
+        },
     },
     InfoContainer: {
         position: "absolute",
@@ -51,37 +51,37 @@ const useStyles = makeStyles(theme => ({
         flexDirection: "column",
         justifyContent: "center",
         padding: theme.spacing(4),
-        '& h1': {
+        "& h1": {
             fontSize: "4.8rem",
-            lineHeight: "3.6rem"
+            lineHeight: "3.6rem",
         },
-        [theme.breakpoints.down('sm')]: {
-            width: "100%"
-        }
+        [theme.breakpoints.down("sm")]: {
+            width: "100%",
+        },
     },
     LogoContainer: {
         maxWidth: 400,
         width: "100%",
-        [theme.breakpoints.down('sm')]: {
-            maxWidth: 300
-        }
+        [theme.breakpoints.down("sm")]: {
+            maxWidth: 300,
+        },
     },
     SynopsisContainer: {
         display: "block",
-        [theme.breakpoints.down('sm')]: {
-            display: "none"
-        }
+        [theme.breakpoints.down("sm")]: {
+            display: "none",
+        },
     },
     GenresContainer: {
         display: "flex",
         flexWrap: "wrap",
-        '& span': {
+        "& span": {
             marginRight: 5,
-        }
+        },
     },
     GenreList: {
         display: "flex",
-        flexWrap: "wrap"
+        flexWrap: "wrap",
     },
     GenreItem: {
         padding: `2px ${theme.spacing(1)}px`,
@@ -90,80 +90,133 @@ const useStyles = makeStyles(theme => ({
         marginRight: theme.spacing(1),
         marginTop: theme.spacing(1),
         borderRadius: theme.overrides.defaultBorderRadius,
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down("sm")]: {
             marginRight: theme.spacing(1),
             marginTop: theme.spacing(1),
-            padding: 4
-        }
-    }
-}))
+            padding: 4,
+        },
+    },
+}));
 
 export function FeaturedLoading() {
-    const classes = useStyles()
+    const classes = useStyles();
     return (
         <>
             <div className={[classes.Container, classes.ContainerActive]}>
-                <Skeleton variant="rect" width="100%" style={{ paddingBottom: "35%" }} />
+                <Skeleton
+                    variant='rect'
+                    width='100%'
+                    style={{ paddingBottom: "35%" }}
+                />
                 <div className={classes.InfoContainer}>
-                    <Skeleton variant="text" width="50%" height={100} animation="wave" />
-                    <Typography variant="h5" component="ul" className={classes.GenreList}>
-                        <Skeleton variant="text" width={80} height={40} animation="wave" className={classes.GenreItem} />
-                        <Skeleton variant="text" width={80} height={40} animation="wave" className={classes.GenreItem} />
-                        <Skeleton variant="text" width={80} height={40} animation="wave" className={classes.GenreItem} />
+                    <Skeleton
+                        variant='text'
+                        width='50%'
+                        height={100}
+                        animation='wave'
+                    />
+                    <Typography
+                        variant='h5'
+                        component='ul'
+                        className={classes.GenreList}
+                    >
+                        <Skeleton
+                            variant='text'
+                            width={80}
+                            height={40}
+                            animation='wave'
+                            className={classes.GenreItem}
+                        />
+                        <Skeleton
+                            variant='text'
+                            width={80}
+                            height={40}
+                            animation='wave'
+                            className={classes.GenreItem}
+                        />
+                        <Skeleton
+                            variant='text'
+                            width={80}
+                            height={40}
+                            animation='wave'
+                            className={classes.GenreItem}
+                        />
                     </Typography>
                 </div>
             </div>
         </>
-    )
+    );
 }
 
 export default function Featured(props) {
-    const { name, slug, genres, display, synopsis, contentType } = props
-    const classes = useStyles(props)
-    const [logoError, setLogoError] = useState(false)
+    const { name, slug, genres, display, synopsis, contentType } = props;
+    const classes = useStyles(props);
+    const [logoError, setLogoError] = useState(false);
 
     return (
         <>
-            <Link to={contentType === "anime" ? animePage(slug) : mangaPage(slug)}>
-                <div className={clsx(classes.Container, {
-                    [classes.ContainerActive]: display,
-                })}>
+            <Link
+                to={contentType === "anime" ? animePage(slug) : mangaPage(slug)}
+            >
+                <div
+                    className={clsx(classes.Container, {
+                        [classes.ContainerActive]: display,
+                    })}
+                >
                     <div className={classes.ImageContainer}>
-                        <img src={contentHeader(contentType, slug)} onError={img => {
-                            img.target.onerror = null
-                            img.target.src = HeaderPlaceholder
-                        }} alt="" />
+                        <img
+                            src={contentHeader(contentType, slug)}
+                            onError={(img) => {
+                                img.target.onerror = null;
+                                img.target.src = HeaderPlaceholder;
+                            }}
+                            alt=''
+                        />
                     </div>
                     <div className={classes.InfoContainer}>
-                        {logoError ?
-                            <Typography variant="h2">
+                        {logoError ? (
+                            <Typography variant='h2'>
                                 <Dotdotdot clamp={2} useNativeClamp>
                                     {name.toUpperCase()}
                                 </Dotdotdot>
                             </Typography>
-                            : <img
+                        ) : (
+                            <img
                                 className={classes.LogoContainer}
                                 src={contentLogo("anime", slug)}
-                                onError={_ => {
-                                    setLogoError(true)
+                                onError={(_) => {
+                                    setLogoError(true);
                                 }}
-                                alt=""
-                                title={`${name} logo`} />}
+                                alt=''
+                                title={`${name} logo`}
+                            />
+                        )}
                         <div className={classes.SynopsisContainer}>
                             <Dotdotdot clamp={4} useNativeClamp>
-                                <Typography variant="body1">
-                                    {synopsis.toUpperCase()}
+                                <Typography variant='body1'>
+                                    {synopsis}
                                 </Typography>
                             </Dotdotdot>
                         </div>
-                        <Typography variant="body2" component="ul" className={classes.GenreList}>
-                            {genres.split(',').map(genre => <li key={name + genre} className={classes.GenreItem}>{genre}</li>)}
+                        <Typography
+                            variant='body2'
+                            component='ul'
+                            className={classes.GenreList}
+                        >
+                            {genres.split(",").map((genre) => (
+                                <li
+                                    key={name + genre}
+                                    className={classes.GenreItem}
+                                >
+                                    {genre}
+                                </li>
+                            ))}
                         </Typography>
                     </div>
                 </div>
             </Link>
         </>
-    )
+    );
 }
 
 Featured.propTypes = {
@@ -175,5 +228,5 @@ Featured.propTypes = {
     version: PropTypes.string.isRequired,
     index: PropTypes.number.isRequired,
     display: PropTypes.bool.isRequired,
-    contentType: PropTypes.string.isRequired
-}
+    contentType: PropTypes.string.isRequired,
+};
