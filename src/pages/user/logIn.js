@@ -56,7 +56,19 @@ export default function LoginPage() {
                 }
             })
             .catch((err) => {
-                setLoginError(err.response.data);
+                if (typeof err.response.data === "string") {
+                    enqueueSnackbar(err.response.data, {
+                        variant: "error",
+                        autoHideDuration: 3500,
+                    });
+                } else {
+                    console.log(err.response);
+                    enqueueSnackbar("Bir sorunla karşılaştık!", {
+                        variant: "error",
+                        autoHideDuration: 3500,
+                    });
+                    setLoginError(err.response.data);
+                }
                 setLoginLoading(false);
             });
     }
@@ -127,7 +139,7 @@ export default function LoginPage() {
                             disabled={loginLoading ? true : undefined}
                         >
                             {loginLoading ? (
-                                <Loading size={24} />
+                                <Loading size={17} />
                             ) : (
                                 t("user.login.title")
                             )}

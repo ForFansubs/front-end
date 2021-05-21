@@ -70,14 +70,10 @@ function AnimePage(props) {
     const [adultModal, setAdultModal] = useState(props.adult_modal);
 
     // Jikan States
-    const [
-        jikanScoreStatusDataLoading,
-        setJikanScoreStatusDataLoading,
-    ] = useState(true);
-    const [
-        jikanCharacterStaffDataLoading,
-        setJikanCharacterStaffDataLoading,
-    ] = useState(true);
+    const [jikanScoreStatusDataLoading, setJikanScoreStatusDataLoading] =
+        useState(true);
+    const [jikanCharacterStaffDataLoading, setJikanCharacterStaffDataLoading] =
+        useState(true);
     const [jikanScoreData, setJikanScoreData] = useState([]);
     const [jikanStatusData, setJikanStatusData] = useState({});
     const [jikanCharactersData, setJikanCharactersData] = useState([]);
@@ -240,7 +236,8 @@ function AnimePage(props) {
                                         src={contentCover("anime", slug)}
                                         onError={(img) => {
                                             if (coverArtError) {
-                                                img.target.src = CoverPlaceholder;
+                                                img.target.src =
+                                                    CoverPlaceholder;
                                                 return null;
                                             }
                                             img.target.src = cover_art;
@@ -373,7 +370,8 @@ function AnimePage(props) {
                                               t(
                                                   "translations.anime.series_status",
                                                   {
-                                                      episode_count: episode_count,
+                                                      episode_count:
+                                                          episode_count,
                                                       count: episode_count,
                                                   }
                                               ),
@@ -513,14 +511,10 @@ function MangaPage(props) {
     const [adultModal, setAdultModal] = useState(props.adult_modal);
 
     // Jikan States
-    const [
-        jikanScoreStatusDataLoading,
-        setJikanScoreStatusDataLoading,
-    ] = useState(true);
-    const [
-        jikanCharacterStaffDataLoading,
-        setJikanCharacterStaffDataLoading,
-    ] = useState(true);
+    const [jikanScoreStatusDataLoading, setJikanScoreStatusDataLoading] =
+        useState(true);
+    const [jikanCharacterStaffDataLoading, setJikanCharacterStaffDataLoading] =
+        useState(true);
     const [jikanScoreData, setJikanScoreData] = useState([]);
     const [jikanStatusData, setJikanStatusData] = useState({});
     const [jikanCharactersData, setJikanCharactersData] = useState([]);
@@ -634,7 +628,8 @@ function MangaPage(props) {
                                         src={contentCover("manga", slug)}
                                         onError={(img) => {
                                             if (coverArtError) {
-                                                img.target.src = CoverPlaceholder;
+                                                img.target.src =
+                                                    CoverPlaceholder;
                                                 return null;
                                             }
                                             img.target.src = cover_art;
@@ -1053,7 +1048,8 @@ function PVBox(props) {
     let { link } = props;
 
     if (link) {
-        var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\??v?=?))([^#\&\?]*).*/;
+        var regExp =
+            /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\??v?=?))([^#\&\?]*).*/;
         let match = link.match(regExp);
         if (match && match[7].length === 11)
             link = youtubeEmbedLink({ videoId: match[7] });
@@ -1329,7 +1325,7 @@ function AdultModal(props) {
         return function cleanup() {
             document
                 .getElementById("scroll-node")
-                .style.removeProperty("filter");
+                ?.style.removeProperty("filter");
         };
     });
 
