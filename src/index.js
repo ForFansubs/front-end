@@ -9,7 +9,10 @@ import App from "./App";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
 import { SnackbarProvider, useSnackbar } from "notistack";
-
+import {
+    GoogleReCaptchaProvider,
+    useGoogleReCaptcha,
+} from "react-google-recaptcha-v3";
 import { ThemeProvider } from "@material-ui/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import getTheme from "./config/theming/index";
@@ -81,28 +84,32 @@ function Mount() {
 
     return (
         <StrictMode>
-            <SiteStatusContext.Provider value={[siteStatus, setSiteStatus]}>
-                <SettingsContext.Provider value={[settings, setSettings]}>
-                    <UserContext.Provider value={[user, setUser]}>
-                        <MotdContext.Provider value={[motd, setMotd]}>
-                            <SnackbarProvider
-                                maxSnack={3}
-                                anchorOrigin={{
-                                    vertical: "bottom",
-                                    horizontal: "center",
-                                }}
-                            >
-                                <ThemeProvider theme={themeObject}>
-                                    <CssBaseline />
-                                    <Suspense fallback={<></>}>
-                                        <App />
-                                    </Suspense>
-                                </ThemeProvider>
-                            </SnackbarProvider>
-                        </MotdContext.Provider>
-                    </UserContext.Provider>
-                </SettingsContext.Provider>
-            </SiteStatusContext.Provider>
+            <GoogleReCaptchaProvider
+                reCaptchaKey={process.env.REACT_APP_RECAPTCHA_KEY}
+            >
+                <SiteStatusContext.Provider value={[siteStatus, setSiteStatus]}>
+                    <SettingsContext.Provider value={[settings, setSettings]}>
+                        <UserContext.Provider value={[user, setUser]}>
+                            <MotdContext.Provider value={[motd, setMotd]}>
+                                <SnackbarProvider
+                                    maxSnack={3}
+                                    anchorOrigin={{
+                                        vertical: "bottom",
+                                        horizontal: "center",
+                                    }}
+                                >
+                                    <ThemeProvider theme={themeObject}>
+                                        <CssBaseline />
+                                        <Suspense fallback={<></>}>
+                                            <App />
+                                        </Suspense>
+                                    </ThemeProvider>
+                                </SnackbarProvider>
+                            </MotdContext.Provider>
+                        </UserContext.Provider>
+                    </SettingsContext.Provider>
+                </SiteStatusContext.Provider>
+            </GoogleReCaptchaProvider>
         </StrictMode>
     );
 }
